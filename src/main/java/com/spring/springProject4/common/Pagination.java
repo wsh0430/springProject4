@@ -3,6 +3,8 @@ package com.spring.springProject4.common;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.spring.springProject4.vo.PageVo;
+
 @Service
 public class Pagination {
 	
