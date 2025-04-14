@@ -44,20 +44,16 @@ public class RecordController {
 
 	@ResponseBody
 	@RequestMapping(value = "/HitterRecord", method = RequestMethod.POST)
-	public List<Map<String, Object>> selenium3Post(HttpServletRequest request) throws IOException {
-	    List<Map<String, Object>> vos = new ArrayList<>();
+	public List<PlayerRecordDto> HitterPostAndSave() throws IOException {
+	    List<PlayerRecordDto> recordList = new ArrayList<>();
 
 	    ChromeOptions options = new ChromeOptions();
-	    options.addArguments("--headless");
-	    options.addArguments("--disable-gpu");
-	    options.addArguments("--no-sandbox");
-	    options.addArguments("--disable-dev-shm-usage");
+	    options.addArguments("--headless", "--disable-gpu", "--no-sandbox", "--disable-dev-shm-usage");
 
 	    WebDriverManager.chromedriver().setup();
 	    WebDriver driver = new ChromeDriver(options);
 
 	    driver.get("https://statiz.sporki.com/stats/");
-
 	    try { Thread.sleep(2000); } catch (Exception e) {}
 
 	    List<WebElement> rows = driver.findElements(By.cssSelector("table tbody tr"));
@@ -65,79 +61,63 @@ public class RecordController {
 	    for (WebElement row : rows) {
 	        List<WebElement> tds = row.findElements(By.tagName("td"));
 	        if (tds.size() > 10) {
-	            Map<String, Object> map = new LinkedHashMap<>();
+	            try {
+	                String player   = tds.get(1).getText().trim();
 
-	            String rank     = tds.get(0).getText().trim();
-	            String player   = tds.get(1).getText().trim();
+	                WebElement teamTd = tds.get(2);
+	                String teamLogo = teamTd.findElement(By.tagName("img")).getAttribute("src");
+	                List<WebElement> spans = teamTd.findElements(By.tagName("span"));
+	                String year = spans.get(0).getText().trim();
+	                String position = spans.get(2).getText().trim();
 
-	            // 팀 로고 + 년도 + 포지션 분리
-	            WebElement teamTd = tds.get(2);
-	            String teamLogo = teamTd.findElement(By.tagName("img")).getAttribute("src");
-	            List<WebElement> spans = teamTd.findElements(By.tagName("span"));
-	            String year = spans.get(0).getText().trim();        // 년도
-	            String position = spans.get(2).getText().trim();    // 포지션
+	                PlayerRecordDto dto = new PlayerRecordDto();
+	                dto.setPlayer(player);
+	                dto.setTeamLogo(teamLogo);
+	                dto.setPosition(position);
+	                dto.setYear(Integer.parseInt(year));
+	                
+	                dto.setGames(Integer.parseInt(tds.get(4).getText().trim()));
+	                dto.setTasuk(Integer.parseInt(tds.get(7).getText().trim()));
+	                dto.setAtBats(Integer.parseInt(tds.get(9).getText().trim()));
+	                dto.setRuns(Integer.parseInt(tds.get(10).getText().trim()));
+	                dto.setHits(Integer.parseInt(tds.get(11).getText().trim()));
+	                dto.setDoubles(Integer.parseInt(tds.get(12).getText().trim()));
+	                dto.setTriples(Integer.parseInt(tds.get(13).getText().trim()));
+	                dto.setHomeRuns(Integer.parseInt(tds.get(14).getText().trim()));
+	                dto.setRbi(Integer.parseInt(tds.get(16).getText().trim()));
+	                dto.setStolenBases(Integer.parseInt(tds.get(17).getText().trim()));
+	                dto.setStolenBasesFail(Integer.parseInt(tds.get(18).getText().trim()));
+	                int bb = Integer.parseInt(tds.get(19).getText().trim())
+	                        + Integer.parseInt(tds.get(20).getText().trim())
+	                        + Integer.parseInt(tds.get(21).getText().trim());
+	                dto.setBb(bb);
+	                dto.setStrikeouts(Integer.parseInt(tds.get(22).getText().trim()));
+	                dto.setDoublePlays(Integer.parseInt(tds.get(23).getText().trim()));
+	                dto.setSacHits(Integer.parseInt(tds.get(24).getText().trim()));
+	                dto.setSacFlies(Integer.parseInt(tds.get(25).getText().trim()));
+	                dto.setAvg(Float.parseFloat(tds.get(26).getText().trim()));
+	                dto.setObp(Float.parseFloat(tds.get(27).getText().trim()));
+	                dto.setSlg(Float.parseFloat(tds.get(28).getText().trim()));
+	                dto.setOps(Float.parseFloat(String.format("%.3f", 
+	                    dto.getObp() + dto.getSlg())));
+	                dto.setWar(Float.parseFloat(tds.get(3).getText().trim()));
 
-	            String war        = tds.get(3).getText().trim();
-	            String g       = tds.get(4).getText().trim();
-	            String tasuk       = tds.get(7).getText().trim();
-	            String tasu        = tds.get(9).getText().trim();
-	            String run       = tds.get(10).getText().trim();
-	            String hit      = tds.get(11).getText().trim();
-	            String secBs      = tds.get(12).getText().trim(); //
-	            String thirdBs      = tds.get(13).getText().trim(); 
-	            String hr      = tds.get(14).getText().trim(); 
-	            String tajum      = tds.get(16).getText().trim(); 
-	            String sb      = tds.get(17).getText().trim(); 
-	            String sbFail      = tds.get(18).getText().trim();
-	            String bbFour      = tds.get(19).getText().trim();
-	            String bbHit      = tds.get(20).getText().trim();
-	            String bbFourP      = tds.get(21).getText().trim();
-	            String strOut      = tds.get(22).getText().trim();
-	            String doubleP      = tds.get(23).getText().trim();
-	            String sacHit      = tds.get(24).getText().trim();
-	            String sacFly= tds.get(25).getText().trim();
-	            String avg= tds.get(26).getText().trim();
-	            String obp= tds.get(27).getText().trim();
-	            String slg= tds.get(28).getText().trim();
-	            
-	            
+	                int totalBases = (dto.getHits() - dto.getDoubles() - dto.getTriples() - dto.getHomeRuns())
+	                               + dto.getDoubles() * 2 + dto.getTriples() * 3 + dto.getHomeRuns() * 4;
+	                dto.setTotalBases(totalBases);
 
-	            map.put("순위", rank);
-	            map.put("선수명", player);
-	            map.put("팀로고", "<img src='" + teamLogo + "' width='40px'/>");
-	            map.put("년도", year);
-	            map.put("포지션", position);
-	            map.put("WAR", war);
-	            map.put("경기", g);
-	            map.put("타석", tasuk);
-	            map.put("타수", tasu);
-	            map.put("득점", run);
-	            map.put("안타", hit);
-	            map.put("2루타", secBs);
-	            map.put("3루타", thirdBs);
-	            map.put("루타", (Integer.parseInt(hit)-Integer.parseInt(secBs)-Integer.parseInt(thirdBs)-Integer.parseInt(hr))+Integer.parseInt(secBs)*2+Integer.parseInt(thirdBs)*3+Integer.parseInt(hr)*4);
-	            map.put("타점", tajum);
-	            map.put("홈런", hr);
-	            map.put("도루", sb);
-	            map.put("도루실패", sbFail);
-	            map.put("사사구", Integer.parseInt(bbFour)+Integer.parseInt(bbHit)+Integer.parseInt(bbFourP));
-	            map.put("삼진", strOut);
-	            map.put("병살", doubleP);
-	            map.put("희생타", sacHit);
-	            map.put("희생플라이", sacFly);
-	            map.put("타율", avg);
-	            map.put("출루율", obp);
-	            map.put("장타율", slg);
-	            map.put("OPS", String.format("%.3f", Double.parseDouble(obp)+Double.parseDouble(slg)));
-	            
-	            
+	                playerRecordService.savePlayerRecord(dto);
+	                recordList.add(dto);
 
-	            vos.add(map);
+	            } catch (Exception e) {
+	                System.err.println("파싱 오류: " + e.getMessage());
+	                continue;
+	            }
 	        }
 	    }
 
 	    driver.quit();
-	    return vos;
+	    return recordList;
 	}
 
 }
