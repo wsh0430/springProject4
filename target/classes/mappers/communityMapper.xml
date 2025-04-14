@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.springProject4.dao.CommunityDao">
+	<select id="getCategoryList" resultType="com.spring.springProject4.vo.CategoryVo">
+		<if test="parentName != null">select * from category where parent_name = #{parentName};</if>
+		<if test="parentName == null">select * from category where parent_name is null;</if> 
+	</select>
+	
+</mapper>
