@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.springProject4.dao.PlayerRecordDao">
+
+    <select id="getAllPlayerStats" resultType="com.spring.springProject4.dto.PlayerRecordDto">
+        SELECT * FROM hitter_stats
+    </select>
+
+    <select id="findExistingRecord" resultType="com.spring.springProject4.dto.PlayerRecordDto">
+        SELECT *
+        FROM hitter_stats
+        WHERE player = #{player}
+          AND position = #{position}
+          AND year = #{year}
+    </select>
+
+    <insert id="insertPlayerStats">
+        INSERT INTO hitter_stats (
+            player, team_logo, position, year, games, tasuk, at_bats, runs,
+            hits, doubles, triples, total_bases, rbi, home_runs, stolen_bases,
+            stolen_bases_fail, bb, strikeouts, double_plays, sac_hits,
+            sac_flies, avg, obp, slg, ops, war
+        ) VALUES (
+            #{dto.player}, #{dto.teamLogo}, #{dto.position}, #{dto.year}, #{dto.games},
+            #{dto.tasuk}, #{dto.atBats}, #{dto.runs}, #{dto.hits}, #{dto.doubles},
+            #{dto.triples}, #{dto.totalBases}, #{dto.rbi}, #{dto.homeRuns},
+            #{dto.stolenBases}, #{dto.stolenBasesFail}, #{dto.bb}, #{dto.strikeouts},
+            #{dto.doublePlays}, #{dto.sacHits}, #{dto.sacFlies},
+            #{dto.avg}, #{dto.obp}, #{dto.slg}, #{dto.ops}, #{dto.war}
+        )
+    </insert>
+
+    <update id="updatePlayerStats">
+        UPDATE hitter_stats SET
+            team_logo = #{dto.teamLogo},
+            games = #{dto.games},
+            tasuk = #{dto.tasuk},
+            at_bats = #{dto.atBats},
+            runs = #{dto.runs},
+            hits = #{dto.hits},
+            doubles = #{dto.doubles},
+            triples = #{dto.triples},
+            total_bases = #{dto.totalBases},
+            rbi = #{dto.rbi},
+            home_runs = #{dto.homeRuns},
+            stolen_bases = #{dto.stolenBases},
+            stolen_bases_fail = #{dto.stolenBasesFail},
+            bb = #{dto.bb},
+            strikeouts = #{dto.strikeouts},
+            double_plays = #{dto.doublePlays},
+            sac_hits = #{dto.sacHits},
+            sac_flies = #{dto.sacFlies},
+            avg = #{dto.avg},
+            obp = #{dto.obp},
+            slg = #{dto.slg},
+            ops = #{dto.ops},
+            war = #{dto.war}
+        WHERE player = #{dto.player}
+          AND position = #{dto.position}
+          AND year = #{dto.year}
+    </update>
+</mapper>
