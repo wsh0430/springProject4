@@ -1,7 +1,7 @@
-create table player(
+create table player_info(
 	idx						int not null auto_increment,
 	team_id					int,
-	name						varchar(15) not null,				/* 이름 fk걸기 */
+	player						varchar(15) not null,				/* 이름 fk걸기 */
 	position					varchar(5) not null,		/* 포지션 */
 	birth						datetime,						/* 생년월일 */
 	nationality				varchar(),						/* 국적 */

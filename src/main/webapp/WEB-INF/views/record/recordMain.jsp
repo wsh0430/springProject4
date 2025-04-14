@@ -17,10 +17,20 @@
 
 		function hitterstat() {
 		    $("#spinnerIcon").show();
-
+		    let sortOptions = $("#sortOptions").val(); // 다중 선택 값 배열
+		    let orderBy = $("#orderBy").val(); // DESC or ASC
+		    let startYear = $("#startYear").val();
+		    let endYear = $("#endYear").val();
+		    
 		    $.ajax({
 		        url: "HitterRecord",
 		        type: "post",
+		        data: {
+		        		sortOptions: sortOptions,
+		        		orderBy: orderBy,
+		            startYear: startYear,
+		            endYear: endYear
+		        },
 		        success:function(vos) {
 		            if(vos.length > 0) {
 		                let str = '<table class="table table-bordered text-center align-middle">';
@@ -81,17 +91,64 @@
 <body>
 <p><br/></p>
 <div class="container">
-  <h2>기록실 메인화면</h2>
-  <div class="container">
+	<h2>기록실 메인화면</h2>
   <h2>SELENIUM 연습</h2>
   <hr class="border-secondary">
   <div><a href="javascript:location.reload()" class="btn btn-warning form-control">다시검색</a></div>
   <hr class="border-secondary">
   <div id="demo"></div>
   <hr class="border-secondary">
+  
   <h4>테스트</h4>
   <div class="input-group mb-3">
     <div class="input-group-text">기록테스트</div>
+    <div class="input-group mb-3">
+  	  <label for="sortOptions">정렬 기준 선택 (복수 선택 가능):</label><br>
+			<select id="sortOptions" name="sortOptions">
+			  <option value="WAR">WAR</option>
+			  <option value="R">득점 (R)</option>
+			  <option value="H">안타 (H)</option>
+			  <option value="2B">2루타</option>
+			  <option value="3B">3루타</option>
+			  <option value="HR">홈런</option>
+			  <option value="TB">누타수 (TB)</option>
+			  <option value="RBI">타점</option>
+			  <option value="SB">도루</option>
+			  <option value="CS">도루실패</option>
+			  <option value="BB">볼넷</option>
+			  <option value="SO">삼진</option>
+			  <option value="GDP">병살</option>
+			  <option value="SH">희생번트</option>
+			  <option value="SF">희생플라이</option>
+			  <option value="AVG">타율</option>
+			  <option value="OBP">출루율</option>
+			  <option value="SLG">장타율</option>
+			  <option value="OPS">OPS</option>
+			  <option value="PA">타석</option>
+			  <option value="AB">타수</option>
+			  <option value="year">연도</option>
+			</select>
+		  <label for="orderBy">정렬 방향:</label><br>
+			<select id="orderBy" name="orderBy">
+			  <option value="DESC" selected>내림차순 (높은 순)</option>
+			  <option value="ASC">오름차순 (낮은 순)</option>
+			</select><br><br>
+			
+			
+	    <label for="startYear" class="input-group-text">시작 년도</label>
+	    <select id="startYear" class="form-select">
+        <c:forEach var="i" begin="1982" end="2025">
+          <option value="${i}">${i}</option>
+        </c:forEach>
+	    </select>
+	
+	    <label for="endYear" class="input-group-text">끝 년도</label>
+	    <select id="endYear" class="form-select">
+        <c:forEach var="i" begin="1982" end="2025">
+          <option value="${i}" <c:if test="${i == 2025}">selected</c:if>>${i}</option>
+        </c:forEach>
+	    </select>
+		</div>
     <input type="button" value="크롤링3" onclick="hitterstat()" class="btn btn-success"/>
     <div class="input-group-append">
       <span id="spinnerIcon" style="display:none">
@@ -102,7 +159,7 @@
     </div>
   </div>
   <hr class="border">
-</div>
+  
 </div>
 <p><br/></p>
 </body>
