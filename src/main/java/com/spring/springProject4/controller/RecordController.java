@@ -30,62 +30,7 @@ public class RecordController {
 	public String recordget() {
 		return "record/recordMain";
 	}
-	
-	
-	@ResponseBody
-	@RequestMapping(value = "/selenium2", method = RequestMethod.POST)
-	public List<Map<String, Object>> selenium2Post(HttpServletRequest request, String url, String searchString) throws IOException {
-		List<Map<String, Object>> vos = new ArrayList<>();
-		
-		ChromeOptions options = new ChromeOptions();
-		options.addArguments("--headless"); // 브라우저 창 없이 실행
-		options.addArguments("--disable-gpu"); // GPU 가속 비활성화 (headless 안정성)
-		options.addArguments("--window-size=1920,1080"); // 창 크기 설정 (필수는 아님)
-		options.addArguments("--no-sandbox"); // 리눅스 환경에서 권한 이슈 방지
-		options.addArguments("--disable-dev-shm-usage"); // 메모리 부족 방지용
-		//WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-		WebDriverManager.chromedriver().setup();
-		WebDriver driver = new ChromeDriver(options); // 옵션 적용
-		
-		driver.get("http://www.cgv.co.kr/movies/?lt=1&ft=0");
-		
-		WebElement btnMore = driver.findElement(By.id("chk_nowshow"));
-		btnMore.click();
-		
-		try { Thread.sleep(1000); } catch (Exception e) {}
-		
-		btnMore = driver.findElement(By.className("link-more"));
-		btnMore.click();
-		
-		try { Thread.sleep(2000); } catch (Exception e) {}
-		
-		List<WebElement> elements = driver.findElements(By.cssSelector("div.sect-movie-chart ol li"));
-		//int i=0;
-		for(WebElement element : elements) {
-			//i++;
-			Map<String, Object> map = new HashMap<String, Object>();
-			String link = element.findElement(By.tagName("a")).getAttribute("href");
-			String title = "<a href='"+link+"' target='_blank'>" + element.findElement(By.className("title")).getText() + "</a>";
-			String image = "<img src='"+ element.findElement(By.tagName("img")).getAttribute("src") +"' width='200px' />";
-			String percent = element.findElement(By.className("percent")).getText();
-			//String percent = element.findElement(By.xpath("//*[@id=\"contents\"]/div[1]/div[3]/ol[1]/li[1]/div[2]/div/div/span[2]")).getText();
-			
-			System.out.println("title : " + title);
-			System.out.println("image : " + image);
-			System.out.println("percent : " + percent);
-			
-			map.put("title", title);
-			map.put("image", image);
-			map.put("percent", percent);
-			
-			vos.add(map);
-		}
-		// DB저장처리
-		
-		driver.close();
-		return vos;
-	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/selenium3", method = RequestMethod.POST)
 	public List<Map<String, Object>> selenium3Post(HttpServletRequest request) throws IOException {

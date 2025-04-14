@@ -28,4 +28,7 @@ CREATE TABLE player_stats (
     obp DOUBLE(5,3), /*출루율*/
     slg DOUBLE(5,3), /*장타율*/
     ops DOUBLE(5,3) /*ops(출루율+장타율)*/
+    
+    
 );
+

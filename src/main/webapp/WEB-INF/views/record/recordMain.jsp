@@ -14,33 +14,7 @@
 /* 		window.onload = function() {
 			crawling2();
 		}; */
-	  function crawling2() {
-	  	$("#spinnerIcon").show();
-	  	
-	  	$.ajax({
-	  		url  : "selenium2",
-	  		type : "post",
-	  		success:function(vos) {
-	  			if(vos != "") {
-	  				let str = '<table class="table table-bordered text-center">';
-	  				str += '<tr class="table-secondary"><th>번호</th><th>영화제목</th><th>포스터</th><th>예매율</th></tr>';
-	  				for(let i=0; i<vos.length; i++) {
-	    				str += '<tr>';
-	  					str += '<td>'+(i+1)+'</td>';
-	  					str += '<td>'+vos[i].title+'</td>';
-	  					str += '<td>'+vos[i].image+'</td>';
-	  					str += '<td>'+vos[i].percent+'</td>';
-	    				str += '</tr>';
-	  				}
-	  				str += '<tr><td colspan="4" class="p-0 m-0"></td></tr>';
-	  				str += '</table>';
-	    			$("#demo").html(str);
-	  			}
-	  			else $("#demo").html("검색된 자료가 없습니다.");
-	  		},
-	  		error : function() { alert("전송오류!"); }
-	  	});
-	  }
+
 		function crawling3() {
 			$("#spinnerIcon").show();
 
@@ -114,24 +88,10 @@
   <hr class="border-secondary">
   <div id="demo"></div>
   <hr class="border-secondary">
-  
-  <h4>CGV 상영관 무비차트(참고용)</h4>
-  <div class="input-group mb-3">
-    <div class="input-group-text">CGV 상영관 무비챠트</div>
-    <input type="button" value="크롤링2" onclick="crawling2()" class="btn btn-success"/>
-    <div class="input-group-append">
-      <span id="spinnerIcon" style="display:none">
-	      <span class="spinner-border"></span>
-	      &nbsp;&nbsp; 검색중입니다. &nbsp;&nbsp;
-	      <span class="spinner-border"></span>
-      </span>
-    </div>
-  </div>
-  <hr class="border-secondary">
   <h4>테스트</h4>
   <div class="input-group mb-3">
     <div class="input-group-text">기록테스트</div>
-    <input type="button" value="크롤링3" onclick="crawling3()" class="btn btn-success"/>
+    <input type="button" value="크롤링3" onclick="hitterstat()" class="btn btn-success"/>
     <div class="input-group-append">
       <span id="spinnerIcon" style="display:none">
 	      <span class="spinner-border"></span>
