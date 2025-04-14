@@ -14,10 +14,19 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.spring.springProject4.dto.PlayerRecordDto;
+import com.spring.springProject4.service.PlayerRecordService;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
@@ -25,6 +34,8 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 @RequestMapping("/record")
 public class RecordController {
 	
+	@Autowired
+	private PlayerRecordService playerRecordService; 
 	
 	@RequestMapping("/recordMain")
 	public String recordget() {
@@ -32,7 +43,7 @@ public class RecordController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/selenium3", method = RequestMethod.POST)
+	@RequestMapping(value = "/HitterRecord", method = RequestMethod.POST)
 	public List<Map<String, Object>> selenium3Post(HttpServletRequest request) throws IOException {
 	    List<Map<String, Object>> vos = new ArrayList<>();
 
@@ -128,4 +139,5 @@ public class RecordController {
 	    driver.quit();
 	    return vos;
 	}
+
 }

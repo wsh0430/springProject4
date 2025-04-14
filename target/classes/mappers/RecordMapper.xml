@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.springProject4.dao.PlayerRecordDao">
+
+   <select id="getAllPlayerStats" resultType="com.example.dto.PlayerRecordDto">
+     SELECT * FROM player_stats
+   </select>
+    
+    
+    
+    
+    
+    <insert id="insertPlayerStats">
+        INSERT INTO player_stats (
+            player, team_logo, position, year, games, tasuk, at_bats, runs,
+            hits, doubles, triples, total_bases, rbi, home_runs, stolen_bases,
+            stolen_bases_fail, bb, strikeouts, double_plays, sac_hits,
+            sac_flies, avg, obp, slg, ops, war
+        ) VALUES (
+            #{dto.player}, #{dto.team_logo}, #{dto.position}, #{dto.year}, #{dto.games},
+            #{dto.tasuk}, #{dto.at_bats}, #{dto.runs}, #{dto.hits}, #{dto.doubles},
+            #{dto.triples}, #{dto.total_bases}, #{dto.rbi}, #{dto.home_runs},
+            #{dto.stolen_bases}, #{dto.stolen_bases_fail}, #{dto.bb}, #{dto.strikeouts},
+            #{dto.double_plays}, #{dto.sac_hits}, #{dto.sac_flies},
+            #{dto.avg}, #{dto.obp}, #{dto.slg}, #{dto.ops}, #{dto.war}
+        )
+    </insert>
+</mapper>

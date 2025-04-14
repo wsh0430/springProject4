@@ -15,11 +15,11 @@
 			crawling2();
 		}; */
 
-		function crawling3() {
+		function hitterstat() {
 			$("#spinnerIcon").show();
 
 			$.ajax({
-				url: "selenium3",
+				url: "HitterRecord",
 				type: "post",
 				success:function(vos) {
 					if(vos != "") {
