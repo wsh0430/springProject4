@@ -7,7 +7,7 @@ create table board(
 	view_count				int default 0,						/* 조회수 */
 	like_count				int default 0,						/* 추천수 */
 	comment_count		int default 0,						/* 댓글수 */
-	comment_count		int default 0,						/* 신고 당한 수 */
+	report_count			int default 0,						/* 신고 당한 수 */
 	created_at				datetime default now(),			/* 생성 날짜 */
 	update_at				datetime default now(),			/* 수정 날짜 */
 	is_deleted				tinyint default 0,					/* 삭제 유무(0: false, 1: true) */
