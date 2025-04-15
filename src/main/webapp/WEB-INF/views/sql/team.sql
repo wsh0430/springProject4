@@ -13,6 +13,19 @@ CREATE TABLE `team` (
 	`owner` VARCHAR(20) NOT NULL DEFAULT '미지정' COMMENT '구단주' COLLATE 'utf8mb4_0900_ai_ci',
 	`general_manager` VARCHAR(20) NOT NULL DEFAULT '미지정' COMMENT '단장' COLLATE 'utf8mb4_0900_ai_ci',
 	`website` VARCHAR(100) NULL DEFAULT '미지정' COMMENT '웹사이트' COLLATE 'utf8mb4_0900_ai_ci',
+	
+	-- 여유 index
+	item_int1				int,
+	item_int2				int,
+	item_int3				int,
+	item_varchar			varchar(100),
+	item_varchar2			varchar(100),
+	item_varchar3			varchar(100),
+	item_text				text,
+	item_datetime1		datetime,
+	item_datetime2		datetime,
+	item_tinyint			tinyint,
+	
 	PRIMARY KEY (`idx`) USING BTREE,
 	foreign key (home_stadium_id) REFERENCES stadium(idx)
 )

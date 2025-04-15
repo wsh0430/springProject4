@@ -13,6 +13,18 @@ create table board(
 	update_at				datetime default now(),			/* 수정 날짜 */
 	is_deleted				tinyint default 0,					/* 삭제 유무(0: false, 1: true) */
 	
+	-- 여유 index
+	item_int1				int,
+	item_int2				int,
+	item_int3				int,
+	item_varchar			varchar(100),
+	item_varchar2			varchar(100),
+	item_varchar3			varchar(100),
+	item_text				text,
+	item_datetime1		datetime,
+	item_datetime2		datetime,
+	item_tinyint			tinyint,
+	
 	primary key (idx),
   	foreign key (member_id) references member(member_id),
   	foreign key (category_name) references category(name)
