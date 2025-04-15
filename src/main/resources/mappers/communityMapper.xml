@@ -9,8 +9,7 @@
 	</select>
 	
 	<select id="getBoardList" resultType="com.spring.springProject4.vo.BoardVo">
-		<if test="category != '전체'">select * from board where category_name = #{category};</if>
-		<if test="category == '전체'">select * from board</if>
+		select * from board<if test="category != '전체' || search !=''"><if test="category != '전체"> where category_name = #{category}</if><if test="category == '전체"> and</if><if test='search !=""'> ${search} like concat('%',#{searchString},'%')</if></if> order by idx desc limit #{startIndexNo},#{pageSize};
 	</select>
 	
 	

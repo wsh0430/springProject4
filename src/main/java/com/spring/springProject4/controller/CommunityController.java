@@ -44,20 +44,17 @@ public class CommunityController {
 			subCtgy.add(subCtgyVos);
 		}
 		
-		// 보드
-		List<BoardVo> boardVos = communityService.getBoardList(category);	// 보드
-		
+
 		// 페이지
-//		PageVo pageVo = pagination.getTotRecCnt(pag,pageSize,"board",search,searchString);	// (페이지번호,한 페이지분량,section,part,검색어)
-//		
-//		List<BoardVo> vos = communityService.getBoardList(category, pageVo.getStartIndexNo(), pageVo.getPageSize(), search, searchString);
-//		
-//		model.addAttribute("pageVo", pageVo);
-//		model.addAttribute("vos", vos);
+		PageVo pageVo = pagination.getTotRecCnt(pag,pageSize,"board",search,searchString);	// (페이지번호,한 페이지분량,section,part,검색어)
+				
+		// 보드
+		List<BoardVo> boardVos = communityService.getBoardList(category, pageVo.getStartIndexNo(), pageVo.getPageSize(), search, searchString);
 		
 		model.addAttribute("mainCtgyVos", mainCtgyVos);
 		model.addAttribute("subCtgy", subCtgy);
 		model.addAttribute("boardVos", boardVos);
+		model.addAttribute("pageVo", pageVo);
 
 		return "community/main";
 	}
