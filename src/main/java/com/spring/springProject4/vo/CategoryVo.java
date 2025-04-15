@@ -10,7 +10,7 @@ import lombok.ToString;
 public class CategoryVo {
 	private int idx;
 	private String name;
-	private int is_active;
-	private String parent_name;
+	private int isActive;
+	private String parentName;
 	private int admin;
 }

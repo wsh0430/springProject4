@@ -6,12 +6,17 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import com.spring.springProject4.vo.BoardVo;
 import com.spring.springProject4.vo.CategoryVo;
 
 @Mapper
 @Repository
 public interface CommunityDao {
 
-	List<CategoryVo> getCategoryList(@Param("parentName") String parentName);
+	List<CategoryVo> getMainCategoryList();
+
+	List<CategoryVo> getSubCategoryList(@Param("pName") String pName);
+	
+	List<BoardVo> getBoardList(@Param("category")  String category);
 
 }
