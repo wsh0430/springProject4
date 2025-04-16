@@ -46,10 +46,12 @@ public class CommunityController {
 		
 
 		// 페이지
-		PageVo pageVo = pagination.getTotRecCnt(pag,pageSize,"board",search,searchString);	// (페이지번호,한 페이지분량,section,part,검색어)
+		PageVo pageVo = pagination.getTotRecCnt(pag,pageSize,"community",search,searchString);	// (페이지번호,한 페이지분량,section,part,검색어)
 				
 		// 보드
 		List<BoardVo> boardVos = communityService.getBoardList(category, pageVo.getStartIndexNo(), pageVo.getPageSize(), search, searchString);
+		
+		System.out.println(subCtgy.toString());
 		
 		model.addAttribute("mainCtgyVos", mainCtgyVos);
 		model.addAttribute("subCtgy", subCtgy);

@@ -7,9 +7,15 @@
 	<select id="getSubCategoryList" resultType="com.spring.springProject4.vo.CategoryVo">
 		select * from category where parent_name = #{pName};
 	</select>
+    <select id="getBoardTotRecCnt" resultType="int">
+	  	select count(*) from board;
+	</select>
+	<select id="getBoardTotRecCntSearch" resultType="int">
+    	select count(*) from board where ${search} like concat('%',#{searchString},'%');
+  	</select>
 	
 	<select id="getBoardList" resultType="com.spring.springProject4.vo.BoardVo">
-		select * from board<if test="category != '전체' || search !=''"><if test="category != '전체"> where category_name = #{category}</if><if test="category == '전체"> and</if><if test='search !=""'> ${search} like concat('%',#{searchString},'%')</if></if> order by idx desc limit #{startIndexNo},#{pageSize};
+		select * from board<if test="category != '전체' || search !=''"> where<if test="category != '전체'"> category_name = #{category}<if test="search !=''"> and</if></if><if test="category == '전체'"> and</if><if test='search !=""'> ${search} like concat('%',#{searchString},'%')</if></if> order by idx desc limit #{startIndexNo},#{pageSize};
 	</select>
 	
 	

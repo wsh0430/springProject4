@@ -3,12 +3,15 @@ package com.spring.springProject4.common;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.spring.springProject4.dao.CommunityDao;
 import com.spring.springProject4.vo.PageVo;
 
 @Service
 public class Pagination {
 	
-
+	@Autowired
+	CommunityDao communityDao;
+	
 	public PageVo getTotRecCnt(int pag, int pageSize, String section, String part, String searchString) {
 		PageVo vo = new PageVo();
 		
@@ -24,10 +27,10 @@ public class Pagination {
 		
 		
 //		게시판을 분류하는 부분
-//		if(section.equals("board")) {
-//			if(part.equals("")) totRecCnt = boardDao.getBoardTotRecCnt();
-//			else totRecCnt = boardDao.getBoardTotRecCntSearch(part, searchString);
-//		}
+		if(section.equals("community")) {
+			if(part.equals("")) totRecCnt = communityDao.getBoardTotRecCnt();
+			else totRecCnt = communityDao.getBoardTotRecCntSearch(part, searchString);
+		}
 //		else if(section.equals("pds")) {
 //			totRecCnt = pdsDao.getPdsTotRecCnt(part);
 //		}

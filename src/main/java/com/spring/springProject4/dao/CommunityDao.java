@@ -18,5 +18,10 @@ public interface CommunityDao {
 	List<CategoryVo> getSubCategoryList(@Param("pName") String pName);
 	
 	List<BoardVo> getBoardList(@Param("category") String category, @Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize, @Param("search") String search, @Param("searchString") String searchString);
+	
+	int getBoardTotRecCnt();
+	
+	int getBoardTotRecCntSearch(@Param("search") String search, @Param("searchString") String searchString);
+	
 
 }
