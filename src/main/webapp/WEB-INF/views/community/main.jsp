@@ -8,6 +8,7 @@
     <meta charset="UTF-8">
     <title>Hitbox</title>
      <jsp:include page="/WEB-INF/views/include/bs5.jsp" />
+     <script src="https://kit.fontawesome.com/376bb82e0c.js" crossorigin="anonymous"></script>
     <script>
     	'use strict';
     
@@ -20,6 +21,17 @@
     	#main{
     		min-width: 80%; 		
     	}	
+    	
+    	.w3-button {
+   			background-color: white !important;
+   			color: black !important;
+ 		}
+    	
+    	.board_list td{
+    		border: 1px solid black;
+    		height: 10px;
+    		
+    	}
     </style>
 </head>
 <body>
@@ -29,9 +41,12 @@
     			<tr>
     				<c:forEach var="mcVos" items="${mainCtgyVos}" varStatus="st">
     					<td class="w3-dropdown-hover w3-hide-small">
-    						<a href="main?category=${mcVos.name}">
-    							<button class="w3-padding-large w3-button" title="More">${mcVos.name}<i class="fa fa-caret-down"></i></button>     
-    						</a>
+    						<c:if test="${empty subCtgy[st.index]}">
+    							<a href="main?category=${mcVos.name}" class="w3-padding-middle w3-button">${mcVos.name}</a>
+    						</c:if>
+    						<c:if test="${!empty subCtgy[st.index]}">
+    							<button class="w3-padding-middle w3-button" title="${mcVos.name}게시판">${mcVos.name}  <i class="fa fa-caret-down"></i></button>     
+    						</c:if>
     						<div class="w3-dropdown-content w3-bar-block w3-card-4">
     							<c:forEach var="scVos" items="${subCtgy[st.index]}">
 									<a href="main?category=${scVos.name}">${scVos.name}</a>			
@@ -43,7 +58,7 @@
     		</table>
     	</div>
     	<div id="board">
-			<span>선택 카테고리</span>
+			<span>${category }</span>
 			<table class="table table-borderless m-0 p-0">
 				<tr>
 					<td><a href="#" class="btn btn-success btn-sm">글쓰기</a></td>
@@ -65,13 +80,13 @@
 					</c:if>
 				</tr>
 			</table>
-			<table>
+			<table class="board_list">
     			<c:forEach var="bVos" items="${boardVos}">
 	    			<tr>
-	    				<td>${bVos.idx}</td>
-	    				<td>${bVos.title}(${bVos.commentCount})</td>
-	    				<td>${bVos.memberNickname}</td>
-	    				<td>
+	    				<td style="width: 10%">${bVos.idx}</td>
+	    				<td style="width: 40%">${bVos.title}(${bVos.commentCount})</td>
+	    				<td style="width: 12.5%">${bVos.memberNickname}</td>
+	    				<td style="width: 12.5%">
 	    					<c:if test="${bVos.createdAt == updateAt}">
 	    						${bVos.createdAt}
 	    					</c:if>
@@ -79,8 +94,8 @@
 	    						${bVos.updateAt}(수정됨)
 	    					</c:if>
 	    				</td>
-	    				<td>${bVos.viewCount}</td>
-	    				<td>${bVos.likeCount}</td>
+	    				<td style="width: 7.5%">${bVos.viewCount}</td>
+	    				<td style="width: 7.5%">${bVos.likeCount}</td>
 	    			</tr>
     			</c:forEach>
     		</table>

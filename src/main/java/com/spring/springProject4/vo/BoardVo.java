@@ -20,7 +20,7 @@ public class BoardVo {
 	private int likeCount;
 	private int commentCount;
 	private int reportCount;
-	private DateTime createdAt;
-	private DateTime updateAt;
+	private String createdAt;
+	private String updateAt;
 	private int isDelete;
 }

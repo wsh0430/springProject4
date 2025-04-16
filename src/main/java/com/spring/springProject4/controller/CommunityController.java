@@ -51,8 +51,9 @@ public class CommunityController {
 		// 보드
 		List<BoardVo> boardVos = communityService.getBoardList(category, pageVo.getStartIndexNo(), pageVo.getPageSize(), search, searchString);
 		
-		System.out.println(subCtgy.toString());
+		System.out.println(subCtgy.get(0));
 		
+		model.addAttribute("category", category);
 		model.addAttribute("mainCtgyVos", mainCtgyVos);
 		model.addAttribute("subCtgy", subCtgy);
 		model.addAttribute("boardVos", boardVos);
