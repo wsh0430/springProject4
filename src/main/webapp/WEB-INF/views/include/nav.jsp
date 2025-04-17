@@ -1,16 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var="ctp" value="${pageContext.request.contextPath}"/>
-<!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<title>nav.jsp</title>
-	<link rel="stylesheet" type="text/css" href="${ctp}/css/nav.css">
-	<script type="text/javascript" src="${ctp}/js/main.js"></script>
+  <meta charset="UTF-8">
+  <title>nav</title>
+  <link rel="stylesheet" href="${ctp}/css/nav.css">
+  <script type="text/javascript" src="${ctp}/js/main.js"></script>
 </head>
-	
-<body>
 	<header>
 		<!-- navbar 1번(로그인/회원가입/검색창) -->
 		<div class="navbar1">
@@ -27,7 +24,7 @@
 		
 		<!-- navbar 2번 목록들 -->
 		<div class="navbar2">
-			<div class="title"><a href="http://localhost:8080/springProject4">HeatBox</a></div>
+			<div class="mainTitle"><a href="http://localhost:8080/springProject4">HeatBox</a></div>
 			<ul class="nav-items">
 				<li class="nav-record"><a href="#">기록실</a>
 				 	<!-- 하위메뉴 -->
@@ -45,7 +42,6 @@
 			</ul>
 		</div>
 	</header>
-	<hr>
 
 	<!-- 선수기록 사이드바 -->
 	<div class="sidebar" id="sidebar-player" style="display: none;">
@@ -74,6 +70,5 @@
 	    </ul>
 	  </div>
 	</div>
- 	<footer></footer>
-</body>
+<jsp:include page="/WEB-INF/views/include/footer.jsp"/>
 </html>

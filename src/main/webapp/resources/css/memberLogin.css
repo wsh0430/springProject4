@@ -1,0 +1,90 @@
+@charset "UTF-8";
+	/* 전체 레이아웃 스타일 */
+	body{
+			margin: 0;
+			padding: 0;
+	}
+	
+	/* 컨테이너 스타일 */
+	.container {
+	  max-width: 600px;
+	  margin: 80px auto;
+	  background-color: #f9f9f9;
+	  padding: 40px;
+	  border-radius: 15px;
+	  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+	}
+	
+	/* 테이블 */
+	.loginTable {
+	  width: 100%;
+	  border-collapse: collapse;
+	}
+	
+	.loginTable tr {
+		text-align: center;
+	}
+
+	h3 {
+	  text-align: center;
+	  margin-bottom: 30px;
+	  color: #333;
+	}
+	
+	/* 입력 필드 */
+	.loginInput {
+	  width: 400px;
+	  margin-left : 20px;
+	  margin-bottom : 10px;
+	  padding: 10px;
+	  border: 1px solid #ccc;
+	  border-radius: 6px;
+	  font-size: 14px;
+	  box-sizing: border-box;
+	}
+	
+	/* 옵션 (체크박스 등) */
+	.loginOptions {
+	  padding: 10px 0;
+	  text-align: left;
+	  font-size: 14px;
+	}
+	
+	/* 링크들 */
+	.loginLinks {
+		
+	  text-align: center;
+	  font-size: 14px;
+	  padding: 10px 0;
+	}
+	
+	.loginLinks a {
+	  color: #007bff;
+	  text-decoration: none;
+	  margin: 0 5px;
+	}
+	
+	.loginLinks a:hover {
+	  text-decoration: underline;
+	}
+	
+	/* 로그인 버튼 */
+	.loginSubmit {
+	  margin-top: 20px;
+	  text-align: center;
+	}
+	
+	.loginBtn {
+	  width: 100%;
+	  padding: 12px;
+	  font-size: 16px;
+	  background-color: #000;
+	  color: white;
+	  border: none;
+	  border-radius: 8px;
+	  cursor: pointer;
+	}
+	
+	.loginBtn:hover {
+	  background-color: #333;
+	}
