@@ -61,7 +61,7 @@
 		                    str += '<td>'+vos[i].doubles+'</td>';
 		                    str += '<td>'+vos[i].triples+'</td>';
 		                    str += '<td>'+vos[i].totalBases+'</td>';
-		                    str += '<td>'+vos[i].rbi+'</td>';
+		                    str += '<td>'+vos[i].rbi+'</td>'; 
 		                    str += '<td>'+vos[i].homeRuns+'</td>';
 		                    str += '<td>'+vos[i].stolenBases+'</td>';
 		                    str += '<td>'+vos[i].stolenBasesFail+'</td>';
