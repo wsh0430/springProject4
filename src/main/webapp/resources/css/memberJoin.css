@@ -13,13 +13,15 @@ body{
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
       padding: 40px 30px;
     }
-
+		/* 제목 */
     h3 {
+    	font-size : 30px;
+    	font-weight : bold;
       text-align: center;
       margin-bottom: 30px;
       color: #333;
     }
-
+		/* 테이블 */
     table {
       width: 100%;
       border-collapse: collapse;
@@ -37,7 +39,7 @@ body{
     td {
       padding: 12px 10px;
     }
-		
+		/* 아이디,비밀번호,닉네임 */
 		#memberId,#memberPwd,#memberPwdCheck,#memberNickName,#memberName{
 			width: 250px;
       padding: 10px;
@@ -46,24 +48,54 @@ body{
       border-radius: 6px;
       font-size: 14px;
 		}
-		#memberEmail1,#memberEmail2,#tel2,#tel3 {
-			width: 150px;
-      padding: 10px;
+		/* 이메일 */
+		#memberEmail1,#memberEmail2 {
+			width: 130px;
+      padding: 8px;
       margin-top: 6px;
+      margin-right : 10px;
       border: 1px solid #ccc;
       border-radius: 6px;
       font-size: 14px;
+      text-align: center;
 		}
-		.form-inline {
-		  display: flex;
-		  gap: 10px;
-		  align-items: center;
-		  flex-wrap: wrap;
-		}
+		.emailSelect{
+   	 	width: 130px;
+      padding: 7px;
+      margin-top: 6px;
+      margin-right : 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
 		
+		/* 전화번호 */
+		#tel2,#tel3{
+			width: 100px;
+      padding: 8px;
+      margin-top: 6px;
+      margin-left : 5px;
+      margin-right : 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+      text-align: center;
+		}
+    .telSelect{
+   	 	width: 80px;
+      padding: 7px;
+      margin-top: 6px;
+      margin-right : 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    
+		/* 중복확인 */
 		.check-btn {
-		  padding: 8px 16px;
-		  background-color: #6c757d;
+			margin-left : 10px;
+		  padding: 9px 14px;
+		  background-color: gray;
 		  border: none;
 		  border-radius: 6px;
 		  color: white;
@@ -71,57 +103,47 @@ body{
 		  cursor: pointer;
 		  transition: background-color 0.2s ease;
 		}
-		
 		.check-btn:hover {
-		  background-color: #495057;
+		  background-color: pink;
 		}
-		
-    select {
+		/* 좋아하는 팀 */
+    .teamSelect {
       width: 100px;
-      padding: 10px;
+      padding: 7px;
       margin-top: 6px;
+      margin-right : 10px;
       border: 1px solid #ccc;
       border-radius: 6px;
       font-size: 14px;
     }
-
-    .form-inline input[type="button"] {
-      margin-top: 8px;
-      padding: 8px 14px;
-      font-size: 13px;
-      border-radius: 6px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-
-    .form-inline input[type="button"]:hover {
-      background-color: #0056b3;
-    }
-
+		/* 성별,광고성수신  */
     .radio-group {
       display: flex;
       gap: 20px;
       margin-top: 8px;
     }
-
-    .joinBtn {
-      text-align: center;
-      margin-top: 30px;
-    }
-
-    .joinBtn input {
-      padding: 12px 24px;
-      font-size: 16px;
-      border-radius: 8px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-
-    .joinBtn input:hover {
-      background-color: #6c757d;
-      
-    }
+    
+    /* 회원가입 버튼 */
+		.join-form {
+		  text-align: center;
+		  margin-top: 40px;
+		}
+		
+		.joinBtn {
+		  background: gray;
+		  color: white;
+		  border: none;
+		  padding: 14px 30px;
+		  font-size: 18px;
+		  font-weight: bold;
+		  border-radius: 10px;
+		  cursor: pointer;
+		  transition: all 0.3s ease;
+		  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+		}
+		
+		.joinBtn:hover {
+		  background: pink;
+		  transform: translateY(-2px);
+		  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+		}

@@ -6,7 +6,7 @@
   <meta charset="UTF-8">
   <title>nav</title>
   <link rel="stylesheet" href="${ctp}/css/nav.css">
-  <script type="text/javascript" src="${ctp}/js/main.js"></script>
+  <script type="text/javascript" src="${ctp}/js/nav.js"></script>
 </head>
 	<header>
 		<!-- navbar 1번(로그인/회원가입/검색창) -->

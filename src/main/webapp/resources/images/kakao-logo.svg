@@ -1,0 +1,5 @@
+<!-- kakao-logo.svg -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <rect width="48" height="48" rx="8" ry="8" fill="#fee500"></rect>
+  <path fill="#3c1e1e" d="M24 14c-6 0-11 3.4-11 7.8 0 2.9 2.4 5.4 6 6.8L17.5 34l6.1-3.9c.4.1.8.1 1.2.1 6 0 11-3.4 11-7.8S30 14 24 14z"></path>
+</svg>

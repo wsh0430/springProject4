@@ -7,6 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Main</title>
 	<link rel="stylesheet" type="text/css" href="${ctp}/css/memberJoin.css">
+	<script type="text/javascript" src="${ctp}/js/memberJoin.js"></script>
 </head>
 <body>
 <!-- Navbar -->
@@ -67,8 +68,8 @@
 				<tr>
 					<th>전화번호</th>
 					 <td>
-	          <div class="input-group">
-		          <select name="tel1">
+	          <div>
+		          <select name="tel1" class="telSelect">
 		            <option value="010" selected>010</option>
 		            <option value="011">011</option>
 		            <option value="016">016</option>
@@ -85,16 +86,16 @@
 					<th>이메일</th>
 					<td>
 							<div>
-								<input type="text" name="memberEmail" id="memberEmail1" placeholder="이메일을 입력하세요" required />@
-								<input type="text" name="memberEmail" id="memberEmail2" placeholder="이메일을 입력하세요" required />
-								<select name="tel1" class="form-select">
-		            <option value="010" selected>직접입력</option>
-		            <option value="011">naver.com</option>
-		            <option value="016">gmail.com</option>
-		            <option value="019">yahoo.com</option>
-		            <option value="019">nate.com</option>
-		            <option value="017">daum.net</option>
-		            <option value="018">hanmail.net</option>
+								<input type="text" name="memberEmail1" id="memberEmail1" placeholder="이메일 주소" required />@
+								<input type="text" name="memberEmail2" id="memberEmail2"  required />
+								<select name="email" class="emailSelect" onchange="setEmailDomain(this.value)">
+		            <option value="self" selected>직접입력</option>
+		            <option value="naver.com">naver.com</option>
+		            <option value="gamil.com">gmail.com</option>
+		            <option value="yahoo.com">yahoo.com</option>
+		            <option value="nate.com">nate.com</option>
+		            <option value="daum.com">daum.net</option>
+		            <option value="hanmail.com">hanmail.net</option>
 		          </select>
 							</div>
 					</td>
@@ -102,7 +103,7 @@
 	      <tr>
 	        <th>좋아하는 팀</th>
 	        <td>
-	          <select name="likeTeam">
+	          <select name="likeTeam" class="teamSelect">
 	            <option selected>선택안함</option>
 	            <option>LG</option>
 	            <option>SSG</option>
@@ -132,8 +133,8 @@
         </td>
       </tr>
 			</table>
-			<div class="joinBtn">
-	      <input type="button" value="회원가입" onclick="fCheck()" />
+			<div class="join-form">
+	      <input type="button" class="joinBtn" value="회원가입" onclick="fCheck()" />
 	    </div>
 			
 		</form>

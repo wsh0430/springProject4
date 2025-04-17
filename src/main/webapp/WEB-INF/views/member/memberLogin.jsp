@@ -7,6 +7,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>memberLogin</title>
 	<link rel="stylesheet" type="text/css" href="${ctp}/css/memberLogin.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+	<script type="text/javascript" src="${ctp}/js/memberLogin.js"></script>
 </head>
 <body>
 <!-- Navbar -->
@@ -37,11 +39,23 @@
 				<div class="loginSubmit">
 				  <input type="submit" value="로그인" class="loginBtn"/>
 				</div>	
-		    <!-- 소셜 간편 로그인 -->
+				
+				<!-- 소셜 간편 로그인 -->
 		    <div class="social-buttons">
-				  <button type="button" class="naver-btn"></button>
-				  <button type="button" class="google-btn"></button>
-				  <button type="button" class="kakao-btn"></button>
+				  <!-- 네이버 로그인 -->
+				  <button type="button" class="social-btn naver-btn" title="네이버 로그인" onmouseenter="triggerPulse(this)">
+				    <img src="${ctp}/images/naver-logo.svg" alt="네이버"/>
+				  </button>
+				
+				  <!-- 구글 로그인 -->
+				  <button type="button" class="social-btn google-btn" title="구글 로그인" onmouseenter="triggerPulse(this)">
+				     <img src="${ctp}/images/google-logo.svg" alt="구글" />
+				  </button>
+				
+				  <!-- 카카오 로그인 -->
+				  <button type="button" class="social-btn kakao-btn" title="카카오 로그인" onmouseenter="triggerPulse(this)">
+				    <img src="${ctp}/images/kakao-logo.svg" alt="카카오"/>
+				  </button>
 				</div>
 		  </form>
 	</div>
