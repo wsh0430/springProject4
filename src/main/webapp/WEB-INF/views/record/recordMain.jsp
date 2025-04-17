@@ -103,7 +103,7 @@
   <div class="input-group mb-3">
     <div class="input-group-text">기록테스트</div>
     <div class="input-group mb-3">
-  	  <label for="sortOptions">정렬 기준 선택 (복수 선택 가능):</label><br>
+  	  <label for="sortOptions">정렬 기준 선택:</label><br>
 			<select id="sortOptions" name="sortOptions">
 			  <option value="WAR">WAR</option>
 			  <option value="R">득점 (R)</option>
