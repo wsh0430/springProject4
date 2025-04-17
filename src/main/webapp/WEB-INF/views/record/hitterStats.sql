@@ -4,6 +4,7 @@ CREATE TABLE hitter_stats (
     team_logo VARCHAR(200),	/*팀로고*/
     position VARCHAR(5), /*선수포지션*/
     year SMALLINT(5),/*년도*/
+    
     games SMALLINT, /*경기수*/
     tasuk SMALLINT, /*타석*/
     at_bats SMALLINT, /*타수*/
