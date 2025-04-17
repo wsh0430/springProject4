@@ -15,7 +15,7 @@ CREATE TABLE hitter_stats (
     rbi SMALLINT,/*타점*/
     home_runs SMALLINT, /*홈런*/
     stolen_bases SMALLINT, /*도루*/
-    stolen_bases_fail SMALLINT, /*도루실패*/
+    stolen_bases_fail SMALLINT, /*도루실패*/ 
     bb SMALLINT, /*사사구*/
     strikeouts SMALLINT, /*삼진*/
     double_plays SMALLINT, /*병살*/

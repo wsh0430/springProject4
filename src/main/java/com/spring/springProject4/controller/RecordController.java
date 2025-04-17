@@ -232,7 +232,7 @@ public class RecordController {
 	        driver.quit();
 	    }
 
-	    return recordList;
+	    return recordList; 
 	}
 
 }
