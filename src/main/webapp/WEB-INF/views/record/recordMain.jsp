@@ -21,6 +21,8 @@
 		    let orderBy = $("#orderBy").val(); // DESC or ASC
 		    let startYear = $("#startYear").val();
 		    let endYear = $("#endYear").val();
+		    let team = $("#team").val();
+		    let positionOrder = $("#positionOrder").val();
 		    
 		    $.ajax({
 		        url: "HitterRecord",
@@ -29,7 +31,9 @@
 		        		sortOptions: sortOptions,
 		        		orderBy: orderBy,
 		            startYear: startYear,
-		            endYear: endYear
+		            endYear: endYear,
+		            team: team,
+		            positionOrder: positionOrder
 		        },
 		        success:function(vos) {
 		            if(vos.length > 0) {
@@ -103,6 +107,7 @@
   <div class="input-group mb-3">
     <div class="input-group-text">기록테스트</div>
     <div class="input-group mb-3">
+    
   	  <label for="sortOptions">정렬 기준 선택:</label><br>
 			<select id="sortOptions" name="sortOptions">
 			  <option value="WAR">WAR</option>
@@ -128,12 +133,55 @@
 			  <option value="AB">타수</option>
 			  <option value="year">연도</option>
 			</select>
+			
 		  <label for="orderBy">정렬 방향:</label><br>
 			<select id="orderBy" name="orderBy">
 			  <option value="DESC" selected>내림차순 (높은 순)</option>
 			  <option value="ASC">오름차순 (낮은 순)</option>
 			</select><br><br>
 			
+			<label for="team">팀</label><br>
+			<select id="team" class="form-select">
+			  <option value="">전체</option>
+			  <option value="9002">SSG</option>
+			  <option value="5002">LG</option>
+			  <option value="12001">KT</option>
+			  <option value="11001">NC</option>
+			  <option value="2002">KIA</option>
+			  <option value="1001">삼성</option>
+			  <option value="6002">두산</option>
+			  <option value="3001">롯데</option>
+			  <option value="7002">한화</option>
+			  <option value="10001">키움</option>
+			  <!-- 올드팀 -->
+			  <option value="9001">SK</option>
+			  <option value="10003">넥센</option>
+			  <option value="10002">히어로즈</option>
+			  <option value="6001">OB</option>
+			  <option value="2001">해태</option>
+			  <option value="5001">MBC</option>
+			  <option value="4004">현대</option>
+			  <option value="8001">쌍방울</option>
+			  <option value="4001">삼미</option>
+			  <option value="7001">빙그레</option>
+			</select>
+			
+			<label for="positionOrder">포지션</label><br>
+			<select id="positionOrder" class="form-select">
+			  <option value="">전체</option>
+			  <option value="1">투수</option>
+			  <option value="2">포수</option>
+			  <option value="3">1루수</option>
+			  <option value="4">2루수</option>
+			  <option value="5">3루수</option>
+			  <option value="6">유격수</option>
+			  <option value="7">좌익수</option>
+			  <option value="8">중견수</option>
+			  <option value="9">우익수</option>
+			  <option value="10">지명타자</option>
+			  <option value="13">내야수</option>
+			  <option value="14">외야수</option>
+			</select>
 			
 	    <label for="startYear" class="input-group-text">시작 년도</label>
 	    <select id="startYear" class="form-select">

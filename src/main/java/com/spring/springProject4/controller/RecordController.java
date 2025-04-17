@@ -39,7 +39,9 @@ public class RecordController {
       @RequestParam("startYear") int startYear,
       @RequestParam("orderBy") String orderBy,
       @RequestParam("endYear") int endYear,
-      @RequestParam("sortOptions") String sortOptions
+      @RequestParam("sortOptions") String sortOptions,
+      @RequestParam("team") String team,
+      @RequestParam("positionOrder") String positionOrder
       ) throws IOException {
 	    List<PlayerRecordDto> recordList = new ArrayList<>();
 
@@ -57,8 +59,10 @@ public class RecordController {
                        + "&so=" + sortOptions
                        + "&ob=" + orderBy
                        + "&year=" + year
+                       + "&te=" + team
+                       + "&po=" + positionOrder
                        + "&reg=R";
-
+            System.out.println(url);
             driver.get(url);
             Thread.sleep(5500); // 페이지 로딩 대기(5.5초), 스탯티즈는 robots.txt 기준 5초 권장 중
 
