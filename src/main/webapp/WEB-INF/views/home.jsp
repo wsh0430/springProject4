@@ -18,6 +18,6 @@
 <h2>안녕하세요.</h2>
 <h2>안녕하세요.</h2>
 <h2>안녕하세요.</h2>
-<a href="${ctp}/community/main">커뮤니티 main화면 이동</a>
+<a href="${ctp}/community/cmtyMain">커뮤니티 main화면 이동</a>
 </body>
 </html>

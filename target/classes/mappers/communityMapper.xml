@@ -11,12 +11,38 @@
 	  	select count(*) from board;
 	</select>
 	<select id="getBoardTotRecCntSearch" resultType="int">
-    	select count(*) from board where ${search} like concat('%',#{searchString},'%');
+    	select count(*) from board where ${search} like concat('%', #{searchString}, '%');
   	</select>
 	
 	<select id="getBoardList" resultType="com.spring.springProject4.vo.BoardVo">
-		select * from board<if test="category != '전체' || search !=''"> where<if test="category != '전체'"> category_name = #{category}<if test="search !=''"> and</if></if><if test="category == '전체'"> and</if><if test='search !=""'> ${search} like concat('%',#{searchString},'%')</if></if> order by idx desc limit #{startIndexNo},#{pageSize};
+		select * ,datediff(created_at, now()) as dateDiff,
+  	    timestampdiff(hour, created_at, now()) as hourDiff
+		from board b<if test="category != '전체' || search !=''"> where<if test="category != '전체'"> category_name = #{category}<if test="search !=''"> and</if></if><if test='search !=""'>${search} like concat('%',#{searchString},'%')</if></if> order by idx desc limit #{startIndexNo},#{pageSize};
+	</select>
+	
+	<select id="getBoardContent" resultType="com.spring.springProject4.vo.BoardVo">
+		select * from board where idx = #{boardIdx};
+	</select>
+	
+	<select id="getLikes" resultType="com.spring.springProject4.vo.LikesVo">
+		select * from likes where part = #{part} and part_idx = #{partIdx} and member_id = #{memberId};
 	</select>
 	
 	
+	
+	<insert id="setCreateLikes">
+		insert into likes values(default, #{memberId}, #{part}, #{partIdx}, default, default, default, default, default, default, default, default, default, default, default);
+	</insert>
+	
+	
+	
+	
+	<update id="setUpdateboardLikeCnt">
+		update board set like_count = like_count + #{n} where idx = #{boardIdx};
+	</update>
+	
+	
+	<delete id="setDeleteLikes">
+		delete from likes where idx = #{idx};
+	</delete>
 </mapper>

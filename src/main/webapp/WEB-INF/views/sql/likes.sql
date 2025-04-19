@@ -1,9 +1,9 @@
-create table like(
+create table likes(
 	idx				int not null auto_increment,
 	member_id		varchar(20) not null,
 	part				varchar(20) not null,						/* 게시글, 댓글 */
 	part_idx 		int not null,
-	created_at		datetime default now()					/* 생성 날짜 */
+	created_at		datetime default now(),					/* 생성 날짜 */
 	
 	-- 여유 index
 	item_int1				int,
