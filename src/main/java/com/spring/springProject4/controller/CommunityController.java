@@ -75,29 +75,33 @@ public class CommunityController {
 		String memberId = "user123";	//나중에 session에 있는 값 꺼내오기
 		
 		BoardVo boardVo = communityService.getBoardContent(boardIdx);
-		LikesVo likesVo = communityService.getLikes("board", boardIdx, memberId);
+		CommentVo commentVos = communityService.getCommentVos(commentIdx);
+		LikesVo boardLikesVo = communityService.getLikes("board", boardIdx, memberId);
+		LikesVo commentLikesVo = communityService.getLikes("comment", boardIdx, memberId);
 		
 		model.addAttribute("boardVo", boardVo);
+		model.addAttribute("commentVos", commentVos);
 		model.addAttribute("pag", pag);
 		model.addAttribute("pageSize", pageSize);
 		model.addAttribute("search", search);
 		model.addAttribute("searchString", searchString);
-		model.addAttribute("likesVo", likesVo);
+		model.addAttribute("boardLikesVo", boardLikesVo);
+		model.addAttribute("commentLikesVo", commentLikesVo);
 		
 		return "community/content";
 	}
 	
 	@ResponseBody
 	@RequestMapping(value="/boardLikesCheck", method=RequestMethod.POST)
-	public int boardLikesCheck(int boardIdx) {		
+	public int boardLikesCheck(int idx) {		
 		String memberId = "user123";	//나중에 session에 있는 값 꺼내오기
-		LikesVo likesVo = communityService.getLikes("board", boardIdx, memberId);
+		LikesVo likesVo = communityService.getLikes("board", idx, memberId);
 
 		if(likesVo == null) {
 			System.out.println("실행됨null");
-			int cres = communityService.setCreateLikes("board", boardIdx, memberId);
+			int cres = communityService.setCreateLikes("board", idx, memberId);
 			if(cres != 0) {
-				cres = communityService.setUpdateboardLikeCnt(boardIdx, 1);
+				cres = communityService.setUpdateboardLikeCnt(idx, 1);
 			}
 			return 1;
 		}
@@ -105,7 +109,7 @@ public class CommunityController {
 			System.out.println("실행됨notnull");
 			int cres = communityService.setDeleteLikes(likesVo.getIdx());
 			if(cres != 0) {
-				cres = communityService.setUpdateboardLikeCnt(boardIdx, -1);
+				cres = communityService.setUpdateboardLikeCnt(idx, -1);
 			}
 			return -1;
 		}
