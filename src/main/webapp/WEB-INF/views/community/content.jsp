@@ -12,24 +12,40 @@
     <script>
     	'use strict';
     	
-    	function likesCheck(part, idx) {
-    		let icon = $(".like_icon i");
-    		let count = $(".like_count");
+    	function likesCheck(part, idx, index, parentIdx) {
+    		let icon = $("."+part+"-like_icon"+index+" i");
+    		let count = $("."+part+"-like_count" + index);
+    		
+    		console.log(index);
     		
 			$.ajax({
 				url: "${ctp}/community/" + part + "LikesCheck",
 				type: "post",
 				data: {
 					idx : idx,
+					parentIdx: parentIdx
 				},
 				success: function(res){
-					//lc.text(Number(lc.text()) + res);
 					if (icon.hasClass("fa-regular")) 
 						icon.removeClass("fa-regular").addClass("fa-solid").css("color", "red");
 					else 
 						icon.removeClass("fa-solid").addClass("fa-regular").css("color", "black");
 					
 					count.text(Number(count.text()) + res);
+				},
+				error: function() {
+					alert("전송오류");
+				}
+			});
+		}
+    	
+    	function replyClick(idx) {
+			$.ajax({
+				url: "${ctp}/commynity/replyClick",
+				type: "post",
+				data: {idx: idx},
+				success: function(res) {
+					
 				},
 				error: function() {
 					alert("전송오류");
@@ -56,18 +72,35 @@
     		min-height: 250px;
     	}
     	
-    	#like button{
-    		width: 70px;
-    		height: 70px;
-    		background-color: white;
+    	.like button{
+    		background-color: transparent;
     		border: none;
     	}
-    	#like button i{
-    		color: red;
-    	}
+
     	.low-bar{
     		display: flex;
     		justify-content: space-between;
+    	}
+    	.low-bar span{
+    		text-align: center;
+    	}
+    	
+    	#comment{
+    	    border-top: 1px solid black;   
+    	    margin-top: 10px;
+    	   	padding-top: 10px;
+    	}
+    	.cmt_item{
+    	    width: 100%;
+    	    max-height: 130px;
+    		border-bottom: 1px solid black; 		
+    		padding: 10px;
+    	}
+    	.cmt_info{
+    		margin-bottom: 8px;
+    	}
+    	.cmt_content{
+    		margin-bottom: 8px;
     	}
     </style>
 </head>
@@ -99,18 +132,23 @@
 			<!-- right 공유/ -->
 			<div class="low-bar">
 				<div class="left">
-					<button onclick="likesCheck('board', ${boardVo.idx})">
-						<span class="like_icon">
-							<c:if test="${empty boardLikesVo}">
-								<i class="fa-regular fa-lg fa-heart"></i>
-							</c:if>
-							<c:if test="${!empty boardLikesVo }">
-								<i class="fa-solid fa-lg fa-heart" style="color: red;"></i>
-							</c:if>
-							<br/>좋아요	
-						</span>
-						<span class="like_count">${boardVo.likeCount}</span>
-					</button>
+				
+					<!-- 좋아요 -->
+					<div class="like">
+						<button onclick="likesCheck('board', ${boardVo.idx}, '', 0)">
+							<span class="board-like_icon">
+								<c:if test="${empty boardLikesVo}">
+									<i class="fa-regular fa-lg fa-heart"></i>
+								</c:if>
+								<c:if test="${!empty boardLikesVo }">
+									<i class="fa-solid fa-lg fa-heart" style="color: red;"></i>
+								</c:if>
+							</span>
+							<span class="board-like_count">${boardVo.likeCount}</span>
+						</button>
+					</div>
+					<!-- 좋아요 끝 -->
+					
 				</div>
 				<div class="right">
 					<span id="share">
@@ -118,33 +156,85 @@
 					</span>
 				</div>
 			</div>
-			<hr>
 			<div id="comment">
 				<div id="cmt_list">
 					<c:if test="${!empty commentVos}">
-						<c:forEach var="cmtVo" items="${commentVos}" varStatus="st">
-							<div class="list">
-								<span id="cmt_member">${cmtVo.memberNickname}</span>
-								<span id="cmt_content">fn:replace(cmtVo.content, newLine, "<br/>")</span>
+						<c:forEach var="cmtVo" items="${commentVos}" varStatus="cmtSt">
+							<div class="cmt_item">
+								<div class="cmt_info">
+									<span class="cmt_info-icon"><i class="fa-solid fa-lg fa-circle-user"></i></span>
+									<span class="cmt_info-nickname">${cmtVo.memberNickname}</span>
+									<span class="cmt_info-time">
+										<c:if test="${cmtVo.createdAt == cmtVo.updateAt}">${fn:substring(cmtVo.createdAt,0,19)}</c:if>						
+										<c:if test="${cmtVo.createdAt != cmtVo.updateAt}"> ${fn:substring(cmtVo.updateAt,0,16)}(수정됨)</c:if>
+									</span>
+								</div>
+								<div class="cmt_content">${fn:replace(cmtVo.content, newLine, "<br/>")}</div>
 								<div class="low-bar">
-									<div class="left">
-										<span>답글 <b>${boardVo.commentCount}</b></span>
+									<div class="left">						
+										<button onclick="replyClick(${cmtVo.idx})">답글 <b>${boardVo.commentCount}</b></button>								
 									</div>
 									<div class="right">
-										<button onclick="likesCheck('comment', ${cmtVo.idx})">
-											<span class="like_icon">
-												<c:if test="${empty commentLikesVo}">
-													<i class="fa-regular fa-lg fa-heart"></i>
-												</c:if>
-												<c:if test="${!empty commentLikesVo}">
-													<i class="fa-solid fa-lg fa-heart" style="color: red;"></i>
-												</c:if>
-												<br/>좋아요	
-											</span>
-											<span class="like_count">${boardVo.likeCount}</span>
-										</button>
+									
+										<!-- 좋아요 -->
+										<div class="like">
+											<button onclick="likesCheck('comment', ${cmtVo.idx}, '${cmtSt.index}', ${boardVo.idx})">
+												<span class="comment-like_icon${cmtSt.index}">
+														<c:if test="${commentLikesVos[cmtSt.count].partIdx != cmtVo.idx}">
+															<i class="fa-regular fa-lg fa-heart"></i>
+														</c:if>
+														<c:if test="${commentLikesVos[cmtSt.count].partIdx == cmtVo.idx}">
+															<i class="fa-solid fa-lg fa-heart" style="color: red;"></i>
+														</c:if>
+												</span>
+												<span class="comment-like_count${cmtSt.index}" >${cmtVo.likeCount}</span>
+											</button>
+										</div>
+										<!-- 좋아요 끝 -->
+										
 									</div>
 								</div>
+								
+								<!-- 답글  -->
+								<div class="reply">
+											<c:forEach var="replyVos" items="${replyList}" varStatus="resplySt">
+												<c:if test="${!empty replyVos}">
+													<c:forEach var="replyVo" items="${replyVos[st.index]}">
+														<div class="reply_item">
+															<div class="cmt_info">
+																<span class="cmt_info-icon"><i class="fa-solid fa-lg fa-circle-user"></i></span>
+																<span class="cmt_info-nickname">${replyVo.memberNickname}</span>
+																<span class="cmt_info-time">
+																	<c:if test="${replyVo.createdAt == replyVo.updateAt}">${fn:substring(replyVo.createdAt,0,19)}</c:if>						
+																	<c:if test="${replyVo.createdAt != replyVo.updateAt}"> ${fn:substring(replyVo.updateAt,0,16)}(수정됨)</c:if>
+																</span>
+															</div>
+															<div class="cmt_content">${fn:replace(replyVo.content, newLine, "<br/>")}</div>
+															<div class="low-bar">
+																<div class="reply-like">
+																	<!-- 좋아요 -->
+																	<div class="like">
+																		<button onclick="likesCheck('comment', ${cmtVo.idx}, '${resplySt.index}', ${cmtSt.index})">
+																			<span class="comment-like_icon${resplySt.index}">
+																				<c:if test="${empty commentLikesVo}">
+																					<i class="fa-regular fa-lg fa-heart"></i>
+																				</c:if>
+																				<c:if test="${!empty commentLikesVo}">
+																					<i class="fa-solid fa-lg fa-heart" style="color: red;"></i>
+																				</c:if>
+																			</span>
+																			<span class="comment-like_count${resplySt.index}" >${boardVo.likeCount}</span>
+																		</button>
+																	</div>
+																	<!-- 좋아요 끝 -->
+																</div>
+															</div>
+														</div>
+													</c:forEach>
+												</c:if>
+											</c:forEach>
+										</div>
+										<!-- 답글 끝 -->
 							</div>
 						</c:forEach>
 					</c:if>

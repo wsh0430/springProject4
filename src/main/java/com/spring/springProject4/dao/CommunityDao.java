@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.spring.springProject4.vo.BoardVo;
 import com.spring.springProject4.vo.CategoryVo;
+import com.spring.springProject4.vo.CommentVo;
 import com.spring.springProject4.vo.LikesVo;
 
 @Mapper
@@ -27,12 +28,19 @@ public interface CommunityDao {
 	BoardVo getBoardContent(@Param("boardIdx") int boardIdx);
 
 	LikesVo getLikes(@Param("part") String part, @Param("partIdx") int partIdx, @Param("memberId") String memberId);
+	
+	List<LikesVo> getLikesVos(@Param("part") String part, @Param("parent") String parent, @Param("parentIdx") int parentIdx);
+	
+	List<CommentVo> getCommentVos(@Param("boardIdx") int boardIdx);
 
-	int setCreateLikes(@Param("part") String part, @Param("partIdx") int partIdx, @Param("memberId") String memberId);
+	List<CommentVo> getReplyList(@Param("parentIdx") int parentIdx);
+	
+	int setCreateLikes(@Param("part") String part, @Param("partIdx") int partIdx, @Param("memberId") String memberId, @Param("parent") String parent, @Param("parentIdx") int parentIdx);
 
 	int setDeleteLikes(@Param("idx") int idx);
 
-	int setUpdateboardLikeCnt(@Param("boardIdx") int boardIdx, @Param("n") int n);
+	int setUpdateLikeCnt(@Param("part") String part, @Param("partIdx") int partIdx, @Param("n") int n);
+
 	
 
 }

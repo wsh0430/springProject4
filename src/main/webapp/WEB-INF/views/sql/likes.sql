@@ -4,6 +4,8 @@ create table likes(
 	part				varchar(20) not null,						/* 게시글, 댓글 */
 	part_idx 		int not null,
 	created_at		datetime default now(),					/* 생성 날짜 */
+	parent			varchar(20) default null,				/* board, comment, . . .  */
+	parent_id		int default null,
 	
 	-- 여유 index
 	item_int1				int,

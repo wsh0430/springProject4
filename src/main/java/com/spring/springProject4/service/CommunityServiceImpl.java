@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.spring.springProject4.dao.CommunityDao;
 import com.spring.springProject4.vo.BoardVo;
 import com.spring.springProject4.vo.CategoryVo;
+import com.spring.springProject4.vo.CommentVo;
 import com.spring.springProject4.vo.LikesVo;
 
 @Service
@@ -40,10 +41,27 @@ public class CommunityServiceImpl implements CommunityService {
 	public LikesVo getLikes(String part, int partIdx, String memberId) {
 		return communityDao.getLikes(part, partIdx, memberId);
 	}
+	
+	@Override
+	public List<LikesVo> getLikesVos(String part, String parent, int parentIdx) {
+		return communityDao.getLikesVos(part, parent, parentIdx); 
+	}
+	
+	
+	@Override
+	public List<CommentVo> getCommentVos(int boardIdx) {
+		return communityDao.getCommentVos(boardIdx);
+	}
 
 	@Override
-	public int setCreateLikes(String part, int partIdx, String memberId) {
-		return communityDao.setCreateLikes(part, partIdx, memberId);
+	public List<CommentVo> getReplyList(int parentIdx) {
+		return communityDao.getReplyList(parentIdx);
+	}
+
+	
+	@Override
+	public int setCreateLikes(String part, int partIdx, String memberId, String parent, int parentIdx) {
+		return communityDao.setCreateLikes(part, partIdx, memberId, parent, parentIdx);
 	}
 
 	@Override
@@ -52,9 +70,9 @@ public class CommunityServiceImpl implements CommunityService {
 	}
 
 	@Override
-	public int setUpdateboardLikeCnt(int boardIdx, int n) {
-		return communityDao.setUpdateboardLikeCnt(boardIdx, n);
+	public int setUpdateLikeCnt(String part, int partIdx, int n) {
+		return communityDao.setUpdateLikeCnt(part, partIdx, n);
 		
 	}
-	
+
 }

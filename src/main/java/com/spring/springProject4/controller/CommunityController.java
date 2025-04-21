@@ -17,6 +17,7 @@ import com.spring.springProject4.dao.CommunityDao;
 import com.spring.springProject4.service.CommunityService;
 import com.spring.springProject4.vo.BoardVo;
 import com.spring.springProject4.vo.CategoryVo;
+import com.spring.springProject4.vo.CommentVo;
 import com.spring.springProject4.vo.LikesVo;
 import com.spring.springProject4.vo.PageVo;
 
@@ -42,10 +43,10 @@ public class CommunityController {
 		// 카테고리
 		List<CategoryVo> mainCtgyVos = communityService.getMainCategoryList();	// 메인 카테고리vos
 		List<CategoryVo> subCtgyVos = null; 
-		List<List<CategoryVo>> subCtgy = new ArrayList<>();	//서브 카테고리
+		List<List<CategoryVo>> subCtgyList = new ArrayList<>();	//서브 카테고리
 		for(int i = 0; i < mainCtgyVos.size(); i++) {
 			subCtgyVos = communityService.getSubCategoryList(mainCtgyVos.get(i).getName());	//서브 카테고리vos
-			subCtgy.add(subCtgyVos);
+			subCtgyList.add(subCtgyVos);
 		}
 
 		// 페이지
@@ -57,13 +58,14 @@ public class CommunityController {
 		
 		model.addAttribute("category", category);
 		model.addAttribute("mainCtgyVos", mainCtgyVos);
-		model.addAttribute("subCtgy", subCtgy);
+		model.addAttribute("subCtgy", subCtgyList);
 		model.addAttribute("boardVos", boardVos);
 		model.addAttribute("pageVo", pageVo);
 
 		return "community/main";
 	}
 	
+	@SuppressWarnings("null")
 	@RequestMapping(value="/cmtyContent", method=RequestMethod.GET)
 	public String cmtyContentGet(Model model, 
 			@RequestParam(name="boardIdx", defaultValue = "", required = false) int boardIdx,
@@ -75,33 +77,42 @@ public class CommunityController {
 		String memberId = "user123";	//나중에 session에 있는 값 꺼내오기
 		
 		BoardVo boardVo = communityService.getBoardContent(boardIdx);
-		CommentVo commentVos = communityService.getCommentVos(commentIdx);
+		
+		List<CommentVo> commentVos = communityService.getCommentVos(boardIdx);
+		List<CommentVo> replyVos = null; 
+		List<List<CommentVo>> replyList = new ArrayList<>();	//서브 카테고리
+		for(int i = 0; i < commentVos.size(); i++) {
+			replyVos = communityService.getReplyList(commentVos.get(i).getIdx());	//서브 카테고리vos
+			replyList.add(replyVos);
+		}
+		
 		LikesVo boardLikesVo = communityService.getLikes("board", boardIdx, memberId);
-		LikesVo commentLikesVo = communityService.getLikes("comment", boardIdx, memberId);
+		List<LikesVo> commentLikesVos = communityService.getLikesVos("comment", "board", boardIdx);	//comment, reply
 		
 		model.addAttribute("boardVo", boardVo);
 		model.addAttribute("commentVos", commentVos);
+		model.addAttribute("replyList", replyList);
 		model.addAttribute("pag", pag);
 		model.addAttribute("pageSize", pageSize);
 		model.addAttribute("search", search);
 		model.addAttribute("searchString", searchString);
 		model.addAttribute("boardLikesVo", boardLikesVo);
-		model.addAttribute("commentLikesVo", commentLikesVo);
+		model.addAttribute("commentLikesVos", commentLikesVos);
 		
 		return "community/content";
 	}
 	
 	@ResponseBody
 	@RequestMapping(value="/boardLikesCheck", method=RequestMethod.POST)
-	public int boardLikesCheck(int idx) {		
+	public int boardLikesCheck(int idx, int parentIdx) {		
 		String memberId = "user123";	//나중에 session에 있는 값 꺼내오기
 		LikesVo likesVo = communityService.getLikes("board", idx, memberId);
 
 		if(likesVo == null) {
 			System.out.println("실행됨null");
-			int cres = communityService.setCreateLikes("board", idx, memberId);
+			int cres = communityService.setCreateLikes("board", idx, memberId, "", parentIdx);
 			if(cres != 0) {
-				cres = communityService.setUpdateboardLikeCnt(idx, 1);
+				cres = communityService.setUpdateLikeCnt("board", idx, 1);
 			}
 			return 1;
 		}
@@ -109,7 +120,29 @@ public class CommunityController {
 			System.out.println("실행됨notnull");
 			int cres = communityService.setDeleteLikes(likesVo.getIdx());
 			if(cres != 0) {
-				cres = communityService.setUpdateboardLikeCnt(idx, -1);
+				cres = communityService.setUpdateLikeCnt("board", idx, -1);
+			}
+			return -1;
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/commentLikesCheck", method=RequestMethod.POST)
+	public int commentLikesCheck(int idx, int parentIdx) {		
+		String memberId = "user123";	//나중에 session에 있는 값 꺼내오기
+		LikesVo likesVo = communityService.getLikes("comment", idx, memberId);
+		
+		if(likesVo == null) {
+			int cres = communityService.setCreateLikes("comment", idx, memberId, "board", parentIdx);
+			if(cres != 0) {
+				cres = communityService.setUpdateLikeCnt("comment", idx, 1);
+			}
+			return 1;
+		}
+		else {
+			int cres = communityService.setDeleteLikes(likesVo.getIdx());
+			if(cres != 0) {
+				cres = communityService.setUpdateLikeCnt("comment", idx, -1);
 			}
 			return -1;
 		}

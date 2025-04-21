@@ -4,15 +4,18 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter
 @Setter
+@Getter
 @ToString
-public class LikesVo {
+public class CommentVo {
 	private int idx;
+	private int boardId;
 	private String memberId;
-	private String part;
-	private int partIdx;
+	private String memberNickname;
+	private String content;
+	private int reportCount;
+	private int likeCount;
 	private String createdAt;
-	private String parent;
+	private String updateAt;
 	private int parentId;
 }

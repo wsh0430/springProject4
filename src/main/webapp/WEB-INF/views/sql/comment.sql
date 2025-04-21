@@ -4,7 +4,8 @@ create table comment(
 	member_id				varchar(20) not null,
 	member_nickname	varchar(20) not null,
 	content					text not null,
-	comment_count		int default 0,							/* 신고 당한 수 */
+	report_count			int default 0,							/* 신고 당한 수 */
+	like_count				int default 0,
 	created_at				datetime default now(),				/* 생성 날짜 */
 	update_at				datetime default now(),				/* 수정 날짜 */
 	parent_id 				int default null,       					/* 값이 있으면 대댓글 */

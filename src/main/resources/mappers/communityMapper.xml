@@ -28,17 +28,32 @@
 		select * from likes where part = #{part} and part_idx = #{partIdx} and member_id = #{memberId};
 	</select>
 	
+	<select id="getLikesVos" resultType="com.spring.springProject4.vo.LikesVo">
+		select * from likes where part = #{part} and parent = #{parent} and parent_id = #{parentIdx};
+	</select>
+	
+	<select id="getCommentVos" resultType="com.spring.springProject4.vo.CommentVo">
+		select * from comment where board_id = #{boardIdx} and parent_id is null;
+	</select>
+	
+	<select id="getReplyList" resultType="com.spring.springProject4.vo.CommentVo">
+	 	select * from comment where parent_id = #{parentIdx};
+	</select>
+	
+	
+	
 	
 	
 	<insert id="setCreateLikes">
-		insert into likes values(default, #{memberId}, #{part}, #{partIdx}, default, default, default, default, default, default, default, default, default, default, default);
+		<if test="part == 'board'">insert into likes values(default, #{memberId}, #{part}, #{partIdx}, default, default, default, default, default, default, default, default, default, default, default, default);</if>
+		<if test="part == 'comment'">insert into likes values(default, #{memberId}, #{part}, #{partIdx}, default, #{parent}, #{parentIdx}, default, default, default, default, default, default, default, default, default, default);</if>
 	</insert>
 	
 	
 	
 	
-	<update id="setUpdateboardLikeCnt">
-		update board set like_count = like_count + #{n} where idx = #{boardIdx};
+	<update id="setUpdateLikeCnt">
+		update ${part} set like_count = like_count + #{n} where idx = #{partIdx};	
 	</update>
 	
 	
