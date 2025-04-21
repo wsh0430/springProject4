@@ -50,7 +50,7 @@
 	<task:scheduler id="jobScheduler" pool-size="10" />
 	<task:annotation-driven scheduler="jobScheduler" />
 	
-	<!-- Tiles 환경설정 -->
+	<!-- Tiles 환경설정  -->
 	<beans:bean id="tilesViewResolver"
 		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
 		<beans:property name="viewClass"

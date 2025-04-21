@@ -4,7 +4,7 @@
   "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
   
 <tiles-definitions>
-	<!-- community화면 tiles 적용 -->
+	<!-- community화면 tiles 적용  -->
 	<definition name="communityMain" template="/WEB-INF/views/community/layout/base.jsp">
 		<!-- <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp"></put-attribute>
 		<put-attribute name="nav" value="/WEB-INF/views/layout/nav.jsp"></put-attribute>
