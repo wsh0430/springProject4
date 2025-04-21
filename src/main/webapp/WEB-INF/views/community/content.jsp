@@ -12,15 +12,15 @@
     <script>
     	'use strict';
     	
-    	function boardLikesCheck() {
+    	function likesCheck(part, idx) {
     		let icon = $(".like_icon i");
     		let count = $(".like_count");
     		
 			$.ajax({
-				url: "${ctp}/community/boardLikesCheck",
+				url: "${ctp}/community/" + part + "LikesCheck",
 				type: "post",
 				data: {
-					boardIdx : ${boardVo.idx},
+					idx : idx,
 				},
 				success: function(res){
 					//lc.text(Number(lc.text()) + res);
@@ -65,6 +65,10 @@
     	#like button i{
     		color: red;
     	}
+    	.low-bar{
+    		display: flex;
+    		justify-content: space-between;
+    	}
     </style>
 </head>
 <body>
@@ -92,19 +96,62 @@
 			<div id="content">
 				${fn:replace(boardVo.content, newLine, "<br/>")}
 			</div>
-			<div id="like">
-				<button onclick="boardLikesCheck()">
-					<span class="like_icon">
-						<c:if test="${empty likesVo}">
-							<i class="fa-regular fa-lg fa-heart"></i>
-						</c:if>
-						<c:if test="${!empty likesVo }">
-							<i class="fa-solid fa-lg fa-heart" style="color: red;"></i>
-						</c:if>
-						<br/>좋아요	
+			<!-- right 공유/ -->
+			<div class="low-bar">
+				<div class="left">
+					<button onclick="likesCheck('board', ${boardVo.idx})">
+						<span class="like_icon">
+							<c:if test="${empty boardLikesVo}">
+								<i class="fa-regular fa-lg fa-heart"></i>
+							</c:if>
+							<c:if test="${!empty boardLikesVo }">
+								<i class="fa-solid fa-lg fa-heart" style="color: red;"></i>
+							</c:if>
+							<br/>좋아요	
+						</span>
+						<span class="like_count">${boardVo.likeCount}</span>
+					</button>
+				</div>
+				<div class="right">
+					<span id="share">
+						
 					</span>
-					<span class="like_count">${boardVo.likeCount}</span>
-				</button>
+				</div>
+			</div>
+			<hr>
+			<div id="comment">
+				<div id="cmt_list">
+					<c:if test="${!empty commentVos}">
+						<c:forEach var="cmtVo" items="${commentVos}" varStatus="st">
+							<div class="list">
+								<span id="cmt_member">${cmtVo.memberNickname}</span>
+								<span id="cmt_content">fn:replace(cmtVo.content, newLine, "<br/>")</span>
+								<div class="low-bar">
+									<div class="left">
+										<span>답글 <b>${boardVo.commentCount}</b></span>
+									</div>
+									<div class="right">
+										<button onclick="likesCheck('comment', ${cmtVo.idx})">
+											<span class="like_icon">
+												<c:if test="${empty commentLikesVo}">
+													<i class="fa-regular fa-lg fa-heart"></i>
+												</c:if>
+												<c:if test="${!empty commentLikesVo}">
+													<i class="fa-solid fa-lg fa-heart" style="color: red;"></i>
+												</c:if>
+												<br/>좋아요	
+											</span>
+											<span class="like_count">${boardVo.likeCount}</span>
+										</button>
+									</div>
+								</div>
+							</div>
+						</c:forEach>
+					</c:if>
+				</div>
+				<div id="comment_input">
+				
+				</div>
 			</div>
 		</div>
 	</div>

@@ -2,6 +2,7 @@ create table comment(
 	idx						int not null auto_increment,
 	board_id				int not null, 
 	member_id				varchar(20) not null,
+	member_nickname	varchar(20) not null,
 	content					text not null,
 	comment_count		int default 0,							/* 신고 당한 수 */
 	created_at				datetime default now(),				/* 생성 날짜 */
