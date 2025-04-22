@@ -14,6 +14,10 @@
           AND year = #{year}
     </select>
 
+
+
+
+
     <insert id="insertPlayerStats">
         INSERT INTO hitter_stats (
             player, team_logo, position, year, games, tasuk, at_bats, runs,
@@ -29,7 +33,12 @@
             #{dto.avg}, #{dto.obp}, #{dto.slg}, #{dto.ops}, #{dto.war}
         )
     </insert>
-
+    
+    
+    
+    
+    
+    
     <update id="updatePlayerStats">
         UPDATE hitter_stats SET
             team_logo = #{dto.teamLogo},
@@ -59,4 +68,6 @@
           AND position = #{dto.position}
           AND year = #{dto.year}
     </update>
+
+
 </mapper>

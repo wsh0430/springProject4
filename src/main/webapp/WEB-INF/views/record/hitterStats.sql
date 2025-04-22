@@ -1,6 +1,6 @@
 CREATE TABLE hitter_stats (
     id INT AUTO_INCREMENT PRIMARY KEY, /*mid(넣긴하는데 프론트에 보이진않게해야함)*/
-    player VARCHAR(5),	/*선수명*/
+    player VARCHAR(15),	/*선수명*/
     team_logo VARCHAR(200),	/*팀로고*/
     position VARCHAR(5), /*선수포지션*/
     year SMALLINT(5),/*년도*/
