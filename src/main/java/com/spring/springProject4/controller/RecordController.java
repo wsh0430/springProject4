@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.springProject4.dto.PitcherRecordDto;
+import com.spring.springProject4.dto.PitcherTotalRecordDto;
 import com.spring.springProject4.dto.PlayerRecordDto;
 import com.spring.springProject4.dto.PlayerTotalRecordDto;
 import com.spring.springProject4.service.PitcherRecordService;
+import com.spring.springProject4.service.PitcherTotalRecordService;
 import com.spring.springProject4.service.PlayerRecordService;
 import com.spring.springProject4.service.PlayerTotalRecordService;
 
@@ -37,6 +39,9 @@ public class RecordController {
 	
 	@Autowired
 	private PlayerTotalRecordService playerTotalRecordService;
+	
+	@Autowired
+	private PitcherTotalRecordService pitcherTotalRecordService;
 	
 	@RequestMapping("/recordMain")
 	public String recordget() {
@@ -314,6 +319,98 @@ public class RecordController {
 	                        dto.setTotalBases(totalBases);
 
 	                        playerTotalRecordService.savePlayerRecord(dto);  // 메서드명도 수정됨
+	                        recordList.add(dto);
+	                    } catch (Exception e) {
+	                        System.err.println("[" + startYear + "][" + sortOptions + "] 파싱 오류: " + e.getMessage());
+	                        continue;
+	                    }
+	                }
+	            }
+	        
+	    } catch (InterruptedException e1) {
+	        e1.printStackTrace();
+	    } finally {
+	        driver.quit();
+	    }
+
+	    return recordList;
+	}
+	
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "/PitcherTotalRecord", method = RequestMethod.POST)
+	public List<PitcherTotalRecordDto> PitcherTotalPostAndSave(
+	    @RequestParam("startYearTotalPic") int startYear,
+	    @RequestParam("orderByTotalPic") String orderBy,
+	    @RequestParam("endYearTotalPic") int endYear,
+	    @RequestParam("sortOptionsTotalPic") String sortOptions,
+	    @RequestParam("teamTotalPic") String team
+	) throws IOException {
+	    List<PitcherTotalRecordDto> recordList = new ArrayList<>();
+
+	    ChromeOptions options = new ChromeOptions();
+	    options.addArguments("--headless", "--disable-gpu", "--no-sandbox", "--disable-dev-shm-usage");
+
+	    WebDriverManager.chromedriver().setup();
+	    WebDriver driver = new ChromeDriver(options);
+
+	    try {
+	        
+	            String url = "https://statiz.sporki.com/stats/?m=total&m2=pitching&m3=default"
+	                    + "&so=" + sortOptions
+	                    + "&ob=" + orderBy
+                      + "&sy=" + startYear
+                      + "&ey=" + endYear
+	                    + "&te=" + team
+	                    + "&reg=R";
+	            System.out.println(url);
+	            driver.get(url);
+	            Thread.sleep(5500);
+
+	            List<WebElement> rows = driver.findElements(By.cssSelector("table tbody tr"));
+
+	            for (WebElement row : rows) {
+	                List<WebElement> tds = row.findElements(By.tagName("td"));
+	                if (tds.size() > 10) {
+	                    try {
+	                        String player = tds.get(1).getText().trim();
+	                        WebElement teamTd = tds.get(2);
+	                        List<WebElement> spans = teamTd.findElements(By.tagName("span"));
+	                        String yearText = spans.get(0).getText().trim();
+	                        String teamLogo = spans.get(1).getText().trim();
+
+	                        PitcherTotalRecordDto dto = new PitcherTotalRecordDto();
+	                        dto.setPlayer(player);
+	                        dto.setTeamLogo(teamLogo);
+	                        dto.setYear(yearText);
+	                        dto.setWar(Float.parseFloat(tds.get(3).getText().trim()));
+	                        dto.setGamesP(Integer.parseInt(tds.get(4).getText().trim()));
+	                        dto.setGamesStart(Integer.parseInt(tds.get(5).getText().trim()));
+	                        dto.setCompleteGames(Integer.parseInt(tds.get(8).getText().trim()));
+	                        dto.setShutouts(Integer.parseInt(tds.get(9).getText().trim()));
+	                        dto.setWins(Integer.parseInt(tds.get(10).getText().trim()));
+	                        dto.setLosses(Integer.parseInt(tds.get(11).getText().trim()));
+	                        dto.setSaves(Integer.parseInt(tds.get(12).getText().trim()));
+	                        dto.setHolds(Integer.parseInt(tds.get(13).getText().trim()));
+	                        dto.setInnings(Float.parseFloat(tds.get(14).getText().trim()));
+	                        dto.setEarnedRuns(Integer.parseInt(tds.get(15).getText().trim()));
+	                        dto.setRunsAllowed(Integer.parseInt(tds.get(16).getText().trim()));
+	                        dto.setHitsAllowed(Integer.parseInt(tds.get(19).getText().trim()));
+	                        dto.setHomeRunsAllowed(Integer.parseInt(tds.get(22).getText().trim()));
+	                        int bb = Integer.parseInt(tds.get(23).getText().trim())
+	                                 + Integer.parseInt(tds.get(24).getText().trim())
+	                                 + Integer.parseInt(tds.get(25).getText().trim());
+	                        dto.setBbAllowed(bb);
+	                        dto.setStrikeouts(Integer.parseInt(tds.get(26).getText().trim()));
+	                        dto.setBalks(Integer.parseInt(tds.get(28).getText().trim()));
+	                        dto.setWildPitches(Integer.parseInt(tds.get(29).getText().trim()));
+	                        
+	                        dto.setEra(Float.parseFloat(tds.get(30).getText().trim()));
+	                        dto.setFip(Float.parseFloat(tds.get(34).getText().trim()));
+	                        dto.setWhip(Float.parseFloat(tds.get(35).getText().trim()));
+
+	                        pitcherTotalRecordService.savePitcherRecord(dto);
 	                        recordList.add(dto);
 	                    } catch (Exception e) {
 	                        System.err.println("[" + startYear + "][" + sortOptions + "] 파싱 오류: " + e.getMessage());

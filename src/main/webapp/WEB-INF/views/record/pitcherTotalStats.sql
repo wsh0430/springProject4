@@ -13,7 +13,7 @@ CREATE TABLE pitcher_total_stats (
     losses SMALLINT,                             -- 패 (L)
     saves SMALLINT,                              -- 세이브 (S)
     holds SMALLINT,                              -- 홀드 (HD)
-    innings FLOAT(5,2),                          -- 이닝 (IP)
+    innings FLOAT(10,2),                          -- 이닝 (IP)
     earned_runs SMALLINT,                        -- 자책점 (ER)
     runs_allowed SMALLINT,                               -- 실점 (R)
     hits_allowed SMALLINT,                       -- 피안타 (H)

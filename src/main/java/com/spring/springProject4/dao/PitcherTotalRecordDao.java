@@ -10,7 +10,7 @@ import com.spring.springProject4.dto.PlayerTotalRecordDto;
 
 public interface PitcherTotalRecordDao {
 
-    // 중복 여부 확인 (선수명, 년도, WAR 기준)
+    // 중복 여부 확인 (선수명, 년도기준)
 		PlayerTotalRecordDto findExistingPitcherRecord(
         @Param("player") String player,
         @Param("year") String year
@@ -23,4 +23,6 @@ public interface PitcherTotalRecordDao {
 
     // 모든 투수 기록 조회
     List<PitcherTotalRecordDto> getAllPitcherStats();
+    
+    
 }
