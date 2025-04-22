@@ -45,7 +45,7 @@
 	
 	
 	<insert id="setCreateLikes">
-		<if test="part == 'board'">insert into likes values(default, #{memberId}, #{part}, #{partIdx}, default, default, default, default, default, default, default, default, default, default, default, default);</if>
+		<if test="part == 'board'">insert into likes values(default, #{memberId}, #{part}, #{partIdx}, default, default, default, default, default, default, default, default, default, default, default, default, default);</if>
 		<if test="part == 'comment'">insert into likes values(default, #{memberId}, #{part}, #{partIdx}, default, #{parent}, #{parentIdx}, default, default, default, default, default, default, default, default, default, default);</if>
 	</insert>
 	

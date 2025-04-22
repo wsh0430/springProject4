@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.springProject4.common.Pagination;
+import com.spring.springProject4.common.SetArrayList;
 import com.spring.springProject4.dao.CommunityDao;
 import com.spring.springProject4.service.CommunityService;
 import com.spring.springProject4.vo.BoardVo;
@@ -80,14 +81,16 @@ public class CommunityController {
 		
 		List<CommentVo> commentVos = communityService.getCommentVos(boardIdx);
 		List<CommentVo> replyVos = null; 
-		List<List<CommentVo>> replyList = new ArrayList<>();	//서브 카테고리
+		List<List<CommentVo>> replyList = new ArrayList<>();	
 		for(int i = 0; i < commentVos.size(); i++) {
-			replyVos = communityService.getReplyList(commentVos.get(i).getIdx());	//서브 카테고리vos
+			replyVos = communityService.getReplyList(commentVos.get(i).getIdx());	
 			replyList.add(replyVos);
 		}
 		
 		LikesVo boardLikesVo = communityService.getLikes("board", boardIdx, memberId);
 		List<LikesVo> commentLikesVos = communityService.getLikesVos("comment", "board", boardIdx);	//comment, reply
+		List<LikesVo> commentLikesTest = SetArrayList.setArrayListToPartIdx(commentLikesVos, commentVos.size());
+
 		
 		model.addAttribute("boardVo", boardVo);
 		model.addAttribute("commentVos", commentVos);
@@ -97,7 +100,7 @@ public class CommunityController {
 		model.addAttribute("search", search);
 		model.addAttribute("searchString", searchString);
 		model.addAttribute("boardLikesVo", boardLikesVo);
-		model.addAttribute("commentLikesVos", commentLikesVos);
+		model.addAttribute("commentLikesVos", commentLikesTest);
 		
 		return "community/content";
 	}
