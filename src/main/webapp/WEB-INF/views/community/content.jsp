@@ -180,10 +180,10 @@
 										<div class="like">
 											<button onclick="likesCheck('comment', ${cmtVo.idx}, '${cmtSt.index}', ${boardVo.idx})">
 												<span class="comment-like_icon${cmtSt.index}">
-														<c:if test="${empty commentLikesVos[cmtSt.index]}">
+														<c:if test="${empty cmtLikesVos[cmtSt.index]}">
 															<i class="fa-regular fa-lg fa-heart"></i>
 														</c:if>
-														<c:if test="${!empty commentLikesVos[cmtSt.index]}">
+														<c:if test="${!empty cmtLikesVos[cmtSt.index]}">
 															<i class="fa-solid fa-lg fa-heart" style="color: red;"></i>
 														</c:if>
 												</span>
@@ -216,10 +216,10 @@
 																	<div class="like">
 																		<button onclick="likesCheck('comment', ${cmtVo.idx}, '${resplySt.index}', ${cmtSt.index})">
 																			<span class="comment-like_icon${resplySt.index}">
-																				<c:if test="${empty commentLikesVo}">
+																				<c:if test="${empty cmtLikesVos[cmtSt.index]}">
 																					<i class="fa-regular fa-lg fa-heart"></i>
 																				</c:if>
-																				<c:if test="${!empty commentLikesVo}">
+																				<c:if test="${!empty cmtLikesVos[cmtSt.index]}">
 																					<i class="fa-solid fa-lg fa-heart" style="color: red;"></i>
 																				</c:if>
 																			</span>

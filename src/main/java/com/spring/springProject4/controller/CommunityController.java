@@ -88,8 +88,8 @@ public class CommunityController {
 		}
 		
 		LikesVo boardLikesVo = communityService.getLikes("board", boardIdx, memberId);
-		List<LikesVo> commentLikesVos = communityService.getLikesVos("comment", "board", boardIdx);	//comment, reply
-		List<LikesVo> commentLikesTest = SetArrayList.setArrayListToPartIdx(commentLikesVos, commentVos.size());
+		List<LikesVo> cmtLikesTemp = communityService.getLikesVos("comment", "board", boardIdx);	//comment, reply
+		List<LikesVo> cmtLikesVos = SetArrayList.setArrayListToPartIdx(cmtLikesTemp, commentVos.size());
 
 		
 		model.addAttribute("boardVo", boardVo);
@@ -100,7 +100,7 @@ public class CommunityController {
 		model.addAttribute("search", search);
 		model.addAttribute("searchString", searchString);
 		model.addAttribute("boardLikesVo", boardLikesVo);
-		model.addAttribute("commentLikesVos", commentLikesTest);
+		model.addAttribute("cmtLikesVos", cmtLikesVos);
 		
 		return "community/content";
 	}
