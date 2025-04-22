@@ -1,10 +1,10 @@
-CREATE TABLE pitcher_stats (
+CREATE TABLE pitcher_total_stats (
     id INT AUTO_INCREMENT PRIMARY KEY,          -- 내부용 PK (프론트에 노출 X)
     player VARCHAR(15),                         -- 선수명
     team_logo VARCHAR(200),                     -- 팀 로고 URL
-    year SMALLINT(5),                           -- 연도
+    year VARCHAR(5),                           -- 연도(통산은 +가 들어가므로 varchar)
 
-    war FLOAT(5,3),                              -- WAR
+    war FLOAT(5,2),                              -- WAR
     games_p SMALLINT,                              -- 경기수 (G)
     games_start SMALLINT,                        -- 선발 (GS)
     complete_games SMALLINT,                     -- 완투 (CG)
@@ -28,4 +28,4 @@ CREATE TABLE pitcher_stats (
     whip FLOAT(5,2)                              -- WHIP
 );
 
-drop table pitcher_stats;
+drop table pitcher_total_stats;
