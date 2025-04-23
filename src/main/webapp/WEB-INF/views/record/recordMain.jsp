@@ -394,6 +394,84 @@
             }
         });
     }
+		
+		
+ // 팀(투수)
+    function teamPitcherRecord() {
+        $("#spinnerIcon").show();
+
+        let teamssortOptionsPic = $("#teamssortOptionsPic").val();
+        let teamsorderByPic = $("#teamsorderByPic").val();
+        let teamsstartYearPic = $("#teamsstartYearPic").val();
+        let teamsendYearPic = $("#teamsendYearPic").val();
+        let teamsteamPic = $("#teamsteamPic").val();
+        let teamspositionOrderPic = $("#teamspositionOrderPic").val();
+
+        $.ajax({
+            url: "TeamPitcherRecord",
+            type: "post",
+            data: {
+                teamssortOptionsPic: teamssortOptionsPic,
+                teamsorderByPic: teamsorderByPic,
+                teamsstartYearPic: teamsstartYearPic,
+                teamsendYearPic: teamsendYearPic,
+                teamsteamPic: teamsteamPic,
+                teamspositionOrderPic: teamspositionOrderPic
+            },
+            success: function(vos) {
+                if (vos.length > 0) {
+                    let str = '<table class="table table-bordered text-center align-middle">';
+                    str += '<tr class="table-warning">';
+                    str += '<th>팀명</th><th>로고</th><th>연도</th><th>WAR</th><th>경기</th><th>선발</th><th>완투</th>';
+                    str += '<th>완봉</th><th>승</th><th>패</th><th>세이브</th><th>홀드</th>';
+                    str += '<th>이닝</th><th>자책</th><th>실점</th><th>피안타</th><th>피홈런</th>';
+                    str += '<th>볼넷</th><th>삼진</th><th>보크</th><th>폭투</th>';
+                    str += '<th>ERA</th><th>FIP</th><th>WHIP</th>';
+                    str += '</tr>';
+
+                    for (let i = 0; i < vos.length; i++) {
+                        str += '<tr>';
+                        str += '<td>' + vos[i].teamName + '</td>';
+                        str += '<td><img src="' + vos[i].teamLogo + '" alt="로고" width="30"></td>';
+                        str += '<td>' + vos[i].year + '</td>';
+                        str += '<td>' + vos[i].war + '</td>';
+                        str += '<td>' + vos[i].gamesP + '</td>';
+                        str += '<td>' + vos[i].gamesStart + '</td>';
+                        str += '<td>' + vos[i].completeGames + '</td>';
+                        str += '<td>' + vos[i].shutouts + '</td>';
+                        str += '<td>' + vos[i].wins + '</td>';
+                        str += '<td>' + vos[i].losses + '</td>';
+                        str += '<td>' + vos[i].saves + '</td>';
+                        str += '<td>' + vos[i].holds + '</td>';
+                        str += '<td>' + vos[i].innings + '</td>';
+                        str += '<td>' + vos[i].earnedRuns + '</td>';
+                        str += '<td>' + vos[i].runsAllowed + '</td>';
+                        str += '<td>' + vos[i].hitsAllowed + '</td>';
+                        str += '<td>' + vos[i].homeRunsAllowed + '</td>';
+                        str += '<td>' + vos[i].bbAllowed + '</td>';
+                        str += '<td>' + vos[i].strikeouts + '</td>';
+                        str += '<td>' + vos[i].balks + '</td>';
+                        str += '<td>' + vos[i].wildPitches + '</td>';
+                        str += '<td>' + vos[i].era.toFixed(2) + '</td>';
+                        str += '<td>' + vos[i].fip.toFixed(2) + '</td>';
+                        str += '<td>' + vos[i].whip.toFixed(2) + '</td>';
+                        str += '</tr>';
+                    }
+
+                    str += '</table>';
+                    $("#demo").html(str);
+                } else {
+                    $("#demo").html("검색된 자료가 없습니다.");
+                }
+
+                $("#spinnerIcon").hide();
+            },
+            error: function() {
+                alert("전송 오류!");
+                $("#spinnerIcon").hide();
+            }
+        });
+    }
 </script>
 </head>
 <body>
@@ -833,6 +911,80 @@
 	        </span>
 	    </div>
 	</div>
+	
+	<div class="input-group mb-3">
+    <div class="input-group-text">팀 투수 기록 조회</div>
+
+    <label for="teamssortOptionsPic">정렬 기준 선택:</label>
+    <select id="teamssortOptionsPic" name="teamssortOptionsPic" class="form-select">
+        <option value="WAR">WAR</option>
+        <option value="G">경기수</option>
+        <option value="GS">선발</option>
+        <option value="CG">완투</option>
+        <option value="SHO">완봉</option>
+        <option value="W">승</option>
+        <option value="L">패</option>
+        <option value="SV">세이브</option>
+        <option value="HLD">홀드</option>
+        <option value="IP">이닝</option>
+        <option value="ER">자책</option>
+        <option value="R">실점</option>
+        <option value="H">피안타</option>
+        <option value="HR">피홈런</option>
+        <option value="BB">볼넷</option>
+        <option value="SO">삼진</option>
+        <option value="BK">보크</option>
+        <option value="WP">폭투</option>
+        <option value="ERA">ERA</option>
+        <option value="FIP">FIP</option>
+        <option value="WHIP">WHIP</option>
+        <option value="year">연도</option>
+    </select>
+
+    <label for="teamsorderByPic">정렬 방향:</label>
+    <select id="teamsorderByPic" name="teamsorderByPic" class="form-select">
+        <option value="DESC" selected>내림차순</option>
+        <option value="ASC">오름차순</option>
+    </select>
+
+    <label for="teamsteamPic">팀 선택:</label>
+    <select id="teamsteamPic" class="form-select">
+        <option value="">전체</option>
+        <option value="9002">SSG</option>
+        <option value="5002">LG</option>
+        <option value="12001">KT</option>
+        <option value="11001">NC</option>
+        <option value="2002">KIA</option>
+        <option value="1001">삼성</option>
+        <option value="6002">두산</option>
+        <option value="3001">롯데</option>
+        <option value="7002">한화</option>
+        <option value="10001">키움</option>
+    </select>
+
+    <label for="teamspositionOrderPic">포지션:</label>
+    <select id="teamspositionOrderPic" class="form-select">
+        <option value="">전체</option>
+        <option value="1">투수</option>
+        <!-- 필요시 다른 포지션도 추가 -->
+    </select>
+
+    <label for="teamsstartYearPic">시작 년도:</label>
+    <select id="teamsstartYearPic" class="form-select">
+        <c:forEach var="t" begin="1982" end="2025">
+            <option value="${t}">${t}</option>
+        </c:forEach>
+    </select>
+
+    <label for="teamsendYearPic">종료 년도:</label>
+    <select id="teamsendYearPic" class="form-select">
+        <c:forEach var="t" begin="1982" end="2025">
+            <option value="${t}" <c:if test="${t == 2025}">selected</c:if>>${t}</option>
+        </c:forEach>
+    </select>
+
+    <button type="button" class="btn btn-primary" onclick="teamPitcherRecord()">조회</button>
+</div>
   
 </div>
 <p><br/></p>

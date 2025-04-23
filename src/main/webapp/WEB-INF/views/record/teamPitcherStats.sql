@@ -1,6 +1,6 @@
-CREATE TABLE pitcher_stats (
+CREATE TABLE team_pitcher_stats (
     id INT AUTO_INCREMENT PRIMARY KEY,          -- 내부용 PK (프론트에 노출 X)
-    player VARCHAR(15),                         -- 선수명
+    team_name VARCHAR(15),                         -- 선수명
     team_logo VARCHAR(200),                     -- 팀 로고 URL
     year SMALLINT(5),                           -- 연도
 
@@ -13,7 +13,7 @@ CREATE TABLE pitcher_stats (
     losses SMALLINT,                             -- 패 (L)
     saves SMALLINT,                              -- 세이브 (S)
     holds SMALLINT,                              -- 홀드 (HD)
-    innings FLOAT(5,2),                          -- 이닝 (IP)
+    innings FLOAT(10,2),                          -- 이닝 (IP)
     earned_runs SMALLINT,                        -- 자책점 (ER)
     runs_allowed SMALLINT,                               -- 실점 (R)
     hits_allowed SMALLINT,                       -- 피안타 (H)
@@ -28,4 +28,4 @@ CREATE TABLE pitcher_stats (
     whip FLOAT(5,2)                              -- WHIP
 );
 
-drop table pitcher_stats;
+drop table team_pitcher_stats;
