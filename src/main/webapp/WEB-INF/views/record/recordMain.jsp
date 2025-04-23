@@ -345,9 +345,9 @@
                     str += '<tr class="table-warning">';
                     str += '<th>팀명</th><th>로고</th><th>연도</th><th>WAR</th>';
                     str += '<th>경기</th><th>타석</th><th>타수</th><th>득점</th><th>안타</th>';
-                    str += '<th>2루타</th><th>3루타</th><th>홈런</th><th>타점</th><th>도루</th>';
+                    str += '<th>2루타</th><th>3루타</th><th>루타</th><th>홈런</th><th>타점</th><th>도루</th>';
                     str += '<th>도루실패</th><th>사사구</th><th>삼진</th><th>병살</th>';
-                    str += '<th>희생타</th><th>희생플라이</th><th>타율</th><th>출루율</th><th>장타율</th><th>OPS</th><th>루타</th>';
+                    str += '<th>희생타</th><th>희생플라이</th><th>타율</th><th>출루율</th><th>장타율</th><th>OPS</th>';
                     str += '</tr>';
 
                     for (let i = 0; i < vos.length; i++) {
@@ -363,6 +363,7 @@
                         str += '<td>' + vos[i].hits + '</td>';
                         str += '<td>' + vos[i].doubles + '</td>';
                         str += '<td>' + vos[i].triples + '</td>';
+                        str += '<td>' + vos[i].totalBases + '</td>';
                         str += '<td>' + vos[i].homeRuns + '</td>';
                         str += '<td>' + vos[i].rbi + '</td>';
                         str += '<td>' + vos[i].stolenBases + '</td>';
@@ -376,7 +377,6 @@
                         str += '<td>' + vos[i].obp.toFixed(3) + '</td>';
                         str += '<td>' + vos[i].slg.toFixed(3) + '</td>';
                         str += '<td>' + vos[i].ops.toFixed(3) + '</td>';
-                        str += '<td>' + vos[i].totalBases + '</td>';
                         str += '</tr>';
                     }
 
