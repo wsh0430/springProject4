@@ -15,11 +15,11 @@
 		<put-attribute name="ad_top" value="/WEB-INF/views/community/layout/ad_tb.jsp"></put-attribute>
 		<put-attribute name="ad_bottom" value="/WEB-INF/views/community/layout/ad_tb.jsp"></put-attribute>
 	</definition>
-	<definition name="*/*" extends="communityMain">
-		<put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
+	<definition name="community/*" extends="communityMain">
+		<put-attribute name="body" value="/WEB-INF/views/community/{1}.jsp" />
 	</definition>
-	<definition name="*/*/*" extends="communityMain">
-		<put-attribute name="body" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
+	<definition name="community/*/*" extends="communityMain">
+		<put-attribute name="body" value="/WEB-INF/views/community/{1}/{2}.jsp" />
 	</definition>
 	
 </tiles-definitions>
