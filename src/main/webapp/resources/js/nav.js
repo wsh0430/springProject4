@@ -24,18 +24,31 @@
 		    e.preventDefault();
 		    showSidebar('team');
 		  });
-		
+		 });
+		 
+		/* 사이드바 스크립트 */
 		  function showSidebar(type) {
-		    const playerSidebar = document.getElementById("sidebar-player");
-		    const teamSidebar = document.getElementById("sidebar-team");
-		
-		    playerSidebar.style.display = 'none';
-		    teamSidebar.style.display = 'none';
-		
-		    if (type === 'player') {
-		      playerSidebar.style.display = 'block';
-		    } else if (type === 'team') {
-		      teamSidebar.style.display = 'block';
-		    }
-		  }
-});
+			  const currentPath = window.location.pathname;
+			
+			  // 🚫 로그인 또는 회원가입 페이지라면 실행 안 함
+			  if (
+					currentPath.includes("/member/memberLogin") || 
+					currentPath.includes("/member/memberJoin")
+					) {
+			    return;
+			  }
+			
+			  const playerSidebar = document.getElementById("sidebar-player");
+			  const teamSidebar = document.getElementById("sidebar-team");
+			  
+			  if (!playerSidebar || !teamSidebar) return;
+			
+			  playerSidebar.style.display = 'none';
+			  teamSidebar.style.display = 'none';
+			
+			  if (type === 'player') {
+			    playerSidebar.style.display = 'block';
+			  } else if (type === 'team') {
+			    teamSidebar.style.display = 'block';
+			  }
+			}

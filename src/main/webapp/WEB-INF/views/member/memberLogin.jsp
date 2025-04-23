@@ -26,19 +26,23 @@
 				    <td><input type="password" name="pwd" id="pwd" placeholder="비밀번호를 입력하세요." required class="loginInput" /></td>
 				  </tr>
 				  <tr>
-				    <td colspan="2" class="loginOptions">
-				      <label><input type="checkbox" name="idSave" checked /> 로그인 상태 유지</label>
-				    </td>
-				  </tr>
+					  <td colspan="2" class="loginOptions">
+					    <label class="switch">
+					      <input type="checkbox" id="idSave" name="idSave" />
+					      <span class="slider"></span>
+					      <span class="toggle-text">로그인 상태 유지</span>
+					    </label>
+					  </td>
+					</tr>
 				</table>
+				<div class="loginSubmit">
+				  <input type="submit" value="Login" class="loginBtn"/>
+				</div>	
 				<div class="loginLinks">
 				      <a href="javascript:midSearch()">아이디 찾기</a> |
 				      <a href="javascript:pwdSearch()">비밀번호 찾기</a> |
 				      <a href="javascript:memberJoin()">회원가입</a>
 				</div>
-				<div class="loginSubmit">
-				  <input type="submit" value="로그인" class="loginBtn"/>
-				</div>	
 				
 				<!-- 소셜 간편 로그인 -->
 		    <div class="social-buttons">

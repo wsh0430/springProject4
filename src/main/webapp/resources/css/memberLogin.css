@@ -45,13 +45,73 @@
 	  box-sizing: border-box;
 	}
 	
-	/* 옵션 (체크박스 등) */
+	/* 전체 줄 스타일 */
 	.loginOptions {
-	  padding: 10px 0;
-	  text-align: left;
-	  font-size: 14px;
+	  text-align: right;  /* ✅ 오른쪽 정렬 */
+	  padding: 15px 10px;
+	}
+	/* 전체 라벨 스위치 박스 */
+	.switch {
+	  display: flex;
+	  align-items: center;
+	  gap: 12px;
+	  margin-left: auto;        /* flexbox 내 오른쪽 정렬 */
+  	justify-content: flex-end;
+	  cursor: pointer;
+	  user-select: none;
 	}
 	
+	/* 실제 체크박스 숨기기 */
+	.switch input[type="checkbox"] {
+	  display: none;
+	}
+	
+	/* 슬라이더 (스위치 버튼) */
+	.slider {
+	  position: relative;
+	  width: 50px;
+	  height: 26px;
+	  background-color: #ccc;
+	  border-radius: 34px;
+	  transition: background-color 0.3s;
+	}
+	
+	/* 동그란 슬라이드 버튼 */
+	.slider::before {
+	  content: "";
+	  position: absolute;
+	  width: 22px;
+	  height: 22px;
+	  left: 2px;
+	  top: 2px;
+	  background-color: white;
+	  border-radius: 50%;
+	  transition: transform 0.3s;
+	  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+	}
+	
+	/* ✅ 체크 시 배경 및 위치 변경 */
+	.switch input[type="checkbox"]:checked + .slider {
+	  background-color: #4CAF50;
+	}
+	
+	.switch input[type="checkbox"]:checked + .slider::before {
+	  transform: translateX(24px);
+	}
+	
+	/* 텍스트 스타일 */
+	.toggle-text {
+	  font-size: 15px;
+	  color: #555;
+	  transition: all 0.3s;
+	}
+	
+	/* ✅ 체크 시 텍스트 강조 */
+	.switch input[type="checkbox"]:checked ~ .toggle-text {
+	  color: #4CAF50;
+	  font-weight: bold;
+	}
+		
 	/* 링크들 */
 	.loginLinks {
 		
