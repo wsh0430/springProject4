@@ -6,7 +6,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>recordMain.jsp</title>
+	<title>recordCrawl.jsp</title>
 	<jsp:include page="/WEB-INF/views/include/bs5.jsp" />
 	<script>
 		'use strict';
