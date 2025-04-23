@@ -1,17 +1,29 @@
 create table game(
 	idx						int not null auto_increment,
-	game_id					varchar() not null,				/* 게임 고유번호 */
+	game_id					varchar(50) not null,				/* 게임 고유번호 */
 	lineup_id				int not null,	
 	team1_id				int not null,
 	team2_id				int not null,
 	team1_score			int default 0,
 	team2_score			int default 0,
-	status					varchar() default '예정',			/* 예정, 진행중, 종료 */
-	winner					varchar(),
-	stadium_id				varchar() not null,				/* 구장 id */
+	status					varchar(10) default '예정',		/* 예정, 진행중, 종료 */
+	winner					varchar(20),
+	stadium_id				int not null,							/* 구장 id */
 	play_date				datetime not null,					/* 경기 일자 */
 	start_at					datetime,								/* 경기 시작 시간 */
 	end_at					datetime									/* 경기 종료 시간 */
+	
+	-- 여유 index
+	item_int1				int,
+	item_int2				int,
+	item_int3				int,
+	item_varchar			varchar(100),
+	item_varchar2			varchar(100),
+	item_varchar3			varchar(100),
+	item_text				text,
+	item_datetime1			datetime,
+	item_datetime2		datetime,
+	item_tinyint			tinyint,
 	
 	primary key (idx),
     foreign key (member_id) references member(member_id),
