@@ -20,10 +20,12 @@ import com.spring.springProject4.dto.PitcherRecordDto;
 import com.spring.springProject4.dto.PitcherTotalRecordDto;
 import com.spring.springProject4.dto.PlayerRecordDto;
 import com.spring.springProject4.dto.PlayerTotalRecordDto;
+import com.spring.springProject4.dto.TeamPlayerRecordDto;
 import com.spring.springProject4.service.PitcherRecordService;
 import com.spring.springProject4.service.PitcherTotalRecordService;
 import com.spring.springProject4.service.PlayerRecordService;
 import com.spring.springProject4.service.PlayerTotalRecordService;
+import com.spring.springProject4.service.TeamPlayerRecordService;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
@@ -43,11 +45,16 @@ public class RecordController {
 	@Autowired
 	private PitcherTotalRecordService pitcherTotalRecordService;
 	
+	@Autowired
+	private TeamPlayerRecordService teamPlayerRecordService;
+	
 	@RequestMapping("/recordMain")
 	public String recordget() {
 		return "record/recordMain";
 	}
 
+	
+	//타자(시즌)
 	@ResponseBody
 	@RequestMapping(value = "/HitterRecord", method = RequestMethod.POST)
 	public List<PlayerRecordDto> HitterPostAndSave(
@@ -148,6 +155,8 @@ public class RecordController {
 	    return recordList;
 	}
 	
+	
+	//투수(시즌)
 	@ResponseBody
 	@RequestMapping(value = "/PitcherRecord", method = RequestMethod.POST)
 	public List<PitcherRecordDto> PitcherPostAndSave(
@@ -237,7 +246,7 @@ public class RecordController {
 	    return recordList;
 	}
 	
-
+	//타자(통산)
 	@ResponseBody
 	@RequestMapping(value = "/HitterTotalRecord", method = RequestMethod.POST)
 	public List<PlayerTotalRecordDto> HitterTotalPostAndSave(
@@ -337,7 +346,7 @@ public class RecordController {
 	}
 	
 	
-	
+	//투수(통산)
 	@ResponseBody
 	@RequestMapping(value = "/PitcherTotalRecord", method = RequestMethod.POST)
 	public List<PitcherTotalRecordDto> PitcherTotalPostAndSave(
@@ -429,4 +438,99 @@ public class RecordController {
 	}
 
 
+	//팀(타자)
+	@ResponseBody
+	@RequestMapping(value = "/TeamHitterRecord", method = RequestMethod.POST)
+	public List<TeamPlayerRecordDto> TeamHitterRecordPostAndSave(
+	    @RequestParam("teamsstartYearhit") int startYear,
+	    @RequestParam("teamsendYearhit") int endYear,
+	    @RequestParam("teamsorderByhit") String orderBy,
+	    @RequestParam("teamssortOptionshit") String sortOptions,
+	    @RequestParam("teamsteamhit") String team,
+	    @RequestParam("teamspositionOrderhit") String positionOrder
+	) throws IOException {
+	    List<TeamPlayerRecordDto> recordList = new ArrayList<>();
+
+	    ChromeOptions options = new ChromeOptions();
+	    options.addArguments("--headless", "--disable-gpu", "--no-sandbox", "--disable-dev-shm-usage");
+
+	    WebDriverManager.chromedriver().setup();
+	    WebDriver driver = new ChromeDriver(options);
+
+	    try {
+	            String url = "https://statiz.sporki.com/stats/?m=team&m2=batting&m3=default"
+	                       + "&so=" + sortOptions
+	                       + "&ob=" + orderBy
+	                       + "&sy=" + startYear
+	                       + "&ey=" + endYear
+	                       + "&te=" + team
+	                       + "&po=" + positionOrder
+	                       + "&reg=R";
+	            System.out.println("[크롤링 URL] " + url);
+	            driver.get(url);
+	            Thread.sleep(5500); // 로딩 대기
+	            
+	            List<WebElement> rows = driver.findElements(By.cssSelector("table:nth-of-type(2) tbody tr"));
+	            
+	            for (WebElement row : rows) {
+	                List<WebElement> tds = row.findElements(By.tagName("td"));
+	                if (tds.size() > 10) {
+	                    try {
+	                        String teamName = tds.get(1).getText().trim();
+	                        WebElement teamTd = tds.get(1);
+	                        String teamLogo = teamTd.findElement(By.tagName("img")).getAttribute("src");
+	                        String yearText = tds.get(2).getText().trim();
+
+	                        TeamPlayerRecordDto dto = new TeamPlayerRecordDto();
+	                        dto.setTeamName(teamName);
+	                        dto.setTeamLogo(teamLogo);
+	                        dto.setYear(Integer.parseInt(yearText));
+
+	                        dto.setGames(Integer.parseInt(tds.get(4).getText().trim()));
+	                        dto.setTasuk(Integer.parseInt(tds.get(7).getText().trim()));
+	                        dto.setAtBats(Integer.parseInt(tds.get(9).getText().trim()));
+	                        dto.setRuns(Integer.parseInt(tds.get(10).getText().trim()));
+	                        dto.setHits(Integer.parseInt(tds.get(11).getText().trim()));
+	                        dto.setDoubles(Integer.parseInt(tds.get(12).getText().trim()));
+	                        dto.setTriples(Integer.parseInt(tds.get(13).getText().trim()));
+	                        dto.setHomeRuns(Integer.parseInt(tds.get(14).getText().trim()));
+	                        dto.setRbi(Integer.parseInt(tds.get(16).getText().trim()));
+	                        dto.setStolenBases(Integer.parseInt(tds.get(17).getText().trim()));
+	                        dto.setStolenBasesFail(Integer.parseInt(tds.get(18).getText().trim()));
+	                        int bb = Integer.parseInt(tds.get(19).getText().trim())
+	                                + Integer.parseInt(tds.get(20).getText().trim())
+	                                + Integer.parseInt(tds.get(21).getText().trim());
+	                        dto.setBb(bb);
+	                        dto.setStrikeouts(Integer.parseInt(tds.get(22).getText().trim()));
+	                        dto.setDoublePlays(Integer.parseInt(tds.get(23).getText().trim()));
+	                        dto.setSacHits(Integer.parseInt(tds.get(24).getText().trim()));
+	                        dto.setSacFlies(Integer.parseInt(tds.get(25).getText().trim()));
+	                        dto.setAvg(Float.parseFloat(tds.get(26).getText().trim()));
+	                        dto.setObp(Float.parseFloat(tds.get(27).getText().trim()));
+	                        dto.setSlg(Float.parseFloat(tds.get(28).getText().trim()));
+	                        dto.setOps(Float.parseFloat(String.format("%.3f",
+	                                dto.getObp() + dto.getSlg())));
+	                        dto.setWar(Float.parseFloat(tds.get(3).getText().trim()));
+
+	                        int totalBases = (dto.getHits() - dto.getDoubles() - dto.getTriples() - dto.getHomeRuns())
+	                                + dto.getDoubles() * 2 + dto.getTriples() * 3 + dto.getHomeRuns() * 4;
+	                        dto.setTotalBases(totalBases);
+
+	                        teamPlayerRecordService.savePlayerRecord(dto);  // 메서드명도 수정됨
+	                        recordList.add(dto);
+	                    } catch (Exception e) {
+	                        System.err.println("[" + startYear + "][" + sortOptions + "] 파싱 오류: " + e.getMessage());
+	                        continue;
+	                    }
+	                }
+	            }
+	        
+	    } catch (InterruptedException e1) {
+	        e1.printStackTrace();
+	    } finally {
+	        driver.quit();
+	    }
+
+	    return recordList;
+	}
 }
