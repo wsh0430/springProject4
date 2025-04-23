@@ -53,9 +53,9 @@ public class RecordController {
 	@Autowired
 	private TeamPitcherRecordService teamPitcherRecordService;
 	
-	@RequestMapping("/recordMain")
+	@RequestMapping("/recordCrawl")
 	public String recordget() {
-		return "record/recordMain";
+		return "record/recordCrawl";
 	}
 
 	
