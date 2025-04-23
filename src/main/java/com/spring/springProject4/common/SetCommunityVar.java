@@ -7,7 +7,7 @@ import java.util.Map;
 
 import com.spring.springProject4.vo.LikesVo;
 
-public class SetCommunityList {
+public class SetCommunityVar {
 	public static <T> void initArrayList(List<T> list, int size) {
 		for(int i = 0; i < size; i++) {
 			list.add(null);

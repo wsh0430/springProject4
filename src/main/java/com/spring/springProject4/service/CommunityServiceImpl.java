@@ -90,4 +90,9 @@ public class CommunityServiceImpl implements CommunityService {
 		return communityDao.setUpdateCommetCnt(part, partIdx);
 	}
 
+	@Override
+	public int setUpdateComment(int idx, String content) {
+		return communityDao.setUpdateComment(idx, content);
+	}
+
 }

@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.Session;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.springProject4.common.Pagination;
-import com.spring.springProject4.common.SetCommunityList;
+import com.spring.springProject4.common.SetCommunityVar;
 import com.spring.springProject4.service.CommunityService;
 import com.spring.springProject4.vo.BoardVo;
 import com.spring.springProject4.vo.CategoryVo;
@@ -89,12 +91,12 @@ public class CommunityController {
 		
 		LikesVo boardLikesVo = communityService.getLikes("board", boardIdx, memberId);
 		List<LikesVo> cmtLikesList = communityService.getLikesVos("comment", "board", boardIdx, memberId);	//comment, reply
-		Map<Integer, LikesVo> cmtLikesMap = SetCommunityList.getLikesMap(cmtLikesList);
+		Map<Integer, LikesVo> cmtLikesMap = SetCommunityVar.getLikesMap(cmtLikesList);
 		
 		List<Map<Integer, LikesVo>> replyLikesList = new ArrayList<Map<Integer, LikesVo>>();
 		for(int i = 0; i < commentVos.size(); i++) {
 			List<LikesVo> temp = communityService.getLikesVos("reply", "comment", commentVos.get(i).getIdx(), memberId);
-			Map<Integer, LikesVo> map = SetCommunityList.getLikesMap(temp);
+			Map<Integer, LikesVo> map = SetCommunityVar.getLikesMap(temp);
 			
 			replyLikesList.add(map);
 		}
@@ -117,7 +119,7 @@ public class CommunityController {
 	
 	@ResponseBody
 	@RequestMapping(value="/likesCheck", method=RequestMethod.POST)
-	public int likesCheck(int idx, String part, String parent, int parentIdx) {		
+	public int likesCheckPost(int idx, String part, String parent, int parentIdx) {		
 		String memberId = "user123";	//나중에 session에 있는 값 꺼내오기
 		LikesVo likesVo = communityService.getLikes(part, idx, memberId);
 
@@ -140,7 +142,7 @@ public class CommunityController {
 	
 	@ResponseBody
 	@RequestMapping(value="/cmtInput", method=RequestMethod.POST)
-	public int cmtInput(CommentVo cmtVo) {
+	public int cmtInputPost(CommentVo cmtVo) {
 		int res = communityService.setUpdateCommetCnt("comment", cmtVo.getBoardId());
 		System.out.println("commentRes: " + res);
 		return communityService.setCreateComment(cmtVo);
@@ -148,9 +150,15 @@ public class CommunityController {
 	
 	@ResponseBody
 	@RequestMapping(value="/replyInput", method=RequestMethod.POST)
-	public int replyInput(CommentVo cmtVo) {
+	public int replyInputPost(CommentVo cmtVo) {
 		int res = communityService.setUpdateCommetCnt("reply", cmtVo.getParentId());
 		System.out.println("replyRes: " + res);
 		return communityService.setCreateReply(cmtVo);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/cmtUpdate", method=RequestMethod.POST)
+	public int cmtUpdatePost(int idx, String content) {
+		return communityService.setUpdateComment(idx, content);
 	}
 }

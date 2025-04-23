@@ -12,6 +12,7 @@
     <script>
     	'use strict';
     	
+    	// 좋아요 체크
     	function likesCheck(part, target, idx, index, parent, parentIdx) {
     		let icon = $(target).find("."+part+"-like_icon"+index+" i");
     		let count = $(target).find("."+part+"-like_count" + index);
@@ -43,6 +44,7 @@
 			});
 		}
     	
+    	// 답글 열기
     	function replyClick(idx) {
     	    let reply = $("#reply" + idx);
     		reply.toggle(); 
@@ -54,8 +56,73 @@
     	    } */
     	}
     	
-    	function cmtInput() {
+    	function cmtUpdateCancel(idx) {
+			let content = $("#cmt_content"+idx);
+			let span = content.find("span");
+			let textarea = content.find("textarea");
+			let cancel = $("#cmt_item"+idx).find(".cancel");
+			
+			span.show();
+			textarea.hide();
+			cancel.hide();
+		}
+    	
+    	//댓글 수정버튼 클릭(수정창 열기)
+    	function cmtUpdateBtnClick(idx) {
+			let content = $("#cmt_content"+idx);
+			let span = content.find("span");
+			let textarea = content.find("textarea");
+			let cancel = $("#cmt_item"+idx).find(".cancel");
     		
+			if(span.css("display") != "none"){
+				span.hide();
+				textarea.show();
+				cancel.show();
+    	    }else{	
+    	    	cmtUpdate(idx);
+    	    } 
+		}
+    	
+    	//댓글 수정
+    	function cmtUpdate(idx) {
+			let span = $("#cmt_content"+idx).find("span");
+			let textarea = $("#cmt_content"+idx).find("textarea");
+			let cancel = $("#cmt_item"+idx).find(".cancel");
+			
+    		if(textarea.val().trim() == "") {
+	    		alert("댓글을 입력하세요");
+	    		textarea.focus();
+	    		return false;
+	    	}
+    		
+			$. ajax({
+				url: "${ctp}/community/cmtUpdate",
+				type: "post",
+				data: {
+					idx: idx,
+					content: textarea.val()
+				},
+				success:function(res){
+					if(res != 0){
+						if(confirm("댓글을 수정하시겠습니까?")){			
+							span.show();
+							textarea.hide();
+							cancel.hide();
+							
+							span.text(textarea.val());
+						}
+					}
+					
+				},
+				error: function() {
+					alert("전송오류");
+				}	
+			});
+		}
+    	
+    	
+    	// 댓글 입력
+    	function cmtInput() {	
 			let content = $("#cmt_content").val();
 			if(content.trim() == "") {
 	    		alert("댓글을 입력하세요");
@@ -89,8 +156,8 @@
 			
 		}
     	
+    	// 답글 입력
     	function replyInput(parentId, index) {
-    		
 			let content = $("#reply_content"+index).val();
 			if(content.trim() == "") {
 	    		alert("댓글을 입력하세요");
@@ -126,6 +193,10 @@
 		}
     </script>
     <style>
+    	textarea{
+    		resize:none;
+    	}
+    
     	#main{
     		min-width: 80%; 	
     		margin-top: 30px;	
@@ -149,7 +220,7 @@
     		border: none;
     	}
 
-    	.low-bar{
+    	.low-bar, .high-bar{
     		display: flex;
     		justify-content: space-between;
     	}
@@ -251,16 +322,30 @@
 				<div id="cmt_list">
 					<c:if test="${!empty commentVos}">
 						<c:forEach var="cmtVo" items="${commentVos}" varStatus="cmtSt">
-							<div class="cmt_item">
-								<div class="cmt_info">
-									<span class="cmt_info-icon"><i class="fa-solid fa-lg fa-circle-user"></i></span>
-									<span class="cmt_info-nickname">${cmtVo.memberNickname}</span>
-									<span class="cmt_info-time">
-										<c:if test="${cmtVo.createdAt == cmtVo.updateAt}">${fn:substring(cmtVo.createdAt,0,19)}</c:if>						
-										<c:if test="${cmtVo.createdAt != cmtVo.updateAt}"> ${fn:substring(cmtVo.updateAt,0,16)}(수정됨)</c:if>
-									</span>
+							<div class="cmt_item" id="cmt_item${cmtVo.idx}">
+								<div class="high-bar">
+									<div class="left">
+										<div class="cmt_info">
+											<span class="cmt_info-icon"><i class="fa-solid fa-lg fa-circle-user"></i></span>
+											<span class="cmt_info-nickname">${cmtVo.memberNickname}</span>
+											<span class="cmt_info-time">
+												<c:if test="${cmtVo.createdAt == cmtVo.updateAt}">${fn:substring(cmtVo.createdAt,0,19)}</c:if>						
+												<c:if test="${cmtVo.createdAt != cmtVo.updateAt}"> ${fn:substring(cmtVo.updateAt,0,16)}(수정됨)</c:if>
+											</span>
+										</div>
+									</div>
+									<div class="right">
+										<c:if test="${sMemberId == cmtVo.memberId}">
+											<button onclick="cmtUpdateBtnClick(${cmtVo.idx})">수정</button>								
+											<button class="cancel" onclick="cmtUpdateCancel(${cmtVo.idx})" style="display:none;">취소</button>								
+											<button onclick="cmtDelete(${cmtVo.idx})">삭제</button>	
+										</c:if>
+									</div>
 								</div>
-								<div class="cmt_content">${fn:replace(cmtVo.content, newLine, "<br/>")}</div>
+								<div class="cmt_content" id="cmt_content${cmtVo.idx}">
+									<span>${fn:replace(cmtVo.content, newLine, "<br/>")}</span>
+									<textarea style="display:none;">${fn:replace(cmtVo.content, newLine, "<br/>")}</textarea>
+								</div>
 								<div class="low-bar">
 									<div class="left">						
 										<button onclick="replyClick(${cmtVo.idx})">답글 <b>${cmtVo.replyCount}</b></button>								

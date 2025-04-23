@@ -20,5 +20,5 @@ create table likes(
 	item_tinyint			tinyint,
 	
 	primary key (idx),
-  	foreign key (member_id) references member(member_id)
+  	foreign key (member_id) references member(member_id) on delete cascade
 );

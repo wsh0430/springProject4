@@ -36,4 +36,6 @@ public interface CommunityService {
 	int setCreateReply(CommentVo cmtVo);
 
 	int setUpdateCommetCnt(String part, int partIdx);
+
+	int setUpdateComment(int idx, String content);
 }

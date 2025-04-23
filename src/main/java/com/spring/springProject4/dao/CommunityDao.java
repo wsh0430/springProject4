@@ -47,6 +47,8 @@ public interface CommunityDao {
 
 	int setUpdateCommetCnt(@Param("part") String part, @Param("partIdx") int partIdx);
 
+	int setUpdateComment(@Param("idx") int idx, @Param("content") String content);
+
 	
 
 }

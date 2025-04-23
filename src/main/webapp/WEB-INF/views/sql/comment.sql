@@ -10,6 +10,7 @@ create table comment(
 	created_at				datetime default now(),				/* 생성 날짜 */
 	update_at				datetime default now(),				/* 수정 날짜 */
 	parent_id 				int default null,       					/* 값이 있으면 대댓글 */
+	delete_check			tinyint default 0,						/* 1. 사용자가 삭제 처리함. */
 	
 	-- 여유 index
 	item_int1				int,
@@ -24,7 +25,7 @@ create table comment(
 	item_tinyint			tinyint,
 	
 	primary key (idx),
-	foreign key (board_id) references board(idx),
+	foreign key (board_id) references board(idx) on delete cascade,
     foreign key (member_id) references member(member_id),
-    foreign key (parent_id) references comment(idx)
+    foreign key (parent_id) references comment(idx) on delete cascade
 );

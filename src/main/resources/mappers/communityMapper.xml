@@ -74,6 +74,10 @@
 		where idx = #{partIdx};
 	</update>
 	
+	<update id="setUpdateComment">
+		update comment set content = #{content} where idx = #{idx};
+	</update>
+	
 	
 	
 	
