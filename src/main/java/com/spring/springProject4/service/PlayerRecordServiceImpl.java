@@ -12,29 +12,37 @@ import com.spring.springProject4.dto.PlayerRecordDto;
 public class PlayerRecordServiceImpl implements PlayerRecordService {
 
   @Autowired
-  private PlayerRecordDao playerStatsDao;
+  private PlayerRecordDao playerRecordDao;
   
   
   //중복처리를 위한 메서드
   @Override
   public void savePlayerRecord(PlayerRecordDto dto) {
   		//이름, 포지션, 년도가 같으면 같은사람으로 취급
-      PlayerRecordDto existing = playerStatsDao.findExistingRecord(
+      PlayerRecordDto existing = playerRecordDao.findExistingRecord(
           dto.getPlayer(), dto.getPosition(), dto.getYear()
       );
       
       
       if (existing == null) {
-          playerStatsDao.insertPlayerStats(dto);
+      	playerRecordDao.insertPlayerStats(dto);
           System.out.println("저장 완료: " + dto.getPlayer());
       } else {
-          playerStatsDao.updatePlayerStats(dto);
+      	playerRecordDao.updatePlayerStats(dto);
           System.out.println("업데이트 완료: " + dto.getPlayer());
       }
   }
 
   @Override
   public List<PlayerRecordDto> getAllPlayerRecords() {
-      return playerStatsDao.getAllPlayerStats();
+      return playerRecordDao.getAllPlayerStats();
+  }
+  
+  
+  @Override
+  public List<PlayerRecordDto> getSortedHitterRecords(String sortColumn, String orderDirection,
+                                                      String team, String position,
+                                                      Integer startYear, Integer endYear) {
+      return playerRecordDao.getSortedHitterRecords(sortColumn, orderDirection, team, position, startYear, endYear);
   }
 }

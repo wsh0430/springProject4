@@ -2,7 +2,9 @@ package com.spring.springProject4.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -11,6 +13,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -630,6 +634,51 @@ public class RecordController {
 	    }
 
 	    return recordList;
+	}
+	
+	
+	@GetMapping("/recordHitterView")
+	public String showSortedHitterRecords(
+	        @RequestParam(defaultValue = "war") String sortOptions,
+	        @RequestParam(defaultValue = "DESC") String orderBy,
+	        @RequestParam(required = false) String team,
+	        @RequestParam(required = false) String position,
+	        @RequestParam(required = false) Integer startYear,
+	        @RequestParam(required = false) Integer endYear,
+	        Model model) {
+
+	    // 허용된 컬럼만 필터링
+			Map<String, String> columnMap = new HashMap<>();
+			columnMap.put("WAR", "war");
+			columnMap.put("R", "runs");
+			columnMap.put("H", "hits");
+			columnMap.put("2B", "doubles");
+			columnMap.put("3B", "triples");
+			columnMap.put("HR", "home_runs");
+			columnMap.put("TB", "total_bases");
+			columnMap.put("RBI", "rbi");
+			columnMap.put("SB", "stolen_bases");
+			columnMap.put("CS", "stolen_bases_fail");
+			columnMap.put("BB", "bb");
+			columnMap.put("SO", "strikeouts");
+			columnMap.put("GDP", "double_plays");
+			columnMap.put("SH", "sac_hits");
+			columnMap.put("SF", "sac_flies");
+			columnMap.put("AVG", "avg");
+			columnMap.put("OBP", "obp");
+			columnMap.put("SLG", "slg");
+			columnMap.put("OPS", "ops");
+			columnMap.put("PA", "tasuk");
+			columnMap.put("AB", "at_bats");
+			columnMap.put("year", "year");
+
+	    String sortColumn = columnMap.getOrDefault(sortOptions.toUpperCase(), "war");
+
+	    List<PlayerRecordDto> records = playerRecordService.getSortedHitterRecords(
+	        sortColumn, orderBy, team, position, startYear, endYear);
+
+	    model.addAttribute("records", records);
+	    return "record/recordHitterView";
 	}
 	
 }
