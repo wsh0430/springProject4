@@ -43,8 +43,8 @@ public class CommunityServiceImpl implements CommunityService {
 	}
 	
 	@Override
-	public List<LikesVo> getLikesVos(String part, String parent, int parentIdx) {
-		return communityDao.getLikesVos(part, parent, parentIdx); 
+	public List<LikesVo> getLikesVos(String part, String parent, int parentIdx, String memberId) {
+		return communityDao.getLikesVos(part, parent, parentIdx, memberId); 
 	}
 	
 	
@@ -73,6 +73,21 @@ public class CommunityServiceImpl implements CommunityService {
 	public int setUpdateLikeCnt(String part, int partIdx, int n) {
 		return communityDao.setUpdateLikeCnt(part, partIdx, n);
 		
+	}
+
+	@Override
+	public int setCreateComment(CommentVo cmtVo) {
+		return communityDao.setCreateComment(cmtVo);
+	}
+
+	@Override
+	public int setCreateReply(CommentVo cmtVo) {
+		return communityDao.setCreateReply(cmtVo);
+	}
+
+	@Override
+	public int setUpdateCommetCnt(String part, int partIdx) {
+		return communityDao.setUpdateCommetCnt(part, partIdx);
 	}
 
 }

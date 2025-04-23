@@ -19,7 +19,7 @@ public interface CommunityService {
 
 	LikesVo getLikes(String part, int partIdx, String memberId);
 	
-	List<LikesVo> getLikesVos(String part, String parent, int parentIdx);
+	List<LikesVo> getLikesVos(String part, String parent, int parentIdx, String memberId);
 	
 	List<CommentVo> getCommentVos(int boardIdx);
 
@@ -31,5 +31,9 @@ public interface CommunityService {
 
 	int setUpdateLikeCnt(String part, int partIdx, int n);
 
+	int setCreateComment(CommentVo cmtVo);
 
+	int setCreateReply(CommentVo cmtVo);
+
+	int setUpdateCommetCnt(String part, int partIdx);
 }

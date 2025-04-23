@@ -29,7 +29,7 @@
 	</select>
 	
 	<select id="getLikesVos" resultType="com.spring.springProject4.vo.LikesVo">
-		select * from likes where part = #{part} and parent = #{parent} and parent_id = #{parentIdx};
+		select * from likes where part = #{part} and parent = #{parent} and parent_id = #{parentIdx} and member_id = #{memberId};
 	</select>
 	
 	<select id="getCommentVos" resultType="com.spring.springProject4.vo.CommentVo">
@@ -46,15 +46,35 @@
 	
 	<insert id="setCreateLikes">
 		<if test="part == 'board'">insert into likes values(default, #{memberId}, #{part}, #{partIdx}, default, default, default, default, default, default, default, default, default, default, default, default, default);</if>
-		<if test="part == 'comment'">insert into likes values(default, #{memberId}, #{part}, #{partIdx}, default, #{parent}, #{parentIdx}, default, default, default, default, default, default, default, default, default, default);</if>
+		<if test="part == 'comment' || part == 'reply'">insert into likes values(default, #{memberId}, #{part}, #{partIdx}, default, #{parent}, #{parentIdx}, default, default, default, default, default, default, default, default, default, default);</if>
+	</insert>
+	
+	<insert id="setCreateComment">
+		insert into comment values(default, #{cmtVo.boardId}, #{cmtVo.memberId}, #{cmtVo.memberNickname}, #{cmtVo.content}, default, default, default, default, default, default , default, default, default, default, default, default, default, default, default, default);
+	</insert>
+	
+	<insert id="setCreateReply">
+		insert into comment values(default, #{cmtVo.boardId}, #{cmtVo.memberId}, #{cmtVo.memberNickname}, #{cmtVo.content}, default, default, default, default, default, #{cmtVo.parentId}, default, default, default, default, default, default, default, default, default, default);
 	</insert>
 	
 	
 	
 	
 	<update id="setUpdateLikeCnt">
-		update ${part} set like_count = like_count + #{n} where idx = #{partIdx};	
+		update 
+		<if test="part == 'reply'">comment</if>
+		<if test="part != 'reply'">${part}</if>
+		set like_count = like_count + #{n} where idx = #{partIdx};	
 	</update>
+	
+	<update id="setUpdateCommetCnt">
+		update 
+		<if test="part == 'comment'">board set comment_count = comment_count + 1</if>
+		<if test="part == 'reply'">comment set reply_count = reply_count + 1</if>
+		where idx = #{partIdx};
+	</update>
+	
+	
 	
 	
 	<delete id="setDeleteLikes">

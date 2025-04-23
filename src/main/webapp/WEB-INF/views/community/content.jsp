@@ -12,17 +12,21 @@
     <script>
     	'use strict';
     	
-    	function likesCheck(part, idx, index, parentIdx) {
-    		let icon = $("."+part+"-like_icon"+index+" i");
-    		let count = $("."+part+"-like_count" + index);
+    	function likesCheck(part, target, idx, index, parent, parentIdx) {
+    		let icon = $(target).find("."+part+"-like_icon"+index+" i");
+    		let count = $(target).find("."+part+"-like_count" + index);
+    		//let icon = $("."+part+"-like_icon"+index+" i");
+    		//let count = $("."+part+"-like_count" + index);
     		
     		console.log(index);
     		
 			$.ajax({
-				url: "${ctp}/community/" + part + "LikesCheck",
+				url: "${ctp}/community/likesCheck",
 				type: "post",
 				data: {
 					idx : idx,
+					part: part,
+					parent: parent,
 					parentIdx: parentIdx
 				},
 				success: function(res){
@@ -40,17 +44,85 @@
 		}
     	
     	function replyClick(idx) {
+    	    let reply = $("#reply" + idx);
+    		reply.toggle(); 
+    	    
+    	    /* if(reply.css("display") == "none"){
+    	    	reply.show();
+    	    }else{
+    	    	reply.hide();
+    	    } */
+    	}
+    	
+    	function cmtInput() {
+    		
+			let content = $("#cmt_content").val();
+			if(content.trim() == "") {
+	    		alert("댓글을 입력하세요");
+	    		$("#cmt_content").focus();
+	    		return false;
+	    	}
+			
+			
+			let query ={
+					boardId: ${boardVo.idx},
+					memberId: '${sMemberId}',
+					memberNickname : '${sNickname}',
+					content : content
+			}
+			
 			$.ajax({
-				url: "${ctp}/commynity/replyClick",
+				url: "${ctp}/community/cmtInput",
 				type: "post",
-				data: {idx: idx},
-				success: function(res) {
-					
+				data : query,
+				success:function(res){
+					if(res != 0){
+						alert("댓글이 입력되었습니다.");
+	    				location.reload();
+					}
+					else alert("잠시 후 다시 시도해주세요.");
 				},
 				error: function() {
 					alert("전송오류");
-				}
+				}	
 			});
+			
+		}
+    	
+    	function replyInput(parentId, index) {
+    		
+			let content = $("#reply_content"+index).val();
+			if(content.trim() == "") {
+	    		alert("댓글을 입력하세요");
+	    		$("#reply_content"+index).focus();
+	    		return false;
+	    	}
+			
+			
+			let query ={
+					boardId: ${boardVo.idx},
+					memberId: '${sMemberId}',
+					memberNickname : '${sNickname}',
+					content : content,
+					parentId : parentId
+			}
+			
+			$.ajax({
+				url: "${ctp}/community/replyInput",
+				type: "post",
+				data : query,
+				success:function(res){
+					if(res != 0){
+						alert("답글이 입력되었습니다.");
+	    				location.reload();
+					}
+					else alert("잠시 후 다시 시도해주세요.");
+				},
+				error: function() {
+					alert("전송오류");
+				}	
+			});
+			
 		}
     </script>
     <style>
@@ -94,13 +166,32 @@
     	    width: 100%;
     	    max-height: 130px;
     		border-bottom: 1px solid black; 		
-    		padding: 10px;
+    		padding: 10px 20px;
     	}
     	.cmt_info{
     		margin-bottom: 8px;
     	}
     	.cmt_content{
     		margin-bottom: 8px;
+    	}
+    	
+    	.reply{
+    	   	background-color: rgb(240, 240, 240);
+    	   	display: none;
+    	}
+    	.reply_item{
+    	    max-height: 130px;
+    		margin: 0px 30px 0px 30px;
+    		padding: 17px 0px;
+    	}
+    	.reply_item:nth-child(n+2){
+    		border-top: 1px solid black; 		
+    	}
+    	.reply_info{
+    		margin-bottom: 8px;
+    	}
+    	.reply_content{
+    		/* margin-bottom: 8px; */
     	}
     </style>
 </head>
@@ -135,7 +226,7 @@
 				
 					<!-- 좋아요 -->
 					<div class="like">
-						<button onclick="likesCheck('board', ${boardVo.idx}, '', 0)">
+						<button onclick="likesCheck('board', this, ${boardVo.idx}, '', '', 0)">
 							<span class="board-like_icon">
 								<c:if test="${empty boardLikesVo}">
 									<i class="fa-regular fa-lg fa-heart"></i>
@@ -172,18 +263,18 @@
 								<div class="cmt_content">${fn:replace(cmtVo.content, newLine, "<br/>")}</div>
 								<div class="low-bar">
 									<div class="left">						
-										<button onclick="replyClick(${cmtVo.idx})">답글 <b>${boardVo.commentCount}</b></button>								
+										<button onclick="replyClick(${cmtVo.idx})">답글 <b>${cmtVo.replyCount}</b></button>								
 									</div>
 									<div class="right">
 									
 										<!-- 좋아요 -->
 										<div class="like">
-											<button onclick="likesCheck('comment', ${cmtVo.idx}, '${cmtSt.index}', ${boardVo.idx})">
+											<button onclick="likesCheck('comment', this, ${cmtVo.idx}, '${cmtSt.index}', 'board', ${boardVo.idx})">
 												<span class="comment-like_icon${cmtSt.index}">
-														<c:if test="${empty cmtLikesVos[cmtSt.index]}">
+														<c:if test="${empty cmtLikesVos[cmtVo.idx]}">
 															<i class="fa-regular fa-lg fa-heart"></i>
 														</c:if>
-														<c:if test="${!empty cmtLikesVos[cmtSt.index]}">
+														<c:if test="${!empty cmtLikesVos[cmtVo.idx]}">
 															<i class="fa-solid fa-lg fa-heart" style="color: red;"></i>
 														</c:if>
 												</span>
@@ -193,13 +284,12 @@
 										<!-- 좋아요 끝 -->
 										
 									</div>
-								</div>
-								
+								</div>				
+							</div>
 								<!-- 답글  -->
-								<div class="reply">
-											<c:forEach var="replyVos" items="${replyList}" varStatus="resplySt">
-												<c:if test="${!empty replyVos}">
-													<c:forEach var="replyVo" items="${replyVos[st.index]}">
+								<div class="reply" id="reply${cmtSt.count}">
+												<c:if test="${!empty replyList[cmtSt.index]}">
+													<c:forEach var="replyVo" items="${replyList[cmtSt.index]}" varStatus="replySt">
 														<div class="reply_item">
 															<div class="cmt_info">
 																<span class="cmt_info-icon"><i class="fa-solid fa-lg fa-circle-user"></i></span>
@@ -209,21 +299,22 @@
 																	<c:if test="${replyVo.createdAt != replyVo.updateAt}"> ${fn:substring(replyVo.updateAt,0,16)}(수정됨)</c:if>
 																</span>
 															</div>
-															<div class="cmt_content">${fn:replace(replyVo.content, newLine, "<br/>")}</div>
+															<div class="reply_content">${fn:replace(replyVo.content, newLine, "<br/>")}</div>
 															<div class="low-bar">
-																<div class="reply-like">
+																<div class="left"></div>
+																<div class="right">
 																	<!-- 좋아요 -->
 																	<div class="like">
-																		<button onclick="likesCheck('comment', ${cmtVo.idx}, '${resplySt.index}', ${cmtSt.index})">
-																			<span class="comment-like_icon${resplySt.index}">
-																				<c:if test="${empty cmtLikesVos[cmtSt.index]}">
+																		<button onclick="likesCheck('reply', this, ${replyVo.idx}, '${replySt.index}', 'comment', ${cmtVo.idx})">
+																			<span class="reply-like_icon${replySt.index}">
+																				<c:if test="${empty (replyLikesList[cmtSt.index])[replyVo.idx]}">
 																					<i class="fa-regular fa-lg fa-heart"></i>
 																				</c:if>
-																				<c:if test="${!empty cmtLikesVos[cmtSt.index]}">
+																				<c:if test="${!empty (replyLikesList[cmtSt.index])[replyVo.idx]}">
 																					<i class="fa-solid fa-lg fa-heart" style="color: red;"></i>
 																				</c:if>
 																			</span>
-																			<span class="comment-like_count${resplySt.index}" >${boardVo.likeCount}</span>
+																			<span class="reply-like_count${replySt.index}" >${replyVo.likeCount}</span>
 																		</button>
 																	</div>
 																	<!-- 좋아요 끝 -->
@@ -232,15 +323,24 @@
 														</div>
 													</c:forEach>
 												</c:if>
-											</c:forEach>
+												<div class="reply_input">
+													<form name="replyInputForm">
+														<textarea name="reply_content${cmtSt.index}" id="reply_content${cmtSt.index}" placeholder="답글을 입력하세요."></textarea>
+														<span>${sNickname}</span>
+														<input type="button" placeholder="등록" onclick="replyInput(${cmtSt.count},${cmtSt.index})">
+													</form>
+												</div>
 										</div>
-										<!-- 답글 끝 -->
-							</div>
+								<!-- 답글 끝 -->
 						</c:forEach>
+						<div class="cmt_input">
+							<form name="cmtInputForm">
+								<textarea name="cmt_content" id="cmt_content" placeholder="답글을 입력하세요."></textarea>
+								<span>${sNickname}</span>
+								<input type="button" placeholder="등록" onclick="cmtInput()">
+							</form>
+						</div>
 					</c:if>
-				</div>
-				<div id="comment_input">
-				
 				</div>
 			</div>
 		</div>

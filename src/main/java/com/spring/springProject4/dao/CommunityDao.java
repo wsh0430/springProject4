@@ -29,7 +29,7 @@ public interface CommunityDao {
 
 	LikesVo getLikes(@Param("part") String part, @Param("partIdx") int partIdx, @Param("memberId") String memberId);
 	
-	List<LikesVo> getLikesVos(@Param("part") String part, @Param("parent") String parent, @Param("parentIdx") int parentIdx);
+	List<LikesVo> getLikesVos(@Param("part") String part, @Param("parent") String parent, @Param("parentIdx") int parentIdx, @Param("memberId") String memberId);
 	
 	List<CommentVo> getCommentVos(@Param("boardIdx") int boardIdx);
 
@@ -40,6 +40,12 @@ public interface CommunityDao {
 	int setDeleteLikes(@Param("idx") int idx);
 
 	int setUpdateLikeCnt(@Param("part") String part, @Param("partIdx") int partIdx, @Param("n") int n);
+
+	int setCreateComment(@Param("cmtVo") CommentVo cmtVo);
+
+	int setCreateReply(@Param("cmtVo") CommentVo cmtVo);
+
+	int setUpdateCommetCnt(@Param("part") String part, @Param("partIdx") int partIdx);
 
 	
 

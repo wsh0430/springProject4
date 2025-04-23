@@ -15,6 +15,7 @@ public class CommentVo {
 	private String content;
 	private int reportCount;
 	private int likeCount;
+	private int replyCount;	
 	private String createdAt;
 	private String updateAt;
 	private int parentId;

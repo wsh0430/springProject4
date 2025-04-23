@@ -1,20 +1,20 @@
 package com.spring.springProject4.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.springProject4.common.Pagination;
-import com.spring.springProject4.common.SetArrayList;
-import com.spring.springProject4.dao.CommunityDao;
+import com.spring.springProject4.common.SetCommunityList;
 import com.spring.springProject4.service.CommunityService;
 import com.spring.springProject4.vo.BoardVo;
 import com.spring.springProject4.vo.CategoryVo;
@@ -88,10 +88,19 @@ public class CommunityController {
 		}
 		
 		LikesVo boardLikesVo = communityService.getLikes("board", boardIdx, memberId);
-		List<LikesVo> cmtLikesTemp = communityService.getLikesVos("comment", "board", boardIdx);	//comment, reply
-		List<LikesVo> cmtLikesVos = SetArrayList.setArrayListToPartIdx(cmtLikesTemp, commentVos.size());
-
+		List<LikesVo> cmtLikesList = communityService.getLikesVos("comment", "board", boardIdx, memberId);	//comment, reply
+		Map<Integer, LikesVo> cmtLikesMap = SetCommunityList.getLikesMap(cmtLikesList);
 		
+		List<Map<Integer, LikesVo>> replyLikesList = new ArrayList<Map<Integer, LikesVo>>();
+		for(int i = 0; i < commentVos.size(); i++) {
+			List<LikesVo> temp = communityService.getLikesVos("reply", "comment", commentVos.get(i).getIdx(), memberId);
+			Map<Integer, LikesVo> map = SetCommunityList.getLikesMap(temp);
+			
+			replyLikesList.add(map);
+		}
+		
+		model.addAttribute("sMemberId", "user123"); //나중에 세션으로 넣는 id
+		model.addAttribute("sNickname", "프로니");	//나중에 세션으로 넣는 nickname
 		model.addAttribute("boardVo", boardVo);
 		model.addAttribute("commentVos", commentVos);
 		model.addAttribute("replyList", replyList);
@@ -100,54 +109,48 @@ public class CommunityController {
 		model.addAttribute("search", search);
 		model.addAttribute("searchString", searchString);
 		model.addAttribute("boardLikesVo", boardLikesVo);
-		model.addAttribute("cmtLikesVos", cmtLikesVos);
+		model.addAttribute("cmtLikesVos", cmtLikesMap);
+		model.addAttribute("replyLikesList", replyLikesList);
 		
 		return "community/content";
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="/boardLikesCheck", method=RequestMethod.POST)
-	public int boardLikesCheck(int idx, int parentIdx) {		
+	@RequestMapping(value="/likesCheck", method=RequestMethod.POST)
+	public int likesCheck(int idx, String part, String parent, int parentIdx) {		
 		String memberId = "user123";	//나중에 session에 있는 값 꺼내오기
-		LikesVo likesVo = communityService.getLikes("board", idx, memberId);
+		LikesVo likesVo = communityService.getLikes(part, idx, memberId);
 
 		if(likesVo == null) {
-			System.out.println("실행됨null");
-			int cres = communityService.setCreateLikes("board", idx, memberId, "", parentIdx);
+			int cres = communityService.setCreateLikes(part, idx, memberId, parent, parentIdx);
 			if(cres != 0) {
-				cres = communityService.setUpdateLikeCnt("board", idx, 1);
+				cres = communityService.setUpdateLikeCnt(part, idx, 1);
 			}
 			return 1;
 		}
 		else {
-			System.out.println("실행됨notnull");
 			int cres = communityService.setDeleteLikes(likesVo.getIdx());
 			if(cres != 0) {
-				cres = communityService.setUpdateLikeCnt("board", idx, -1);
+				cres = communityService.setUpdateLikeCnt(part, idx, -1);
 			}
 			return -1;
 		}
 	}
+		
 	
 	@ResponseBody
-	@RequestMapping(value="/commentLikesCheck", method=RequestMethod.POST)
-	public int commentLikesCheck(int idx, int parentIdx) {		
-		String memberId = "user123";	//나중에 session에 있는 값 꺼내오기
-		LikesVo likesVo = communityService.getLikes("comment", idx, memberId);
-		
-		if(likesVo == null) {
-			int cres = communityService.setCreateLikes("comment", idx, memberId, "board", parentIdx);
-			if(cres != 0) {
-				cres = communityService.setUpdateLikeCnt("comment", idx, 1);
-			}
-			return 1;
-		}
-		else {
-			int cres = communityService.setDeleteLikes(likesVo.getIdx());
-			if(cres != 0) {
-				cres = communityService.setUpdateLikeCnt("comment", idx, -1);
-			}
-			return -1;
-		}
+	@RequestMapping(value="/cmtInput", method=RequestMethod.POST)
+	public int cmtInput(CommentVo cmtVo) {
+		int res = communityService.setUpdateCommetCnt("comment", cmtVo.getBoardId());
+		System.out.println("commentRes: " + res);
+		return communityService.setCreateComment(cmtVo);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/replyInput", method=RequestMethod.POST)
+	public int replyInput(CommentVo cmtVo) {
+		int res = communityService.setUpdateCommetCnt("reply", cmtVo.getParentId());
+		System.out.println("replyRes: " + res);
+		return communityService.setCreateReply(cmtVo);
 	}
 }
