@@ -287,7 +287,7 @@
 								</div>				
 							</div>
 								<!-- 답글  -->
-								<div class="reply" id="reply${cmtSt.count}">
+								<div class="reply" id="reply${cmtVo.idx}">
 												<c:if test="${!empty replyList[cmtSt.index]}">
 													<c:forEach var="replyVo" items="${replyList[cmtSt.index]}" varStatus="replySt">
 														<div class="reply_item">
@@ -324,21 +324,19 @@
 													</c:forEach>
 												</c:if>
 												<div class="reply_input">
-													<form name="replyInputForm">
+													<span>${sNickname}</span>
+													<span>
 														<textarea name="reply_content${cmtSt.index}" id="reply_content${cmtSt.index}" placeholder="답글을 입력하세요."></textarea>
-														<span>${sNickname}</span>
-														<input type="button" placeholder="등록" onclick="replyInput(${cmtSt.count},${cmtSt.index})">
-													</form>
+														<input type="button" placeholder="등록" onclick="replyInput(${cmtVo.idx},${cmtSt.index})">
+													</span>
 												</div>
 										</div>
 								<!-- 답글 끝 -->
 						</c:forEach>
 						<div class="cmt_input">
-							<form name="cmtInputForm">
-								<textarea name="cmt_content" id="cmt_content" placeholder="답글을 입력하세요."></textarea>
-								<span>${sNickname}</span>
-								<input type="button" placeholder="등록" onclick="cmtInput()">
-							</form>
+							<textarea name="cmt_content" id="cmt_content" placeholder="답글을 입력하세요."></textarea>
+							<span>${sNickname}</span>
+							<input type="button" placeholder="등록" onclick="cmtInput()">
 						</div>
 					</c:if>
 				</div>
