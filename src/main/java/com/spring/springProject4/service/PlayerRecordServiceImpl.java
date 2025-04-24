@@ -18,24 +18,24 @@ public class PlayerRecordServiceImpl implements PlayerRecordService {
   //중복처리를 위한 메서드
   @Override
   public void savePlayerRecord(PlayerRecordDto dto) {
-  		//이름, 포지션, 년도가 같으면 같은사람으로 취급
-      PlayerRecordDto existing = playerRecordDao.findExistingRecord(
-          dto.getPlayer(), dto.getPosition(), dto.getYear()
-      );
-      
-      
-      if (existing == null) {
-      	playerRecordDao.insertPlayerStats(dto);
-          System.out.println("저장 완료: " + dto.getPlayer());
-      } else {
-      	playerRecordDao.updatePlayerStats(dto);
-          System.out.println("업데이트 완료: " + dto.getPlayer());
-      }
+		//이름, 포지션, 년도가 같으면 같은사람으로 취급
+    PlayerRecordDto existing = playerRecordDao.findExistingRecord(
+  		dto.getPlayer(), dto.getPosition(), dto.getYear()
+    );
+    
+    
+    if (existing == null) {
+    	playerRecordDao.insertPlayerStats(dto);
+      System.out.println("저장 완료: " + dto.getPlayer());
+    } else {
+    	playerRecordDao.updatePlayerStats(dto);
+      System.out.println("업데이트 완료: " + dto.getPlayer());
+    }
   }
 
   @Override
   public List<PlayerRecordDto> getAllPlayerRecords() {
-      return playerRecordDao.getAllPlayerStats();
+    return playerRecordDao.getAllPlayerStats();
   }
   
   
@@ -43,6 +43,7 @@ public class PlayerRecordServiceImpl implements PlayerRecordService {
   public List<PlayerRecordDto> getSortedHitterRecords(String sortColumn, String orderDirection,
                                                       String team, String position,
                                                       Integer startYear, Integer endYear) {
-      return playerRecordDao.getSortedHitterRecords(sortColumn, orderDirection, team, position, startYear, endYear);
-  }
+
+    return playerRecordDao.getSortedHitterRecords(sortColumn, orderDirection, team, position, startYear, endYear);
+	}
 }

@@ -14,31 +14,31 @@
           AND year = #{year}
     </select>
 	
-		<select id="getSortedHitterRecords" resultType="com.spring.springProject4.dto.PlayerRecordDto">
-	    SELECT 
-	        id, player, team_logo AS teamLogo, position, year,
-	        games, tasuk, at_bats AS atBats, runs, hits, 
-	        doubles, triples, total_bases AS totalBases, rbi, home_runs AS homeRuns,
-	        stolen_bases AS stolenBases, stolen_bases_fail AS stolenBasesFail,
-	        bb, strikeouts, double_plays AS doublePlays, sac_hits AS sacHits, sac_flies AS sacFlies,
-	        avg, obp, slg, ops, war
-	    FROM hitter_stats
-	    WHERE 1=1
-	    <if test="team != null and team != ''">
-        AND team_logo LIKE CONCAT('%', #{team}, '%')
-	    </if>
-	    <if test="position != null and position != ''">
+<select id="getSortedHitterRecords" resultType="com.spring.springProject4.dto.PlayerRecordDto">
+    SELECT 
+        id, player, team_logo AS teamLogo, position, year,
+        games, tasuk, at_bats AS atBats, runs, hits, 
+        doubles, triples, total_bases AS totalBases, rbi, home_runs AS homeRuns,
+        stolen_bases AS stolenBases, stolen_bases_fail AS stolenBasesFail,
+        bb, strikeouts, double_plays AS doublePlays, sac_hits AS sacHits, sac_flies AS sacFlies,
+        avg, obp, slg, ops, war
+    FROM hitter_stats
+    WHERE 1=1
+		<if test="team != null and team != ''">
+		  AND team_logo LIKE CONCAT('%/', #{team}, '.svg')
+		</if>
+    <if test="position != null and position != ''">
         AND position = #{position}
-	    </if>
-	    <if test="startYear != null">
+    </if>
+    <if test="startYear != null">
         AND year &gt;= #{startYear}
-	    </if>
-	    <if test="endYear != null">
+    </if>
+    <if test="endYear != null">
         AND year &lt;= #{endYear}
-	    </if>
-	    ORDER BY 
-      ${sortColumn} ${orderDirection}
-		</select>
+    </if>
+    ORDER BY 
+        ${sortColumn} ${orderDirection}
+</select>
 
 
 
