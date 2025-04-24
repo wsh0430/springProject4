@@ -215,7 +215,7 @@ public class RecordController {
 	                        PitcherRecordDto dto = new PitcherRecordDto();
 	                        dto.setPlayer(player);
 	                        dto.setTeamLogo(teamLogo);
-	                        dto.setYear(Integer.parseInt(yearText));
+	                        dto.setYear(fixYear(yearText));
 	                        dto.setWar(Float.parseFloat(tds.get(3).getText().trim()));
 	                        dto.setGamesP(Integer.parseInt(tds.get(4).getText().trim()));
 	                        dto.setGamesStart(Integer.parseInt(tds.get(5).getText().trim()));
@@ -498,7 +498,7 @@ public class RecordController {
 	                        TeamPlayerRecordDto dto = new TeamPlayerRecordDto();
 	                        dto.setTeamName(teamName);
 	                        dto.setTeamLogo(teamLogo);
-	                        dto.setYear(Integer.parseInt(yearText));
+	                        dto.setYear(fixYear(yearText));
 
 	                        dto.setGames(Integer.parseInt(tds.get(4).getText().trim()));
 	                        dto.setTasuk(Integer.parseInt(tds.get(7).getText().trim()));
@@ -595,7 +595,7 @@ public class RecordController {
 	                        TeamPitcherRecordDto dto = new TeamPitcherRecordDto();
 	                        dto.setTeamName(teamName);
 	                        dto.setTeamLogo(teamLogo);
-	                        dto.setYear(Integer.parseInt(yearText));
+	                        dto.setYear(fixYear(yearText));
 
 	                        dto.setWar(Float.parseFloat(tds.get(3).getText().trim()));
 	                        dto.setGamesP(Integer.parseInt(tds.get(4).getText().trim()));
