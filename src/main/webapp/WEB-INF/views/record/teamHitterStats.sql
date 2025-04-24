@@ -31,5 +31,9 @@ CREATE TABLE team_hitter_stats (
     
 );
 
+SELECT *
+FROM team_hitter_stats h
+JOIN team_pitcher_stats p ON h.team_name = p.team_name AND h.year = p.year;
+
 select * from team_hitter_stats;
 drop table team_hitter_stats;

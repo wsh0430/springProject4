@@ -27,5 +27,5 @@ CREATE TABLE team_pitcher_stats (
     fip FLOAT(5,2),                              -- FIP
     whip FLOAT(5,2)                              -- WHIP
 );
-
+SELECT * FROM team_pitcher_stats;
 drop table team_pitcher_stats;
