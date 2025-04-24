@@ -63,7 +63,6 @@ public class MemberJoinInterceptor extends HandlerInterceptorAdapter {
 		        case 0: return "관리자";
 		        case 1: return "우수회원";
 		        case 2: return "정회원";
-		        case 3: return "준회원";
 		        default: return "일반회원";
 		    }
 		}

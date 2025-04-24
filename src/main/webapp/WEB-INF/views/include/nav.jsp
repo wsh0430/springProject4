@@ -24,7 +24,7 @@
 		
 		<!-- navbar 2번 목록들 -->
 		<div class="navbar2">
-			<div class="mainTitle"><a href="http://localhost:8080/springProject4">HeatBox</a></div>
+			<div class="mainTitle"><a href="http://localhost:8080/springProject4">HITBox</a></div>
 			<ul class="nav-items">
 				<li class="nav-record"><a href="#">기록실</a>
 				 	<!-- 하위메뉴 -->
@@ -70,5 +70,4 @@
 	    </ul>
 	  </div>
 	</div>
-<jsp:include page="/WEB-INF/views/include/footer.jsp"/>
 </html>

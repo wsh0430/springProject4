@@ -113,7 +113,10 @@ public class MemberController {
 			}
 		}
 	// 로그인 완료후 웰컴 페이지 보기
-	
+		@RequestMapping(value = "/memberWelcome", method = RequestMethod.GET)
+		public String memberWelcomeGet() {
+			return "member/memberWelcome";
+		}
 	// 소셜 로그인 처리
 	
 

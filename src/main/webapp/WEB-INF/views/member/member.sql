@@ -15,7 +15,7 @@ CREATE TABLE `member` (
 	`userInfo` CHAR(3)  DEFAULT '공개' COMMENT '정보 공개 여부(공개/비공개)' COLLATE 'utf8mb4_0900_ai_ci',
 	`userDelete` CHAR(2)  DEFAULT 'NO' COMMENT '탈퇴 신청 여부(OK/NO)' COLLATE 'utf8mb4_0900_ai_ci',
 	`point` INT  DEFAULT '0' COMMENT '포인트 최초가입시 1000포인트 지급, 하루에 1회 방문시 10포인트 증가,  ',
-	`level` INT  DEFAULT '3' COMMENT '회원등급(일단 0:관리자, 1:우수회원 2:정회원 3:준회원)',
+	`level` INT  DEFAULT '3' COMMENT '회원등급(일단 0:관리자 1:회원 10:비회원 100:차단된회원 )',
 	`visit_count` INT  DEFAULT '0' COMMENT '방문 수',
 	`board_count` INT  DEFAULT '0' COMMENT '작성 게시글 수',
 	`comment_count` INT  DEFAULT '0' COMMENT '작성 댓글 수',

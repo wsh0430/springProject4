@@ -1,0 +1,45 @@
+@charset "UTF-8";
+
+/* 푸터 스타일 */
+        footer {
+            background-color: #2C3E50; /* 다크 블루 색상, 야구 그라운드 느낌 */
+            color: white;
+            padding: 5px 20px;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+
+        footer .social-icons {
+            margin-bottom: 7px;
+        }
+
+        footer .social-icons i {
+            font-size: 25px;
+            margin: 0 8px;
+            color: white;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        footer .social-icons i:hover {
+            transform: scale(1.1); /* 아이콘 확대 */
+            color: #E74C3C; /* 붉은색으로 호버 */
+        }
+
+        footer .footer-text {
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        footer .footer-text a {
+            color: #E74C3C; /* 링크 색상 */
+            text-decoration: none;
+        }
+
+        footer .footer-text a:hover {
+            text-decoration: underline; /* 링크 호버 시 밑줄 */
+        }
+
+        footer .footer-info {
+            margin-top: 10px;
+            font-size: 12px;
+        }
