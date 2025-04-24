@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.springProject4.dao.MemberDao">
+	<select id="getMemberIdCheck" resultType="com.spring.springProject4.vo.MemberVo">
+		select * from member where memberId = #{memberId};
+	</select>
+	
+	<select id="getMemberById" resultType="com.spring.springProject4.vo.MemberVo">
+		select * from member where memberId = #{memberId};
+	</select>
+	
+	<select id="getMemberNickCheck" resultType="com.spring.springProject4.vo.MemberVo">
+		select * from member where nickName = #{nickName};
+	</select>
+	
+	<select id="getMemberByLoginToken" resultType="com.spring.springProject4.vo.MemberVo">
+		select * from member where loginToken = #{loginToken} and token_expiry > NOW(); <!-- (> now())가 중요! 로그인토큰이 아직 유효한지  -->
+	</select>
+
+	<insert id="setMemberJoinOk">
+		insert into member ( 
+				memberId, password, nickName, name, gender, tel, address, email, likeTeam, icon, content, birthday, userInfo, userDelete, 
+				point, level, visit_count, board_count, comment_count, report_count, warning_count, ip, start_date, last_date, login_token, token_expiry) 
+      values (
+	    	#{vo.memberId}, #{vo.password}, #{vo.nickName}, #{vo.name}, #{vo.gender}, #{vo.tel}, #{vo.address}, #{vo.email}, #{vo.likeTeam}, #{vo.icon}, #{vo.content}, 
+	      #{vo.birthday}, #{vo.userInfo},#{vo.userDelete}, #{vo.point}, #{vo.level}, #{vo.visitCount}, #{vo.boardCount}, 
+	      #{vo.commentCount}, #{vo.reportCount}, #{vo.warningCount}, #{vo.ip}, #{vo.startDate}, #{vo.lastDate}, #{vo.loginToken}, #{vo.tokenExpiry} )
+	</insert>
+
+  <insert id="saveLoginToken">
+      insert into login_tokens (memberId, loginToken, expiry) 
+      values (#{memberId}, #{loginToken}, #{expiry});
+  </insert>
+	
+	
+	<update id="setMemberVisitCount">
+		update member set visitCount=0 where memberId = #{memberId};
+	</update>
+	
+	<update id="setMemberPoint">
+		update member set point = point + #{point} WHERE memberId = #{memberId}
+	</update>
+</mapper>

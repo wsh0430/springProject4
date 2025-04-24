@@ -5,18 +5,9 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>message</title>
-	<script>
-		'use strict'
-		
-		if('${message}' != "") alert("${message}");
-		location.href = "${ctp}/${url}";
-	</script>
+	<title>title</title>
 </head>
 <body>
-	<p><br/></p>
-	<div class="container">
 	
-	</div>
 </body>
 </html>
