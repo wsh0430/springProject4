@@ -49,6 +49,10 @@ public interface CommunityDao {
 
 	int setUpdateComment(@Param("idx") int idx, @Param("content") String content);
 
+	int setUpdateDeleteCheck(@Param("idx") int idx);
+
+	int setCreateBoard(@Param("vo") BoardVo vo);
+
 	
 
 }

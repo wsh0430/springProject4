@@ -38,4 +38,8 @@ public interface CommunityService {
 	int setUpdateCommetCnt(String part, int partIdx);
 
 	int setUpdateComment(int idx, String content);
+
+	int setUpdateDeleteCheck(int idx);
+
+	int setCreateBoard(BoardVo vo);
 }

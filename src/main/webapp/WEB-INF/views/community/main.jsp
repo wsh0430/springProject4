@@ -126,10 +126,10 @@
     		</table>
     	</div>
     	<div id="board">
-			<span>${category }</span>
+			<span>${category}</span>
 			<table class="table table-borderless m-0 p-0">
 				<tr>
-					<td><a href="#" class="btn btn-success btn-sm">글쓰기</a></td>
+					<td><a href="${ctp}/community/cmtyBoardCreate" class="btn btn-success btn-sm">글쓰기</a></td>
 					<c:if test="${empty pageVo.searchStr}">
 						<td class="text-end"><select name="pageSize" id="pageSize"
 							onchange="pageSizeCheck()">

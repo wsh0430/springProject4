@@ -57,6 +57,9 @@
 		insert into comment values(default, #{cmtVo.boardId}, #{cmtVo.memberId}, #{cmtVo.memberNickname}, #{cmtVo.content}, default, default, default, default, default, #{cmtVo.parentId}, default, default, default, default, default, default, default, default, default, default);
 	</insert>
 	
+	<insert id="setCreateBoard">
+		insert into board values(default, #{vo.memberId}, #{vo.memberNickname}, #{vo.categoryName}, #{vo.title}, #{vo.content}, default, default, default, default, default, default, default, default, default, default, default, default, default, default, default, default, default);
+	</insert>
 	
 	
 	
@@ -76,6 +79,10 @@
 	
 	<update id="setUpdateComment">
 		update comment set content = #{content} where idx = #{idx};
+	</update>
+	
+	<update id="setUpdateDeleteCheck">
+		update comment set delete_check = 1 where idx = #{idx};
 	</update>
 	
 	

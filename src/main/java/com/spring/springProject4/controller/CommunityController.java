@@ -1,11 +1,8 @@
 package com.spring.springProject4.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.mail.Session;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -160,5 +157,43 @@ public class CommunityController {
 	@RequestMapping(value="/cmtUpdate", method=RequestMethod.POST)
 	public int cmtUpdatePost(int idx, String content) {
 		return communityService.setUpdateComment(idx, content);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/replyUpdate", method=RequestMethod.POST)
+	public int replyUpdatePost(int idx, String content) {
+		return communityService.setUpdateComment(idx, content);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/cmtDeleteCheck", method=RequestMethod.POST)
+	public int cmtDeleteCheckPost(int idx) {
+		return communityService.setUpdateDeleteCheck(idx);
+	}
+	
+	@RequestMapping(value = "/cmtyBoardCreate", method = RequestMethod.GET)
+	public String cmtyBoardCreateGet(Model model) {
+		// 카테고리
+		List<CategoryVo> mainCtgyVos = communityService.getMainCategoryList();	// 메인 카테고리vos
+		List<CategoryVo> subCtgyVos = null; 
+		List<List<CategoryVo>> subCtgyList = new ArrayList<>();	//서브 카테고리
+		for(int i = 0; i < mainCtgyVos.size(); i++) {
+			subCtgyVos = communityService.getSubCategoryList(mainCtgyVos.get(i).getName());	//서브 카테고리vos
+			subCtgyList.add(subCtgyVos);
+		}
+		
+		model.addAttribute("mainCtgyVos", mainCtgyVos);
+		model.addAttribute("subCtgyList", subCtgyList);
+		
+		return "community/boardCreate";
+	}
+	
+	@RequestMapping(value = "/cmtyBoardCreate", method = RequestMethod.POST)
+	public String cmtyBoardCreatePost(BoardVo vo) {
+		if(vo.getMemberNickname() == null || vo.getMemberNickname() == "")
+			vo.setMemberNickname("전체");
+		int res = communityService.setCreateBoard(vo);
+		
+		return "redirect:/message/cmtyBoardCreate";
 	}
 }

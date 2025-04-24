@@ -95,4 +95,14 @@ public class CommunityServiceImpl implements CommunityService {
 		return communityDao.setUpdateComment(idx, content);
 	}
 
+	@Override
+	public int setUpdateDeleteCheck(int idx) {
+		return communityDao.setUpdateDeleteCheck(idx);
+	}
+
+	@Override
+	public int setCreateBoard(BoardVo vo) {
+		return communityDao.setCreateBoard(vo);
+	}
+
 }

@@ -19,4 +19,5 @@ public class CommentVo {
 	private String createdAt;
 	private String updateAt;
 	private int parentId;
+	private int deleteCheck;
 }
