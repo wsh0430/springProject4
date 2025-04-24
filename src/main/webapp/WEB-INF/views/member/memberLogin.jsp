@@ -19,11 +19,11 @@
 				<table class="loginTable">
 				  <tr>
 				    <th>아이디</th>
-				    <td><input type="text" name="mid" id="mid" value="${mid}" placeholder="아이디를 입력하세요" required class="loginInput" /></td>
+				    <td><input type="text" name="memberId" id="memberId" value="${memberId}" placeholder="아이디를 입력하세요" required class="loginInput" /></td>
 				  </tr>
 				  <tr>
 				    <th>비밀번호</th>
-				    <td><input type="password" name="pwd" id="pwd" placeholder="비밀번호를 입력하세요." required class="loginInput" /></td>
+				    <td><input type="password" name="password" id="password" placeholder="비밀번호를 입력하세요." required class="loginInput" /></td>
 				  </tr>
 				  <tr>
 					  <td colspan="2" class="loginOptions">

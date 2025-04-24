@@ -1,5 +1,7 @@
 package com.spring.springProject4.vo;
 
+import java.time.LocalDateTime;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -8,31 +10,32 @@ import lombok.ToString;
 @Getter
 @ToString
 public class MemberVo {
-	int idx;
-	String memberId;
-	String password;
-	String nickName;
-	String name;
-	String gender;
-	String tel;
-	String address;
-	String email;
-	String likeTeam;
-	String icon;
-	String content;
-	String birthday;
-	String userInfo;
-	String delete;
-	String point;
-	String level;
-	String visit_count;
-	String board_count;
-	String comment_count;
-	String report_count;
-	String warning_count;
-	String ip;
-	String start_date;
-	String last_date;
-
+	private int idx;
+	private String memberId;
+	private String password;
+	private String nickName;
+	private String name;
+	private String gender;
+	private String tel;
+	private String address;
+	private String email;
+	private String likeTeam;
+	private String icon;
+	private String content;
+	private String birthday;
+	private String userInfo;
+	private String userDelete;
+	private int point;
+	private int level;
+	private int visitCount;
+	private String boardCount;
+	private int commentCount;
+	private int reportCount;
+	private int warningCount;
+	private String ip;
+	private String startDate;
+	private String lastDate;
+	private String loginToken;
+	private LocalDateTime tokenExpiry;
 	
 }

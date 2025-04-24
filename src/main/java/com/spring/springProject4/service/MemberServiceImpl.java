@@ -1,9 +1,8 @@
 package com.spring.springProject4.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
-
-import javax.sound.midi.MidiChannel;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -63,5 +62,43 @@ public class MemberServiceImpl implements MemberService {
 	
 		return memberDao.getMemberNickCheck(nickName);
 	}
+
+	@Override
+	public MemberVo getMemberById(String memberId) {
+		
+		return memberDao.getMemberById(memberId);
+	}
+
+	@Override
+	public void setMemberVisitCount(String memberId) {
+		memberDao.setMemberVisitCount(memberId);
+		
+	}
+
+	@Override
+	public void setMemberPoint(String memberId, int point) {
+		memberDao.setMemberPoint(memberId, point);
+		
+	}
+
+	@Override
+	public void saveLoginToken(String memberId, String loginToken, LocalDateTime expiry) {
+		memberDao.saveLoginToken(memberId, loginToken, expiry);
+		
+	}
+
+	@Override
+	public void deleteLoginToken(String loginToken) {
+		memberDao.deleteLoginToken(loginToken);
+		
+	}
+
+	@Override
+	public MemberVo getMemberByLoginToken(String loginToken) {
+		
+		return memberDao.getMemberByLoginToken(loginToken);
+	}
+
+	
 
 }

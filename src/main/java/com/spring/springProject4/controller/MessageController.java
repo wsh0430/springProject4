@@ -21,13 +21,23 @@ public class MessageController {
 			model.addAttribute("url","member/memberJoin");
 		}
 		else if(msgFlag.equals("memberJoinOK")) {
-			model.addAttribute("url","member/memberWelcome");
+			return "redirect:/member/memberWelcome";
 		}
 		else if(msgFlag.equals("memberJoinNO")) {
+			model.addAttribute("message","아이디가 중복되었습니다.\\n 확인하시고 다시 가입해주세요.");
 			model.addAttribute("url","member/memberJoinRetry");
 		}
+		else if(msgFlag.equals("memberLoginOk")) {
+			model.addAttribute("message", memberId + "회원님 로그인 성공!");
+			model.addAttribute("url","/");
+		}
+		else if(msgFlag.equals("memberLoginNo")) {
+			model.addAttribute("message","로그인 실패! 다시 로그인 해주세요.");
+			model.addAttribute("url","member/memberLogin");
+		}
 		
-				return "include/message";
+		
+		return "include/message";
 		
 	}
 
