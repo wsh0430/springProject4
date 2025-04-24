@@ -8,6 +8,6 @@
 </head>
 <body>
 <h1>임시메인화면</h1>
-<a href="${ctp}/record/recordMain" class="w3-bar-item w3-button">기록실</a>
+<a href="${ctp}/record/recordCrawl" class="w3-bar-item w3-button">기록실</a>
 </body>
 </html>

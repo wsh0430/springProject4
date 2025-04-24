@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC 
+  "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" 
+  "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+  
+<tiles-definitions>
+	<!-- community화면 tiles 적용  -->
+	<definition name="communityMain" template="/WEB-INF/views/community/layout/base.jsp">
+		<!-- <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp"></put-attribute>
+		<put-attribute name="nav" value="/WEB-INF/views/layout/nav.jsp"></put-attribute>
+		<put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp"></put-attribute> -->
+		
+		<put-attribute name="ad_left" value="/WEB-INF/views/community/layout/ad_lr.jsp"></put-attribute>
+		<put-attribute name="ad_right" value="/WEB-INF/views/community/layout/ad_lr.jsp"></put-attribute>
+		<put-attribute name="ad_top" value="/WEB-INF/views/community/layout/ad_tb.jsp"></put-attribute>
+		<put-attribute name="ad_bottom" value="/WEB-INF/views/community/layout/ad_tb.jsp"></put-attribute>
+	</definition>
+	<definition name="community/*" extends="communityMain">
+		<put-attribute name="body" value="/WEB-INF/views/community/{1}.jsp" />
+	</definition>
+	<definition name="community/*/*" extends="communityMain">
+		<put-attribute name="body" value="/WEB-INF/views/community/{1}/{2}.jsp" />
+	</definition>
+	
+</tiles-definitions>

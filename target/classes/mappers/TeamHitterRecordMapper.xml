@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.spring.springProject4.dao.PlayerRecordDao">
-
-    <select id="getAllPlayerStats" resultType="com.spring.springProject4.dto.PlayerRecordDto">
-        SELECT * FROM hitter_stats
+<mapper namespace="com.spring.springProject4.dao.TeamPlayerRecordDao">
+   <!-- 전체 팀 타자 기록 조회 -->
+    <select id="getAllPlayerStats" resultType="com.spring.springProject4.dto.TeamPlayerRecordDto">
+        SELECT * FROM team_hitter_stats
     </select>
 
-    <select id="findExistingRecord" resultType="com.spring.springProject4.dto.PlayerRecordDto">
+    <!-- 특정 팀과 연도의 기록 조회 -->
+    <select id="findExistingRecord" resultType="com.spring.springProject4.dto.TeamPlayerRecordDto">
         SELECT *
-        FROM hitter_stats
-        WHERE player = #{player}
-          AND position = #{position}
+        FROM team_hitter_stats
+        WHERE team_name = #{teamName}
           AND year = #{year}
     </select>
 
+    <!-- 기록 삽입 -->
     <insert id="insertPlayerStats">
-        INSERT INTO hitter_stats (
-            player, team_logo, position, year, games, tasuk, at_bats, runs,
+        INSERT INTO team_hitter_stats (
+            team_name, team_logo, year, games, tasuk, at_bats, runs,
             hits, doubles, triples, total_bases, rbi, home_runs, stolen_bases,
             stolen_bases_fail, bb, strikeouts, double_plays, sac_hits,
             sac_flies, avg, obp, slg, ops, war
         ) VALUES (
-            #{dto.player}, #{dto.teamLogo}, #{dto.position}, #{dto.year}, #{dto.games},
+            #{dto.teamName}, #{dto.teamLogo}, #{dto.year}, #{dto.games},
             #{dto.tasuk}, #{dto.atBats}, #{dto.runs}, #{dto.hits}, #{dto.doubles},
             #{dto.triples}, #{dto.totalBases}, #{dto.rbi}, #{dto.homeRuns},
             #{dto.stolenBases}, #{dto.stolenBasesFail}, #{dto.bb}, #{dto.strikeouts},
@@ -30,8 +31,9 @@
         )
     </insert>
 
+    <!-- 기록 업데이트 -->
     <update id="updatePlayerStats">
-        UPDATE hitter_stats SET
+        UPDATE team_hitter_stats SET
             team_logo = #{dto.teamLogo},
             games = #{dto.games},
             tasuk = #{dto.tasuk},
@@ -55,8 +57,9 @@
             slg = #{dto.slg},
             ops = #{dto.ops},
             war = #{dto.war}
-        WHERE player = #{dto.player}
-          AND position = #{dto.position}
+        WHERE team_name = #{dto.teamName}
           AND year = #{dto.year}
     </update>
+
+
 </mapper>
