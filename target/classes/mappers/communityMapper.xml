@@ -8,19 +8,22 @@
 		select * from category where parent_name = #{pName};
 	</select>
     <select id="getBoardTotRecCnt" resultType="int">
-	  	select count(*) from board;
+  		 select count(*) from board
+  		 where
+    	<if test="category != '전체'">category_name = #{category} and </if>
+    	delete_check = 0;
 	</select>
 	<select id="getBoardTotRecCntSearch" resultType="int">
-    	select count(*) from board where ${search} like concat('%', #{searchString}, '%');
+    	select count(*) from board where ${search} like concat('%', #{searchString}, '%') and delete_check = 0;
   	</select>
 	
 	<select id="getBoardList" resultType="com.spring.springProject4.vo.BoardVo">
 		select * ,datediff(created_at, now()) as dateDiff,
   	    timestampdiff(hour, created_at, now()) as hourDiff
-		from board b<if test="category != '전체' || search !=''"> where<if test="category != '전체'"> category_name = #{category}<if test="search !=''"> and</if></if><if test='search !=""'>${search} like concat('%',#{searchString},'%')</if></if> order by idx desc limit #{startIndexNo},#{pageSize};
+		from board b where<if test="category != '전체' || search !=''"><if test="category != '전체'"> category_name = #{category}<if test="search !=''"> and</if></if><if test='search !=""'>${search} like concat('%',#{searchString},'%')</if> and</if> delete_check = 0 order by idx desc limit #{startIndexNo},#{pageSize};
 	</select>
 	
-	<select id="getBoardContent" resultType="com.spring.springProject4.vo.BoardVo">
+	<select id="getBoardVo" resultType="com.spring.springProject4.vo.BoardVo">
 		select * from board where idx = #{boardIdx};
 	</select>
 	
@@ -50,15 +53,15 @@
 	</insert>
 	
 	<insert id="setCreateComment">
-		insert into comment values(default, #{cmtVo.boardId}, #{cmtVo.memberId}, #{cmtVo.memberNickname}, #{cmtVo.content}, default, default, default, default, default, default , default, default, default, default, default, default, default, default, default, default);
+		insert into comment values(default, #{cmtVo.boardId}, #{cmtVo.memberId}, #{cmtVo.memberNickname}, #{cmtVo.content}, default, default, default, default, default, default, default , default, default, default, default, default, default, default, default, default, default);
 	</insert>
 	
 	<insert id="setCreateReply">
-		insert into comment values(default, #{cmtVo.boardId}, #{cmtVo.memberId}, #{cmtVo.memberNickname}, #{cmtVo.content}, default, default, default, default, default, #{cmtVo.parentId}, default, default, default, default, default, default, default, default, default, default);
+		insert into comment values(default, #{cmtVo.boardId}, #{cmtVo.memberId}, #{cmtVo.memberNickname}, #{cmtVo.content}, default, default, default, default, default, #{cmtVo.parentId}, default, default, default, default, default, default, default, default, default, default, default);
 	</insert>
 	
 	<insert id="setCreateBoard">
-		insert into board values(default, #{vo.memberId}, #{vo.memberNickname}, #{vo.categoryName}, #{vo.title}, #{vo.content}, default, default, default, default, default, default, default, default, default, default, default, default, default, default, default, default, default);
+		insert into board values(default, #{vo.memberId}, #{vo.memberNickname}, #{vo.categoryName}, #{vo.title}, #{vo.content}, default, default, default, default, default, default, default<!-- , default, default, default, default, default, default, default, default, default, default -->);
 	</insert>
 	
 	
@@ -82,9 +85,22 @@
 	</update>
 	
 	<update id="setUpdateDeleteCheck">
-		update comment set delete_check = 1 where idx = #{idx};
+		update comment set delete_check = 1 where 
+		    <if test="part == 'comment'">idx = #{idx}</if>
+		    <if test="part == 'reply'">parent_id = #{idx}</if>;
 	</update>
 	
+	<update id="setUpdateBoardViewCnt">
+		update board set view_count = view_count + 1 where idx = #{boardIdx};
+	</update>
+	
+	<update id="setUpdateBoard">
+		update board set category_name = #{vo.categoryName}, title = #{vo.title}, content = #{vo.content} where idx = #{vo.idx};
+	</update>
+	
+	<update id="setUpdateBoardDeleteCheck">
+		update board set delete_check = 1 where idx = #{boardIdx};
+	</update>
 	
 	
 	

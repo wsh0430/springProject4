@@ -73,34 +73,5 @@ public class HomeController {
 			
 			fos.close();
 		}
-		
-		// 파일 다운처리
-		@GetMapping("/fileDownAction")
-		public void fileDownActionGet(HttpServletRequest request, HttpServletResponse response, 
-				String path, String file) throws IOException {
-			
-			if(path.equals("pds")) path += "/temp/";
-			
-			String realPathFile = request.getSession().getServletContext().getRealPath("/resources/data/" + path) + file;
-			
-			File downFile = new File(realPathFile);
-			
-			String downFileName = new String(file.getBytes("UTF-8"), "8859_1");
-			response.setHeader("Content-Disposition", "attachment;filename=" + downFileName);
-			
-			FileInputStream fis = new FileInputStream(downFile);
-			ServletOutputStream sos = response.getOutputStream();
-			
-			byte[] bytes = new byte[2048];
-			int data = 0;
-			while((data = fis.read(bytes, 0, bytes.length)) != -1) {
-				sos.write(bytes, 0, data);
-			}
-			sos.flush();
-			sos.close();
-			fis.close();
-			
-			if(path.equals("pds/temp/")) downFile.delete();
-		}
 	
 }

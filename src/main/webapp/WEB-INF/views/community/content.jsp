@@ -12,6 +12,11 @@
     <script>
     	'use strict';
     	
+    	function boardDeleteCheck() {
+			if(confirm("정말 게시글을 삭제하시겠습니까?"))
+				location.href = "${ctp}/community/cmtyBoardDeleteCheck?boardIdx=${boardVo.idx}&category=${category}&pag=${pag}&pageSize=${pageSize}&search=${search}&searchString=${searchString}";
+		}
+    	
     	// 좋아요 체크
     	function likesCheck(part, target, idx, index, parent, parentIdx) {
     		let icon = $(target).find("."+part+"-like_icon"+index+" i");
@@ -129,15 +134,46 @@
 		}
     	
     	//댓글 삭제
-    	function cmtDeleteCheck(part, idx) {
+    	function cmtDeleteCheck(idx) {
     		if(!confirm("정말 댓글을 삭제하시겠습니까?")) {
 	    		return false;
 	    	}
     		
-    		let content = $("#"+part+"_item"+idx);
+    		let content = $("#cmt_item"+idx);
     		
     		$.ajax({
 				url: "${ctp}/community/cmtDeleteCheck",
+				type: "post",
+				data: {
+					idx: idx
+				},
+				success:function(res){
+					if(res != 0){
+						alert("댓글이 삭제되었습니다.");
+						
+						let string = '<span style="line-height: 60px;">작성자에 의해 삭제된 댓글입니다.</span>';
+						content.html(string);
+						
+						$("#reply"+idx).html("");
+					}
+					else alert("잠시 후 다시 시도해주세요.");
+				},
+				error: function() {
+					alert("전송오류");
+				}	
+			});
+		}
+    	
+    	//답글 삭제
+    	function replyDeleteCheck(idx, parentId) {
+    		if(!confirm("정말 댓글을 삭제하시겠습니까?")) {
+	    		return false;
+	    	}
+    		
+    		let content = $("#reply_item"+parentId);
+    		
+    		$.ajax({
+				url: "${ctp}/community/replyDeleteCheck",
 				type: "post",
 				data: {
 					idx: idx
@@ -396,8 +432,9 @@
 				</div>
 				<div class="right">
 					<c:if test="${sMemberId == boardVo.memberId}">
-						<a href="${ctp}/community/cmtyBoardUpdate?boardIdx=${boardVo.idx}&category=${boardVo.categoryName}&pag=${pag}&pageSize=${pageSize}&search=${search}&searchString=${searchString}">수정</a>
-						<a href="${ctp}/community/cmtyBoardDelete?category=${boardVo.categoryName}&pag=${pag}&pageSize=${pageSize}&search=${search}&searchString=${searchString}">삭제</a>
+						<input type="button" value="목록" onclick="location.href='${ctp}/community/cmtyMain?category=${category}&pag=${pag}&pageSize=${pageSize}&search=${search}&searchString=${searchString}'">
+						<input type="button" value="수정" onclick="location.href='${ctp}/community/cmtyBoardUpdate?boardIdx=${boardVo.idx}&category=${category}&pag=${pag}&pageSize=${pageSize}&search=${search}&searchString=${searchString}'">
+						<input type="button" value="삭제" onclick="boardDeleteCheck()">
 					</c:if>
 				</div>
 			</div>
@@ -422,7 +459,7 @@
 										<c:if test="${sMemberId == cmtVo.memberId}">
 											<button onclick="cmtUpdateBtnClick('cmt',${cmtVo.idx})">수정</button>								
 											<button class="cancel" onclick="cmtUpdateCancel('cmt',${cmtVo.idx})" style="display:none;">취소</button>								
-											<button onclick="cmtDeleteCheck('cmt',${cmtVo.idx})">삭제</button>	
+											<button onclick="cmtDeleteCheck(${cmtVo.idx})">삭제</button>	
 										</c:if>
 									</div>
 								</div>
@@ -466,7 +503,7 @@
 								<div class="reply" id="reply${cmtVo.idx}">
 												<c:if test="${!empty replyList[cmtSt.index]}">
 													<c:forEach var="replyVo" items="${replyList[cmtSt.index]}" varStatus="replySt">
-														<div class="reply_item">
+														<div class="reply_item" id="reply_item${cmtVo.idx}">
 															<div class="cmt_info">
 																<div class="high-bar">
 																	<div class="left">
@@ -481,7 +518,7 @@
 																		<c:if test="${sMemberId == replyVo.memberId}">
 																			<button onclick="cmtUpdateBtnClick('reply',${replyVo.idx})">수정</button>								
 																			<button class="cancel" onclick="cmtUpdateCancel('reply',${replyVo.idx})" style="display:none;">취소</button>								
-																			<button onclick="cmtDelete('reply',${replyVo.idx})">삭제</button>	
+																			<button onclick="replyDeleteCheck(${replyVo.idx}, ${replyVo.parentId})">삭제</button>	
 																		</c:if>
 																	</div>																
 																</div>

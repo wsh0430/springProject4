@@ -158,23 +158,25 @@
 	    				<th style="width: 7.5%">추천수</th>
 	    			</tr>
     			<c:forEach var="bVos" items="${boardVos}">
-	    			<tr>
-	    				<td>${bVos.idx}</td>
-	    				<td>
-	    					<a href="cmtyContent?boardIdx=${bVos.idx}&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}">
-	    						<font style="color: blue; font-weight: bold; font-size: 12px">${bVos.categoryName}</font> ${bVos.title}(${bVos.commentCount})
-	    					</a>
-	    				</td>
-	    				<td>${bVos.memberNickname}</td>
-	    				<td style="font-size: 12px;">
-							<c:if test="${bVos.hourDiff <= 24}">
-	        					${bVos.dateDiff == 0 ? fn:substring(bVos.createdAt,11,19) : fn:substring(bVos.createdAt,0,19)}
-	       					</c:if>
-							<c:if test="${bVos.hourDiff > 24}">${fn:substring(bVos.createdAt,0,10)}</c:if>
-	    				</td>
-	    				<td>${bVos.viewCount}</td>
-	    				<td>${bVos.likeCount}</td>
-	    			</tr>
+    				<c:if test="${bVos.deleteCheck == 0}">
+		    			<tr>
+		    				<td>${bVos.idx}</td>
+		    				<td>
+		    					<a href="cmtyContent?boardIdx=${bVos.idx}&category=${category}&pag=${pageVo.pag}&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}">
+		    						<font style="color: blue; font-weight: bold; font-size: 12px">${bVos.categoryName}</font> ${bVos.title}(${bVos.commentCount})
+		    					</a>
+		    				</td>
+		    				<td>${bVos.memberNickname}</td>
+		    				<td style="font-size: 12px;">
+								<c:if test="${bVos.hourDiff <= 24}">
+		        					${bVos.dateDiff == 0 ? fn:substring(bVos.createdAt,11,19) : fn:substring(bVos.createdAt,0,19)}
+		       					</c:if>
+								<c:if test="${bVos.hourDiff > 24}">${fn:substring(bVos.createdAt,0,10)}</c:if>
+		    				</td>
+		    				<td>${bVos.viewCount}</td>
+		    				<td>${bVos.likeCount}</td>
+		    			</tr>
+	    			</c:if>
     			</c:forEach>
     		</table>
     	</div>

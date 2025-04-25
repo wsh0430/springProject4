@@ -15,7 +15,7 @@ public interface CommunityService {
 	
 	List<BoardVo> getBoardList(String category, int startIndexNo, int pageSize, String search, String searchString);
 
-	BoardVo getBoardContent(int boardIdx);
+	BoardVo getBoardVo(int boardIdx);
 
 	LikesVo getLikes(String part, int partIdx, String memberId);
 	
@@ -39,7 +39,19 @@ public interface CommunityService {
 
 	int setUpdateComment(int idx, String content);
 
-	int setUpdateDeleteCheck(int idx);
+	int setUpdateDeleteCheck(String part, int idx);
 
 	int setCreateBoard(BoardVo vo);
+
+	int setUpdateBoardViewCnt(int boardIdx);
+
+	int setUpdateBoard(BoardVo vo);
+
+	int setUpdateBoardDeleteCheck(int boardIdx);
+
+	void imgCheck(String content);
+
+	void imgDelete(String content);
+
+	void imgBackup(String content);
 }

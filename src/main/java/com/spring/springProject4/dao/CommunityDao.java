@@ -21,11 +21,11 @@ public interface CommunityDao {
 	
 	List<BoardVo> getBoardList(@Param("category") String category, @Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize, @Param("search") String search, @Param("searchString") String searchString);
 	
-	int getBoardTotRecCnt();
+	int getBoardTotRecCnt(@Param("category") String category);
 	
 	int getBoardTotRecCntSearch(@Param("search") String search, @Param("searchString") String searchString);
 
-	BoardVo getBoardContent(@Param("boardIdx") int boardIdx);
+	BoardVo getBoardVo(@Param("boardIdx") int boardIdx);
 
 	LikesVo getLikes(@Param("part") String part, @Param("partIdx") int partIdx, @Param("memberId") String memberId);
 	
@@ -49,9 +49,15 @@ public interface CommunityDao {
 
 	int setUpdateComment(@Param("idx") int idx, @Param("content") String content);
 
-	int setUpdateDeleteCheck(@Param("idx") int idx);
+	int setUpdateDeleteCheck(@Param("part") String part, @Param("idx") int idx);
 
 	int setCreateBoard(@Param("vo") BoardVo vo);
+
+	int setUpdateBoardViewCnt(@Param("boardIdx") int boardIdx);
+
+	int setUpdateBoard(@Param("vo") BoardVo vo);
+
+	int setUpdateBoardDeleteCheck(@Param("boardIdx") int boardIdx);
 
 	
 

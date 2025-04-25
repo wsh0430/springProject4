@@ -12,7 +12,7 @@ public class Pagination {
 	@Autowired
 	CommunityDao communityDao;
 	
-	public PageVo getTotRecCnt(int pag, int pageSize, String section, String part, String searchString) {
+	public PageVo getTotRecCnt(String category, int pag, int pageSize, String section, String part, String searchString) {
 		PageVo vo = new PageVo();
 		
 		int totRecCnt = 0;
@@ -28,7 +28,7 @@ public class Pagination {
 		
 //		게시판을 분류하는 부분
 		if(section.equals("community")) {
-			if(part.equals("")) totRecCnt = communityDao.getBoardTotRecCnt();
+			if(part.equals("")) totRecCnt = communityDao.getBoardTotRecCnt(category);
 			else totRecCnt = communityDao.getBoardTotRecCntSearch(part, searchString);
 		}
 //		else if(section.equals("pds")) {

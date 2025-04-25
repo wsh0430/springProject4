@@ -50,8 +50,9 @@ public class CommunityController {
 		}
 
 		// 페이지
-		PageVo pageVo = pagination.getTotRecCnt(pag,pageSize,"community",search,searchString);	// (페이지번호,한 페이지분량,section,part,검색어)
-				
+		PageVo pageVo = pagination.getTotRecCnt(category, pag,pageSize,"community",search,searchString);	// (페이지번호,한 페이지분량,section,part,검색어)
+			
+		
 		// 보드
 		List<BoardVo> boardVos = communityService.getBoardList(category, pageVo.getStartIndexNo(), pageVo.getPageSize(), search, searchString);
 
@@ -69,6 +70,7 @@ public class CommunityController {
 	@RequestMapping(value="/cmtyContent", method=RequestMethod.GET)
 	public String cmtyContentGet(Model model, 
 			@RequestParam(name="boardIdx", defaultValue = "", required = false) int boardIdx,
+			@RequestParam(name="category", defaultValue = "전체", required = false) String category,
 			@RequestParam(name="pag", defaultValue = "1", required = false) int pag,
 			@RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize,
 			@RequestParam(name="search", defaultValue = "", required = false) String search,
@@ -76,7 +78,7 @@ public class CommunityController {
 			) {
 		String memberId = "user123";	//나중에 session에 있는 값 꺼내오기
 		
-		BoardVo boardVo = communityService.getBoardContent(boardIdx);
+		BoardVo boardVo = communityService.getBoardVo(boardIdx);
 		
 		List<CommentVo> commentVos = communityService.getCommentVos(boardIdx);
 		List<CommentVo> replyVos = null; 
@@ -98,11 +100,14 @@ public class CommunityController {
 			replyLikesList.add(map);
 		}
 		
+		communityService.setUpdateBoardViewCnt(boardIdx);
+		
 		model.addAttribute("sMemberId", "user123"); //나중에 세션으로 넣는 id
 		model.addAttribute("sNickname", "프로니");	//나중에 세션으로 넣는 nickname
 		model.addAttribute("boardVo", boardVo);
 		model.addAttribute("commentVos", commentVos);
 		model.addAttribute("replyList", replyList);
+		model.addAttribute("category", category);
 		model.addAttribute("pag", pag);
 		model.addAttribute("pageSize", pageSize);
 		model.addAttribute("search", search);
@@ -141,7 +146,6 @@ public class CommunityController {
 	@RequestMapping(value="/cmtInput", method=RequestMethod.POST)
 	public int cmtInputPost(CommentVo cmtVo) {
 		int res = communityService.setUpdateCommetCnt("comment", cmtVo.getBoardId());
-		System.out.println("commentRes: " + res);
 		return communityService.setCreateComment(cmtVo);
 	}
 	
@@ -149,7 +153,6 @@ public class CommunityController {
 	@RequestMapping(value="/replyInput", method=RequestMethod.POST)
 	public int replyInputPost(CommentVo cmtVo) {
 		int res = communityService.setUpdateCommetCnt("reply", cmtVo.getParentId());
-		System.out.println("replyRes: " + res);
 		return communityService.setCreateReply(cmtVo);
 	}
 	
@@ -168,7 +171,17 @@ public class CommunityController {
 	@ResponseBody
 	@RequestMapping(value="/cmtDeleteCheck", method=RequestMethod.POST)
 	public int cmtDeleteCheckPost(int idx) {
-		return communityService.setUpdateDeleteCheck(idx);
+		
+		if(communityService.setUpdateDeleteCheck("reply", idx) != 0)
+			return communityService.setUpdateDeleteCheck("comment", idx);
+		
+		return 0;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/replyDeleteCheck", method=RequestMethod.POST)
+	public int replyDeleteCheckPost(int idx) {
+		return communityService.setUpdateDeleteCheck("comment", idx);
 	}
 	
 	@RequestMapping(value = "/cmtyBoardCreate", method = RequestMethod.GET)
@@ -190,10 +203,120 @@ public class CommunityController {
 	
 	@RequestMapping(value = "/cmtyBoardCreate", method = RequestMethod.POST)
 	public String cmtyBoardCreatePost(BoardVo vo) {
-		if(vo.getMemberNickname() == null || vo.getMemberNickname() == "")
-			vo.setMemberNickname("전체");
+		if(vo.getCategoryName() == null || vo.getCategoryName() == "")
+			vo.setCategoryName("전체");
+		vo.setMemberId("user123"); //나중에 session꺼 넣기
+		vo.setMemberNickname("프로니"); //나중에 session꺼 넣기
+		
+		if(vo.getContent().indexOf("src=\"/") != -1) communityService.imgCheck(vo.getContent());
+		
+		vo.setContent(vo.getContent().replace("/data/ckeditor/", "/data/cmtyBoard/"));		
+		
 		int res = communityService.setCreateBoard(vo);
 		
-		return "redirect:/message/cmtyBoardCreate";
+		if(res == 1) return "redirect:/message/cmtyBoardCreateOk";
+		else return "redirect:/message/cmtyBoardCreateNo";
+	}
+	
+	@RequestMapping(value="/cmtyBoardUpdate", method=RequestMethod.GET)
+	public String cmtyBoardUpdateGet(Model model, 
+			@RequestParam(name="boardIdx", defaultValue = "", required = false) int boardIdx,
+			@RequestParam(name="category", defaultValue = "전체", required = false) String category,
+			@RequestParam(name="pag", defaultValue = "1", required = false) int pag,
+			@RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize,
+			@RequestParam(name="search", defaultValue = "", required = false) String search,
+			@RequestParam(name="searchString", defaultValue = "", required = false) String searchString
+			) {
+		
+		BoardVo boardVo = communityService.getBoardVo(boardIdx);
+		if(boardVo.getContent().indexOf("src=\"/") != -1) communityService.imgBackup(boardVo.getContent());
+		
+		// 카테고리
+		List<CategoryVo> mainCtgyVos = communityService.getMainCategoryList();	// 메인 카테고리vos
+		List<CategoryVo> subCtgyVos = null; 
+		List<List<CategoryVo>> subCtgyList = new ArrayList<>();	//서브 카테고리
+		for(int i = 0; i < mainCtgyVos.size(); i++) {
+			subCtgyVos = communityService.getSubCategoryList(mainCtgyVos.get(i).getName());	//서브 카테고리vos
+			subCtgyList.add(subCtgyVos);
+		}
+				
+				
+		model.addAttribute("mainCtgyVos", mainCtgyVos);
+		model.addAttribute("subCtgyList", subCtgyList);
+		model.addAttribute("boardVo", boardVo);
+		model.addAttribute("idx", boardIdx);
+		model.addAttribute("category", category);
+		model.addAttribute("pag", pag);
+		model.addAttribute("pageSize", pageSize);
+		model.addAttribute("search", search);
+		model.addAttribute("searchString", searchString);
+		
+		return "community/boardUpdate";
+	}
+	
+	@RequestMapping(value = "/cmtyBoardUpdate", method = RequestMethod.POST)
+	public String cmtyBoardUpdatePost(Model model, BoardVo vo,
+			@RequestParam(name="category", defaultValue = "전체", required = false) String category,
+			@RequestParam(name="pag", defaultValue = "1", required = false) int pag,
+			@RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize,
+			@RequestParam(name="search", defaultValue = "", required = false) String search,
+			@RequestParam(name="searchString", defaultValue = "", required = false) String searchString
+			) {
+		if(vo.getCategoryName() == null || vo.getCategoryName() == "")
+			vo.setCategoryName("전체");
+		vo.setMemberId("user123"); //나중에 session꺼 넣기
+		vo.setMemberNickname("프로니");
+		
+		// 수정된 자료가 원본자료와 완전히 동일하다면 수정할 필요가 없다.
+		BoardVo dbVo = communityService.getBoardVo(vo.getIdx());
+				
+		// content의 내용이 조금이라도 변경이 되었다면 내용을 수정처리한것이기에, 그림파일 처리유무를 결정한다.
+		if(!dbVo.getContent().equals(vo.getContent())) {
+			// 1.기존 board폴더의 그림이 존재했다면,원본그림을 모두 삭제처리한다.
+			if(dbVo.getContent().indexOf("src=\"/") != -1) communityService.imgDelete(dbVo.getContent());
+					
+			// 2.삭제후 'board'폴더를 'ckeditor'폴더로 경로 변경
+			vo.setContent(vo.getContent().replace("/data/cmtyBoard/", "/data/ckeditor/"));
+					
+			// 1,2번 작업을 마치면 처음 글을 올릴때와 똑 같은 상황으로 처리하면 된다.
+			if(vo.getContent().indexOf("src=\"/") != -1) communityService.imgCheck(vo.getContent());
+					
+			// 이미지 복사작업을 모두 마치면(ckeditor폴더에서 board폴더로) 'ckeditor -> board' 변경한다.
+			vo.setContent(vo.getContent().replace("/data/ckeditor/", "/data/cmtyBoard/"));
+		}
+		int res = communityService.setUpdateBoard(vo);
+		
+		model.addAttribute("idx", vo.getIdx());
+		model.addAttribute("category", category);
+		model.addAttribute("pag", pag);
+		model.addAttribute("pageSize", pageSize);
+		model.addAttribute("search", search);
+		model.addAttribute("searchString", searchString);
+		
+		if(res == 1) return "redirect:/message/cmtyBoardUpdateOk";
+		else return "redirect:/message/cmtyBoardUpdateNo?";
+	}
+	
+	
+	@RequestMapping(value="/cmtyBoardDeleteCheck", method=RequestMethod.GET)
+	public String cmtyBoardDeleteGet(Model model, 
+			@RequestParam(name="boardIdx", defaultValue = "", required = false) int boardIdx,
+			@RequestParam(name="category", defaultValue = "전체", required = false) String category,
+			@RequestParam(name="pag", defaultValue = "1", required = false) int pag,
+			@RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize,
+			@RequestParam(name="search", defaultValue = "", required = false) String search,
+			@RequestParam(name="searchString", defaultValue = "", required = false) String searchString
+			) {
+		
+		int res = communityService.setUpdateBoardDeleteCheck(boardIdx);
+		
+		model.addAttribute("category", category);
+		model.addAttribute("pag", pag);
+		model.addAttribute("pageSize", pageSize);
+		model.addAttribute("search", search);
+		model.addAttribute("searchString", searchString);
+		
+		if(res == 1) return "redirect:/message/cmtyBoardDeleteCheckOk";
+		else return "redirect:/message/cmtyBoardDeleteCheckNo?idx="+boardIdx;
 	}
 }

@@ -1,7 +1,5 @@
 package com.spring.springProject4.vo;
 
-import org.joda.time.DateTime;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -22,7 +20,7 @@ public class BoardVo {
 	private int reportCount;
 	private String createdAt;
 	private String updateAt;
-	private int isDelete;
+	private int deleteCheck;
 	
 	private int dateDiff;		// 게시글 일자 경과 체크 
 	private int hourDiff;		// 게시글 24시간 경과 체크
