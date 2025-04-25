@@ -211,7 +211,7 @@
 					Swal.fire({
 		        icon: 'warning',
 		        title: '전송 실패',
-		        text: '회원가입 내용을 확인하세요',
+		        text: '서버와의 통신 중 문제가 발생했습니다.',
 		        confirmButtonText: '확인'
 	      	});
 	      }

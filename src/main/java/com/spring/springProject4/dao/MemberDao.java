@@ -1,6 +1,5 @@
 package com.spring.springProject4.dao;
 
-import java.time.LocalDateTime;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -22,10 +21,6 @@ public interface MemberDao {
 
 	void setMemberPoint(@Param("memberId") String memberId, @Param("point") int point);
 
-	void saveLoginToken(@Param("memberId") String memberId, @Param("loginToken") String loginToken, @Param("expiry") LocalDateTime expiry);
 
-	void deleteLoginToken(@Param("loginToken") String loginToken);
-
-	MemberVo getMemberByLoginToken(@Param("loginToken") String loginToken);
 
 }

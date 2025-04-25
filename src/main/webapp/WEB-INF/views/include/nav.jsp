@@ -7,19 +7,34 @@
   <title>nav</title>
   <link rel="stylesheet" href="${ctp}/css/nav.css">
   <script type="text/javascript" src="${ctp}/js/nav.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 </head>
+  <div>현재 세션 sLevel: <%= session.getAttribute("sLevel") %></div>
 	<header>
 		<!-- navbar 1번(로그인/회원가입/검색창) -->
 		<div class="navbar1">
-			<span><a href="${ctp}/member/memberLogin">로그인</a></span>
-			<span class="text-muted ms-2 me-2"> | </span>
-			<span><a href="${ctp}/member/memberJoin">회원가입</a></span>
-			
-			<!-- 검색창 -->
-			<div class="search-container">
-    		<input type="text" class="search-input" placeholder="검색어를 입력하세요...">
-    		<button class="search-button">검색</button>
-  		</div>
+		  <!-- 검색창 -->
+		  <div class="search-container">
+		    <input type="text" class="search-input" placeholder="검색어를 입력하세요...">
+		    <button class="search-button">검색</button>
+		  </div>
+		
+		  <!-- 유저 메뉴 (드롭다운) -->
+		  <div class="user-menu">
+		    <button class="user-icon" onclick="toggleUserDropdown()">
+		    	<i class="fas fa-user"></i>
+		    </button>
+		    <div class="dropdown-menu" id="userDropdown">
+		      <!-- 아래 항목은 로그인 상태에 따라 JS로 제어 -->
+		      <c:if test="${empty sLevel}">
+			      <a href="${ctp}/member/memberLogin">로그인</a>
+			      <a href="${ctp}/member/memberJoin">회원가입</a>
+		      </c:if>
+		      <c:if test="${sLevel == 1}"><a href="${ctp}/member/memberMypage">마이페이지</a></c:if>
+		      <c:if test="${sLevel == 0}"><a href="#">관리자페이지</a></c:if>
+		      <c:if test="${sLevel < 3}"><a href="${ctp}/member/memberLogout">로그아웃</a></c:if>
+		    </div>
+		  </div>
 		</div>
 		
 		<!-- navbar 2번 목록들 -->
@@ -29,8 +44,9 @@
 				<li class="nav-record"><a href="#">기록실</a>
 				 	<!-- 하위메뉴 -->
 					<ul class="dropdown">
-						<li><a href="#">선수기록</a></li>
-						<li><a href="#">팀 기록</a></li>
+						<li><a href="#" onclick="showSidebar('player')">시즌 기록실</a></li>
+						<li><a href="#" onclick="showSidebar('career')">통산 기록실</a></li>
+						<li><a href="#" onclick="showSidebar('team')">팀 기록실</a></li>
 					</ul>
 				</li>	
 				<li><a href="#">분석실</a></li>
@@ -43,16 +59,28 @@
 		</div>
 	</header>
 
-	<!-- 선수기록 사이드바 -->
+	<!-- 시즌기록 사이드바 -->
 	<div class="sidebar" id="sidebar-player" style="display: none;">
 	  <h2>기록실<br></h2>
 	  <hr>
 	  <div class="menu-section">
-	    <h3>선수기록</h3>
+	    <h3>시즌기록</h3>
 	    <ul>
-	      <li>투수</li>
 	      <li>타자</li>
-	      <li>개인 통계</li>
+	      <li>투수</li>
+	    </ul>
+	  </div>
+	</div>
+	
+	<!-- 통산기록 사이드바 -->
+	<div class="sidebar" id="sidebar-career" style="display: none;">
+	  <h2>기록실<br></h2>
+	  <hr>
+	  <div class="menu-section">
+	    <h3>통산기록</h3>
+	    <ul>
+	      <li>타자</li>
+	      <li>투수</li>
 	    </ul>
 	  </div>
 	</div>
@@ -64,9 +92,9 @@
 	  <div class="menu-section">
 	    <h3>팀기록</h3>
 	    <ul>
-	      <li>공격력</li>
-	      <li>수비력</li>
-	      <li>팀 순위</li>
+	      <li>타격</li>
+	      <li>투구</li>
+	      <li></li>
 	    </ul>
 	  </div>
 	</div>

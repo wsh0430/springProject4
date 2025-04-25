@@ -80,25 +80,6 @@ public class MemberServiceImpl implements MemberService {
 		memberDao.setMemberPoint(memberId, point);
 		
 	}
-
-	@Override
-	public void saveLoginToken(String memberId, String loginToken, LocalDateTime expiry) {
-		memberDao.saveLoginToken(memberId, loginToken, expiry);
-		
-	}
-
-	@Override
-	public void deleteLoginToken(String loginToken) {
-		memberDao.deleteLoginToken(loginToken);
-		
-	}
-
-	@Override
-	public MemberVo getMemberByLoginToken(String loginToken) {
-		
-		return memberDao.getMemberByLoginToken(loginToken);
-	}
-
 	
 
 }

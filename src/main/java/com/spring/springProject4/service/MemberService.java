@@ -1,6 +1,5 @@
 package com.spring.springProject4.service;
 
-import java.time.LocalDateTime;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,11 +23,6 @@ public interface MemberService {
 
 	void setMemberPoint(String memberId, int point);
 
-	void saveLoginToken(String memberId, String loginToken, LocalDateTime expiry);
-
-	void deleteLoginToken(String loginToken);
-
-	MemberVo getMemberByLoginToken(String loginToken);
 
 
 

@@ -4,5 +4,6 @@
 	<typeAliases>
 		<typeAlias alias="userVo" type="com.spring.JspringProject.vo.UserVo" />
 		<typeAlias alias="guestVo" type="com.spring.JspringProject.vo.GuestVo" />
+    <typeAlias alias="LoginTokenVo" type="com.spring.springProject4.vo.LoginTokenVo"/>
 	</typeAliases>
 </configuration>

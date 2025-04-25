@@ -1,0 +1,109 @@
+/* 마이페이지 전체 레이아웃 */
+.mypage-container {
+    width: 80%;
+    margin: 0 auto;
+    padding-top: 50px;
+}
+
+/* 프로필 헤더 */
+.profile-header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.profile-header .profile-picture img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+.profile-header .profile-info {
+    font-size: 18px;
+}
+
+.profile-header .profile-info .nickname {
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.profile-header .profile-info .level {
+    color: #555;
+}
+
+.profile-header .edit-profile-btn {
+    display: inline-block;
+    margin-top: 10px;
+    background-color: #FF2400;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.profile-header .edit-profile-btn:hover {
+    background-color: #E74C3C;
+}
+
+/* 활동 섹션 */
+.activity-section h3 {
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+
+.activity-card {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.activity-card h4 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.activity-card p {
+    font-size: 16px;
+    color: #555;
+}
+
+/* 계정 설정 */
+.account-settings h3 {
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+
+.account-setting-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #FF2400;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.account-setting-link:hover {
+    background-color: #E74C3C;
+}
+
+/* 반응형 처리 */
+@media (max-width: 768px) {
+    .mypage-container {
+        width: 95%;
+    }
+
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .profile-header .profile-picture img {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 10px;
+    }
+}

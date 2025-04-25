@@ -41,7 +41,7 @@
 				<div class="loginLinks">
 				      <a href="javascript:midSearch()">아이디 찾기</a> |
 				      <a href="javascript:pwdSearch()">비밀번호 찾기</a> |
-				      <a href="javascript:memberJoin()">회원가입</a>
+				      <a href="${ctp}/member/memberJoin">회원가입</a>
 				</div>
 				
 				<!-- 소셜 간편 로그인 -->

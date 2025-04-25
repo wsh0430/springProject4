@@ -12,7 +12,7 @@
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
   <script src="${ctp}/js/woo.js"></script>
 	<script>
-	  const ctp = "${ctp}"; // JSTL 값 JS 변수로 저장
+	  const ctp = "${ctp}"; // JSTL 값 JS 변수로 저장 외부에서 js를 불러오는데 ajax에서 ${ctp}를 인식하지못해서!
 	</script>
 </head>
 <body>

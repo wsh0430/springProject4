@@ -35,7 +35,5 @@ public class MemberVo {
 	private String ip;
 	private String startDate;
 	private String lastDate;
-	private String loginToken;
-	private LocalDateTime tokenExpiry;
 	
 }

@@ -8,12 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.spring.springProject4.common.ARIAUtil;
+import com.spring.springProject4.service.LoginTokenService;
 import com.spring.springProject4.service.MemberService;
 import com.spring.springProject4.vo.MemberVo;
 
 public class MemberJoinInterceptor extends HandlerInterceptorAdapter {
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private LoginTokenService loginTokenService;
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -42,9 +46,9 @@ public class MemberJoinInterceptor extends HandlerInterceptorAdapter {
         }
     }
 
-    if (loginToken != null) {
+    if (loginToken != null && !loginToken.trim().isEmpty()) {
         // DB에서 로그인 토큰 정보 조회
-        MemberVo member = memberService.getMemberByLoginToken(loginToken);
+        MemberVo member = loginTokenService.getMemberByLoginToken(loginToken);
         if (member != null) {
             // 세션에 자동 로그인 정보 설정
             session.setAttribute("sMemberId", member.getMemberId());
@@ -61,8 +65,8 @@ public class MemberJoinInterceptor extends HandlerInterceptorAdapter {
 		private String getLevelString(int level) {
 		    switch (level) {
 		        case 0: return "관리자";
-		        case 1: return "우수회원";
-		        case 2: return "정회원";
+		        case 10: return "비회원";
+		        case 100: return "차단된 회원";
 		        default: return "일반회원";
 		    }
 		}
