@@ -13,7 +13,23 @@
         WHERE team_name = #{teamName}
           AND year = #{year}
     </select>
+    
+    <select id="selectAverageByAttribute" resultType="com.spring.springProject4.dto.TeamPlayerRecordDto">
+	    SELECT
+	        year,
+	        AVG(${columnName}) AS average_value
+	    FROM
+	        team_hitter_stats
+	    WHERE
+	        year BETWEEN #{startYear} AND #{endYear}
+	    GROUP BY
+	        year
+	    ORDER BY
+	        year
+		</select>
+    
 
+    
     <!-- 기록 삽입 -->
     <insert id="insertPlayerStats">
         INSERT INTO team_hitter_stats (

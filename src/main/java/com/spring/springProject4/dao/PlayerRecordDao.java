@@ -1,6 +1,7 @@
 package com.spring.springProject4.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -25,4 +26,5 @@ public interface PlayerRecordDao {
       @Param("startYear") Integer startYear,
       @Param("endYear") Integer endYear
   );
+  
 }

@@ -1,6 +1,7 @@
 package com.spring.springProject4.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.spring.springProject4.dto.PitcherRecordDto;
 
@@ -11,4 +12,5 @@ public interface PitcherRecordService {
 
     // 전체 투수 기록 조회
     List<PitcherRecordDto> getAllPitcherRecords();
+    
 }

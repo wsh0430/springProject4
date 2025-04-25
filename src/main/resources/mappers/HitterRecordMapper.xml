@@ -41,7 +41,6 @@
 </select>
 
 
-
     <insert id="insertPlayerStats">
         INSERT INTO hitter_stats (
             player, team_logo, position, year, games, tasuk, at_bats, runs,
