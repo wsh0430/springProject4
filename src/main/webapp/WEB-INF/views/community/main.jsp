@@ -8,7 +8,6 @@
     <meta charset="UTF-8">
     <title>Hitbox</title>
      <jsp:include page="/WEB-INF/views/include/bs5.jsp" />
-     <script src="https://kit.fontawesome.com/376bb82e0c.js" crossorigin="anonymous"></script>
     <script>
     	'use strict';
     

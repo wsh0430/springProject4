@@ -22,4 +22,19 @@
 		<put-attribute name="body" value="/WEB-INF/views/community/{1}/{2}.jsp" />
 	</definition>
 	
+	<!-- 관리자화면 tiles 적용  -->
+	<definition name="adminMenu" template="/WEB-INF/views/admin/layout/base.jsp">
+		<!-- <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp"></put-attribute>
+		<put-attribute name="nav" value="/WEB-INF/views/layout/nav.jsp"></put-attribute>
+		<put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp"></put-attribute> -->
+		
+		<put-attribute name="menu" value="/WEB-INF/views/admin/layout/menu.jsp"></put-attribute>
+	</definition>
+	<definition name="admin/*" extends="adminMenu">
+		<put-attribute name="body" value="/WEB-INF/views/admin/{1}.jsp" />
+	</definition>
+	<definition name="admin/*/*" extends="adminMenu">
+		<put-attribute name="body" value="/WEB-INF/views/admin/{1}/{2}.jsp" />
+	</definition>
+	
 </tiles-definitions>
