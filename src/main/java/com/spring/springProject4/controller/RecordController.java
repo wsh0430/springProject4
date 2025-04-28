@@ -2,7 +2,9 @@ package com.spring.springProject4.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -11,6 +13,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -58,6 +62,11 @@ public class RecordController {
 		return "record/recordCrawl";
 	}
 
+	//연도 보정 함수 (1982~1999은 1900+, 2000~2025는 2000+)
+	private int fixYear(String y) {
+	   int num = Integer.parseInt(y);
+	   return (num >= 82) ? 1900 + num : 2000 + num;
+	}
 	
 	//타자(시즌)
 	@ResponseBody
@@ -110,7 +119,7 @@ public class RecordController {
                       dto.setPlayer(player);
                       dto.setTeamLogo(teamLogo);
                       dto.setPosition(position);
-                      dto.setYear(Integer.parseInt(yearText));
+                      dto.setYear(fixYear(yearText));
 
                       dto.setGames(Integer.parseInt(tds.get(4).getText().trim()));
                       dto.setTasuk(Integer.parseInt(tds.get(7).getText().trim()));
@@ -159,7 +168,7 @@ public class RecordController {
 
 	    return recordList;
 	}
-	
+
 	
 	//투수(시즌)
 	@ResponseBody
@@ -206,7 +215,7 @@ public class RecordController {
 	                        PitcherRecordDto dto = new PitcherRecordDto();
 	                        dto.setPlayer(player);
 	                        dto.setTeamLogo(teamLogo);
-	                        dto.setYear(Integer.parseInt(yearText));
+	                        dto.setYear(fixYear(yearText));
 	                        dto.setWar(Float.parseFloat(tds.get(3).getText().trim()));
 	                        dto.setGamesP(Integer.parseInt(tds.get(4).getText().trim()));
 	                        dto.setGamesStart(Integer.parseInt(tds.get(5).getText().trim()));
@@ -489,7 +498,7 @@ public class RecordController {
 	                        TeamPlayerRecordDto dto = new TeamPlayerRecordDto();
 	                        dto.setTeamName(teamName);
 	                        dto.setTeamLogo(teamLogo);
-	                        dto.setYear(Integer.parseInt(yearText));
+	                        dto.setYear(fixYear(yearText));
 
 	                        dto.setGames(Integer.parseInt(tds.get(4).getText().trim()));
 	                        dto.setTasuk(Integer.parseInt(tds.get(7).getText().trim()));
@@ -586,7 +595,7 @@ public class RecordController {
 	                        TeamPitcherRecordDto dto = new TeamPitcherRecordDto();
 	                        dto.setTeamName(teamName);
 	                        dto.setTeamLogo(teamLogo);
-	                        dto.setYear(Integer.parseInt(yearText));
+	                        dto.setYear(fixYear(yearText));
 
 	                        dto.setWar(Float.parseFloat(tds.get(3).getText().trim()));
 	                        dto.setGamesP(Integer.parseInt(tds.get(4).getText().trim()));
@@ -630,6 +639,64 @@ public class RecordController {
 	    }
 
 	    return recordList;
+	}
+	
+	
+	@GetMapping("/recordHitterView")
+	public String showSortedHitterRecords(
+		    @RequestParam(defaultValue = "war") String sortOptions,
+		    @RequestParam(defaultValue = "DESC") String orderBy,
+		    @RequestParam(required = false, defaultValue = "") String team,
+		    @RequestParam(required = false, defaultValue = "") String position,
+		    @RequestParam(required = false, defaultValue = "1982") Integer startYear,
+		    @RequestParam(required = false, defaultValue = "2025") Integer endYear,
+		    Model model) {
+		
+		System.out.println("sortOptions: " + sortOptions);
+		System.out.println("orderBy: " + orderBy);
+		System.out.println("team: " + team);
+    System.out.println("position: " + position);
+    System.out.println("startYear: " + startYear);
+    System.out.println("endYear: " + endYear);
+    
+    if (startYear != null && endYear != null && startYear > endYear) {
+      int temp = startYear;
+      startYear = endYear;
+      endYear = temp;
+    }
+    
+    // 허용된 컬럼만 필터링
+		Map<String, String> columnMap = new HashMap<>();
+		columnMap.put("WAR", "war");
+		columnMap.put("R", "runs");
+		columnMap.put("H", "hits");
+		columnMap.put("2B", "doubles");
+		columnMap.put("3B", "triples");
+		columnMap.put("HR", "home_runs");
+		columnMap.put("TB", "total_bases");
+		columnMap.put("RBI", "rbi");
+		columnMap.put("SB", "stolen_bases");
+		columnMap.put("CS", "stolen_bases_fail");
+		columnMap.put("BB", "bb");
+		columnMap.put("SO", "strikeouts");
+		columnMap.put("GDP", "double_plays");
+		columnMap.put("SH", "sac_hits");
+		columnMap.put("SF", "sac_flies");
+		columnMap.put("AVG", "avg");
+		columnMap.put("OBP", "obp");
+		columnMap.put("SLG", "slg");
+		columnMap.put("OPS", "ops");
+		columnMap.put("PA", "tasuk");
+		columnMap.put("AB", "at_bats");
+		columnMap.put("year", "year");
+
+    String sortColumn = columnMap.getOrDefault(sortOptions.toUpperCase(), "war");
+
+    List<PlayerRecordDto> records = playerRecordService.getSortedHitterRecords(
+        sortColumn, orderBy, team, position, startYear, endYear);
+    System.out.println("Retrieved records: " + records.size());
+    model.addAttribute("records", records);
+    return "record/recordHitterView";
 	}
 	
 }

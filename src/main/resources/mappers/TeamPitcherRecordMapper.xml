@@ -14,7 +14,8 @@
         WHERE team_name = #{teamName}
           AND year = #{year}
     </select>
-
+    
+    
     <!-- 기록 삽입 -->
     <insert id="insertPlayerStats">
         INSERT INTO team_pitcher_stats (

@@ -1,6 +1,7 @@
 package com.spring.springProject4.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -16,4 +17,14 @@ public interface PlayerRecordDao {
 	void updatePlayerStats(@Param("dto") PlayerRecordDto dto);
 	
 	List<PlayerRecordDto> getAllPlayerStats();
+	
+  List<PlayerRecordDto> getSortedHitterRecords(
+      @Param("sortColumn") String sortColumn,
+      @Param("orderDirection") String orderDirection,
+      @Param("team") String team,
+      @Param("position") String position,
+      @Param("startYear") Integer startYear,
+      @Param("endYear") Integer endYear
+  );
+  
 }

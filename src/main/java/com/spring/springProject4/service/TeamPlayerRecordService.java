@@ -1,13 +1,13 @@
 package com.spring.springProject4.service;
 
 import java.util.List;
+import java.util.Map;
 
-import com.spring.springProject4.dto.PlayerRecordDto;
 import com.spring.springProject4.dto.TeamPlayerRecordDto;
 
 
 public interface TeamPlayerRecordService {
 
 	void savePlayerRecord(TeamPlayerRecordDto dto);
-	List<TeamPlayerRecordDto> getAllPlayerRecords();
+  List<TeamPlayerRecordDto> getAverageByYear(String field, int startYear, int endYear);
 }
