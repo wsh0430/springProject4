@@ -12,7 +12,7 @@
 	#content{
 		display: flex;
 		flex-direction: column;
-		margin-left: 350px;
+		margin-left: 400px;
 		padding: 20px;
 		height: 100vh;
 	}

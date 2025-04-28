@@ -15,3 +15,6 @@ create table visit(
 	item_datetime2		datetime,
 	item_tinyint			tinyint
 );
+
+		select date(visit_date) as chartDate, visit_count as chartCount from visit order by visit_date desc limit 7;		
+select date(visit_date) as chartDate, visit_count as chartCount from visit order by visit_date desc limit 1;		

@@ -54,4 +54,6 @@ public interface CommunityService {
 	void imgDelete(String content);
 
 	void imgBackup(String content);
+
+	List<BoardVo> getHotBoardList(String category);
 }

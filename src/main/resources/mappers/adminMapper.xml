@@ -10,6 +10,43 @@
 		select count(*) from visit where date(visit_date) = date_sub(curdate(), interval 1 day);
 	</select>
 	
+	<select id="getDailyWriteBoardCnt" resultType="int">
+		select count(*) from board where date(created_at) = curdate();
+	</select>
 	
+	<select id="yesterdayBoardCnt" resultType="int">
+		select count(*) from board where date(created_at) = date_sub(curdate(), interval 1 day);
+	</select>
+	
+	<select id="getDailyJoinCnt" resultType="int">
+		select count(*) from member where date(start_date) = curdate();
+	</select>
+	
+	<select id="yesterdayJoinCnt" resultType="int">
+		select count(*) from member where date(start_date) = date_sub(curdate(), interval 1 day);
+	</select>
+	
+	<select id="getDailyAdClickCnt" resultType="int">
+		select count(*) from advertisement where date(start_at) = curdate();
+	</select>
+	
+	<select id="yesterdayAdCnt" resultType="int">
+		select count(*) from advertisement where date(start_at) = date_sub(curdate(), interval 1 day);
+	</select>
+	
+	<select id="getRecentlyChartCount" resultType="com.spring.springProject4.vo.ChartVo">
+		<if test="legend == 'visit'">
+			select date(visit_date) as chartDate, visit_count as chartCount from visit order by visit_date desc limit #{day};		
+		</if>
+		<if test="legend == 'board'">
+			select date(created_at) as chartDate, count(*) as chartCount from board group by date(created_at) order by date(created_at) desc limit #{day};		
+		</if>
+		<if test="legend == 'join'">
+			select date(start_date) as chartDate, count(*) as chartCount from member group by date(start_date) order by date(start_date) desc limit #{day};		
+		</if>
+		<if test="legend == 'ad'">
+			select date(start_at) as chartDate, count(*) as chartCount from advertisement group by date(start_at) order by date(start_at) desc limit #{day};		
+		</if>
+	</select>
 
 </mapper>

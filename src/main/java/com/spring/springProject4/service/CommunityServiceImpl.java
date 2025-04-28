@@ -235,4 +235,9 @@ public class CommunityServiceImpl implements CommunityService {
 				else nextImg = nextImg.substring(nextImg.indexOf("src=\"/") + position);
 			}
 		}
+
+		@Override
+		public List<BoardVo> getHotBoardList(String category) {
+			return communityDao.getHotBoardList(category);
+		}
 }

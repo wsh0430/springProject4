@@ -43,6 +43,18 @@
 	 	select * from comment where parent_id = #{parentIdx};
 	</select>
 	
+	<select id="getHotBoardList" resultType="com.spring.springProject4.vo.BoardVo">
+		select * from board 
+			WHERE delete_check = 0
+<!--   				AND created_at >= DATE_SUB(NOW(), INTERVAL 3 DAY) -->
+  				AND (
+        			like_count >= 20
+        			OR (like_count >= 20 AND comment_count >= 10)
+      			)
+      		order by like_count desc
+      		limit 0, 5;
+	</select>
+	
 	
 	
 	
@@ -61,7 +73,7 @@
 	</insert>
 	
 	<insert id="setCreateBoard">
-		insert into board values(default, #{vo.memberId}, #{vo.memberNickname}, #{vo.categoryName}, #{vo.title}, #{vo.content}, default, default, default, default, default, default, default<!-- , default, default, default, default, default, default, default, default, default, default -->);
+		insert into board values(default, #{vo.memberId}, #{vo.memberNickname}, #{vo.categoryName}, #{vo.title}, #{vo.content}, default, default, default, default, default, default, default, default, default, default, default, default, default, default, default, default, default);
 	</insert>
 	
 	

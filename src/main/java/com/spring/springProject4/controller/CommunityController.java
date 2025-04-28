@@ -17,6 +17,7 @@ import com.spring.springProject4.common.SetCommunityVar;
 import com.spring.springProject4.service.CommunityService;
 import com.spring.springProject4.vo.BoardVo;
 import com.spring.springProject4.vo.CategoryVo;
+import com.spring.springProject4.vo.ChartVo;
 import com.spring.springProject4.vo.CommentVo;
 import com.spring.springProject4.vo.LikesVo;
 import com.spring.springProject4.vo.PageVo;
@@ -56,11 +57,15 @@ public class CommunityController {
 		// 보드
 		List<BoardVo> boardVos = communityService.getBoardList(category, pageVo.getStartIndexNo(), pageVo.getPageSize(), search, searchString);
 
+		// 핫게시판
+		List<BoardVo> hotBoardVos = communityService.getHotBoardList(category);
+		System.out.println(hotBoardVos);
 		
 		model.addAttribute("category", category);
 		model.addAttribute("mainCtgyVos", mainCtgyVos);
 		model.addAttribute("subCtgy", subCtgyList);
 		model.addAttribute("boardVos", boardVos);
+		model.addAttribute("hotBoardVos", hotBoardVos);
 		model.addAttribute("pageVo", pageVo);
 
 		return "community/main";
@@ -319,4 +324,5 @@ public class CommunityController {
 		if(res == 1) return "redirect:/message/cmtyBoardDeleteCheckOk";
 		else return "redirect:/message/cmtyBoardDeleteCheckNo?idx="+boardIdx;
 	}
+
 }

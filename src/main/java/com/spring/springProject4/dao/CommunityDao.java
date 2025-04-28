@@ -59,6 +59,8 @@ public interface CommunityDao {
 
 	int setUpdateBoardDeleteCheck(@Param("boardIdx") int boardIdx);
 
+	List<BoardVo> getHotBoardList(@Param("category") String category);
+
 	
 
 }
