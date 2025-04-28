@@ -46,4 +46,11 @@ public class PlayerRecordServiceImpl implements PlayerRecordService {
 
     return playerRecordDao.getSortedHitterRecords(sortColumn, orderDirection, team, position, startYear, endYear);
 	}
+  
+	@Override
+	public List<PlayerRecordDto> getAverageCompaerByYear(String playerName, String position, String field, int startYear, int endYear) {
+		// TODO Auto-generated method stub
+		return playerRecordDao.getAverageCompaerByYear(playerName, position, field, startYear, endYear);
+	}
+  
 }

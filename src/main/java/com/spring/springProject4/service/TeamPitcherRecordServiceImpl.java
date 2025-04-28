@@ -1,16 +1,13 @@
 package com.spring.springProject4.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.spring.springProject4.dao.PlayerRecordDao;
 import com.spring.springProject4.dao.TeamPitcherRecordDao;
-import com.spring.springProject4.dao.TeamPlayerRecordDao;
-import com.spring.springProject4.dto.PlayerRecordDto;
 import com.spring.springProject4.dto.TeamPitcherRecordDto;
-import com.spring.springProject4.dto.TeamPlayerRecordDto;
 
 @Service
 public class TeamPitcherRecordServiceImpl implements TeamPitcherRecordService {
@@ -36,9 +33,10 @@ public class TeamPitcherRecordServiceImpl implements TeamPitcherRecordService {
         System.out.println("업데이트 완료: " + dto.getTeamName());
     }
   }
-
+  
   @Override
-  public List<TeamPitcherRecordDto> getAllPlayerRecords() {
-      return teamPitcherRecordDao.getAllPlayerStats();
+  public List<TeamPitcherRecordDto> getPitcherAverageByYear(String field, int startYear, int endYear) {
+      return teamPitcherRecordDao.getPitcherAverageByYear(field, startYear, endYear);
   }
+
 }

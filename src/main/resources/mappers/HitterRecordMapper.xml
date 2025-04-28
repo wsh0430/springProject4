@@ -14,32 +14,80 @@
           AND year = #{year}
     </select>
 	
-<select id="getSortedHitterRecords" resultType="com.spring.springProject4.dto.PlayerRecordDto">
-    SELECT 
-        id, player, team_logo AS teamLogo, position, year,
-        games, tasuk, at_bats AS atBats, runs, hits, 
-        doubles, triples, total_bases AS totalBases, rbi, home_runs AS homeRuns,
-        stolen_bases AS stolenBases, stolen_bases_fail AS stolenBasesFail,
-        bb, strikeouts, double_plays AS doublePlays, sac_hits AS sacHits, sac_flies AS sacFlies,
-        avg, obp, slg, ops, war
-    FROM hitter_stats
-    WHERE 1=1
-		<if test="team != null and team != ''">
-		  AND team_logo LIKE CONCAT('%/', #{team}, '.svg')
-		</if>
-    <if test="position != null and position != ''">
-        AND position = #{position}
-    </if>
-    <if test="startYear != null">
-        AND year &gt;= #{startYear}
-    </if>
-    <if test="endYear != null">
-        AND year &lt;= #{endYear}
-    </if>
-    ORDER BY 
-        ${sortColumn} ${orderDirection}
-</select>
+		<select id="getSortedHitterRecords" resultType="com.spring.springProject4.dto.PlayerRecordDto">
+		    SELECT 
+		        id, player, team_logo AS teamLogo, position, year,
+		        games, tasuk, at_bats AS atBats, runs, hits, 
+		        doubles, triples, total_bases AS totalBases, rbi, home_runs AS homeRuns,
+		        stolen_bases AS stolenBases, stolen_bases_fail AS stolenBasesFail,
+		        bb, strikeouts, double_plays AS doublePlays, sac_hits AS sacHits, sac_flies AS sacFlies,
+		        avg, obp, slg, ops, war
+		    FROM hitter_stats
+		    WHERE 1=1
+				<if test="team != null and team != ''">
+				  AND team_logo LIKE CONCAT('%/', #{team}, '.svg')
+				</if>
+		    <if test="position != null and position != ''">
+		        AND position = #{position}
+		    </if>
+		    <if test="startYear != null">
+		        AND year &gt;= #{startYear}
+		    </if>
+		    <if test="endYear != null">
+		        AND year &lt;= #{endYear}
+		    </if>
+		    ORDER BY 
+		        ${sortColumn} ${orderDirection}
+		</select>
 
+
+    <select id="getAverageCompaerByYear" resultType="com.spring.springProject4.dto.PlayerRecordDto">
+			SELECT 
+	        year,
+	        AVG(
+	            <choose>
+	                <when test="field == 'games'">games</when>
+	                <when test="field == 'tasuk'">tasuk</when>
+	                <when test="field == 'at_bats'">at_bats</when>
+	                <when test="field == 'runs'">runs</when>
+	                <when test="field == 'hits'">hits</when>
+	                <when test="field == 'doubles'">doubles</when>
+	                <when test="field == 'triples'">triples</when>
+	                <when test="field == 'total_bases'">total_bases</when>
+	                <when test="field == 'rbi'">rbi</when>
+	                <when test="field == 'home_runs'">home_runs</when>
+	                <when test="field == 'stolen_bases'">stolen_bases</when>
+	                <when test="field == 'stolen_bases_fail'">stolen_bases_fail</when>
+	                <when test="field == 'bb'">bb</when>
+	                <when test="field == 'strikeouts'">strikeouts</when>
+	                <when test="field == 'double_plays'">double_plays</when>
+	                <when test="field == 'sac_hits'">sac_hits</when>
+	                <when test="field == 'sac_flies'">sac_flies</when>
+	                <when test="field == 'avg'">avg</when>
+	                <when test="field == 'obp'">obp</when>
+	                <when test="field == 'slg'">slg</when>
+	                <when test="field == 'ops'">ops</when>
+	                <when test="field == 'war'">war</when>
+	                <otherwise>0</otherwise>
+	            </choose>
+	        ) AS value
+	    FROM hitter_stats
+	    WHERE year BETWEEN #{startYear} AND #{endYear}
+    <choose>
+        <!-- 선수 이름과 포지션을 기반으로 필터링 -->
+        <when test="playerName != null and playerPosition != null">
+            AND player = #{playerName} AND position = #{playerPosition}
+        </when>
+        <when test="playerName != null and playerPosition == null">
+            AND player = #{playerName}
+        </when>
+        <when test="playerName == null and playerPosition != null">
+            AND position = #{playerPosition}
+        </when>
+    </choose>
+    GROUP BY year
+    ORDER BY year
+    </select>
 
 
     <insert id="insertPlayerStats">

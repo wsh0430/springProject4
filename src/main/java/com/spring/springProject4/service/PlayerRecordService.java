@@ -12,4 +12,5 @@ public interface PlayerRecordService {
 	List<PlayerRecordDto> getSortedHitterRecords(String sortColumn, String orderDirection,
       String team, String position,
       Integer startYear, Integer endYear);
+	List<PlayerRecordDto> getAverageCompaerByYear(String playerName, String position, String field, int startYear, int endYear);
 }

@@ -32,4 +32,6 @@ public class PlayerRecordDto {
    private float slg;
    private float ops;
    private float war;
+   
+   private double value;
 }

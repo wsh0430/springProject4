@@ -14,6 +14,42 @@
         WHERE team_name = #{teamName}
           AND year = #{year}
     </select>
+    
+    <select id="getPitcherAverageByYear" resultType="com.spring.springProject4.dto.TeamPitcherRecordDto">
+		    SELECT 
+		        year,
+		        AVG(
+		            <choose>
+										<when test="field == 'war'">war</when>
+										<when test="field == 'gamesP'">games_p</when>
+										<when test="field == 'gamesStart'">games_start</when>
+										<when test="field == 'completegames'">complete_games</when>
+										<when test="field == 'shutouts'">shutouts</when>
+										<when test="field == 'wins'">wins</when>
+										<when test="field == 'losses'">losses</when>
+										<when test="field == 'saves'">saves</when>
+										<when test="field == 'holds'">holds</when>
+										<when test="field == 'innings'">innings</when>
+										<when test="field == 'earnedRuns'">earned_runs</when>
+										<when test="field == 'runsAllowed'">runs_allowed</when>
+										<when test="field == 'hitsAllowed'">hits_allowed</when>
+										<when test="field == 'homeRunsAllowed'">home_runs_allowed</when>
+										<when test="field == 'bbAllowed'">bb_allowed</when>
+										<when test="field == 'strikeouts'">strikeouts</when>
+										<when test="field == 'balks'">balks</when>
+										<when test="field == 'wildPitches'">wild_pitches</when>
+										<when test="field == 'era'">era</when>
+										<when test="field == 'fip'">fip</when>
+										<when test="field == 'whip'">whip</when>
+
+		                <otherwise>0</otherwise>
+		            </choose>
+		        ) AS value
+		    FROM team_pitcher_stats
+		    WHERE year BETWEEN #{startYear} AND #{endYear}
+		    GROUP BY year
+		    ORDER BY year
+		</select>
 
     <!-- 기록 삽입 -->
     <insert id="insertPlayerStats">

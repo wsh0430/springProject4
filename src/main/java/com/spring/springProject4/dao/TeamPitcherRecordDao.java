@@ -1,6 +1,7 @@
 package com.spring.springProject4.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -16,5 +17,6 @@ public interface TeamPitcherRecordDao {
 	
 	void updatePlayerStats(@Param("dto") TeamPitcherRecordDto dto);
 	
-	List<TeamPitcherRecordDto> getAllPlayerStats();
+	List<TeamPitcherRecordDto> getPitcherAverageByYear(@Param("field") String field, @Param("startYear") int startYear, @Param("endYear") int endYear);
+
 }

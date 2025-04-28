@@ -31,4 +31,6 @@ public class TeamPitcherRecordDto {
    private float era;                 // 평균자책점 (ERA)
    private float fip;                 // FIP
    private float whip;                // WHIP
+   
+   private double value;
 }

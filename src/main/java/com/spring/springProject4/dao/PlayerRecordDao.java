@@ -25,4 +25,6 @@ public interface PlayerRecordDao {
       @Param("startYear") Integer startYear,
       @Param("endYear") Integer endYear
   );
+  
+	List<PlayerRecordDto> getAverageCompaerByYear(@Param("playerName") String playerName,@Param("playerPosition") String position,@Param("field") String field,@Param("startYear") int startYear,@Param("endYear") int endYear);
 }
