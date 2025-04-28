@@ -1,5 +1,7 @@
 package com.spring.springProject4.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.spring.springProject4.dto.TeamPlayerRecordDto;
 import com.spring.springProject4.service.DataChartService;
 import com.spring.springProject4.service.PitcherRecordService;
 import com.spring.springProject4.service.PlayerRecordService;
@@ -40,13 +43,12 @@ public class DataChartController {
 	   return "dataChart/dataChartMain";  // 너의 jsp 위치에 맞춰서 경로 수정
 	}
 	
-	//데이터 응답용
-	@GetMapping("/getAverageData")
-	@ResponseBody
-	public List<Map<String, Object>> getAverageData(
-	       @RequestParam String columnName,
-	       @RequestParam int startYear,
-	       @RequestParam int endYear) {
-	   return teamPlayerRecordService.getAverageByAttribute(columnName, startYear, endYear);
-	}
+  @GetMapping("/teamPlayerAverage")
+  @ResponseBody
+  public List<TeamPlayerRecordDto> getTeamPlayerAverage(
+      @RequestParam("field") String field,
+      @RequestParam("startYear") int startYear,
+      @RequestParam("endYear") int endYear) {
+      return teamPlayerRecordService.getAverageByYear(field, startYear, endYear);
+  }
 }

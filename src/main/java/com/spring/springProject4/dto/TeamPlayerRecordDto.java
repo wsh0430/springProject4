@@ -31,4 +31,6 @@ public class TeamPlayerRecordDto {
    private float slg;
    private float ops;
    private float war;
+   
+   private double value;
 }

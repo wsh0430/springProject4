@@ -16,10 +16,6 @@ public interface TeamPlayerRecordDao {
 	
 	void updatePlayerStats(@Param("dto") TeamPlayerRecordDto dto);
 	
-	List<Map<String, Object>> selectAverageByAttribute(
-	    @Param("columnName") String columnName,
-	    @Param("startYear") int startYear,
-	    @Param("endYear") int endYear
-	);
+	List<TeamPlayerRecordDto> getAverageByYear(@Param("field") String field, @Param("startYear") int startYear, @Param("endYear") int endYear);
 	
 }

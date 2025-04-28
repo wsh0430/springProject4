@@ -37,13 +37,8 @@ public class TeamPlayerRecordServiceImpl implements TeamPlayerRecordService {
   }
   
   @Override
-  public List<Map<String, Object>> getAverageByAttribute(String columnName, int startYear, int endYear) {
-      // 🔒 안전한 컬럼명만 허용 (whitelist 방식)
-      List<String> allowedColumns = Arrays.asList("avg", "obp", "slg", "ops", "war", "hits", "home_runs", "rbi", "games");
-      if (!allowedColumns.contains(columnName)) {
-          throw new IllegalArgumentException("Invalid column name: " + columnName);
-      }
-      return teamPlayerRecordDao.selectAverageByAttribute(columnName, startYear, endYear);
+  public List<TeamPlayerRecordDto> getAverageByYear(String field, int startYear, int endYear) {
+      return teamPlayerRecordDao.getAverageByYear(field, startYear, endYear);
   }
   
 }

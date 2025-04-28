@@ -9,5 +9,5 @@ import com.spring.springProject4.dto.TeamPlayerRecordDto;
 public interface TeamPlayerRecordService {
 
 	void savePlayerRecord(TeamPlayerRecordDto dto);
-	List<Map<String, Object>> getAverageByAttribute(String columnName, int startYear, int endYear);
+  List<TeamPlayerRecordDto> getAverageByYear(String field, int startYear, int endYear);
 }
