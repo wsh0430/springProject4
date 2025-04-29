@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.springProject4.dao.CommunityDao">
+	<select id="getMainCategoryList" resultType="com.spring.springProject4.vo.CategoryVo">
+		select * from category where parent_name is null;
+	</select>
+	<select id="getSubCategoryList" resultType="com.spring.springProject4.vo.CategoryVo">
+		select * from category where parent_name = #{pName};
+	</select>
+    <select id="getBoardTotRecCnt" resultType="int">
+  		 select count(*) from board
+  		 where
+    	<if test="category != '전체'">category_name = #{category} and </if>
+    	delete_check = 0;
+	</select>
+	<select id="getBoardTotRecCntSearch" resultType="int">
+    	select count(*) from board where ${search} like concat('%', #{searchString}, '%') and delete_check = 0;
+  	</select>
+	
+	<select id="getBoardList" resultType="com.spring.springProject4.vo.BoardVo">
+		select * ,datediff(created_at, now()) as dateDiff,
+  	    timestampdiff(hour, created_at, now()) as hourDiff
+		from board b where<if test="category != '전체' || search !=''"><if test="category != '전체'"> category_name = #{category}<if test="search !=''"> and</if></if><if test='search !=""'>${search} like concat('%',#{searchString},'%')</if> and</if> delete_check = 0 order by idx desc limit #{startIndexNo},#{pageSize};
+	</select>
+	
+	<select id="getBoardVo" resultType="com.spring.springProject4.vo.BoardVo">
+		select * from board where idx = #{boardIdx};
+	</select>
+	
+	<select id="getLikes" resultType="com.spring.springProject4.vo.LikesVo">
+		select * from likes where part = #{part} and part_idx = #{partIdx} and member_id = #{memberId};
+	</select>
+	
+	<select id="getLikesVos" resultType="com.spring.springProject4.vo.LikesVo">
+		select * from likes where part = #{part} and parent = #{parent} and parent_id = #{parentIdx} and member_id = #{memberId};
+	</select>
+	
+	<select id="getCommentVos" resultType="com.spring.springProject4.vo.CommentVo">
+		select * from comment where board_id = #{boardIdx} and parent_id is null;
+	</select>
+	
+	<select id="getReplyList" resultType="com.spring.springProject4.vo.CommentVo">
+	 	select * from comment where parent_id = #{parentIdx};
+	</select>
+	
+	<select id="getHotBoardList" resultType="com.spring.springProject4.vo.BoardVo">
+		select * from board 
+			WHERE delete_check = 0
+<!--   				AND created_at >= DATE_SUB(NOW(), INTERVAL 3 DAY) -->
+  				AND (
+        			like_count >= 20
+        			OR (like_count >= 20 AND comment_count >= 10)
+      			)
+      		order by like_count desc
+      		limit 0, 5;
+	</select>
+	
+	
+	
+	
+	
+	<insert id="setCreateLikes">
+		<if test="part == 'board'">insert into likes values(default, #{memberId}, #{part}, #{partIdx}, default, default, default, default, default, default, default, default, default, default, default, default, default);</if>
+		<if test="part == 'comment' || part == 'reply'">insert into likes values(default, #{memberId}, #{part}, #{partIdx}, default, #{parent}, #{parentIdx}, default, default, default, default, default, default, default, default, default, default);</if>
+	</insert>
+	
+	<insert id="setCreateComment">
+		insert into comment values(default, #{cmtVo.boardId}, #{cmtVo.memberId}, #{cmtVo.memberNickname}, #{cmtVo.content}, default, default, default, default, default, default, default , default, default, default, default, default, default, default, default, default, default);
+	</insert>
+	
+	<insert id="setCreateReply">
+		insert into comment values(default, #{cmtVo.boardId}, #{cmtVo.memberId}, #{cmtVo.memberNickname}, #{cmtVo.content}, default, default, default, default, default, #{cmtVo.parentId}, default, default, default, default, default, default, default, default, default, default, default);
+	</insert>
+	
+	<insert id="setCreateBoard">
+		insert into board values(default, #{vo.memberId}, #{vo.memberNickname}, #{vo.categoryName}, #{vo.title}, #{vo.content}, default, default, default, default, default, default, default, default, default, default, default, default, default, default, default, default, default);
+	</insert>
+	
+	
+	
+	<update id="setUpdateLikeCnt">
+		update 
+		<if test="part == 'reply'">comment</if>
+		<if test="part != 'reply'">${part}</if>
+		set like_count = like_count + #{n} where idx = #{partIdx};	
+	</update>
+	
+	<update id="setUpdateCommetCnt">
+		update 
+		<if test="part == 'comment'">board set comment_count = comment_count + 1</if>
+		<if test="part == 'reply'">comment set reply_count = reply_count + 1</if>
+		where idx = #{partIdx};
+	</update>
+	
+	<update id="setUpdateComment">
+		update comment set content = #{content} where idx = #{idx};
+	</update>
+	
+	<update id="setUpdateDeleteCheck">
+		update comment set delete_check = 1 where 
+		    <if test="part == 'comment'">idx = #{idx}</if>
+		    <if test="part == 'reply'">parent_id = #{idx}</if>;
+	</update>
+	
+	<update id="setUpdateBoardViewCnt">
+		update board set view_count = view_count + 1 where idx = #{boardIdx};
+	</update>
+	
+	<update id="setUpdateBoard">
+		update board set category_name = #{vo.categoryName}, title = #{vo.title}, content = #{vo.content} where idx = #{vo.idx};
+	</update>
+	
+	<update id="setUpdateBoardDeleteCheck">
+		update board set delete_check = 1 where idx = #{boardIdx};
+	</update>
+	
+	
+	
+	<delete id="setDeleteLikes">
+		delete from likes where idx = #{idx};
+	</delete>
+</mapper>

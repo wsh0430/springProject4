@@ -8,7 +8,6 @@
     <meta charset="UTF-8">
     <title>Hitbox</title>
      <jsp:include page="/WEB-INF/views/include/bs5.jsp" />
-     <script src="https://kit.fontawesome.com/376bb82e0c.js" crossorigin="anonymous"></script>
     <script>
     	'use strict';
     
@@ -126,10 +125,10 @@
     		</table>
     	</div>
     	<div id="board">
-			<span>${category }</span>
+			<span>${category}</span>
 			<table class="table table-borderless m-0 p-0">
 				<tr>
-					<td><a href="#" class="btn btn-success btn-sm">글쓰기</a></td>
+					<td><a href="${ctp}/community/cmtyBoardCreate" class="btn btn-success btn-sm">글쓰기</a></td>
 					<c:if test="${empty pageVo.searchStr}">
 						<td class="text-end"><select name="pageSize" id="pageSize"
 							onchange="pageSizeCheck()">
@@ -149,32 +148,53 @@
 				</tr>
 			</table>
 			<table class="board_list">
-					<tr>
-	    				<th style="width: 5%">번호</th>
-	    				<th style="width: 50%">제목</th>
-	    				<th style="width: 12.5%">작성자</th>
-	    				<th style="width: 17.5%">업로드</th>
-	    				<th style="width: 7.5%">조회수</th>
-	    				<th style="width: 7.5%">추천수</th>
-	    			</tr>
+				<tr>
+	    			<th style="width: 5%">번호</th>
+	    			<th style="width: 50%">제목</th>
+	    			<th style="width: 12.5%">작성자</th>
+	    			<th style="width: 17.5%">업로드</th>
+	    			<th style="width: 7.5%">조회수</th>
+	    			<th style="width: 7.5%">추천수</th>
+	    		</tr>
+	    		<!-- Hot 게시판 -->
+	    		<c:forEach var="bVos" items="${hotBoardVos}">
+		    			<tr style="background-color: lime;">
+		    				<td>${bVos.idx}</td>
+		    				<td>
+		    					<a href="cmtyContent?boardIdx=${bVos.idx}&category=${category}&pag=${pageVo.pag}&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}">
+		    						<font style="color: red; font-weight: bold; font-size: 12px">HOT</font> ${bVos.title}(${bVos.commentCount})
+		    					</a>
+		    				</td>
+		    				<td>${bVos.memberNickname}</td>
+		    				<td style="font-size: 12px;">
+								<c:if test="${bVos.hourDiff <= 24}">
+		        					${bVos.dateDiff == 0 ? fn:substring(bVos.createdAt,11,19) : fn:substring(bVos.createdAt,0,19)}
+		       					</c:if>
+								<c:if test="${bVos.hourDiff > 24}">${fn:substring(bVos.createdAt,0,10)}</c:if>
+		    				</td>
+		    				<td>${bVos.viewCount}</td>
+		    				<td>${bVos.likeCount}</td>
+		    			</tr>
+    			</c:forEach>
+    			<!-- 일반 게시판 -->
     			<c:forEach var="bVos" items="${boardVos}">
-	    			<tr>
-	    				<td>${bVos.idx}</td>
-	    				<td>
-	    					<a href="cmtyContent?boardIdx=${bVos.idx}&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}">
-	    						<font style="color: blue; font-weight: bold; font-size: 12px">${bVos.categoryName}</font> ${bVos.title}(${bVos.commentCount})
-	    					</a>
-	    				</td>
-	    				<td>${bVos.memberNickname}</td>
-	    				<td style="font-size: 12px;">
-							<c:if test="${bVos.hourDiff <= 24}">
-	        					${bVos.dateDiff == 0 ? fn:substring(bVos.createdAt,11,19) : fn:substring(bVos.createdAt,0,19)}
-	       					</c:if>
-							<c:if test="${bVos.hourDiff > 24}">${fn:substring(bVos.createdAt,0,10)}</c:if>
-	    				</td>
-	    				<td>${bVos.viewCount}</td>
-	    				<td>${bVos.likeCount}</td>
-	    			</tr>
+		    			<tr>
+		    				<td>${bVos.idx}</td>
+		    				<td>
+		    					<a href="cmtyContent?boardIdx=${bVos.idx}&category=${category}&pag=${pageVo.pag}&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}">
+		    						<font style="color: blue; font-weight: bold; font-size: 12px">${bVos.categoryName}</font> ${bVos.title}(${bVos.commentCount})
+		    					</a>
+		    				</td>
+		    				<td>${bVos.memberNickname}</td>
+		    				<td style="font-size: 12px;">
+								<c:if test="${bVos.hourDiff <= 24}">
+		        					${bVos.dateDiff == 0 ? fn:substring(bVos.createdAt,11,19) : fn:substring(bVos.createdAt,0,19)}
+		       					</c:if>
+								<c:if test="${bVos.hourDiff > 24}">${fn:substring(bVos.createdAt,0,10)}</c:if>
+		    				</td>
+		    				<td>${bVos.viewCount}</td>
+		    				<td>${bVos.likeCount}</td>
+		    			</tr>
     			</c:forEach>
     		</table>
     	</div>
