@@ -5,10 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.spring.springProject4.dto.PitcherRecordDto;
 import com.spring.springProject4.dto.PlayerRecordDto;
 import com.spring.springProject4.dto.TeamPitcherRecordDto;
 import com.spring.springProject4.dto.TeamPlayerRecordDto;
@@ -69,14 +71,14 @@ public class DataChartController {
       return teamPitcherRecordService.getPitcherAverageByYear(field, startYear, endYear);
   }
   
-	//JSP 호출(팀타격)
-	@GetMapping("/playerCompare")
+	//JSP 호출(개인타자)
+	@GetMapping("/playerInfo")
 	public String showChartPage2() {
-	   return "dataChart/playerCompare"; 
+	   return "dataChart/playerInfo"; 
 	}
 	
-	//차트(팀타격)
-  @GetMapping("/playerCompare2")
+	//차트(개인타자)
+  @GetMapping("/playerInfo2")
   @ResponseBody
   public List<PlayerRecordDto> getPlayerAverage(
       @RequestParam("playerName") String playerName,
@@ -87,4 +89,23 @@ public class DataChartController {
       ) {
       return playerRecordService.getAverageCompaerByYear(playerName, position, field, startYear, endYear);
   }
+  
+	//JSP 호출(개인투수)
+	@GetMapping("/comparePitcher")
+	public String showChartPage3() {
+	   return "dataChart/comparePitcher"; 
+	}
+  
+  //차트(개인투수)
+  @GetMapping("/comparePitchers2")
+  @ResponseBody
+  public List<PitcherRecordDto> compareTwoPitchers(
+          @RequestParam String player1,
+          @RequestParam String player2,
+          @RequestParam int startYear,
+          @RequestParam int endYear,
+          @RequestParam String field) {
+      return pitcherRecordService.compareTwoPitchersByYear(player1, player2, startYear, endYear, field);
+  }
+
 }

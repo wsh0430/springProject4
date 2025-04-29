@@ -23,10 +23,14 @@
         const endYear = $('#endYear').val();
 
         $.ajax({
-            url: '/springProject4/dataChart/playerCompare2',
+            url: '/springProject4/dataChart/playerInfo2',
             method: 'GET',
             data: { playerName, position, field, startYear, endYear },
             success: function(response) {
+                if (response.length === 0) {
+                    $('#chart_div').html('<div style="text-align:center; font-size:1.2em; color:red;">해당 선수의 정보가 없습니다. 값을 다시 입력해주세요.</div>');
+                    return;
+                }
                 const data = new google.visualization.DataTable();
                 data.addColumn('string', '년도');
                 data.addColumn('number', '값');
@@ -36,7 +40,7 @@
                 });
 
                 const options = {
-                    title: playerName + ' - ' + position + '의 ' + $('#field option:selected').text() + ' 평균 변화',
+                    title: playerName+ '(' +position + ')의 ' + $('#field option:selected').text() + ' 평균 변화',
                     curveType: 'function',
                     legend: { position: 'bottom' }
                 };
@@ -102,7 +106,22 @@
 <!-- 차트 아래에 검색 폼 -->
 <form id="searchForm" style="text-align: center;">
     선수 이름: <input type="text" id="playerName" name="playerName" style="width: 150px;">
-    포지션: <input type="text" id="position" name="position" style="width: 100px;">
+    포지션:
+    <select id="position" name="position">
+			  <option value="">전체</option>
+			  <option value="P">투수</option>
+			  <option value="C">포수</option>
+			  <option value="1B">1루수</option>
+			  <option value="2B">2루수</option>
+			  <option value="3B">3루수</option>
+			  <option value="SS">유격수</option>
+			  <option value="LF">좌익수</option>
+			  <option value="CF">중견수</option>
+			  <option value="RF">우익수</option>
+			  <option value="DH">지명타자</option>
+			  <option value="IF">내야수</option>
+			  <option value="OF">외야수</option>
+		</select>
     속성 선택: 
     <select id="field" name="field" onchange="updateFieldDescription()">
         <option value="games">게임 수</option>

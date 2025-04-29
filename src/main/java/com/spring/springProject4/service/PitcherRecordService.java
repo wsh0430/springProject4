@@ -13,4 +13,5 @@ public interface PitcherRecordService {
     // 전체 투수 기록 조회
     List<PitcherRecordDto> getAllPitcherRecords();
     
+    List<PitcherRecordDto> compareTwoPitchersByYear(String player1, String player2, int startYear, int endYear, String field);
 }

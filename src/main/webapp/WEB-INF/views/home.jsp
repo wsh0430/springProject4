@@ -12,6 +12,7 @@
 <a href="${ctp}/record/recordHitterView" class="w3-bar-item w3-button">기록실(타자-시즌)</a>
 <a href="${ctp}/dataChart/teamPlayerAverage" class="w3-bar-item w3-button">팀-타격</a>
 <a href="${ctp}/dataChart/teamPitcherAverage" class="w3-bar-item w3-button">팀-투구</a>
-<a href="${ctp}/dataChart/playerCompare" class="w3-bar-item w3-button">개인-타자</a>
+<a href="${ctp}/dataChart/playerInfo" class="w3-bar-item w3-button">개인-타자</a>
+<a href="${ctp}/dataChart/comparePitcher" class="w3-bar-item w3-button">개인-투수</a>
 </body>
 </html>

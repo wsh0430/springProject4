@@ -46,4 +46,9 @@ public class PitcherRecordServiceImpl implements PitcherRecordService {
         return pitcherRecordDao.getAllPitcherStats();
     }
     
+    @Override
+    public List<PitcherRecordDto> compareTwoPitchersByYear(String player1, String player2, int startYear, int endYear, String field) {
+        return pitcherRecordDao.compareTwoPitchersByYear(player1, player2, startYear, endYear, field);
+    }
+    
 }

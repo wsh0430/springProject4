@@ -25,6 +25,12 @@
             method: 'GET',
             data: { field, startYear, endYear },
             success: function(response) {
+                if (response.length === 0) {
+                    $('#chart_div').html('<div style="text-align:center; font-size:1.2em; color:red;">해당 조건에 대한 팀 투구 기록이 없습니다. 빠른 시일 내로 추가하도록 하겠습니다.</div>');
+                    return;
+                }
+            		
+            	
                 const data = new google.visualization.DataTable();
                 data.addColumn('string', '년도');
                 data.addColumn('number', $('#field option:selected').text());

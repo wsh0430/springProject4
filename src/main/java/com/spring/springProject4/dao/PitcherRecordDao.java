@@ -30,4 +30,13 @@ public interface PitcherRecordDao {
 
     // 모든 투수 기록 조회
     List<PitcherRecordDto> getAllPitcherStats();
+    
+    // 두 선수 비교
+    List<PitcherRecordDto> compareTwoPitchersByYear(
+        @Param("player1") String player1,
+        @Param("player2") String player2,
+        @Param("startYear") int startYear,
+        @Param("endYear") int endYear,
+        @Param("field") String field
+    );
 }

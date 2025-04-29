@@ -14,6 +14,37 @@
       WHERE player = #{player}
       AND year = #{year}
     </select>
+    
+    <select id="compareTwoPitchersByYear" resultType="com.spring.springProject4.dto.PitcherRecordDto">
+    SELECT
+        p.year,
+        p.player,
+        p.${field} AS value
+    FROM
+        pitcher_stats p
+    INNER JOIN (
+        SELECT
+            year,
+            player,
+            MAX(war) AS max_war
+        FROM
+            pitcher_stats
+        WHERE
+            (player = #{player1} OR player = #{player2})
+            AND year BETWEEN #{startYear} AND #{endYear}
+        GROUP BY
+            year, player
+    ) max_p
+    ON p.year = max_p.year
+       AND p.player = max_p.player
+       AND p.war = max_p.max_war
+    WHERE
+        (p.player = #{player1} OR p.player = #{player2})
+        AND p.year BETWEEN #{startYear} AND #{endYear}
+    ORDER BY
+        p.year ASC, p.player ASC
+</select>
+    
     <!-- 투수 기록 삽입 -->
     <insert id="insertPitcherRecord">
 	    INSERT INTO pitcher_stats (

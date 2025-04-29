@@ -31,4 +31,6 @@ public class PitcherRecordDto {
    private float era;
    private float fip;
    private float whip;
+   
+   private double value;
 }
