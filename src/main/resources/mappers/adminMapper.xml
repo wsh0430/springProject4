@@ -27,11 +27,11 @@
 	</select>
 	
 	<select id="getDailyAdClickCnt" resultType="int">
-		select count(*) from advertisement where date(start_at) = curdate();
+		select ifnull(sum(click_count), 0) from advertisement where date(start_at) = curdate();
 	</select>
 	
 	<select id="yesterdayAdCnt" resultType="int">
-		select count(*) from advertisement where date(start_at) = date_sub(curdate(), interval 1 day);
+		select ifnull(sum(click_count), 0) from advertisement where date(start_at) = date_sub(curdate(), interval 1 day);
 	</select>
 	
 	<select id="getRecentlyChartCount" resultType="com.spring.springProject4.vo.ChartVo">
@@ -45,7 +45,7 @@
 			select date(start_date) as chartDate, count(*) as chartCount from member group by date(start_date) order by date(start_date) desc limit #{day};		
 		</if>
 		<if test="legend == 'ad'">
-			select date(start_at) as chartDate, count(*) as chartCount from advertisement group by date(start_at) order by date(start_at) desc limit #{day};		
+			select date(start_at) as chartDate, ifnull(sum(click_count), 0) as chartCount from advertisement group by date(start_at) order by date(start_at) desc limit #{day};		
 		</if>
 	</select>
 	
@@ -57,6 +57,18 @@
 		select * ,datediff(created_at, now()) as dateDiff,
   	    timestampdiff(hour, created_at, now()) as hourDiff
 		from board b <if test="category != '전체' || search !='' || startDate != ''">where</if> <if test="category != '전체' || search !=''"><if test="category != '전체'"> category_name = #{category}<if test="search !=''"> and</if></if><if test='search !=""'>${search} like concat('%',#{searchString},'%')</if></if> <if test="startDate != ''"><if test="category != '전체' || search !=''">and</if> (created_at between #{startDate} and #{lastDate})</if> order by idx desc limit #{startIndexNo},#{pageSize};
+	</select>
+	
+	<select id="getMainCategoryVos" resultType="com.spring.springProject4.vo.CategoryVo">
+			select * from category where parent_name is null;
+	</select>
+	
+	<select id="getSubCategoryVos" resultType="com.spring.springProject4.vo.CategoryVo">
+		select * from category where parent_name = #{pName};
+	</select>
+	
+	<select id="getCategoryIdx" resultType="int">
+		select idx from category where name = #{categoryName};
 	</select>
 
 </mapper>

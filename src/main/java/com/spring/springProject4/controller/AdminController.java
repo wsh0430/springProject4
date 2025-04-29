@@ -17,6 +17,7 @@ import com.spring.springProject4.common.Pagination;
 import com.spring.springProject4.common.StatData;
 import com.spring.springProject4.service.AdminService;
 import com.spring.springProject4.vo.BoardVo;
+import com.spring.springProject4.vo.CategoryVo;
 import com.spring.springProject4.vo.ChartVo;
 import com.spring.springProject4.vo.PageVo;
 import com.spring.springProject4.vo.StatDataVo;
@@ -126,7 +127,8 @@ public class AdminController {
 	
 	@RequestMapping(value="/boardManager", method=RequestMethod.GET)
 	public String boardManagerGet(Model model,
-			@RequestParam(name="category", defaultValue = "전체", required = false) String category,
+			@RequestParam(name="mainCategory", defaultValue = "전체", required = false) String category,
+			@RequestParam(name="subCategory", defaultValue = "", required = false) String subCategory,
 			@RequestParam(name="pag", defaultValue = "1", required = false) int pag,
 			@RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize,
 			@RequestParam(name="search", defaultValue = "", required = false) String search,
@@ -134,17 +136,36 @@ public class AdminController {
 			@RequestParam(name="startDate", defaultValue = "", required = false) String startDate,
 			@RequestParam(name="lastDate", defaultValue = "", required = false) String lastDate
 			) {
+		if(!subCategory.equals("")) category = subCategory;
 		
-		
+		// 카테고리
+			List<CategoryVo> mainCtgyVos = adminService.getMainCategoryVos();	// 메인 카테고리vos
+			List<CategoryVo> subCtgyVos = null; 
+			List<List<CategoryVo>> subCtgyList = new ArrayList<>();	//서브 카테고리
+			for(int i = 0; i < mainCtgyVos.size(); i++) {
+				subCtgyVos = adminService.getSubCategoryVos(mainCtgyVos.get(i).getName());	//서브 카테고리vos
+				subCtgyList.add(subCtgyVos);
+			}
+	
 		// 페이지
 		PageVo pageVo = pagination.getTotRecCnt(category, pag,pageSize,"community",search,searchString, startDate, lastDate);	// (페이지번호,한 페이지분량,section,part,검색어)
 		
 		List<BoardVo> boardVos = adminService.getBoardVos(category, pageVo.getStartIndexNo(), pageVo.getPageSize(), search, searchString, startDate, lastDate);
 		
 		
+		model.addAttribute("curCategory", category);
+		model.addAttribute("mainCtgyVos", mainCtgyVos);
+		model.addAttribute("subCtgyList", subCtgyList);
+		
 		model.addAttribute("boardVos", boardVos);
 		model.addAttribute("pageVo", pageVo);
 		
 		return "admin/boardManager";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/getSubCategory", method=RequestMethod.GET)
+	public List<CategoryVo> getSubCategoryGet(String categoryName) {
+		return adminService.getSubCategoryVos(categoryName);
 	}
 }

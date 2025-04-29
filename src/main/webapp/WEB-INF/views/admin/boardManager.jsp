@@ -33,12 +33,43 @@
           	toggleButton();
 	     });
 	    
-	    $(function () {
-	        
+	    $(document).ready(function() {
+	    	 $('#sb_mc').change(function() {
+	    	    let selectedValue = $(this).val();
 
-	        // 체크박스 변경될 때마다 감지
-	        
-	    });
+	    	    // 선택된 값이 있을 때만 AJAX 요청
+	    	    if (selectedValue) {
+	    	      $.ajax({
+	    	        url: '${ctp}/admin/getSubCategory',  // 데이터를 받아올 URL
+	    	        type: 'get',
+	    	        data: { categoryName: selectedValue },
+	    	        dataType: 'json',
+	    	        success: function(res) {
+    	        		let string = "";
+    	        		
+    	        		if(selectedValue != '전체')
+    	        			$('#sb_sub-category').show();
+    	        		else
+    	        			$('#sb_sub-category').hide();
+    	        			
+    	        		res.forEach(function(item) {
+    	        			string += '<option value="'+item.name+'">'+item.name+'</option>';
+    	        		});
+
+    	        		
+    	        		$('#sb_sc').html(string);
+	    	        	
+	    	        },
+	    	        error: function(xhr, status, error) {
+	    	          $('#sb_sub-category').html('<p>오류가 발생했습니다.</p>');
+	    	        }
+	    	      });
+	    	    } else {
+	    	      $('#sb_sub-category').empty(); // 선택이 비워지면 div도 초기화
+	    	      $('#sb_sub-category').hide();
+	    	    }
+	    	  });
+	    	});
     </script>
     <style>
     	#view_type-bar{
@@ -56,13 +87,19 @@
     	#br_control-panel{
     		margin-right: 10px;
     	}
+    	#sb_category{
+    		display: flex;
+    	}
+    	#sb_main-category{
+    		margin-right: 10px;
+    	}
     </style>
 </head>
 <body>
 	<div id="title"><h2>게시판 관리</h2></div>
 	<div id="view-control">
-		<input type="button" value="전체목록" onclick="">
-		전체 게시글 + n
+		<input type="button" value="전체목록" onclick="location.href='${ctp}/admin/boardManager'">
+		<span>${curCategory}</span>
 	</div>
 	<div id="info-box">
 	
@@ -80,17 +117,19 @@
 				<div id="search-bar">
 					<div id="sb_category">
 						<!-- main카테고리 -->
-						<select name="sb_mc" id="sb_mc">
-							<c:forEach var="mcVo" items="${mainCtgyVos}">
-					  	  		<option value="${mcVo.name}">${mcVo.name}</option>
-					  		</c:forEach>
-					  	</select>
+						<div id="sb_main-category">
+							<select name="mainCategory" id="sb_mc">
+								<c:forEach var="mcVo" items="${mainCtgyVos}">
+						  	  		<option value="${mcVo.name}">${mcVo.name}</option>
+						  		</c:forEach>
+						  	</select>
+					  	</div>
+					  	
 					  	<!-- sub카테고리  -->
-						<select name="sb_sc" id="sb_sc">
-					  	  	<c:forEach var="mcVo" items="${mainCtgyVos}">
-					  	  		<option value="${mcVo.name}">${mcVo.name}</option>
-					  		</c:forEach>
-					  	</select>
+					  	<div id="sb_sub-category" style="display: none;">
+							<select name="subCategory" id="sb_sc">
+						  	</select>
+						</div>
 					</div>
 				
 					<select name="search" id="search">
@@ -98,7 +137,7 @@
 				  	  <option value="member_nickname">글쓴이</option>
 				  	  <option value="content">글내용</option>
 				  	</select>
-				  	<input type="text" name="searchString" id="searchString" required />
+				  	<input type="text" name="searchString" id="searchString" />
 				  	<input type="submit" value="검색" class="btn btn-secondary btn-sm" />
 				  	<input type="hidden" name="pag" value="${pageVo.pag}" />
 				  	<input type="hidden" name="pageSize" value="${pageVo.pageSize}" />

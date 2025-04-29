@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.spring.springProject4.dao.AdminDao;
 import com.spring.springProject4.vo.BoardVo;
+import com.spring.springProject4.vo.CategoryVo;
 import com.spring.springProject4.vo.ChartVo;
 
 @Service
@@ -25,6 +26,21 @@ public class AdminServiceImpl implements AdminService {
 			String searchString, String startDate, String lastDate) {
 		return adminDao.getBoardVos(category, startIndexNo, pageSize, search,
 			searchString, startDate, lastDate);
+	}
+
+	@Override
+	public List<CategoryVo> getMainCategoryVos() {
+		return adminDao.getMainCategoryVos();
+	}
+
+	@Override
+	public List<CategoryVo> getSubCategoryVos(String pName) {
+		return adminDao.getSubCategoryVos(pName);
+	}
+
+	@Override
+	public int getCategoryIdx(String categoryName) {
+		return adminDao.getCategoryIdx(categoryName);
 	}
 
 

@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.spring.springProject4.vo.BoardVo;
+import com.spring.springProject4.vo.CategoryVo;
 import com.spring.springProject4.vo.ChartVo;
 
 @Mapper
@@ -35,6 +36,12 @@ public interface AdminDao {
 
 	List<BoardVo> getBoardVos(@Param("category") String category, @Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize, @Param("search") String search, @Param("searchString") String searchString,
 			@Param("startDate") String startDate, @Param("lastDate") String lastDate);
+
+	List<CategoryVo> getMainCategoryVos();
+
+	List<CategoryVo> getSubCategoryVos(@Param("pName") String pName);
+
+	int getCategoryIdx(@Param("categoryName") String categoryName);
 
 
 }
