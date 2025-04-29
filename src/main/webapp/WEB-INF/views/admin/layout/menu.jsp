@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>adminMenu.jsp</title>
+    <title>HitBox 대시보드</title>
     <style>
     	#admin--menu_bar{
 			position: fixed;
@@ -57,8 +57,8 @@
 		<div id="a-mb_btn">
 			<table>
 				<tr><td class="first-td"><input type="button" value="대시보드" onclick="location.href='${ctp}/admin/dashBoard'"></td></tr>
-				<tr><td><input type="button" value="멤버관리" onclick="location.href='${ctp}/admin/dashBoard'"></td></tr>
-				<tr><td><input type="button" value="게시글관리" onclick="location.href='${ctp}/admin/dashBoard'"></td></tr>
+				<tr><td><input type="button" value="멤버관리" onclick="location.href='${ctp}/admin/memberManager'"></td></tr>
+				<tr><td><input type="button" value="게시글관리" onclick="location.href='${ctp}/admin/boardManager'"></td></tr>
 				<tr><td><input type="button" value="광고관리" onclick="location.href='${ctp}/admin/dashBoard'"></td></tr>
 				<tr><td><input type="button" value="통계" onclick="location.href='${ctp}/admin/dashBoard'"></td></tr>
 			</table> 

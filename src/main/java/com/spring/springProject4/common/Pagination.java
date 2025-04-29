@@ -1,8 +1,11 @@
 package com.spring.springProject4.common;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.spring.springProject4.dao.AdminDao;
 import com.spring.springProject4.dao.CommunityDao;
 import com.spring.springProject4.vo.PageVo;
 
@@ -12,7 +15,10 @@ public class Pagination {
 	@Autowired
 	CommunityDao communityDao;
 	
-	public PageVo getTotRecCnt(String category, int pag, int pageSize, String section, String part, String searchString) {
+	@Autowired
+	AdminDao adminDao;
+	
+	public PageVo getTotRecCnt(String category, int pag, int pageSize, String section, String part, String searchString, String startDate, String lastDate) {
 		PageVo vo = new PageVo();
 		
 		int totRecCnt = 0;
@@ -30,6 +36,10 @@ public class Pagination {
 		if(section.equals("community")) {
 			if(part.equals("")) totRecCnt = communityDao.getBoardTotRecCnt(category);
 			else totRecCnt = communityDao.getBoardTotRecCntSearch(part, searchString);
+		}
+		else if(section.equals("adminBoardManager")) {
+			if(part.equals("")) totRecCnt = communityDao.getBoardTotRecCnt(category);
+			else totRecCnt = adminDao.getBoardTotRecCntSearch(part, searchString, startDate, lastDate);
 		}
 //		else if(section.equals("pds")) {
 //			totRecCnt = pdsDao.getPdsTotRecCnt(part);
@@ -72,7 +82,4 @@ public class Pagination {
 		
 		return vo;
 	}
-	
-	
-	
 }

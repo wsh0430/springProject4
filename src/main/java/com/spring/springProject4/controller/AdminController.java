@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.spring.springProject4.common.Pagination;
 import com.spring.springProject4.common.StatData;
 import com.spring.springProject4.service.AdminService;
+import com.spring.springProject4.vo.BoardVo;
 import com.spring.springProject4.vo.ChartVo;
+import com.spring.springProject4.vo.PageVo;
 import com.spring.springProject4.vo.StatDataVo;
 
 @Controller
@@ -27,6 +30,9 @@ public class AdminController {
 	
 	@Autowired
 	StatData statData;
+	
+	@Autowired
+	Pagination pagination;
 	
 	@RequestMapping(value="/dashBoard", method=RequestMethod.GET)
 	public String dashBoardGet(Model model,
@@ -105,9 +111,40 @@ public class AdminController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="/getChartNum", method=RequestMethod.GET)
+	@RequestMapping(value="/getChartNum", method=RequestMethod.POST)
 	public int getChartNumPost(Model model, int day) {
 		model.addAttribute("day", day);	
 		return 1;
+	}
+	
+	@RequestMapping(value="/memberManager", method=RequestMethod.GET)
+	public String memberManagerGet(Model model) {
+		
+		
+		return "admin/memberManager";
+	}
+	
+	@RequestMapping(value="/boardManager", method=RequestMethod.GET)
+	public String boardManagerGet(Model model,
+			@RequestParam(name="category", defaultValue = "전체", required = false) String category,
+			@RequestParam(name="pag", defaultValue = "1", required = false) int pag,
+			@RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize,
+			@RequestParam(name="search", defaultValue = "", required = false) String search,
+			@RequestParam(name="searchString", defaultValue = "", required = false) String searchString,
+			@RequestParam(name="startDate", defaultValue = "", required = false) String startDate,
+			@RequestParam(name="lastDate", defaultValue = "", required = false) String lastDate
+			) {
+		
+		
+		// 페이지
+		PageVo pageVo = pagination.getTotRecCnt(category, pag,pageSize,"community",search,searchString, startDate, lastDate);	// (페이지번호,한 페이지분량,section,part,검색어)
+		
+		List<BoardVo> boardVos = adminService.getBoardVos(category, pageVo.getStartIndexNo(), pageVo.getPageSize(), search, searchString, startDate, lastDate);
+		
+		
+		model.addAttribute("boardVos", boardVos);
+		model.addAttribute("pageVo", pageVo);
+		
+		return "admin/boardManager";
 	}
 }

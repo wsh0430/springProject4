@@ -10,7 +10,7 @@ CREATE TABLE `member` (
 	`icon` VARCHAR(100) NOT NULL DEFAULT 'noicon.jpg' COMMENT '회원 아이콘' COLLATE 'utf8mb4_0900_ai_ci',
 	`content` TEXT NULL DEFAULT NULL COMMENT '회원 소개' COLLATE 'utf8mb4_0900_ai_ci',
 	`info` CHAR(3) NULL DEFAULT '공개' COMMENT '정보 공개 여부(공개/비공개)' COLLATE 'utf8mb4_0900_ai_ci',
-	`delete` CHAR(2) NULL DEFAULT 'NO' COMMENT '탈퇴 신청 여부(OK/NO)' COLLATE 'utf8mb4_0900_ai_ci',
+	`delete_check` CHAR(2) NULL DEFAULT 'NO' COMMENT '탈퇴 신청 여부(OK/NO)' COLLATE 'utf8mb4_0900_ai_ci',
 	`point` INT NULL DEFAULT '0' COMMENT '포인트',
 	`level` INT NULL DEFAULT '3' COMMENT '회원등급(고민중)',
 	`visit_count` INT NULL DEFAULT '0' COMMENT '방문 수',

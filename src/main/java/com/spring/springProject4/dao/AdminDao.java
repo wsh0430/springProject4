@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import com.spring.springProject4.vo.BoardVo;
 import com.spring.springProject4.vo.ChartVo;
 
 @Mapper
@@ -29,5 +30,11 @@ public interface AdminDao {
 	int yesterdayAdCnt();
 
 	List<ChartVo> getRecentlyChartCount(@Param("legend") String legend, @Param("day") int day);
+
+	int getBoardTotRecCntSearch(@Param("part") String part, @Param("searchString") String searchString, @Param("startDate") String startDate, @Param("lastDate") String lastDate);
+
+	List<BoardVo> getBoardVos(@Param("category") String category, @Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize, @Param("search") String search, @Param("searchString") String searchString,
+			@Param("startDate") String startDate, @Param("lastDate") String lastDate);
+
 
 }

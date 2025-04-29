@@ -51,7 +51,7 @@ public class CommunityController {
 		}
 
 		// 페이지
-		PageVo pageVo = pagination.getTotRecCnt(category, pag,pageSize,"community",search,searchString);	// (페이지번호,한 페이지분량,section,part,검색어)
+		PageVo pageVo = pagination.getTotRecCnt(category, pag,pageSize,"community",search,searchString, null, null);	// (페이지번호,한 페이지분량,section,part,검색어)
 			
 		
 		// 보드
