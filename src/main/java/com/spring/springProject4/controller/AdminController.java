@@ -155,10 +155,11 @@ public class AdminController {
 		
 		model.addAttribute("curCategory", category);
 		model.addAttribute("mainCtgyVos", mainCtgyVos);
-		model.addAttribute("subCtgyList", subCtgyList);
 		
 		model.addAttribute("boardVos", boardVos);
 		model.addAttribute("pageVo", pageVo);
+		model.addAttribute("startDate", startDate);
+		model.addAttribute("lastDate", lastDate);
 		
 		return "admin/boardManager";
 	}
@@ -167,5 +168,28 @@ public class AdminController {
 	@RequestMapping(value="/getSubCategory", method=RequestMethod.GET)
 	public List<CategoryVo> getSubCategoryGet(String categoryName) {
 		return adminService.getSubCategoryVos(categoryName);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/deleteBoard", method=RequestMethod.POST)
+	public int deleteBoardPost(int idx) {
+		return adminService.setDeleteBoard(idx);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/updateToggleBoard", method=RequestMethod.POST)
+	public int updateToggleBoardPost(int idx, String part) {
+		if(part == null || part.equals("")) {
+			BoardVo vo = adminService.getBoardVo(idx);
+			
+			int res = adminService.setUpdateToggleCheckedBoard(idx, vo.getHideCheck());
+			if(res == 1) {
+				return adminService.getBoardVo(idx).getHideCheck();
+			}
+			else return -1;
+		} 
+		else{
+			return adminService.setUpdateToggleBoard(idx, part);
+		} 
 	}
 }

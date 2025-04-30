@@ -43,5 +43,14 @@ public interface AdminDao {
 
 	int getCategoryIdx(@Param("categoryName") String categoryName);
 
+	int setDeleteBoard(@Param("idx") int idx);
+
+	int setUpdateToggleCheckedBoard(@Param("idx") int idx, @Param("hc") int hc);
+	
+	BoardVo getBoardVo(@Param("idx") int idx);
+
+	int setUpdateToggleBoard(@Param("idx") int idx, @Param("part") String part);
+
+
 
 }

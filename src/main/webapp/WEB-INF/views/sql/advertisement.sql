@@ -1,8 +1,8 @@
 create table advertisement(
 	idx						int not null auto_increment,
 	title					varchar(50) not null,					/* 광고 제목 */
-	image_url 				varchar(100),					/* 광고 이미지 경로 */
-	link_url 				varchar(100),					/* 광고 페이지 경로 */
+	image_url 				text not null,					/* 광고 이미지 경로 */
+	link_url 				text not null,					/* 광고 페이지 경로 */
 	position				varchar(30) default 'main-top',		/* 위치(main-top: 상단, main-left: 사이드(좌) . . . ) */	
 	start_at				datetime default now(),						/* 광고 시작일  */
 	end_at					datetime default now(),						/* 광고 종료일 */

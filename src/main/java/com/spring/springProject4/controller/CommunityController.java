@@ -14,13 +14,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.springProject4.common.Pagination;
 import com.spring.springProject4.common.SetCommunityVar;
+import com.spring.springProject4.service.AdService;
+import com.spring.springProject4.service.AdminService;
 import com.spring.springProject4.service.CommunityService;
+import com.spring.springProject4.vo.AdvertisementVo;
 import com.spring.springProject4.vo.BoardVo;
 import com.spring.springProject4.vo.CategoryVo;
-import com.spring.springProject4.vo.ChartVo;
 import com.spring.springProject4.vo.CommentVo;
 import com.spring.springProject4.vo.LikesVo;
 import com.spring.springProject4.vo.PageVo;
+import com.spring.springProject4.vo.ReportVo;
 
 @Controller
 @RequestMapping("/community")
@@ -28,6 +31,9 @@ public class CommunityController {
 	
 	@Autowired
 	CommunityService communityService;
+	
+	@Autowired
+	AdService adService;
 	
 	@Autowired
 	Pagination pagination;
@@ -60,6 +66,10 @@ public class CommunityController {
 		// 핫게시판
 		List<BoardVo> hotBoardVos = communityService.getHotBoardList(category);
 		System.out.println(hotBoardVos);
+		
+		AdvertisementVo adVo = adService.getAdVo("모비노기");
+		 
+		 model.addAttribute("adVo", adVo);
 		
 		model.addAttribute("category", category);
 		model.addAttribute("mainCtgyVos", mainCtgyVos);
@@ -145,12 +155,26 @@ public class CommunityController {
 			return -1;
 		}
 	}
+	
+	// 신고글 처리
+	@ResponseBody
+	@RequestMapping(value = "/boardReportInput", method=RequestMethod.POST)
+	public int boardComplaintInputPost(ReportVo vo) {
+		//만약 이미 신고했다면
+		if(communityService.getFindReportVo(vo) >= 1)
+			return 0;
+		
+		int res = communityService.setInputBoardReport(vo);
+		if(res != 0) res = communityService.setUpdateBoardReportCount(vo.getPart(), vo.getPartIdx());
+		return res;
+	}
 		
 	
 	@ResponseBody
 	@RequestMapping(value="/cmtInput", method=RequestMethod.POST)
 	public int cmtInputPost(CommentVo cmtVo) {
 		int res = communityService.setUpdateCommetCnt("comment", cmtVo.getBoardId());
+		if(res == 0) return 0;
 		return communityService.setCreateComment(cmtVo);
 	}
 	
@@ -158,6 +182,7 @@ public class CommunityController {
 	@RequestMapping(value="/replyInput", method=RequestMethod.POST)
 	public int replyInputPost(CommentVo cmtVo) {
 		int res = communityService.setUpdateCommetCnt("reply", cmtVo.getParentId());
+		if(res == 0) return 0;
 		return communityService.setCreateReply(cmtVo);
 	}
 	
@@ -199,17 +224,19 @@ public class CommunityController {
 			subCtgyVos = communityService.getSubCategoryList(mainCtgyVos.get(i).getName());	//서브 카테고리vos
 			subCtgyList.add(subCtgyVos);
 		}
-		
+
 		model.addAttribute("mainCtgyVos", mainCtgyVos);
-		model.addAttribute("subCtgyList", subCtgyList);
 		
 		return "community/boardCreate";
 	}
 	
 	@RequestMapping(value = "/cmtyBoardCreate", method = RequestMethod.POST)
-	public String cmtyBoardCreatePost(BoardVo vo) {
-		if(vo.getCategoryName() == null || vo.getCategoryName() == "")
-			vo.setCategoryName("전체");
+	public String cmtyBoardCreatePost(BoardVo vo,
+			@RequestParam(name="mainCategory", defaultValue = "전체", required = false) String category,
+			@RequestParam(name="subCategory", defaultValue = "", required = false) String subCategory
+			) {
+		if(!subCategory.equals("")) category = subCategory;
+		vo.setCategoryName(category);
 		vo.setMemberId("user123"); //나중에 session꺼 넣기
 		vo.setMemberNickname("프로니"); //나중에 session꺼 넣기
 		

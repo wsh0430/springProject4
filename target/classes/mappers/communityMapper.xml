@@ -55,6 +55,10 @@
       		limit 0, 5;
 	</select>
 	
+	<select id="getFindReportVo" resultType="int">
+		select count(*) from report where member_id = #{vo.memberId} and part = #{vo.part} and part_idx = #{vo.partIdx};
+	</select>
+	
 	
 	
 	
@@ -73,8 +77,13 @@
 	</insert>
 	
 	<insert id="setCreateBoard">
-		insert into board values(default, #{vo.memberId}, #{vo.memberNickname}, #{vo.categoryName}, #{vo.title}, #{vo.content}, default, default, default, default, default, default, default, default, default, default, default, default, default, default, default, default, default);
+		insert into board values(default, #{vo.memberId}, #{vo.memberNickname}, #{vo.categoryName}, #{vo.title}, #{vo.content}, default, default, default, default, default, default, default, default<!-- , default, default, default, default, default, default, default, default, default -->);
 	</insert>
+	
+	<insert id="setInputBoardReport">
+		insert into report values(default, #{vo.memberId}, #{vo.part}, #{vo.partIdx}, #{vo.reason}, default, default, default, default, default, default, default, default, default, default, default);
+	</insert>
+	
 	
 	
 	
@@ -112,6 +121,13 @@
 	
 	<update id="setUpdateBoardDeleteCheck">
 		update board set delete_check = 1 where idx = #{boardIdx};
+	</update>
+	
+	<update id="setUpdateBoardReportCount">
+		<if test="part == 'board'">update board set report_count = report_count + 1 where idx = #{idx};</if>
+		<if test="part == 'comment'">update comment set report_count = report_count + 1 where idx = #{idx};</if>
+		<if test="part == 'member'">update member set report_count = report_count + 1 where idx = #{idx};</if>
+		<if test="part == 'ad'">update ad set report_count = report_count + 1 where idx = #{idx};</if>
 	</update>
 	
 	

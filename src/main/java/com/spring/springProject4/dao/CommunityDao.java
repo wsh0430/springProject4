@@ -10,6 +10,7 @@ import com.spring.springProject4.vo.BoardVo;
 import com.spring.springProject4.vo.CategoryVo;
 import com.spring.springProject4.vo.CommentVo;
 import com.spring.springProject4.vo.LikesVo;
+import com.spring.springProject4.vo.ReportVo;
 
 @Mapper
 @Repository
@@ -60,6 +61,12 @@ public interface CommunityDao {
 	int setUpdateBoardDeleteCheck(@Param("boardIdx") int boardIdx);
 
 	List<BoardVo> getHotBoardList(@Param("category") String category);
+
+	int setInputBoardReport(@Param("vo") ReportVo vo);
+
+	int setUpdateBoardReportCount(@Param("part") String part, @Param("idx") int idx);
+
+	int getFindReportVo(@Param("vo") ReportVo vo);
 
 	
 

@@ -16,6 +16,8 @@
 <body>
 	<div id="ad_lr">
 		<span>ad test(좌우)</span>
+		<span>${adVo.title}</span>
+		<span>${adVo.imageUrl}</span>
 	</div>
 </body>
 </html>

@@ -97,10 +97,15 @@
     	.block-page{
     		margin-bottom: 10px;
     	}
+    	
+    	#b_write-btn{
+    		text-align: right;
+    	}
     </style>
 </head>
 <body>
-    <div id="main">
+    <div id="main">	
+    	<!-- 카테고리 시작 -->
     	<div id="category">
     		<table>
     			<tr>
@@ -124,11 +129,12 @@
     			</tr>
     		</table>
     	</div>
+    	<!-- 카테고리 끝 -->
+    	
     	<div id="board">
-			<span>${category}</span>
 			<table class="table table-borderless m-0 p-0">
 				<tr>
-					<td><a href="${ctp}/community/cmtyBoardCreate" class="btn btn-success btn-sm">글쓰기</a></td>
+					<td><h3>${category}</h3></td>
 					<c:if test="${empty pageVo.searchStr}">
 						<td class="text-end"><select name="pageSize" id="pageSize"
 							onchange="pageSizeCheck()">
@@ -198,17 +204,20 @@
     			</c:forEach>
     		</table>
     	</div>
+    	<div id="b_write-btn">
+    		<span><a href="${ctp}/community/cmtyBoardCreate" class="btn btn-success btn-sm">글쓰기</a></span> 
+    	</div>
     	<!-- 블록페이지 시작 -->
 		<div class="text-center block-page">
 		  <ul class="pagination justify-content-center">
-		    <c:if test="${pageVo.pag > 1}"><li class="page-item"><a class="page-link text-secondary" href="cmtyMain?category=${category}&pag=1&pageSize=${pageVo.pageSize}">첫페이지</a></li></c:if>
+		    <c:if test="${pageVo.pag > 1}"><li class="page-item"><a class="page-link text-secondary" href="cmtyMain?category=${category}&pag=1&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}">첫페이지</a></li></c:if>
 		  	<c:if test="${pageVo.curBlock > 0}"><li class="page-item"><a class="page-link text-secondary" href="cmtyMain?category=${category}&pag=${(curBlock-1)*blockSize+1}&pageSize=${pageVo.pageSize}">이전블록</a></li></c:if>
 		  	<c:forEach var="i" begin="${(pageVo.curBlock*pageVo.blockSize)+1}" end="${(pageVo.curBlock*pageVo.blockSize)+pageVo.blockSize}" varStatus="st">
-			    <c:if test="${i <= pageVo.totPage && i == pageVo.pag}"><li class="page-item active"><a class="page-link bg-secondary border-secondary" href="cmtyMain?category=${category}&pag=${i}&pageSize=${pageVo.pageSize}">${i}</a></li></c:if>
-			    <c:if test="${i <= pageVo.totPage && i != pageVo.pag}"><li class="page-item"><a class="page-link text-secondary" href="cmtyMain?category=${category}&pag=${i}&pageSize=${pageVo.pageSize}">${i}</a></li></c:if>
+			    <c:if test="${i <= pageVo.totPage && i == pageVo.pag}"><li class="page-item active"><a class="page-link bg-secondary border-secondary" href="cmtyMain?category=${category}&pag=${i}&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}">${i}</a></li></c:if>
+			    <c:if test="${i <= pageVo.totPage && i != pageVo.pag}"><li class="page-item"><a class="page-link text-secondary" href="cmtyMain?category=${category}&pag=${i}&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}">${i}</a></li></c:if>
 		  	</c:forEach>
-		  	<c:if test="${pageVo.curBlock < pageVo.lastBlock}"><li class="page-item"><a class="page-link text-secondary" href="cmtyMain?category=${category}&pag=${(pageVo.curBlock+1)*pageVo.blockSize+1}&pageSize=${pageVo.pageSize}">다음블록</a></li></c:if>
-		  	<c:if test="${pageVo.pag < pageVo.totPage}"><li class="page-item"><a class="page-link text-secondary" href="cmtyMain?category=${category}&pag=${pageVo.totPage}&pageSize=${pageVo.pageSize}">마지막페이지</a></li></c:if>
+		  	<c:if test="${pageVo.curBlock < pageVo.lastBlock}"><li class="page-item"><a class="page-link text-secondary" href="cmtyMain?category=${category}&pag=${(pageVo.curBlock+1)*pageVo.blockSize+1}&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}">다음블록</a></li></c:if>
+		  	<c:if test="${pageVo.pag < pageVo.totPage}"><li class="page-item"><a class="page-link text-secondary" href="cmtyMain?category=${category}&pag=${pageVo.totPage}&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}">마지막페이지</a></li></c:if>
 		  </ul>
 		</div>
 		<!-- 블록페이지 끝 -->

@@ -70,5 +70,25 @@
 	<select id="getCategoryIdx" resultType="int">
 		select idx from category where name = #{categoryName};
 	</select>
+	
+	<select id="getBoardVo" resultType="com.spring.springProject4.vo.BoardVo">
+		select * from board where idx = #{idx};
+	</select>
+
+
+
+	<update id="setUpdateToggleCheckedBoard">
+		update board set hide_check = #{hc} where idx = #{idx};
+	</update>
+	
+	<update id="setUpdateToggleBoard">
+		update board set hide_check = <if test="part == 'show'">0</if><if test="part != 'show'">1</if> where idx = #{idx};
+	</update>
+
+
+	
+	<delete id="setDeleteBoard">
+		delete from board where idx = #{idx};
+	</delete>
 
 </mapper>

@@ -12,8 +12,9 @@
 	    $(function() {
 	    	function toggleButton() {
 	          const hasChecked = $('.bl_checkbox:checked').length > 0;
-	          $('#b_hide-button').toggle(hasChecked);
-	          $('#b_delete-button').toggle(hasChecked);
+	          $('#b_hide-all-button').toggle(hasChecked);
+	          $('#b_show-all-button').toggle(hasChecked);
+	          $('#b_delete-all-button').toggle(hasChecked);
 	        }
 	    	$('.bl_checkbox').on('change', toggleButton);
 	    	
@@ -70,6 +71,112 @@
 	    	    }
 	    	  });
 	    	});
+	    
+	    function deleteBoard(title, idx) {
+			if(!confirm("게시글("+title+")을 정말 삭제하시겠습니까?"))
+				return false;
+			
+			$.ajax({
+				url: '${ctp}/admin/deleteBoard',  
+    	        type: 'post',
+    	        data: { idx: idx },
+    	        success:function(res){
+    	        	if(res == 1){
+    	        		alert("게시글("+title+")이 삭제되었습니다.");
+    	        		location.reload();
+    	        	}
+    	        	else{ alert("잠시 후 다시 시도해주세요."); }
+    	        },
+    	        error: function() {
+					alert("게시글 삭제 중 오류가 발생하였습니다.");
+				}
+			});
+		}
+	    
+	    function deleteAllBoard() {
+			if(!confirm("선택된 게시글을 정말 삭제하시겠습니까?"))
+				return false;
+			
+			$.ajax({
+				url: '${ctp}/admin/deleteBoard',  
+    	        type: 'post',
+    	        data: { idx: idx },
+    	        success:function(res){
+    	        	if(res == 1){
+    	        		alert("게시글("+title+")이 삭제되었습니다.");
+    	        		location.reload();
+    	        	}
+    	        	else{ alert("잠시 후 다시 시도해주세요."); }
+    	        },
+    	        error: function() {
+					alert("게시글 삭제 중 오류가 발생하였습니다.");
+				}
+			});
+		}
+	    
+	    function updateToggleBoard(title, idx) {	    	
+	    	let div = $("#bi_toggle-button"+idx);
+	    	let stats = $("#bi_stats"+idx);
+	    	
+	    	$.ajax({
+	    		url: '${ctp}/admin/updateToggleBoard',  
+    	        type: 'post',
+    	        data: { idx: idx },
+    	        success:function(res){
+    	        	if(res == 1){
+    	        		// 숨겨짐 처리 == 버튼은 보이기로 바뀜
+    	        		div.html('<input type="button" id="bi_show-button'+idx+'" value="보이기" onclick="updateToggleBoard(\''+title+'\', '+idx+')">');	        		
+    	        		stats.text("숨겨짐 "+ stats.text());
+    	        	}
+    	        	else if(res == 0){
+    	        		// 숨겨짐 처리 == 버튼은 숨겨짐으로 바뀜
+    	        		div.html('<input type="button" id="bi_show-button'+idx+'" value="숨김" onclick="updateToggleBoard(\''+title+'\', '+idx+')">');	        		
+    	        		stats.text(stats.text().substring(4));
+    	        	}
+    	        	else{ alert("잠시 후 다시 시도해주세요."); }
+    	        },
+    	        error: function() {
+					alert("게시글 토글 중 오류가 발생하였습니다.");
+				}
+	    	});
+		}
+	    
+	    function updateToggleAllBoard(part) {	    	
+	    	let div = $("#bi_toggle-button");
+	    	
+	    	$('input[type="checkbox"]:checked').not('#select-all').each(function(){
+	    		let idx = $(this).attr('id');
+		    	$.ajax({
+		    		url: '${ctp}/admin/updateToggleBoard',  
+	    	        type: 'post',
+	    	        data: { 
+	    	        	idx: idx,
+	    	        	part: part
+	    	        },
+	    	        success:function(res){
+	    	        	if(res == 1){
+	    	        		let stats = $("#bi_stats"+idx);
+	    	        		
+		    	        	if(part == 'hide'){
+		    	        		// 숨겨짐 처리 == 버튼은 보이기로 바뀜
+		    	        		div.html('<input type="button" id="bi_show-button'+idx+'" value="보이기" onclick="updateToggleBoard(\''+title+'\', '+idx+')">');	        		
+		    	        		if(stats.text().substring(0, 3) != '숨겨짐')
+		    	        			stats.text("숨겨짐 "+ stats.text());
+		    	        	}
+		    	        	else if(part == 'show'){
+		    	        		// 숨겨짐 처리 == 버튼은 숨겨짐으로 바뀜
+		    	        		div.html('<input type="button" id="bi_hide-button'+idx+'" value="숨김" onclick="updateToggleBoard(\''+title+'\', '+idx+')">');	        		
+		    	        		stats.text(stats.text().substring(4));
+		    	        	}
+	    	        	}
+	    	        	else{ alert("잠시 후 다시 시도해주세요."); }
+	    	        },
+	    	        error: function() {
+						alert("게시글 토글 중 오류가 발생하였습니다.");
+					}
+		    	});
+	    	});
+		}
     </script>
     <style>
     	#view_type-bar{
@@ -78,6 +185,11 @@
     	}
     	#board-list{
     		width: 100%;
+    		text-align: center;
+    	}
+    	#board-list tr:not(:first-of-type) td:nth-of-type(3) {
+    		text-align: left;	
+    		margin-left: 10px;
     	}
     	
     	#board-bar{
@@ -93,6 +205,14 @@
     	#sb_main-category{
     		margin-right: 10px;
     	}
+    	.bi_btn{
+    		display: flex;
+    		justify-content: center;
+    	}
+    	.bi_btn div{
+    		margin-right: 10px;
+    	}
+    	
     </style>
 </head>
 <body>
@@ -145,8 +265,9 @@
 			</div>
 		</form>
 			<div id="br_control-panel">
-				<input type="button" id="b_hide-button" value="숨김" style="display: none;">
-				<input type="button" id="b_delete-button" value="삭제" style="display: none;">
+				<input type="button" id="b_hide-all-button" value="숨김" onclick="updateToggleAllBoard('hide')" style="display: none;">
+				<input type="button" id="b_show-all-button" value="보이기" onclick="updateToggleAllBoard('show')" style="display: none;">
+				<input type="button" id="b_delete-all-button" value="삭제" onclick="deleteCheckedAllBoard()" style="display: none;">
 			</div>
 	</div>
 	<div id="board-box">
@@ -164,7 +285,7 @@
 			</tr>
 			<c:forEach var="bVos" items="${boardVos}">
 				<tr style="background-color: gray;">
-					<td><input type="checkbox" class="bl_checkbox"></td>
+					<td><input type="checkbox" class="bl_checkbox" id="${bVos.idx}"></td>
 					<td>${bVos.categoryName}</td>
     				<td>
     					<a href="cmtyContent?boardIdx=${bVos.idx}&category=${category}&pag=${pageVo.pag}&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}">
@@ -180,22 +301,36 @@
     				</td>
     				<td>${bVos.viewCount}</td>
     				<td>${bVos.likeCount}</td>
-    				<td>신고됨</td>
-    				<td>삭제</td>
+    				<td>
+    					<div id="bi_stats${bVos.idx}">
+	    					<c:if test="${bVos.hideCheck == 1}">숨겨짐</c:if>
+	    					<c:if test="${bVos.reportCount >= 30}">신고됨</c:if>
+    					</div>
+    				</td>
+    				<td>
+    					<div class="bi_btn">
+	    					<div id="bi_toggle-button${bVos.idx}">					
+		    					<c:if test="${bVos.hideCheck == 0}"><input type="button" id="bi_hide-button${bVos.idx}" value="숨김" onclick="updateToggleBoard('${bVos.title}', ${bVos.idx})"></c:if>
+		    					<c:if test="${bVos.hideCheck != 0}"><input type="button" id="bi_show-button${bVos.idx}" value="보이기" onclick="updateToggleBoard('${bVos.title}', ${bVos.idx})"></c:if>
+	    					</div>
+	    					<input type="button" id="bi_delete-button" value="삭제" onclick="deleteBoard('${bVos.title}', ${bVos.idx})">
+    					</div>
+    										
+    				</td>
 				</tr>			
 			</c:forEach>
 		</table>
 		<!-- 블록페이지 시작 -->
 		<div class="text-center block-page">
 		  <ul class="pagination justify-content-center">
-		    <c:if test="${pageVo.pag > 1}"><li class="page-item"><a class="page-link text-secondary" href="cmtyMain?category=${category}&pag=1&pageSize=${pageVo.pageSize}">첫페이지</a></li></c:if>
-		  	<c:if test="${pageVo.curBlock > 0}"><li class="page-item"><a class="page-link text-secondary" href="cmtyMain?category=${category}&pag=${(curBlock-1)*blockSize+1}&pageSize=${pageVo.pageSize}">이전블록</a></li></c:if>
+		    <c:if test="${pageVo.pag > 1}"><li class="page-item"><a class="page-link text-secondary" href="boardManager?category=${category}&pag=1&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}&startDate=${startDate}&lastDate=${lastDate}">첫페이지</a></li></c:if>
+		  	<c:if test="${pageVo.curBlock > 0}"><li class="page-item"><a class="page-link text-secondary" href="boardManager?category=${category}&pag=${(curBlock-1)*blockSize+1}&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}&startDate=${startDate}&lastDate=${lastDate}">이전블록</a></li></c:if>
 		  	<c:forEach var="i" begin="${(pageVo.curBlock*pageVo.blockSize)+1}" end="${(pageVo.curBlock*pageVo.blockSize)+pageVo.blockSize}" varStatus="st">
-			    <c:if test="${i <= pageVo.totPage && i == pageVo.pag}"><li class="page-item active"><a class="page-link bg-secondary border-secondary" href="cmtyMain?category=${category}&pag=${i}&pageSize=${pageVo.pageSize}">${i}</a></li></c:if>
-			    <c:if test="${i <= pageVo.totPage && i != pageVo.pag}"><li class="page-item"><a class="page-link text-secondary" href="cmtyMain?category=${category}&pag=${i}&pageSize=${pageVo.pageSize}">${i}</a></li></c:if>
+			    <c:if test="${i <= pageVo.totPage && i == pageVo.pag}"><li class="page-item active"><a class="page-link bg-secondary border-secondary" href="boardManager?category=${category}&pag=${i}&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}&startDate=${startDate}&lastDate=${lastDate}">${i}</a></li></c:if>
+			    <c:if test="${i <= pageVo.totPage && i != pageVo.pag}"><li class="page-item"><a class="page-link text-secondary" href="boardManager?category=${category}&pag=${i}&pageSize=${pageVo.pageSize}&startDate=${startDate}&lastDate=${lastDate}">${i}</a></li></c:if>
 		  	</c:forEach>
-		  	<c:if test="${pageVo.curBlock < pageVo.lastBlock}"><li class="page-item"><a class="page-link text-secondary" href="cmtyMain?category=${category}&pag=${(pageVo.curBlock+1)*pageVo.blockSize+1}&pageSize=${pageVo.pageSize}">다음블록</a></li></c:if>
-		  	<c:if test="${pageVo.pag < pageVo.totPage}"><li class="page-item"><a class="page-link text-secondary" href="cmtyMain?category=${category}&pag=${pageVo.totPage}&pageSize=${pageVo.pageSize}">마지막페이지</a></li></c:if>
+		  	<c:if test="${pageVo.curBlock < pageVo.lastBlock}"><li class="page-item"><a class="page-link text-secondary" href="boardManager?category=${category}&pag=${(pageVo.curBlock+1)*pageVo.blockSize+1}&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}&startDate=${startDate}&lastDate=${lastDate}">다음블록</a></li></c:if>
+		  	<c:if test="${pageVo.pag < pageVo.totPage}"><li class="page-item"><a class="page-link text-secondary" href="boardManager?category=${category}&pag=${pageVo.totPage}&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}&startDate=${startDate}&lastDate=${lastDate}">마지막페이지</a></li></c:if>
 		  </ul>
 		</div>
 		<!-- 블록페이지 끝 -->

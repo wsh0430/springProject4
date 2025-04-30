@@ -25,7 +25,7 @@ create table comment(
 	item_tinyint			tinyint,
 	
 	primary key (idx),
-	foreign key (board_id) references board(idx) on delete cascade,
-    foreign key (member_id) references member(member_id),
-    foreign key (parent_id) references comment(idx) on delete cascade
+	foreign key (board_id) references board(idx) ON UPDATE CASCADE ON DELETE CASCADE,
+    foreign key (member_id) references member(member_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    foreign key (parent_id) references comment(idx) on update cascade on delete cascade
 );

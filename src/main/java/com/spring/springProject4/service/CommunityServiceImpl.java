@@ -19,6 +19,7 @@ import com.spring.springProject4.vo.BoardVo;
 import com.spring.springProject4.vo.CategoryVo;
 import com.spring.springProject4.vo.CommentVo;
 import com.spring.springProject4.vo.LikesVo;
+import com.spring.springProject4.vo.ReportVo;
 
 @Service
 public class CommunityServiceImpl implements CommunityService {
@@ -239,5 +240,20 @@ public class CommunityServiceImpl implements CommunityService {
 		@Override
 		public List<BoardVo> getHotBoardList(String category) {
 			return communityDao.getHotBoardList(category);
+		}
+
+		@Override
+		public int setInputBoardReport(ReportVo vo) {
+			return communityDao.setInputBoardReport(vo);
+		}
+
+		@Override
+		public int setUpdateBoardReportCount(String part, int idx) {
+			return communityDao.setUpdateBoardReportCount(part, idx);
+		}
+
+		@Override
+		public int getFindReportVo(ReportVo vo) {
+			return communityDao.getFindReportVo(vo);
 		}
 }
