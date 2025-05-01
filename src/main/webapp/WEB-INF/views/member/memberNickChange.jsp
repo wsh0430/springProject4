@@ -5,7 +5,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>title</title>
+	<title>닉네임 변경하기</title>
 </head>
 <body>
 	

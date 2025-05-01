@@ -13,11 +13,11 @@
 	  </insert>
 	  
 	  <delete id="deleteExpiredTokens">
-	    delete form login_tokens where expiry &lt; #{now}
+	    delete from login_tokens where expiry &lt; #{now}
 		</delete>
 	 
 	 <delete id="deleteLoginToken" parameterType="String">
-        delete form login_tokens
+        delete from login_tokens
         where memberId = #{memberId}
     </delete>
 </mapper>

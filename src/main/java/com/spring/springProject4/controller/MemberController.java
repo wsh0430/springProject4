@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -116,7 +117,7 @@ public class MemberController {
 	
 
 	
-	// 이메일 인증처리 또는 휴대폰 인증처리 (고민중)
+	// 휴대폰 인증처리
 		
 	// 회원가입 화면 보기
 		@RequestMapping(value = "/memberJoin", method = RequestMethod.GET)
@@ -125,12 +126,16 @@ public class MemberController {
 		}
 	// 회원가입 처리하기(DB에 회원 저장)
 		@RequestMapping(value = "/memberJoin", method = RequestMethod.POST)
-		public String memberJoinPost(MemberVo vo, MultipartFile fName, HttpSession session) throws InvalidKeyException, UnsupportedEncodingException {
+		public String memberJoinPost(MemberVo vo, MultipartFile fName, HttpSession session, HttpServletRequest request) throws InvalidKeyException, UnsupportedEncodingException {
 			// 아이디/닉네임 중복체크
 			
 			if(memberService.getMemberIdCheck(vo.getMemberId()) != null) {
 				return "redirect:/message/idCheckNo";
 			}
+			
+			//이메일 조합 추가
+	    String email = request.getParameter("email1") + "@" + request.getParameter("email2");
+	    vo.setEmail(email);
 			
 			//비밀번호 암호화
 			vo.setPassword(passwordEncoder.encode(vo.getPassword()));
@@ -218,33 +223,138 @@ public class MemberController {
 	    return "redirect:/message/memberLogoutOk";
 	}
 		
-	// 마이페이지 화면 보기
-			@RequestMapping(value = "/memberMypage", method = RequestMethod.GET)
-			public String memberMypageGet() {
-				return "member/memberMypage";
+	//마이페이지 화면 보기
+		@RequestMapping(value = "/memberMypage", method = RequestMethod.GET)
+			public String memberMypageGet(HttpSession session, Model model) {
+					String mid = (String) session.getAttribute("sMemberId");
+					
+					MemberVo vo = memberService.getMemberIdCheck(mid);
+			    
+			    // memberVO 자체도 넘겨주기
+			    model.addAttribute("vo", vo);
+
+			    return "member/memberMypage";
 			}
 		
+	//마이페이지 정보 수정처리
+		@RequestMapping(value = "/memberMypage", method = RequestMethod.POST)
+		public String memberMypagePost(HttpSession session, MemberVo vo, MultipartFile fName) {
+			String memberId = (String) session.getAttribute("sMemberId");
+		  vo.setMemberId(memberId);
+		  
+			// 닉네임 체크(수정시에는 새로 세션체 저장처리한다.
+			String nickName = (String) session.getAttribute("sNickName");
+			if(memberService.getMemberNickCheck(vo.getNickName()) != null && !nickName.equals(vo.getNickName())) {
+				return "redirect:/message/nickCheckNo";
+			}
+			
+			// 회원 사진 처리
+			if(fName.getOriginalFilename() != null && !fName.getOriginalFilename().equals("")) {
+				vo.setIcon(memberService.fileUpload(fName, vo.getMemberId(), vo.getIcon()));
+			}
+			
+			int res = memberService.setMemberUpdateOk(vo);
+			System.out.println("회원 정보 업데이트 결과: " + res);
+			System.out.println("수정 대상 memberId: " + vo.getMemberId());
+			
+			if(res != 0) {
+				session.setAttribute("sNickName", vo.getNickName());
+				return "redirect:/message/memberUpdateOk";
+			}
+			else return "redirect:/message/memberUpdateNo";
+		}
 		
+	//비밀번호 변경 화면 보기
+	@RequestMapping(value = "/memberPassChange", method = RequestMethod.GET)
+	public String memberPassChangeGet(HttpSession session, Model model) {
+		String memberId = (String) session.getAttribute("sMemberId");
+    MemberVo vo = memberService.getMemberIdCheck(memberId);
+		model.addAttribute("vo", vo);
+		return "member/memberPassChange";
+	}
+	//비밀번호 변경 처리하기
+	@RequestMapping(value = "/memberPassChange", method = RequestMethod.POST)
+	 public String pwdChangePost(HttpSession session, @RequestParam("nowPwd") String nowPwd,
+     @RequestParam("newPwd") String newPwd) {
+			
+			String memberId = (String) session.getAttribute("sMemberId"); // 세션에서 회원 ID 가져오기
+			
+			// 1. 현재 비밀번호 확인 (암호화된 비밀번호와 비교)
+			MemberVo member = memberService.getMemberById(memberId);
+			
+			if (member == null) {
+        return "redirect:/message/memberNotFound"; 
+			}
+		  // 현재 비밀번호 확인
+      if (!passwordEncoder.matches(nowPwd, member.getPassword())) {
+          return "redirect:/message/pwdChangeFail";  // 비밀번호가 일치하지 않으면 실패 페이지로 리디렉션
+      }
+			
+			// 2. 새 비밀번호 암호화 후 저장
+			String encodedNewPwd = passwordEncoder.encode(newPwd);
+			int res = memberService.setMemberPwdChange(memberId, encodedNewPwd);
+			
+			// 결과에 따라 처리
+			if (res != 0) {
+				return "redirect:/message/pwdChangeOk"; // 비밀번호 변경 성공
+			} else {
+				return "redirect:/message/pwdChangeNo"; // 비밀번호 변경 실패
+			}
+		}
+	//회원 탈퇴 부분
+	@RequestMapping(value = "/memberPassCheck", method = RequestMethod.POST)
+	public String memberPassCheckPost(HttpSession session, @RequestParam("nowPwd") String nowPwd) {
+		String memberId = (String) session.getAttribute("sMemberId");
+		MemberVo vo = memberService.getMemberIdCheck(memberId);
+
+		// 비밀번호 비교
+		if(vo != null && passwordEncoder.matches(nowPwd, vo.getPassword())) {
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+			memberService.deleteMemberById(memberId);
+
+			// 자동 로그인 토큰 삭제
+			loginTokenService.deleteLoginToken(memberId);
+			
+			// 세션 무효화
+			session.invalidate();
+
+			return "redirect:/message/memberDelete";
+		}
+		else {
+			// 비밀번호 틀림
+			return "redirect:/message/pwdChangeFail";
+		}
+	}
+  // 비밀번호 확인 페이지
+  @RequestMapping(value = "/memberPassCheck", method = RequestMethod.GET)
+  public String pwdCheckGet(HttpSession session) {
+      // 비밀번호 확인 페이지로 이동
+      return "member/memberPassCheck";  // 비밀번호 확인 JSP 페이지
+  }
 }
+
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+

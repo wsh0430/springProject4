@@ -1,7 +1,5 @@
 package com.spring.springProject4.service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,16 +15,6 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Autowired
 	MemberDao memberDao;
-	
-	@Override
-  public void memberJoin(MemberVo vo) {
-     // 여기에서 생일 기본값 처리
-     if (vo.getBirthday() == null || vo.getBirthday().isEmpty()) {
-         vo.setBirthday(LocalDate.now().toString()); // "2025-04-17"
-     }
-
-     memberDao.memberJoin(vo);
-  }
 	
 	@Override
 	public MemberVo getMemberIdCheck(String memberId) {
@@ -80,6 +68,25 @@ public class MemberServiceImpl implements MemberService {
 		memberDao.setMemberPoint(memberId, point);
 		
 	}
+
+	@Override
+	public int setMemberUpdateOk(MemberVo vo) {
+		
+		return memberDao.setMemberUpdateOk(vo);
+	}
+
+	@Override
+	public int setMemberPwdChange(String memberId, String pwd) {
+		
+		return memberDao.setMemberPwdChange(memberId, pwd);
+	}
+
+	@Override
+	public void deleteMemberById(String memberId) {
+		memberDao.deleteMemberById(memberId);
+		
+	}
+
 	
 
 }

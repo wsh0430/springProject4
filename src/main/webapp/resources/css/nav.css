@@ -165,7 +165,6 @@
 		/* 사이드바 */
 		.sidebar {
 		  width: 250px;
-		  background-color: white;
 		  border-left: 1px solid gray;
 		  padding: 30px 0;
 		  height: auto; /* 내용에 따라 높이 자동 조절 */

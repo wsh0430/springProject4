@@ -23,6 +23,7 @@ public class MessageController {
 			model.addAttribute("url","member/memberJoin");
 		}
 		else if(msgFlag.equals("memberJoinOK")) {
+			model.addAttribute("message","회원가입에 성공하셨습니다.");
 			model.addAttribute("url","member/memberWelcome");
 		}
 		else if(msgFlag.equals("memberJoinNO")) {
@@ -30,7 +31,7 @@ public class MessageController {
 			model.addAttribute("url","member/memberJoinRetry");
 		}
 		else if(msgFlag.equals("memberLoginOk")) {
-			model.addAttribute("message", nickName + "회원님 로그인 성공!");
+			model.addAttribute("message", nickName + "회원님 로그인 되었습니다.");
 			model.addAttribute("url","/");
 		}
 		else if(msgFlag.equals("memberLoginNo")) {
@@ -40,6 +41,39 @@ public class MessageController {
 		else if(msgFlag.equals("memberLogoutOk")) {
 			model.addAttribute("message", "로그아웃 되었습니다");
 			model.addAttribute("url","member/memberLogin");
+		}
+		else if(msgFlag.equals("memberUpdateOk")) {
+			model.addAttribute("message", "회원 정보 수정이 완료되었습니다.");
+			model.addAttribute("url","member/memberMypage");
+		}
+		else if(msgFlag.equals("memberUpdateNo")) {
+			model.addAttribute("message", "회원 정보 수정이 실패되었습니다.");
+			model.addAttribute("url","member/memberMypage");
+		}
+		else if(msgFlag.equals("pwdChangeOk")) {
+       // 비밀번호 변경 후 로그아웃 처리
+       session.invalidate(); // 세션 무효화 (로그아웃 처리)
+
+       model.addAttribute("message", "비밀번호가 변경되었습니다. 다시 로그인해주세요!");
+       model.addAttribute("url", "member/memberLogin"); // 로그인 페이지로 이동
+   }
+		else if(msgFlag.equals("pwdChangeNo")) {
+			model.addAttribute("message", "비밀번호 변경이 실패되었습니다.");
+			model.addAttribute("url","member/memberMypage");
+		}
+		else if(msgFlag.equals("pwdChangeFail")) {
+			model.addAttribute("message", "현재 비밀번호가 일치하지않습니다.");
+			model.addAttribute("url","member/memberMypage");
+		}
+		else if(msgFlag.equals("memberNotFound")) {
+			session.invalidate();
+			model.addAttribute("message", "회원을 찾을수가 없습니다 다시 로그인해 주세요.");
+			model.addAttribute("url","member/memberLogin");
+		}
+		else if(msgFlag.equals("memberDelete")) {
+			session.invalidate();
+			model.addAttribute("message", "회원이 탈퇴 되었습니다.");
+			model.addAttribute("url","/");
 		}
 		
 		

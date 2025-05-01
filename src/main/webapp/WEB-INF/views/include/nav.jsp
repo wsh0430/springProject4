@@ -1,15 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var="ctp" value="${pageContext.request.contextPath}"/>
+
 <html>
 <head>
   <meta charset="UTF-8">
   <title>nav</title>
   <link rel="stylesheet" href="${ctp}/css/nav.css">
-  <script type="text/javascript" src="${ctp}/js/nav.js"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 </head>
-  <div>현재 세션 sLevel: <%= session.getAttribute("sLevel") %></div>
 	<header>
 		<!-- navbar 1번(로그인/회원가입/검색창) -->
 		<div class="navbar1">
@@ -44,7 +43,7 @@
 				<li class="nav-record"><a href="#">기록실</a>
 				 	<!-- 하위메뉴 -->
 					<ul class="dropdown">
-						<li><a href="#" onclick="showSidebar('player')">시즌 기록실</a></li>
+						<li><a href="${ctp}/record/recordMain?sidebar=player">시즌 기록실</a></li>
 						<li><a href="#" onclick="showSidebar('career')">통산 기록실</a></li>
 						<li><a href="#" onclick="showSidebar('team')">팀 기록실</a></li>
 					</ul>
@@ -98,4 +97,5 @@
 	    </ul>
 	  </div>
 	</div>
+<script type="text/javascript" src="${ctp}/js/nav.js"></script>
 </html>

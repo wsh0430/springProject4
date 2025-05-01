@@ -9,8 +9,6 @@ public interface MemberDao {
 
 	MemberVo getMemberIdCheck(@Param("memberId") String memberId);
 
-	void memberJoin(MemberVo vo);
-
 	int setMemberJoinOk(@Param("vo") MemberVo vo);
 
 	MemberVo getMemberNickCheck(@Param("nickName") String nickName);
@@ -20,6 +18,14 @@ public interface MemberDao {
 	void setMemberVisitCount(@Param("memberId") String memberId);
 
 	void setMemberPoint(@Param("memberId") String memberId, @Param("point") int point);
+
+	int setMemberUpdateOk(@Param("vo") MemberVo vo);
+
+	int setMemberPwdChange(@Param("memberId") String memberId, @Param("pwd") String pwd);
+
+	void deleteMemberById(@Param("memberId") String memberId);
+
+	
 
 
 

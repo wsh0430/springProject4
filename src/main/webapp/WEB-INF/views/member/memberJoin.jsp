@@ -1,4 +1,3 @@
-<%@page import="java.time.LocalDate"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var="ctp" value="${pageContext.request.contextPath}"/>
@@ -27,7 +26,7 @@
 					<td>
 						<div class="form-inline">
 							<input type="text" name="memberId" id="memberId" placeholder="아이디를 입력하세요"  required />
-							<input type="button" value="아이디 중복체크" class="check-btn" id="midBtn" onclick="idCheck()" />											
+							<input type="button" value="아이디 중복확인" class="check-btn" id="midBtn" onclick="idCheck()" />											
 						</div>
 						<div id="idMessage" class="error-msg"></div>
 					</td>
@@ -55,7 +54,7 @@
 					<td>
 							<div class="form-inline">
 								<input type="text" name="nickName" id="nickName" placeholder="닉네임을 입력하세요" required  />
-	         	 		<input type="button" value="닉네임중복체크" class="check-btn" id="nickNameBtn" onclick="memberNickCheck()" />
+	         	 		<input type="button" value="닉네임 중복확인" class="check-btn" id="nickNameBtn" onclick="memberNickCheck()" />
 							</div>
 							<div id="nickNameMessage" class="error-msg"></div>	         	 		
 					</td>
@@ -99,9 +98,9 @@
 					<th>이메일</th>
 					<td>
 							<div>
-								<input type="text" name="email" id="email1" placeholder="이메일 주소" required />@
-								<input type="text" name="email" id="email2"  required />
-								<select name="email" class="emailSelect" onchange="setEmailDomain(this.value)">
+								<input type="text" name="email1" id="email1" placeholder="이메일 주소" required />@
+								<input type="text" name="email2" id="email2"  required />
+								<select name="emailDomain" class="emailSelect" onchange="setEmailDomain(this.value)">
 		            <option value="self" selected>직접입력</option>
 		            <option value="naver.com">naver.com</option>
 		            <option value="gamil.com">gmail.com</option>
@@ -158,8 +157,8 @@
 				      			</div>
 				      			<input type="text" name="roadAddress" id="sample6_address" placeholder="주소" class="main-address">
 				      			<div class="extra-address">
-				      				<input type="text" name="detailAddress" id="sample6_detailAddress" placeholder="상세주소">
-				      				<input type="text" name="extraAddress" id="sample6_extraAddress" placeholder="참고항목">
+				      				<input type="text" name="detailAddress" class="detailAddress" id="sample6_detailAddress" placeholder="상세주소">
+				      				<input type="text" name="extraAddress" class="extraAddress" id="sample6_extraAddress" placeholder="참고항목">
 				      			</div>
 				      		</div>
 				      	</td>
@@ -167,7 +166,7 @@
 			      <tr>
 			      	<th>생일</th>
 				      	<td>
-				      		<input type="date" name="birthday" value=<%=LocalDate.now() %> class="birthday-input"/>
+				      		<input type="date" name="birthday" id="birthday" value="<%=java.time.LocalDate.now() %>" class="birthday-input"/>
 				      	</td>
 			      </tr>
 			      <tr>

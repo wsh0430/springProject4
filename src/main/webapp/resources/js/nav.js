@@ -20,7 +20,7 @@
 		  document.querySelector('.nav-record').addEventListener('click', function(event) {
 		    const dropdown = this.querySelector('.dropdown');
 		    dropdown.style.display = (dropdown.style.display === 'block') ? 'none' : 'block';
-		    event.stopPropagation();
+
 		  });
 		
 		  document.addEventListener('click', function(event) {
@@ -31,17 +31,17 @@
 		  });
 		
 		  document.querySelector('.dropdown li:nth-child(1) a').addEventListener('click', function(e) {
-		    e.preventDefault();
+
 		    showSidebar('player');
 		  });
 		
 		  document.querySelector('.dropdown li:nth-child(2) a').addEventListener('click', function(e) {
-		    e.preventDefault();
+
 		    showSidebar('career');
 		  });
 		  
 		  document.querySelector('.dropdown li:nth-child(3) a').addEventListener('click', function(e) {
-		    e.preventDefault();
+
 		    showSidebar('team');
 		  });
 		 });
@@ -50,14 +50,12 @@
 	  function showSidebar(type) {
 		  const currentPath = window.location.pathname;
 		
-		  // 🚫 로그인 또는 회원가입 페이지라면 실행 안 함
-		  if (
-				currentPath.includes("/member/memberLogin") || 
-				currentPath.includes("/member/memberJoin")
-				) {
-		    return;
-		  }
-		
+	    // 기록실/분석 페이지가 아닐 경우 사이드바 실행 안 함
+		  const isRecordPage = currentPath.includes("/record");
+		  const isAnalysisPage = currentPath.includes("/analysis");
+		  
+		  if (!isRecordPage && !isAnalysisPage) return;
+				
 		  const playerSidebar = document.getElementById("sidebar-player");
 		  const careerSidebar = document.getElementById("sidebar-career");
 		  const teamSidebar = document.getElementById("sidebar-team");
@@ -76,3 +74,11 @@
 				careerSidebar.style.display = 'block';
 			}
 		}
+		// 페이지 로드시 URL 파라미터로 사이드바 열기
+		window.addEventListener("load", function () {
+		  const urlParams = new URLSearchParams(window.location.search);
+		  const sidebarType = urlParams.get("sidebar");
+		  if (sidebarType) {
+		    showSidebar(sidebarType); // 이때는 DOM이 100% 다 로드된 후
+		  }
+		});

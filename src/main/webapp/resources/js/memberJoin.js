@@ -25,7 +25,6 @@
 	
 	//회원가입에 필요한 정보 체크
  	function fCheck() {
-	  console.log("fCheck 실행됨");
 	//필수항목 먼저 체크
 	let mid = myform.memberId.value.trim();
 	let pwd = myform.password.value.trim();
@@ -56,10 +55,7 @@
 			myform.memberId.focus();
 			return false; //유효성 검사 실패 시 폼 제출을 막기 위해 false 리턴
 		}
-		else {
-	  document.getElementById('idMessage').style.display = 'none'; // ✅ 조건에 맞을 때 메시지 숨기기
-		}
-		if(pwd.length < 4 || pwd.length > 20) {
+		if(pwd.length < 8 || pwd.length > 20) {
 			document.getElementById('pwdMessage').textContent = "비밀번호는 영문, 숫자, 특수문자(!@#$%)만 가능한 8~20자여야 합니다.";
 			document.getElementById('pwdMessage').style.display= 'block';
 			myform.password.focus();
@@ -205,6 +201,10 @@
 	        	});
 						idCheckSw = 1;
 						myform.memberId.readOnly = true;
+						
+						const idBtn = document.getElementById("midBtn");
+					  idBtn.disabled = true;
+					  idBtn.classList.add("disabled-btn");
 					}
 				},
 				error : function() {
@@ -256,6 +256,10 @@
 	        	});
 						nickCheckSw = 1;
 						myform.nickName.readOnly = true;
+						
+						const nickBtn = document.getElementById("nickNameBtn");
+					  nickBtn.disabled = true;
+					  nickBtn.classList.add("disabled-btn");
 					}
 				},
 				error : function() {
@@ -306,7 +310,7 @@
 	// 비밀번호 실시간 입력 시 유효성 검사
 	pwdInput.addEventListener("input", function () {
 	  const value = pwdInput.value.trim();
-	  if (value.length >= 4 && value.length <= 20) {
+	  if (value.length >= 8 && value.length <= 20) {
 	    pwdMessage.style.display = "none"; // 조건 만족 시 메시지 숨김
 	  }
 	});
@@ -317,8 +321,8 @@
 	    pwdMessage.textContent = "비밀번호는 필수 입력입니다.";
 	    pwdMessage.style.display = "block";
 	  }
-	  else if (value.length < 4 || value.length > 20) {
-	    pwdMessage.textContent = "비밀번호는 4~20 자리로 작성해주세요.";
+	  else if (value.length < 8 || value.length > 20) {
+	    pwdMessage.textContent = "비밀번호는 8~20 자리로 작성해주세요.";
 	    pwdMessage.style.display = "block";
 	  } else {
 	    pwdMessage.style.display = "none";
@@ -402,3 +406,31 @@
 				reader.readAsDataURL(e.files[0]);
 			}
 		}
+		
+	// 아이디 입력창 클릭 시 readOnly 해제 및 중복확인 상태 초기화
+		midInput.addEventListener("focus", function () {
+		  if (midInput.readOnly) {
+		    midInput.readOnly = false;
+		    idCheckSw = 0;
+		
+			 	const idBtn = document.getElementById("midBtn");
+		    idBtn.disabled = false;
+		    idBtn.classList.remove("disabled-btn");
+		    
+		    // 경고 메시지 제거 및 버튼 복원
+		    document.getElementById('idMessage').style.display = 'none';
+		  }
+		});
+		
+	// 닉네임 입력창 클릭 시 readOnly 해제 및 중복확인 상태 초기화
+		nickNameInput.addEventListener("focus", function () {
+		  if (nickNameInput.readOnly) {
+		    nickNameInput.readOnly = false;
+		    nickCheckSw = 0;
+		
+		    const nickBtn = document.getElementById("nickNameBtn");
+		    nickBtn.disabled = false;
+		    nickBtn.classList.remove("disabled-btn");
+		    document.getElementById('nickNameMessage').style.display = 'none';
+		  }
+		});

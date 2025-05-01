@@ -11,8 +11,6 @@ public interface MemberService {
 	
 	MemberVo getMemberNickCheck(String nickName);
 
-	void memberJoin(MemberVo vo);
-
 	String fileUpload(MultipartFile fName, String memberId, String Icon);
 
 	int setMemberJoinOk(MemberVo vo);
@@ -23,6 +21,13 @@ public interface MemberService {
 
 	void setMemberPoint(String memberId, int point);
 
+	int setMemberUpdateOk(MemberVo vo);
+
+	int setMemberPwdChange(String memberId, String pwd);
+
+	void deleteMemberById(String memberId);
+
+	
 
 
 
