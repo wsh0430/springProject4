@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,7 +13,6 @@ import com.spring.springProject4.dto.PitcherRecordDto;
 import com.spring.springProject4.dto.PlayerRecordDto;
 import com.spring.springProject4.dto.TeamPitcherRecordDto;
 import com.spring.springProject4.dto.TeamPlayerRecordDto;
-import com.spring.springProject4.service.DataChartService;
 import com.spring.springProject4.service.PitcherRecordService;
 import com.spring.springProject4.service.PlayerRecordService;
 import com.spring.springProject4.service.TeamPitcherRecordService;
@@ -23,9 +21,6 @@ import com.spring.springProject4.service.TeamPlayerRecordService;
 @Controller
 @RequestMapping("/dataChart")
 public class DataChartController {
-
-  @Autowired
-  private DataChartService dataChartService;
 
   @Autowired
   private PlayerRecordService playerRecordService;

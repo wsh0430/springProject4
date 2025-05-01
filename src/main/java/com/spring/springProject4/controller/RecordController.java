@@ -651,13 +651,6 @@ public class RecordController {
 		    @RequestParam(required = false, defaultValue = "1982") Integer startYear,
 		    @RequestParam(required = false, defaultValue = "2025") Integer endYear,
 		    Model model) {
-		
-		System.out.println("sortOptions: " + sortOptions);
-		System.out.println("orderBy: " + orderBy);
-		System.out.println("team: " + team);
-    System.out.println("position: " + position);
-    System.out.println("startYear: " + startYear);
-    System.out.println("endYear: " + endYear);
     
     if (startYear != null && endYear != null && startYear > endYear) {
       int temp = startYear;
@@ -694,7 +687,6 @@ public class RecordController {
 
     List<PlayerRecordDto> records = playerRecordService.getSortedHitterRecords(
         sortColumn, orderBy, team, position, startYear, endYear);
-    System.out.println("Retrieved records: " + records.size());
     model.addAttribute("records", records);
     return "record/recordHitterView";
 	}
