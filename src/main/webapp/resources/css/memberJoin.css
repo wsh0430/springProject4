@@ -1,0 +1,346 @@
+@charset "UTF-8";
+/* 전체 레이아웃 스타일 */
+body{
+		margin: 0;
+		padding: 0;
+}
+/* 컨테이너 스타일 */
+    .container {
+      max-width: 700px;
+      margin: 60px auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      padding: 40px 30px;
+    }
+		/* 제목 */
+    h3 {
+    	font-size : 30px;
+    	font-weight : bold;
+      text-align: center;
+      margin-bottom: 30px;
+      color: #FF2400;
+    }
+		/* 테이블 */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      vertical-align: middle;
+    }
+
+    th {
+      text-align: left;
+      padding: 12px 10px;
+      color: #444;
+      vertical-align: middle;
+      width: 30%;
+    }
+
+    td {
+      padding: 12px 10px;
+    }
+		/* 아이디,비밀번호,닉네임 */
+		#memberId,#password,#memberPwdCheck,#nickName,#name{
+			width: 250px;
+      padding: 10px;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+		}
+		#memberId:focus,#password:focus,#memberPwdCheck:focus,#nickName:focus,#name:focus{
+			border-color: #E74C3C;
+		  box-shadow: 0 0 5px rgba(102, 175, 233, 0.4);
+		  outline: none;
+		}
+		
+		/* 중복확인 */
+		.check-btn {
+			margin-left : 10px;
+		  padding: 9px 14px;
+		  background-color: #FF5E57;
+		  border: none;
+		  border-radius: 6px;
+		  color: #F1F1F1;
+		  font-size: 13px;
+		  cursor: pointer;
+		  transition: background-color 0.2s ease;
+		}
+		
+		.check-btn:hover {
+		  background-color: #E74C3C;
+		}
+		
+		/* 전화번호 */
+		#tel2,#tel3{
+			width: 100px;
+      padding: 8px;
+      margin-top: 6px;
+      margin-left : 5px;
+      margin-right : 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+      text-align: center;
+		}
+		#tel2:focus,#tel3:focus{
+		 	border-color: #E74C3C;
+		  box-shadow: 0 0 5px rgba(102, 175, 233, 0.4);
+		  outline: none;
+		}
+    .telSelect{
+   	 	width: 80px;
+      padding: 7px;
+      margin-top: 6px;
+      margin-right : 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    
+		/* 이메일 */
+		#email1,#email2 {
+			width: 130px;
+      padding: 8px;
+      margin-top: 6px;
+      margin-right : 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+      text-align: center;
+		}
+		#email1:focus,#email2:focus {
+		 	border-color: #E74C3C;
+		  box-shadow: 0 0 5px rgba(102, 175, 233, 0.4);
+		  outline: none;
+		}
+		.emailSelect{
+   	 	width: 130px;
+      padding: 7px;
+      margin-top: 6px;
+      margin-right : 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+		/* 좋아하는 팀 */
+    .teamSelect {
+      width: 100px;
+      padding: 7px;
+      margin-top: 6px;
+      margin-right : 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+		/* 성별, 정보공개 */
+    .gender-group, 
+    .userInfo-group{
+		  display: flex;
+		  gap: 5px;
+		  align-items: center;
+		}
+
+		.gender-group label,
+		.userInfo-group label {
+		  padding: 12px 12px;
+		  font-size: 14px;
+		  cursor: pointer;
+		  transition: all 0.3s ease;
+		  user-select: none;
+		}
+		
+		/* 선택사항보기 */
+		#addContentCheckDiv {
+    text-align: center;
+    margin-top: 20px;
+	  }
+	
+	  #addContentCheck {
+	    padding: 10px 10px;
+	    font-size: 14px;
+	    cursor: pointer;
+	    border-radius: 6px;
+	    background-color: #FF5E57;
+		  color: #F1F1F1;
+		  border: none;
+	  }
+	  #choiceSection {
+	    margin-top: 20px;
+	    display: none;
+	    animation-fill-mode: forwards;
+	  }
+	
+	  @keyframes fadeIn {
+	    from { opacity: 0; transform: translateY(-10px); }
+	    to { opacity: 1; transform: translateY(0); }
+	  }
+	  
+	  @keyframes fadeOut {
+		  from { opacity: 1; transform: translateY(0); }
+		  to { opacity: 0; transform: translateY(-10px); }
+		}
+		.fade-in {
+		  animation: fadeIn 0.3s ease-in-out;
+		  display: block;
+		}
+		
+		.fade-out {
+		  animation: fadeOut 0.3s ease-in-out;
+		}
+		
+		/* 주소 전체 */
+		.address-group {
+		  display: flex;
+		  flex-direction: column;  
+		  gap: 10px;              
+		}
+		
+		/* 우편번호 입력과 버튼 */
+		.find-address {
+		  display: flex;           
+		  gap: 10px; 
+		  border-radius: 6px;                    
+		}
+		
+		/* 우편번호 입력창, 우편번호 찾기 버튼 */
+		.find-address input[type="text"] {
+		  padding: 8px;            
+		  font-size: 14px;         
+		  border: 1px solid #ccc; 
+		  border-radius: 6px;      
+		}
+		
+		/* 우편번호 찾기 버튼 */
+		.find-address input[type="button"] {
+		  background-color: #FF5E57;
+		  cursor: pointer;
+		  color: #F1F1F1;
+		  border: 1px solid #ccc;
+		  border-radius: 6px;   
+		}
+		
+		/* 기본 주소 (도로명 주소) 입력창 */
+		.main-address {
+		  padding: 8px;
+		  font-size: 14px;
+		  border: 1px solid #ccc;
+		  border-radius: 6px;
+		  width: 100%;
+		}
+		
+		/* 상세주소 , 참고항목 */
+		.extra-address {
+		  display: flex;         
+		  gap: 10px;             
+		}
+		
+		/* 상세주소, 참고항목 필드 */
+		.extra-address input {
+		  padding: 8px;
+		  font-size: 14px;
+		  border: 1px solid #ccc;
+		  border-radius: 6px;
+		  width: 100%;
+		}
+		.find-address input[type="text"]:focus, .main-address:focus, .detailAddress:focus, .extraAddress:focus{
+			border-color: #E74C3C;
+		  box-shadow: 0 0 5px rgba(102, 175, 233, 0.5);
+		  outline: none;
+		}
+		/* 생일 */
+		.birthday-input {
+		  padding: 10px 12px;           
+		  font-size: 14px;               
+		  border: 1px solid #ccc;        
+		  border-radius: 6px;           
+		  background-color: #fdfdfd;     
+		  width: 200px;                  
+		  cursor: pointer;               
+		  transition: border-color 0.3s, box-shadow 0.3s;
+		}
+
+		.birthday-input:focus {
+		  border-color: #E74C3C;
+		  box-shadow: 0 0 5px rgba(102, 175, 233, 0.5);
+		  outline: none;
+		}
+		
+		/* 회원 소개 */
+		.intro-textarea {
+		  width: 100%;                    
+		  min-height: 120px;              
+		  padding: 12px 14px;             
+		  font-size: 14px;                
+		  border: 1px solid #ccc;         
+		  border-radius: 8px;             
+		  resize: vertical;               /* 수직 리사이즈만 허용 */
+		  background-color: #fdfdfd;      
+		  transition: border-color 0.3s, box-shadow 0.3s;
+		}
+
+		.intro-textarea:focus {
+		  border-color: #E74C3C;
+		  box-shadow: 0 0 5px rgba(102, 175, 233, 0.4);
+		  outline: none;
+		}
+		
+		/* 회원 사진 */
+	  /* 파일 입력 스타일 */
+	  input[type="file"] {
+	    font-size: 14px;
+	    border: 1px solid #ddd;
+	    padding: 10px 10px;
+	    cursor: pointer;
+	    border-radius: 5px;
+	    transition: all 0.3s ease;
+	    margin-bottom: 15px; /* 파일 입력 부분과 미리보기 이미지 간격 */
+	  }
+	
+	  /* 파일 입력 hover 효과 */
+	  input[type="file"]:focus{
+	    border-color: #E74C3C;
+		  box-shadow: 0 0 5px rgba(102, 175, 233, 0.4);
+		  outline: none;
+	  }
+		
+    /* 회원가입 버튼 */
+		.join-form {
+		  text-align: center;
+		  margin-top: 40px;
+		}
+		
+		.joinBtn {
+		  background-color: #FF5E57;
+			color: #F1F1F1;
+		  border: none;
+		  padding: 14px 30px;
+		  font-size: 18px;
+		  font-weight: bold;
+		  border-radius: 10px;
+		  cursor: pointer;
+		  transition: all 0.3s ease;
+		  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+		}
+		
+		.joinBtn:hover {
+		  background-color: #E74C3C;
+		  transform: translateY(-2px);
+		  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+		}
+		
+		/* 회원가입 에러메세지 */
+		.error-msg{
+			color: red;
+			font-size: 12px;
+			margin-top: 5px;
+			display: none;
+		}
+	
+
+	  .disabled-btn {
+		  background-color: #ccc !important;
+		  color: #666 !important;
+		  cursor: not-allowed !important;
+		}

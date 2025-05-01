@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.springProject4.dao.LoginTokenDao">
+	  
+	  <select id="getMemberByLoginToken" resultType="com.spring.springProject4.vo.LoginTokenVo">
+			select * from member where loginToken = #{loginToken} and token_expiry > NOW(); <!-- (> now())가 중요! 로그인토큰이 아직 유효한지  -->
+		</select>
+	  
+	  
+		<insert id="saveLoginToken">
+      insert into login_tokens (memberId, loginToken, expiry) 
+      values (#{memberId}, #{loginToken}, #{expiry});
+	  </insert>
+	  
+	  <delete id="deleteExpiredTokens">
+	    delete from login_tokens where expiry &lt; #{now}
+		</delete>
+	 
+	 <delete id="deleteLoginToken" parameterType="String">
+        delete from login_tokens
+        where memberId = #{memberId}
+    </delete>
+</mapper>

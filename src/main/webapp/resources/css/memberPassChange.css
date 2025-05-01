@@ -1,0 +1,122 @@
+ /* Body 스타일 */
+body {
+    background-color: #f8f9fa;
+    animation: fadeInBody 1s ease;
+}
+
+@keyframes fadeInBody {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* 컨테이너 스타일 */
+.container {
+    max-width: 480px;
+    margin: 50px auto;
+    padding: 30px 25px;
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    animation: fadeInContainer 1.2s ease;
+}
+
+@keyframes fadeInContainer {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* 제목 */
+.pwdChange-title {
+    text-align: center;
+    font-size: 28px;
+    color: #FF2400;
+    margin-bottom: 25px;
+    font-weight: bold;
+}
+
+/* 폼 스타일 */
+.pwdChange-form {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+}
+
+.pwdChange-form th, .pwdChange-form td {
+    padding: 10px;
+    text-align: left;
+}
+
+/* 입력 필드 스타일 */
+.pwdChange {
+    width: calc(100% - 40px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.pwdChange:focus {
+    border-color: #FF5E57;
+    outline: none;
+}
+
+/* 비밀번호 확인 아이콘 스타일 */
+#eye-icon {
+    position: absolute;
+    right: 35px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: black;
+    transition: color 0.3s;
+}
+
+#eye-icon:hover {
+    color: #FF5E57;
+}
+
+/* 입력 필드를 감싸는 래퍼 스타일 */
+.input-wrapper {
+    position: relative;
+}
+
+/* 버튼 스타일 */
+.pwdChageCheck, input[type=button] {
+    width: 45%;
+    padding: 10px;
+    font-size: 16px;
+    margin: 10px 2% 0;
+    border: none;
+    border-radius: 8px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.pwdChageCheck {
+    background-color: #FF5E57;
+    color: #F1F1F1;
+}
+
+.pwdChageCheck:hover {
+    background-color: #E74C3C;
+    transform: scale(1.05);
+}
+
+.returnBtn {
+    background-color: #FF5E57;
+    color: #F1F1F1;
+}
+
+.returnBtn:hover {
+    background-color: #E74C3C;
+    transform: scale(1.05);
+}
+
+/* 에러 메시지 스타일 */
+.error-msg {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+    display: none;
+}
+
