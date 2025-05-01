@@ -1,5 +1,7 @@
 package com.spring.springProject4.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,21 @@ public class AdServiceImpl implements AdService {
 	@Override
 	public AdvertisementVo getAdVo(String title) {
 		return adDao.getAdVo(title);
+	}
+
+	@Override
+	public int setCreateAdReport(String sMemberId, int idx, String reason) {
+		return adDao.setCreateAdReport(sMemberId, idx, reason);
+	}
+
+	@Override
+	public int setUpdateAdReportCnt(int idx) {
+		return adDao.setUpdateAdReportCnt(idx);
+	}
+
+	@Override
+	public List<AdvertisementVo> getAdVos() {
+		return adDao.getAdVos();
 	}
 
 }

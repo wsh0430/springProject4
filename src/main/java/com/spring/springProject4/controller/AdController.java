@@ -2,12 +2,11 @@ package com.spring.springProject4.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.springProject4.service.AdService;
-import com.spring.springProject4.vo.AdvertisementVo;
 
 @Controller
 @RequestMapping("/ad")
@@ -16,13 +15,16 @@ public class AdController {
 	@Autowired
 	AdService adService;
 	
-	@RequestMapping(value="/cmtyMain", method=RequestMethod.GET)
-	public String cmtyMainGet(Model model) {
+	@ResponseBody
+	@RequestMapping(value="/adClose", method=RequestMethod.POST)
+	public int adClosePost(int idx, String reason) {
+		int res = 0;
+		String sMemberId = "user123"; // 나중에 세션으로
 		
-		 AdvertisementVo adVo = adService.getAdVo("모비노기");
-		 
-		 model.addAttribute("adVo", adVo);
+		res = adService.setUpdateAdReportCnt(idx);
 		
-		return "layout/ad_lr";
+		if(res == 0) return 0;
+		return adService.setCreateAdReport(sMemberId, idx,  reason);
 	}
+	
 }

@@ -1,8 +1,9 @@
+-- position마다 데이터 개수가 동일해야함... 나중에 수정 예정
 create table advertisement(
 	idx						int not null auto_increment,
-	title					varchar(50) not null,					/* 광고 제목 */
+	title					varchar(50) not null unique key,					/* 광고 제목 */
 	image_url 				text not null,					/* 광고 이미지 경로 */
-	link_url 				text not null,					/* 광고 페이지 경로 */
+	link_url 				text not null,					/* 광고 페이지 경로 */					
 	position				varchar(30) default 'main-top',		/* 위치(main-top: 상단, main-left: 사이드(좌) . . . ) */	
 	start_at				datetime default now(),						/* 광고 시작일  */
 	end_at					datetime default now(),						/* 광고 종료일 */

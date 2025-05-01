@@ -67,9 +67,16 @@ public class CommunityController {
 		List<BoardVo> hotBoardVos = communityService.getHotBoardList(category);
 		System.out.println(hotBoardVos);
 		
-		AdvertisementVo adVo = adService.getAdVo("모비노기");
+		//광고
+		String adTitle = "모비노기";
+		
+		AdvertisementVo adVo = adService.getAdVo(adTitle);
+		List<AdvertisementVo> adVos = adService.getAdVos();
+		
+		
 		 
-		 model.addAttribute("adVo", adVo);
+		model.addAttribute("adVo", adVo);
+		model.addAttribute("adVos", adVos);
 		
 		model.addAttribute("category", category);
 		model.addAttribute("mainCtgyVos", mainCtgyVos);

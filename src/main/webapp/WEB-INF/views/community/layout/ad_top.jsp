@@ -5,19 +5,17 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>ad_lr.jsp</title>
+    <title>ad_tp.jsp</title>
     <style>
-    	#ad_lr{
-    		min-width: 10%;
-    		height: 300px;
+    	#ad_tp{
+    		width: 300px;
+    		height: 100px;
     	}
     </style>
 </head>
 <body>
-	<div id="ad_lr">
-		<span>ad test(좌우)</span>
-		<span>${adVo.title}</span>
-		<span>${adVo.imageUrl}</span>
+	<div id="ad_tp">
+		<span>ad test(위아래)</span>
 	</div>
 </body>
 </html>

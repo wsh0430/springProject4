@@ -4,4 +4,26 @@
 	<select id="getAdVo" resultType="com.spring.springProject4.vo.AdvertisementVo">
 		select * from advertisement where title = #{title};
 	</select>
+	
+	<select id="getAdVos" resultType="com.spring.springProject4.vo.AdvertisementVo">
+		select * from advertisement;
+	</select>
+	
+	
+	
+	
+	
+	<insert id="setCreateAdReport">
+		insert into report values(default, #{sMemberId}, 'advertisement', #{idx}, #{reason}, default, default, default, default, default, default, default, default, default, default, default);
+	</insert>
+	
+	
+	
+	
+	
+	<update id="setUpdateAdReportCnt">
+		update advertisement set report_count = report_count + 1 where idx = #{idx};
+	</update>
+	
+	
 </mapper>
