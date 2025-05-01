@@ -10,7 +10,7 @@
 
     <script>
         // 구글 차트 초기화
-        google.charts.load('current', {'packages':['corechart', 'bar']});
+        google.charts.load('current', {'packages':['line']});
         google.charts.setOnLoadCallback(init);
 
         function init() {
@@ -90,8 +90,8 @@
                 height: 500
             };
 
-            var chart = new google.charts.Bar(document.getElementById('chart_div'));
-            chart.draw(dataTable, google.charts.Bar.convertOptions(options));
+            var chart = new google.charts.Line(document.getElementById('chart_div'));
+            chart.draw(dataTable, google.charts.Line.convertOptions(options));
         }
     </script>
 
