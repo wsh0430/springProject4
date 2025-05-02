@@ -23,6 +23,13 @@
 			window.location.href = url;
 			form.submit();
 		}
+		
+	  document.addEventListener('DOMContentLoaded', function () {
+	    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+	    tooltipTriggerList.map(function (tooltipTriggerEl) {
+	      return new bootstrap.Tooltip(tooltipTriggerEl)
+	    })
+	  });
 	</script>
 </head>
 <body>
@@ -126,31 +133,31 @@
     <thead>
         <tr>
             <th>선수</th>
-            <th>팀 로고</th>
+            <th>팀</th>
             <th>포지션</th>
             <th>연도</th>
-            <th>게임 수</th>
-            <th>타석</th>
-            <th>타수</th>
-            <th>득점</th>
-            <th>안타</th>
-            <th>2루타</th>
-            <th>3루타</th>
-            <th>누타수</th>
-            <th>타점</th>
-            <th>홈런</th>
-            <th>도루</th>
-            <th>도루실패</th>
-            <th>볼넷</th>
-            <th>삼진</th>
-            <th>병살</th>
-            <th>희생번트</th>
-            <th>희생플라이</th>
-            <th>타율</th>
-            <th>출루율</th>
-            <th>장타율</th>
-            <th>OPS</th>
-            <th>WAR</th>
+			      <th data-bs-toggle="tooltip" title="출전한 경기의 총 수">게임 수</th>
+			      <th data-bs-toggle="tooltip" title="타석에 들어선 횟수">타석</th>
+			      <th data-bs-toggle="tooltip" title="실제 스윙하여 결과가 난 타격 수">타수</th>
+			      <th data-bs-toggle="tooltip" title="득점한 횟수">득점</th>
+			      <th data-bs-toggle="tooltip" title="모든 안타 수의 합">안타</th>
+			      <th data-bs-toggle="tooltip" title="2루타 수">2루타</th>
+			      <th data-bs-toggle="tooltip" title="3루타 수">3루타</th>
+			      <th data-bs-toggle="tooltip" title="모든 안타로 얻은 루타 수의 합">누타수</th>
+			      <th data-bs-toggle="tooltip" title="타자가 만들어낸 타점">타점</th>
+			      <th data-bs-toggle="tooltip" title="홈런 수">홈런</th>
+			      <th data-bs-toggle="tooltip" title="도루 성공 수">도루</th>
+			      <th data-bs-toggle="tooltip" title="도루 실패 수">도루실패</th>
+			      <th data-bs-toggle="tooltip" title="볼넷 수(사사구+사구+고의사구)">볼넷</th>
+			      <th data-bs-toggle="tooltip" title="삼진 수">삼진</th>
+			      <th data-bs-toggle="tooltip" title="병살타 수">병살</th>
+			      <th data-bs-toggle="tooltip" title="희생번트 수">희생번트</th>
+			      <th data-bs-toggle="tooltip" title="희생플라이 수">희생플라이</th>
+			      <th data-bs-toggle="tooltip" title="안타 ÷ 타수">타율</th>
+			      <th data-bs-toggle="tooltip" title="(안타+볼넷+사구) ÷ 타석">출루율</th>
+			      <th data-bs-toggle="tooltip" title="총 루타 ÷ 타수">장타율</th>
+			      <th data-bs-toggle="tooltip" title="출루율 + 장타율">OPS</th>
+			      <th data-bs-toggle="tooltip" title="대체 선수 대비 기여도 (Wins Above Replacement)">WAR</th>
         </tr>
     </thead>
     <tbody>
