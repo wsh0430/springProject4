@@ -38,12 +38,12 @@
 		
 		<!-- navbar 2번 목록들 -->
 		<div class="navbar2">
-			<div class="mainTitle"><a href="http://localhost:8080/springProject4">HITBox</a></div>
+			<div class="mainTitle"><a href="http://localhost:9090/springProject4">HITBox</a></div>
 			<ul class="nav-items">
 				<li class="nav-record"><a href="#">기록실</a>
 				 	<!-- 하위메뉴 -->
 					<ul class="dropdown">
-						<li><a href="${ctp}/record/recordMain?sidebar=player">시즌 기록실</a></li>
+						<li><a href="${ctp}/record/recordHitterView">시즌 기록실</a></li>
 						<li><a href="#" onclick="showSidebar('career')">통산 기록실</a></li>
 						<li><a href="#" onclick="showSidebar('team')">팀 기록실</a></li>
 					</ul>
