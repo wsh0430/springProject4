@@ -33,9 +33,10 @@ public class TeamPitcherRecordServiceImpl implements TeamPitcherRecordService {
         System.out.println("업데이트 완료: " + dto.getTeamName());
     }
   }
-
+  
   @Override
-  public List<TeamPitcherRecordDto> getAllPlayerRecords() {
-      return teamPitcherRecordDao.getAllPlayerStats();
+  public List<TeamPitcherRecordDto> getPitcherAverageByYear(String field, int startYear, int endYear) {
+      return teamPitcherRecordDao.getPitcherAverageByYear(field, startYear, endYear);
   }
+
 }
