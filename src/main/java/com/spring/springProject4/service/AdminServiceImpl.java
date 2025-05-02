@@ -66,5 +66,11 @@ public class AdminServiceImpl implements AdminService {
 		return adminDao.setUpdateToggleBoard(idx, part);
 	}
 
+	@Override
+	public List<BoardVo> getCommentVos(int startIndexNo, int pageSize, String search, String searchString,
+			String startDate, String lastDate) {
+		return adminDao.getCommentVos(startIndexNo, pageSize, search, searchString, startDate, lastDate);
+	}
+
 
 }

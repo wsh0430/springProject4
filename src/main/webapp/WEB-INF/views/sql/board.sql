@@ -12,6 +12,7 @@ create table board(
 	created_at				datetime default now(),			/* 생성 날짜 */
 	update_at				datetime default now(),			/* 수정 날짜 */
 	delete_check			tinyint default 0,					/* 삭제 유무(0: false, 1: true) */
+	hide_check				tinyint default 0,
 	
 	-- 여유 index
 	item_int1				int,
@@ -23,8 +24,6 @@ create table board(
 	item_text				text,
 	item_datetime1		datetime,
 	item_datetime2		datetime,
-	--item_tinyint			tinyint,
-	hide_check				tinyint default 0,
 	
 	primary key (idx),
   	foreign key (member_id) references member(member_id),

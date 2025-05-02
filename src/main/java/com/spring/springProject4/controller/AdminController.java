@@ -124,7 +124,7 @@ public class AdminController {
 		
 		return "admin/memberManager";
 	}
-	
+
 	@RequestMapping(value="/boardManager", method=RequestMethod.GET)
 	public String boardManagerGet(Model model,
 			@RequestParam(name="mainCategory", defaultValue = "전체", required = false) String category,
@@ -191,5 +191,39 @@ public class AdminController {
 		else{
 			return adminService.setUpdateToggleBoard(idx, part);
 		} 
+	}
+	
+	@RequestMapping(value="/commentManager", method=RequestMethod.GET)
+	public String commentManagerGet(Model model,
+			@RequestParam(name="pag", defaultValue = "1", required = false) int pag,
+			@RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize,
+			@RequestParam(name="search", defaultValue = "", required = false) String search,
+			@RequestParam(name="searchString", defaultValue = "", required = false) String searchString,
+			@RequestParam(name="startDate", defaultValue = "", required = false) String startDate,
+			@RequestParam(name="lastDate", defaultValue = "", required = false) String lastDate
+			) {
+		
+		// 카테고리
+			List<CategoryVo> mainCtgyVos = adminService.getMainCategoryVos();	// 메인 카테고리vos
+			List<CategoryVo> subCtgyVos = null; 
+			List<List<CategoryVo>> subCtgyList = new ArrayList<>();	//서브 카테고리
+			for(int i = 0; i < mainCtgyVos.size(); i++) {
+				subCtgyVos = adminService.getSubCategoryVos(mainCtgyVos.get(i).getName());	//서브 카테고리vos
+				subCtgyList.add(subCtgyVos);
+			}
+	
+		// 페이지
+		PageVo pageVo = pagination.getTotRecCnt("", pag,pageSize,"community",search,searchString, startDate, lastDate);	// (페이지번호,한 페이지분량,section,part,검색어)
+		
+//		List<BoardVo> boardVos = adminService.getBoardVos(category, pageVo.getStartIndexNo(), pageVo.getPageSize(), search, searchString, startDate, lastDate);
+		List<BoardVo> commentVos = adminService.getCommentVos(pageVo.getStartIndexNo(), pageVo.getPageSize(), search, searchString, startDate, lastDate);
+		
+		
+		model.addAttribute("commentVos", commentVos);
+		model.addAttribute("pageVo", pageVo);
+		model.addAttribute("startDate", startDate);
+		model.addAttribute("lastDate", lastDate);
+		
+		return "admin/boardManager";
 	}
 }

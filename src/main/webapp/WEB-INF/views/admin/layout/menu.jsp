@@ -59,8 +59,8 @@
 				<tr><td class="first-td"><input type="button" value="대시보드" onclick="location.href='${ctp}/admin/dashBoard'"></td></tr>
 				<tr><td><input type="button" value="멤버관리" onclick="location.href='${ctp}/admin/memberManager'"></td></tr>
 				<tr><td><input type="button" value="게시글관리" onclick="location.href='${ctp}/admin/boardManager'"></td></tr>
+				<tr><td><input type="button" value="댓글관리" onclick="location.href='${ctp}/admin/commentManager'"></td></tr>
 				<tr><td><input type="button" value="광고관리" onclick="location.href='${ctp}/admin/dashBoard'"></td></tr>
-				<tr><td><input type="button" value="통계" onclick="location.href='${ctp}/admin/dashBoard'"></td></tr>
 			</table> 
 		</div>
 	</div>

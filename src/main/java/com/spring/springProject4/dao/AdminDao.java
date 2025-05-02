@@ -51,6 +51,13 @@ public interface AdminDao {
 
 	int setUpdateToggleBoard(@Param("idx") int idx, @Param("part") String part);
 
+	int getCommentTotRecCnt();
+
+	int getCommentTotRecCntSearch(@Param("part")  String part, @Param("searchString") String searchString, @Param("startDate")  String startDate, @Param("lastDate")  String lastDate);
+
+	List<BoardVo> getCommentVos(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize, @Param("search") String search, @Param("searchString") String searchString,
+			@Param("startDate") String startDate, @Param("lastDate") String lastDate);
+
 
 
 }

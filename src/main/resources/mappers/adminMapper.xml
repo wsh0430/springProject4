@@ -59,6 +59,10 @@
 		from board b <if test="category != '전체' || search !='' || startDate != ''">where</if> <if test="category != '전체' || search !=''"><if test="category != '전체'"> category_name = #{category}<if test="search !=''"> and</if></if><if test='search !=""'>${search} like concat('%',#{searchString},'%')</if></if> <if test="startDate != ''"><if test="category != '전체' || search !=''">and</if> (created_at between #{startDate} and #{lastDate})</if> order by idx desc limit #{startIndexNo},#{pageSize};
 	</select>
 	
+	<select id="getCommentVos" resultType="com.spring.springProject4.vo.BoardVo">
+		select * from comment c <if test="search !='' || startDate != ''">where</if> <if test='search !=""'>${search} like concat('%',#{searchString},'%')</if> <if test="startDate != ''"><if test="search !=''">and</if> (created_at between #{startDate} and #{lastDate})</if> order by idx desc limit #{startIndexNo},#{pageSize};
+	</select>
+	
 	<select id="getMainCategoryVos" resultType="com.spring.springProject4.vo.CategoryVo">
 			select * from category where parent_name is null;
 	</select>
@@ -74,6 +78,16 @@
 	<select id="getBoardVo" resultType="com.spring.springProject4.vo.BoardVo">
 		select * from board where idx = #{idx};
 	</select>
+	
+	<select id="getCommentTotRecCnt" resultType="int">
+		 select count(*) from board
+	</select>
+
+	<select id="getCommentTotRecCntSearch" resultType="int">
+		select count(*) from comment where ${search} like concat('%', #{searchString}, '%') and delete_check = 0;
+	</select>
+
+
 
 
 
@@ -84,6 +98,9 @@
 	<update id="setUpdateToggleBoard">
 		update board set hide_check = <if test="part == 'show'">0</if><if test="part != 'show'">1</if> where idx = #{idx};
 	</update>
+
+
+
 
 
 	

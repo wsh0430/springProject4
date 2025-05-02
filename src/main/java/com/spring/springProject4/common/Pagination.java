@@ -18,7 +18,7 @@ public class Pagination {
 	@Autowired
 	AdminDao adminDao;
 	
-	public PageVo getTotRecCnt(String category, int pag, int pageSize, String section, String part, String searchString, String startDate, String lastDate) {
+	public PageVo getTotRecCnt(String keyword, int pag, int pageSize, String section, String part, String searchString, String startDate, String lastDate) {
 		PageVo vo = new PageVo();
 		
 		int totRecCnt = 0;
@@ -34,12 +34,16 @@ public class Pagination {
 		
 //		게시판을 분류하는 부분
 		if(section.equals("community")) {
-			if(part.equals("")) totRecCnt = communityDao.getBoardTotRecCnt(category);
+			if(part.equals("")) totRecCnt = communityDao.getBoardTotRecCnt(keyword);
 			else totRecCnt = communityDao.getBoardTotRecCntSearch(part, searchString);
 		}
 		else if(section.equals("adminBoardManager")) {
-			if(part.equals("")) totRecCnt = communityDao.getBoardTotRecCnt(category);
+			if(part.equals("")) totRecCnt = communityDao.getBoardTotRecCnt(keyword);
 			else totRecCnt = adminDao.getBoardTotRecCntSearch(part, searchString, startDate, lastDate);
+		}
+		else if(section.equals("adminCommentManager")) {
+			if(part.equals("")) totRecCnt = adminDao.getCommentTotRecCnt();
+			else totRecCnt = adminDao.getCommentTotRecCntSearch(part, searchString, startDate, lastDate);
 		}
 //		else if(section.equals("pds")) {
 //			totRecCnt = pdsDao.getPdsTotRecCnt(part);

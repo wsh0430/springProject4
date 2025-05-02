@@ -22,7 +22,4 @@ public class BoardVo {
 	private String updateAt;
 	private int deleteCheck;
 	private int hideCheck;
-	
-	private int dateDiff;		// 게시글 일자 경과 체크 
-	private int hourDiff;		// 게시글 24시간 경과 체크
 }

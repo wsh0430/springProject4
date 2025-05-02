@@ -224,7 +224,7 @@
 	<div id="info-box">
 	
 	</div>
-	<div id="board-bar">
+	<div id="comment-bar">
 		<form name="searchForm" method="get">
 			<div id="search-box">
 				<div id="date-filter">
@@ -253,9 +253,10 @@
 					</div>
 				
 					<select name="search" id="search">
-				  	  <option value="title">글제목</option>
-				  	  <option value="member_nickname">글쓴이</option>
-				  	  <option value="content">글내용</option>
+				  	  <option value="board_id">게시글id</option>
+				  	  <option value="member_id">멤버id</option>
+				  	  <option value="member_nickname">닉네임</option>
+				  	  <option value="content">내용</option>
 				  	</select>
 				  	<input type="text" name="searchString" id="searchString" />
 				  	<input type="submit" value="검색" class="btn btn-secondary btn-sm" />
@@ -274,29 +275,29 @@
 		<table id="board-list">
 			<tr>
 			  <th style="width: 4%"><input type="checkbox" id="select-all"></th>
-			  <th style="width: 8%">카테고리</th>
+			  <th style="width: 8%">게시글Id</th>
 			  <th style="width: 40%">제목</th>
 			  <th style="width: 8%">작성자</th>
 			  <th style="width: 10%">업로드</th>
-			  <th style="width: 6%">조회수</th>
+			  <th style="width: 6%">추천수</th>
 			  <th style="width: 6%">추천수</th>
 			  <th style="width: 8%">상태</th>
 			  <th style="width: 10%">관리</th>
 			</tr>
-			<c:forEach var="bVos" items="${boardVos}">
+			<c:forEach var="cmtVo" items="${commentVos}">
 				<tr style="background-color: gray;">
-					<td><input type="checkbox" class="bl_checkbox" id="${bVos.idx}"></td>
-					<td>${bVos.categoryName}</td>
+					<td><input type="checkbox" class="bl_checkbox" id="${cmtVo.idx}"></td>
+					<td>${cmtVo.boardId}</td>
     				<td>
-    					<a href="cmtyContent?boardIdx=${bVos.idx}">
-    						${bVos.title}(${bVos.commentCount})
+    					<a href="cmtyContent?boardIdx=${cmtVo.boardId}">
+    						${cmtVo.content}
     					</a>
     				</td>
     				<td>${bVos.memberNickname}</td>
     				<td style="font-size: 12px;">
 						<c:if test="${bVos.hourDiff <= 24}">
         					${bVos.dateDiff == 0 ? fn:substring(bVos.createdAt,11,19) : fn:substring(bVos.createdAt,0,19)}
-       					</c:if>
+       					</c:if>     					
 						<c:if test="${bVos.hourDiff > 24}">${fn:substring(bVos.createdAt,0,10)}</c:if>
     				</td>
     				<td>${bVos.viewCount}</td>

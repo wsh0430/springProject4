@@ -27,5 +27,8 @@ public interface AdminService {
 	BoardVo getBoardVo(int idx);
 
 	int setUpdateToggleBoard(int idx, String part);
+
+	List<BoardVo> getCommentVos(int startIndexNo, int pageSize, String search, String searchString, String startDate,
+			String lastDate);
 	
 }
