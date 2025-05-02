@@ -51,11 +51,11 @@ public class ProjectProvide {
 	}
 
 	// 파일 삭제처리
-	public static void deleteFile(String Icon, String urlPath) {
+	public static void deleteFile(String photo, String urlPath) {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 		String realPath = request.getSession().getServletContext().getRealPath("/resources/data/"+urlPath+"/");
 		
-		File file = new File(realPath + Icon);
+		File file = new File(realPath + photo);
 		if(file.exists()) file.delete();
 	}
 
