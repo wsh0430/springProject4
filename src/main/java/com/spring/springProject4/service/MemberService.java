@@ -1,6 +1,5 @@
 package com.spring.springProject4.service;
 
-import java.time.LocalDateTime;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,8 +11,6 @@ public interface MemberService {
 	
 	MemberVo getMemberNickCheck(String nickName);
 
-	void memberJoin(MemberVo vo);
-
 	String fileUpload(MultipartFile fName, String memberId, String Icon);
 
 	int setMemberJoinOk(MemberVo vo);
@@ -24,11 +21,13 @@ public interface MemberService {
 
 	void setMemberPoint(String memberId, int point);
 
-	void saveLoginToken(String memberId, String loginToken, LocalDateTime expiry);
+	int setMemberUpdateOk(MemberVo vo);
 
-	void deleteLoginToken(String loginToken);
+	int setMemberPwdChange(String memberId, String pwd);
 
-	MemberVo getMemberByLoginToken(String loginToken);
+	void deleteMemberById(String memberId);
+
+	
 
 
 
