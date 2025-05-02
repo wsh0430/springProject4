@@ -1,7 +1,6 @@
 package com.spring.springProject4.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,6 +45,12 @@ public class PlayerRecordServiceImpl implements PlayerRecordService {
                                                       Integer startYear, Integer endYear) {
 
     return playerRecordDao.getSortedHitterRecords(sortColumn, orderDirection, team, position, startYear, endYear);
+	}
+  
+	@Override
+	public List<PlayerRecordDto> getAverageCompaerByYear(String playerName, String position, String field, int startYear, int endYear) {
+		// TODO Auto-generated method stub
+		return playerRecordDao.getAverageCompaerByYear(playerName, position, field, startYear, endYear);
 	}
   
 }
