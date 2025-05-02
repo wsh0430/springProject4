@@ -7,14 +7,14 @@
 							http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 							http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 							
-<beans:bean id="memberJoinInterceptor" class="com.spring.springProject4.interceptor.MemberInterceptor"></beans:bean>
+<beans:bean id="memberJoinInterceptor" class="com.spring.springProject4.interceptor.MemberJoinInterceptor"></beans:bean>
 			
 				<interceptors>
 		      <!-- IP 처리 인터셉터 설정 -->
 		      <interceptor>
 		         <!-- 모든 요청에 대해 인터셉터 적용 -->
 		         <mapping path="/*"/>
-		         <beans:ref bean="memberJoinInterceptor"/>
+		         <beans:ref bean="MemberJoinInterceptor"/>
 		      </interceptor>
 		   	</interceptors>
  	

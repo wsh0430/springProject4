@@ -25,6 +25,8 @@ public interface MemberDao {
 
 	void deleteMemberById(@Param("memberId") String memberId);
 
+	MemberVo getMemberEmailCheck(@Param("email") String email);
+
 	
 
 

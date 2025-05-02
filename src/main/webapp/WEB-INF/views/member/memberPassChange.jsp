@@ -24,7 +24,7 @@
 	        <td>
 	          <div style="position: relative;">
 	            <input type="password" name="nowPwd" id="nowPwd" placeholder="현재 비밀번호 입력" class="pwdChange" required />
-	            <i class="fa fa-eye" id="eye-icon" onclick="togglePassword('nowPwd', this)"></i>
+	            <i class="fa fa-eye-slash" id="eye-icon" onclick="togglePassword('nowPwd', this)"></i>
 	          </div>
 	          <div id="nowPwdMessage" class="error-msg"></div>
 	        </td>
@@ -34,7 +34,7 @@
         <td>
           <div style="position: relative;">
             <input type="password" name="newPwd" id="newPwd" placeholder="새 비밀번호 입력" class="pwdChange" required />
-            <i class="fa fa-eye" id="eye-icon" onclick="togglePassword('newPwd', this)" ></i>
+            <i class="fa fa-eye-slash" id="eye-icon" onclick="togglePassword('newPwd', this)" ></i>
           </div>
           <div id="newPwdMessage" class="error-msg"></div>
         </td>
@@ -44,14 +44,14 @@
         <td>
           <div style="position: relative;">
             <input type="password" name="newPwdCheck" id="newPwdCheck" placeholder="새 비밀번호 확인" class="pwdChange" required />
-            <i class="fa fa-eye" id="eye-icon" onclick="togglePassword('newPwdCheck', this)" ></i>
+            <i class="fa fa-eye-slash" id="eye-icon" onclick="togglePassword('newPwdCheck', this)" ></i>
           </div>
           <div id="newPwdCheckMessage" class="error-msg"></div>
         </td>
       </tr>
       <tr>
         <td colspan="2">
-          <input type="submit" value="비밀번호 변경" onclick="pCheck()" class="pwdChageCheck" />
+          <input type="submit" value="비밀번호 변경" onclick="pCheck()" class="pwdChangeBtn" />
           <input type="button" value="돌아가기" class="returnBtn" onclick="location.href='${ctp}/member/memberMypage';" />
         </td>
       </tr>

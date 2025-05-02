@@ -8,7 +8,6 @@
 	<title>memberLogin</title>
 	<link rel="stylesheet" type="text/css" href="${ctp}/css/memberLogin.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-	<script type="text/javascript" src="${ctp}/js/memberLogin.js"></script>
 </head>
 <body>
 <!-- Navbar -->
@@ -16,14 +15,18 @@
 	<div class="container">
 		<h3>로 그 인</h3>
 		  <form name="myform" method="post">
-				<table class="loginTable">
+				<table class="login-form">
 				  <tr>
 				    <th>아이디</th>
-				    <td><input type="text" name="memberId" id="memberId" value="${memberId}" placeholder="아이디를 입력하세요" required class="loginInput" /></td>
+				    <td><input type="text" name="memberId" id="memberId" value="${memberId}" placeholder="아이디를 입력하세요"  class="mLoginInput" /></td>
 				  </tr>
 				  <tr>
 				    <th>비밀번호</th>
-				    <td><input type="password" name="password" id="password" placeholder="비밀번호를 입력하세요." required class="loginInput" /></td>
+				    <td>
+				    	<input type="password" name="password" id="password" placeholder="비밀번호를 입력하세요."  class="pLoginInput" />
+				    	<i class="fa fa-eye-slash" id="eye-icon" onclick="togglePassword('password', this)"></i>
+	          	<div id="nowPwdMessage" class="error-msg"></div>
+				    </td>
 				  </tr>
 				  <tr>
 					  <td colspan="2" class="loginOptions">
@@ -39,8 +42,8 @@
 				  <input type="submit" value="Login" class="loginBtn"/>
 				</div>	
 				<div class="loginLinks">
-				      <a href="javascript:midSearch()">아이디 찾기</a> |
-				      <a href="javascript:pwdSearch()">비밀번호 찾기</a> |
+				      <a href="${ctp}/member/memberFindId">아이디 찾기</a> |
+				      <a href="${ctp}/member/memberFindPwd">비밀번호 찾기</a> |
 				      <a href="${ctp}/member/memberJoin">회원가입</a>
 				</div>
 				
@@ -64,6 +67,7 @@
 		  </form>
 	</div>
 <jsp:include page="/WEB-INF/views/include/footer.jsp" />
+<script type="text/javascript" src="${ctp}/js/memberLogin.js"></script>
 </body>
 </html>
 

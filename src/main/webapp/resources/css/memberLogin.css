@@ -1,48 +1,85 @@
-@charset "UTF-8";
 /* 전체 레이아웃 스타일 */
 body {
     margin: 0;
     padding: 0;
+    background-color: #ffffff;
+    animation: fadeInBody 1s ease;
+}
+
+@keyframes fadeInBody {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 /* 컨테이너 스타일 */
 .container {
-    max-width: 600px;
+    max-width: 480px;
     margin: 80px auto;
-    background-color: #f9f9f9;
-    padding: 40px;
-    border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    padding: 30px 25px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    animation: fadeInContainer 1.2s ease;
 }
 
-/* 테이블 */
-.loginTable {
-    width: 100%;
-    border-collapse: collapse;
+@keyframes fadeInContainer {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
 }
 
-.loginTable tr {
-    text-align: center;
-}
-
+/* 제목 스타일 */
 h3 {
-    font-size: 30px;
+    font-size: 28px;
     font-weight: bold;
     text-align: center;
-    margin-bottom: 30px;
-    color: #FF2400; /* 제목 색상 변경 */
+    margin-bottom: 25px;
+    color: #FF2400;
 }
 
-/* 입력 필드 */
-.loginInput {
-    width: 400px;
-    margin-left: 20px;
-    margin-bottom: 10px;
+/* 로그인 폼 스타일 */
+.login-form {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 12px;
+}
+
+.login-form th, .login-form td {
+    padding: 10px;
+    text-align: left;
+    font-size: 16px;
+    position: relative;
+}
+
+/* 입력 필드 스타일 */
+.mLoginInput,
+.pLoginInput {
+    width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 14px;
-    box-sizing: border-box;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.mLoginInput:focus,
+.pLoginInput:focus {
+    border-color: #FF5E57;
+    outline: none;
+}
+
+/* 비밀번호 눈 아이콘 */
+#eye-icon {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: black;
+    transition: color 0.3s;
+}
+
+#eye-icon:hover {
+    color: #FF5E57;
 }
 
 /* 전체 줄 스타일 */
@@ -221,4 +258,12 @@ h3 {
 
 .kakao-btn {
     background-color: #fee500;
+}
+
+/* 에러 메시지 */
+.error-msg {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+    display: none;
 }

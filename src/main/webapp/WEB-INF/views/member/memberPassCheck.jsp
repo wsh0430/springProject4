@@ -10,26 +10,31 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/include/nav.jsp" />
-<div class="container">
-	<h2 class="pwdCheck-title">비밀번호 확인</h2>
-	<form name="myform" method="post">
-    <table class="pwdCheck-form">
-      <tr>
-        <th>현재 비밀번호</th>
-	        <td>
-	          <div style="position: relative;">
-	            <input type="password" name="nowPwd" id="nowPwd" placeholder="현재 비밀번호 입력" class="pwdChange"  />
-	            <i class="fa fa-eye" id="eye-icon" onclick="togglePassword('nowPwd', this)"></i>
-	          </div>
-	          <div id="nowPwdMessage" class="error-msg"></div>
-	        </td>
-      </tr>
-    </table>
-    <div class="btn-wrapper">
-			<button type="submit" class="deleteBtn">회원탈퇴</button>
-		</div>
-	</form>
-</div>
+<div class="height">
+	<div class="container">
+		<h2 class="pwdCheck-title">비밀번호 확인</h2>
+		<form name="myform" method="post">
+	    <table class="pwdCheck-form">
+	      <tr>
+	        <th>현재 비밀번호</th>
+		        <td>
+		          <div style="position: relative;">
+		            <input type="password" name="nowPwd" id="nowPwd" placeholder="현재 비밀번호 입력" class="pwdChange"  />
+		            <i class="fa fa-eye-slash" id="eye-icon" onclick="togglePassword('nowPwd', this)"></i>
+		          </div>
+		          <div id="nowPwdMessage" class="error-msg"></div>
+		        </td>
+	      </tr>
+		   	<tr>
+			   	<td colspan="2">
+						<button type="submit" class="deleteBtn">회원탈퇴</button>
+						<input type="button" value="돌아가기" class="returnBtn" onclick="location.href='${ctp}/member/memberMypage';" />
+					</td>
+				</tr>
+	    </table>
+		</form>
+	</div>
+</div>	
 <jsp:include page="/WEB-INF/views/include/footer.jsp" />
 <script type="text/javascript" src="${ctp}/js/memberPassCheck.js"></script>
 </body>

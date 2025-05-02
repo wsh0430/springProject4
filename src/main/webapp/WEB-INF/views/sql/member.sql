@@ -39,4 +39,14 @@ desc member;
 
 sMemberId
 drop table member;
-delete from member where memberId = 'wjddn7757'
+delete from member where memberId = 'admin'
+insert into member (
+    idx, memberId, password, nickName, name, gender, tel, address, email, likeTeam, icon, content,
+    birthday, userInfo, userDelete, point, level, visit_count, board_count, comment_count,
+    report_count, warning_count, ip, start_date, last_date
+) values (
+    1, 'admin', '', 'HITBox감독', '관리자', '남자', '043-225-2111', '사창동 그린아트컴퓨터확원', 'greenArt@naver.com', default, default, 
+    '안녕하세요 관리자입니다. 잘부탁드려요 무슨일 있으시면 바로 문의 주세요!', default, default, default, 10000, 0, default, default, default, 
+    default, default, default, default, default
+);
+update member set  level = '0' where memberId = 'admin';

@@ -27,6 +27,8 @@ public interface MemberService {
 
 	void deleteMemberById(String memberId);
 
+	MemberVo getMemberEmailCheck(String email);
+
 	
 
 

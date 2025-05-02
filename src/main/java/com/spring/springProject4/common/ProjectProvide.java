@@ -37,7 +37,7 @@ public class ProjectProvide {
 	private JavaMailSender mailSender;
 	
 	// 파일 저장하는 메소드 (업로드파일명, 저장파일명, 저장경로)
-	public static void writeFile(MultipartFile fName, String sFileName, String urlPath) throws IOException {
+	public static  void writeFile(MultipartFile fName, String sFileName, String urlPath) throws IOException {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 		String realPath = request.getSession().getServletContext().getRealPath("/resources/data/"+urlPath+"/");
 		
@@ -51,7 +51,7 @@ public class ProjectProvide {
 	}
 
 	// 파일 삭제처리
-	public static void deleteFile(String Icon, String urlPath) {
+	public static  void deleteFile(String Icon, String urlPath) {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 		String realPath = request.getSession().getServletContext().getRealPath("/resources/data/"+urlPath+"/");
 		

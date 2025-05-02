@@ -35,12 +35,12 @@
 			padding: 10px 20px;
 			background-color: #FF5E57;
 			border: none;
-			color: F1F1F1;
+			color: #F1F1F1;
 			border-radius: 5px;
 			cursor: pointer;
 		}
 		.modal-box button:hover {
-			background-color: #0056b3;
+			background-color: #E74C3C;
 		}
 	</style>
 </head>

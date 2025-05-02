@@ -87,6 +87,12 @@ public class MemberServiceImpl implements MemberService {
 		
 	}
 
+	@Override
+	public MemberVo getMemberEmailCheck(String email) {
+		
+		return memberDao.getMemberEmailCheck(email);
+	}
+
 	
 
 }

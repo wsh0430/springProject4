@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -51,7 +52,7 @@ public class MemberController {
 		@RequestMapping(value = "/memberLogin", method = RequestMethod.POST)
 		public String memberLoginPost(HttpSession session ,HttpServletRequest request, HttpServletResponse response,
 				String memberId, String password, String idSave, String nickName) {
-			// 로그인 인증처리 (스프링 시ㅠ리트의 BCrytPasswordEncoder객체를 이용한 암호화 되어 있는 비밀번호 비교하기)
+			// 로그인 인증처리 (스프링 시쿠리트의 BCrytPasswordEncoder객체를 이용한 암호화 되어 있는 비밀번호 비교하기)
 			MemberVo vo = memberService.getMemberIdCheck(memberId);
 			
 			if(vo != null && vo.getUserDelete().equals("NO") && passwordEncoder.matches(password,vo.getPassword())) {
@@ -106,13 +107,17 @@ public class MemberController {
             return "redirect:/message/memberLoginOk?memberId=" + memberId + "&nickName=" + encodedNickName;
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-            return "redirect:/message/memberLoginNo";  // 인코딩 실패 시 처리
+            return "redirect:/message/memberSystemError";  // 인코딩 실패 시 처리
         }
-    } else {
-        return "redirect:/message/memberLoginNo";  // 로그인 실패 시
+    } 
+			if(vo == null || !passwordEncoder.matches(password, vo.getPassword())) {
+				return "redirect:/message/memberLoginNo"; // 잘못된 ID 또는 비밀번호
+    } 
+			else if(vo.getUserDelete().equals("YES")) {
+        return "redirect:/message/memberDeleted"; // 탈퇴한 회원
     }
-}
-	
+			return "redirect:/message/memberLoginNo"; //모든 조건이 충족되지 않으면 기본적으로 "로그인 실패"
+	}
 	// 소셜 로그인 처리
 	
 
@@ -133,9 +138,12 @@ public class MemberController {
 				return "redirect:/message/idCheckNo";
 			}
 			
-			//이메일 조합 추가
+			// 이메일 조합 및 중복 체크
 	    String email = request.getParameter("email1") + "@" + request.getParameter("email2");
 	    vo.setEmail(email);
+	    if (memberService.getMemberEmailCheck(vo.getEmail()) != null) {
+	       return "redirect:/message/emailDuplicate";  // 이메일 중복 시 메시지 리디렉션
+	    }
 			
 			//비밀번호 암호화
 			vo.setPassword(passwordEncoder.encode(vo.getPassword()));
@@ -155,15 +163,24 @@ public class MemberController {
 			    vo.setIp("0.0.0.0");
 				}
 			
-			//모든 처리가 완료되면 DB에 회원 정보 저장
-			int res = memberService.setMemberJoinOk(vo);
-			
-			if(res != 0) {
-				// 회원가입 후 세션에 nickName 저장
-        session.setAttribute("sNickName", vo.getNickName());
-				return "redirect:/message/memberJoinOK";
-			}
-			else return "redirect:/message/memberJoinNO";
+			// DB 저장 및 예외 처리
+		    try {
+		        int res = memberService.setMemberJoinOk(vo);
+		        if (res != 0) {
+		            // 회원가입 후 세션에 닉네임 저장
+		            session.setAttribute("sNickName", vo.getNickName());
+		            return "redirect:/message/memberJoinOK";  // 회원가입 성공
+		        } else {
+		            return "redirect:/message/memberJoinNO";  // 회원가입 실패
+		        }
+		    } catch (DuplicateKeyException e) {
+		        // 이메일 중복 등 제약 조건 위반 시
+		        return "redirect:/message/emailDuplicate";  // 이메일 중복 메시지 리디렉션
+		    } catch (Exception e) {
+		        // 그 외 예외 처리
+		        e.printStackTrace();  // 예외 발생시 로그 출력
+		        return "redirect:/message/memberSystemError";  // 시스템 에러 메시지 리디렉션
+		    }
 		}
 		
 	//아이디 중복체크	
@@ -241,12 +258,6 @@ public class MemberController {
 		public String memberMypagePost(HttpSession session, MemberVo vo, MultipartFile fName) {
 			String memberId = (String) session.getAttribute("sMemberId");
 		  vo.setMemberId(memberId);
-		  
-			// 닉네임 체크(수정시에는 새로 세션체 저장처리한다.
-			String nickName = (String) session.getAttribute("sNickName");
-			if(memberService.getMemberNickCheck(vo.getNickName()) != null && !nickName.equals(vo.getNickName())) {
-				return "redirect:/message/nickCheckNo";
-			}
 			
 			// 회원 사진 처리
 			if(fName.getOriginalFilename() != null && !fName.getOriginalFilename().equals("")) {
@@ -331,8 +342,43 @@ public class MemberController {
       // 비밀번호 확인 페이지로 이동
       return "member/memberPassCheck";  // 비밀번호 확인 JSP 페이지
   }
-}
 
+	// 닉네임 변경 페이지
+	@RequestMapping(value = "/memberNickChange", method = RequestMethod.GET)
+	public String memberNickChangeGet(HttpSession session) {
+
+		return "member/memberNickChange";  // 비밀번호 확인 JSP 페이지
+	}
+	// 닉네임 변경 처리하기
+	@RequestMapping(value = "/memberNickChange", method = RequestMethod.POST)
+	public String memberNickChangePost(HttpSession session, MemberVo vo) {
+		// 닉네임 체크(수정시에는 새로 세션에 저장처리한다.)
+		String nickName = (String) session.getAttribute("sNickName");//세션에 저장된 닉네임 가져오기
+		// 새로운 닉네임이 기존 닉네임과 다를 때만 중복 체크
+		 // 1. 닉네임이 변경되지 않았다면, /message/memberNickChangeSame으로 리디렉션
+    if (nickName.equals(vo.getNickName())) {
+        return "redirect:/message/memberNickChangeSame";
+    }
+
+    // 3. 닉네임이 변경되었고 중복되지 않으면 세션에 새 닉네임 저장 후 /message/memberNickChangeOk로 리디렉션
+    session.setAttribute("sNickName", vo.getNickName());
+
+    return "redirect:/message/memberNickChangeOk";
+	
+	}
+	//아이디 찾기 페이지
+	@RequestMapping(value = "/memberFindId", method = RequestMethod.GET)
+	public String memberFindIdGet(HttpSession session) {
+	
+		return "member/memberFindId";  // 비밀번호 확인 JSP 페이지
+	}
+	//비밀번호 찾기 페이지
+	@RequestMapping(value = "/memberFindPwd", method = RequestMethod.GET)
+	public String memberFindPwdGet(HttpSession session) {
+	
+		return "member/memberFindPwd";  // 비밀번호 확인 JSP 페이지
+	}
+}
 
 		
 		

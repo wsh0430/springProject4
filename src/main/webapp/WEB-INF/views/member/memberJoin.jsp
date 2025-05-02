@@ -75,10 +75,11 @@
 				    <label for="gender1">남자</label>
 				    <input type="radio" name="gender" id="gender2" value="여자" required />
 				    <label for="gender2">여자</label>
+				    <div id="genderMessage" class="error-msg"></div>
 				  </td>
 				</tr>				
 				<tr>
-					<th>전화번호</th>
+					<th>휴대폰 번호</th>
 					 <td>
 	          <div>
 		          <select name="tel1" class="telSelect" required >
@@ -88,6 +89,7 @@
 		            <option value="017">017</option>
 		            <option value="018">018</option>
 		            <option value="019">019</option>
+		            <option value="043">043</option>
 		          </select>-
 		          <input type="text" name="tel2" id="tel2" required />-
 		          <input type="text" name="tel3" id="tel3" required />
@@ -103,13 +105,14 @@
 								<select name="emailDomain" class="emailSelect" onchange="setEmailDomain(this.value)">
 		            <option value="self" selected>직접입력</option>
 		            <option value="naver.com">naver.com</option>
-		            <option value="gamil.com">gmail.com</option>
+		            <option value="gmail.com">gmail.com</option>
 		            <option value="yahoo.com">yahoo.com</option>
 		            <option value="nate.com">nate.com</option>
 		            <option value="daum.com">daum.net</option>
 		            <option value="hanmail.com">hanmail.net</option>
 		          </select>
 							</div>
+							<div id="emailMessage" class="error-msg"></div>
 					</td>
 				</tr>
 	      <tr>

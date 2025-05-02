@@ -11,7 +11,7 @@ body {
 
 /* 컨테이너 스타일 */
 .container {
-    max-width: 480px;
+    max-width: 600px;
     margin: 50px auto;
     padding: 30px 25px;
     background-color: #ffffff;
@@ -26,7 +26,7 @@ body {
 }
 
 /* 제목 */
-.pwdChange-title {
+.nickChange-title {
     text-align: center;
     font-size: 28px;
     color: #FF2400;
@@ -35,45 +35,36 @@ body {
 }
 
 /* 폼 스타일 */
-.pwdChange-form {
+.nickChange-form {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0 10px;
 }
-
-.pwdChange-form th, .pwdChange-form td {
+.nickTh{
+		padding-left: 30px;
+}
+.nickChange-form td {
     padding: 10px;
     text-align: left;
 }
+.inline-block{
+		padding-left: 20px;
+}
 
 /* 입력 필드 스타일 */
-.pwdChange {
-    width:	300px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 16px;
+.nickChange {
+   	width: 250px;
+	  padding: 10px;
+	  margin-top: 6px;
+	  border: 1px solid #ccc;
+	  border-radius: 6px;
+	  font-size: 14px;
     transition: border-color 0.3s ease;
 }
 
-.pwdChange:focus {
+.nickChange:focus {
     border-color: #FF5E57;
     outline: none;
-}
-
-/* 비밀번호 확인 아이콘 스타일 */
-#eye-icon {
-    position: absolute;
-    right: 35px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    color: black;
-    transition: color 0.3s;
-}
-
-#eye-icon:hover {
-    color: #FF5E57;
 }
 
 /* 입력 필드를 감싸는 래퍼 스타일 */
@@ -82,7 +73,7 @@ body {
 }
 
 /* 버튼 스타일 */
-.pwdChangeBtn, .returnBtn {
+.nickChangeBtn, .returnBtn {
     width: 45%;
     padding: 10px;
     font-size: 16px;
@@ -92,12 +83,12 @@ body {
     transition: background-color 0.3s, transform 0.3s;
 }
 
-.pwdChangeBtn {
+.nickChangeBtn {
     background-color: #FF5E57;
     color: #F1F1F1;
 }
 
-.pwdChangeBtn:hover {
+.nickChangeBtn:hover {
     background-color: #E74C3C;
     transform: scale(1.05);
 }
@@ -112,11 +103,34 @@ body {
     transform: scale(1.05);
 }
 
-/* 에러 메시지 스타일 */
-.error-msg {
-    color: red;
-    font-size: 12px;
-    margin-top: 5px;
-    display: none;
+/* 중복확인 */
+.check-btn {
+	margin-left : 10px;
+  padding: 9px 14px;
+  background-color: #FF5E57;
+  border: none;
+  border-radius: 6px;
+  color: #F1F1F1;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
+.check-btn:hover {
+  background-color: #E74C3C;
+}
+
+/* 에러 메시지 스타일 */
+.error-msg {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+  margin-left: 20px;
+  display: none;
+}
+
+.disabled-btn {
+  background-color: #ccc !important;
+  color: #666 !important;
+  cursor: not-allowed !important;
+}

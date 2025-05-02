@@ -13,7 +13,7 @@
 	//정규식 정의
 	
 	let regName = /^[가-힣a-zA-Z]{1,10}$/; 				//한글 + 영문만 허용, 길이:1~10자
-	let regTel = /\d{3}-\d{4}-\d{4}$/;					//000-0000-0000 + 하이픈 구조
+	let regTel = /\d{3}-\d{3,4}-\d{4}$/;					//000-000또는0000-0000 + 하이픈 구조
 	let regEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 	
@@ -51,7 +51,7 @@
 		
 		if(tel2 != "" && tel3 != "") {
 			if(!regTel.test(tel)) {
-				document.getElementById('telMessage').textContent = "전화번호 형식을 확인해주세요.(000-0000-0000)";
+				document.getElementById('telMessage').textContent = "전화번호 형식을 확인해주세요.(000-000또는0000-0000)";
 				document.getElementById('telMessage').style.display= 'block';
 				myform.tel2.focus();
 				return false; 
