@@ -9,5 +9,5 @@ import com.spring.springProject4.dto.TeamPitcherRecordDto;
 public interface TeamPitcherRecordService {
 
 	void savePlayerRecord(TeamPitcherRecordDto dto);
-	List<TeamPitcherRecordDto> getAllPlayerRecords();
+	List<TeamPitcherRecordDto> getPitcherAverageByYear(String field, int startYear, int endYear);
 }
