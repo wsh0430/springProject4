@@ -34,8 +34,8 @@
 </head>
 <body>
 
-<p><br/></p>
-
+<jsp:include page="/WEB-INF/views/include/nav.jsp" />
+<div class="container">
 <!-- 정렬 필터 폼-->
 <form action="${ctp}/record/recordHitterView" method="get">
 	<label for="sortOptions">정렬 기준 선택:</label><br>
@@ -194,7 +194,7 @@
         </c:forEach>
     </tbody>
 </table>
-
-<p><br/></p>
+</div>
+<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 </body>
 </html>

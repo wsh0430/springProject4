@@ -11,7 +11,7 @@
 </head>
 	<header>
 		<!-- navbar 1번(로그인/회원가입/검색창) -->
-		<div class="navbar1">
+		<div class="navbar1" >
 		  <!-- 검색창 -->
 		  <div class="search-container">
 		    <input type="text" class="search-input" placeholder="검색어를 입력하세요...">
@@ -43,7 +43,7 @@
 				<li class="nav-record"><a href="#">기록실</a>
 				 	<!-- 하위메뉴 -->
 					<ul class="dropdown">
-						<li><a href="${ctp}/record/recordHitterView">시즌 기록실</a></li>
+						<li><a href="#" onclick="showSidebar('player')">시즌 기록실</a></li>
 						<li><a href="#" onclick="showSidebar('career')">통산 기록실</a></li>
 						<li><a href="#" onclick="showSidebar('team')">팀 기록실</a></li>
 					</ul>

@@ -101,6 +101,7 @@
 		 	position: relative;
 		  z-index: 5;
 		  background-color: white;
+		  margin-bottom: 40px;
 		}
 		.mainTitle{
 			margin-left : 25px;

@@ -12,18 +12,49 @@
 <body>
 <p><br/></p>
 <div class="container">
-	<h2 class="mb-4 text-start">⚾ 가이드라인 ⚾</h2>
+	<h2 class="mb-4 text-start">🥎 가이드라인 🥎</h2>
 
 	<div class="accordion" id="guideAccordion">
+		
+		<div class="accordion-item">
+			<h2 class="accordion-header" id="whatIsSite2">
+				<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#whatIsSite" aria-expanded="false" aria-controls="whatIsSite">
+					0. 사이트 소개
+				</button>
+			</h2>
+			<div id="whatIsSite" class="accordion-collapse collapse" aria-labelledby="whatIsSite2" data-bs-parent="#guideAccordion">
+				<div class="accordion-body">
+					<p>HITBox - 기록과 팬심이 만나는 곳, 프로야구 통합 플랫폼</p>
+					<p>
+						국내 프로야구는 매년 수백만 명의 관중을 동원하며 한국 스포츠 시장에서 가장 높은 대중성과 팬덤을 자랑합니다. 
+						하지만 그에 비해 팬들이 데이터를 바탕으로 의견을 나누고, 경기 외적인 즐거움을 함께할 수 있는 통합 플랫폼은 여전히 부족한 현실입니다. 
+						기존의 세이버메트릭스 사이트들은 정제된 통계를 제공하지만, 야구에 대한 사전 지식이 없는 사용자에게는 어려운 수치와 복잡한 용어들로 인해 진입 장벽이 높은 경우가 많습니다. 
+						반면, 커뮤니티 사이트들은 자유로운 소통이 가능하지만 전문적인 데이터 분석에는 한계를 보입니다.
+					</p>
+					
+					<p>
+						HITBox는 이러한 분산된 정보 환경과 기능의 한계를 넘어서기 위해 만들어졌습니다. 
+						HITBox는 세이버메트릭스를 보다 쉽게 이해할 수 있도록 시각화된 차트와 통계 가이드를 제공하며, 
+						야구 입문자부터 데이터 분석에 관심 있는 전문가까지 누구나 흥미롭게 데이터를 탐색할 수 있도록 설계된 플랫폼입니다. 
+						또한, 팬들이 직접 의견을 나누고, 분석 결과를 공유하며, 자유롭게 소통할 수 있는 커뮤니티 기능을 함께 제공하여 정보의 깊이와 팬들의 참여를 동시에 실현합니다.
+					</p>
+					
+					<p>
+						기록의 스포츠인 야구의 본질을 살리면서도 팬들이 함께 호흡할 수 있는 공간,
+						HITBox는 프로야구를 더 깊이 이해하고, 더 넓게 즐기기 위한 새로운 기준이 될 것입니다.
+					</p>
+				</div>
+			</div>
+		</div>
 		
 		<!-- 1. 야구의 역사 -->
 		<div class="accordion-item">
 			<h2 class="accordion-header" id="headingHistory">
-				<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHistory" aria-expanded="true" aria-controls="collapseHistory">
+				<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHistory" aria-expanded="false" aria-controls="collapseHistory">
 					1. 야구의 역사
 				</button>
 			</h2>
-			<div id="collapseHistory" class="accordion-collapse collapse show" aria-labelledby="headingHistory" data-bs-parent="#guideAccordion">
+			<div id="collapseHistory" class="accordion-collapse collapse" aria-labelledby="headingHistory" data-bs-parent="#guideAccordion">
 				<div class="accordion-body">
 					<h5>1-1. 야구의 유래</h5>
 					<p>
@@ -61,7 +92,7 @@
 		<div class="accordion-item">
 			<h2 class="accordion-header" id="headingRules">
 				<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseRules" aria-expanded="false" aria-controls="collapseRules">
-					2. 포지션과 규칙
+					2. 포지션과 규칙🧍‍♂️
 				</button>
 			</h2>
 			<div id="collapseRules" class="accordion-collapse collapse" aria-labelledby="headingRules" data-bs-parent="#guideAccordion">
@@ -154,43 +185,125 @@
 			</div>
 		</div>
 
-		<!-- 3. 야구의 용어 -->
+		<!-- 3. 야구의 용어 - 기초편 -->
 		<div class="accordion-item">
-			<h2 class="accordion-header" id="headingTerms">
-				<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTerms" aria-expanded="false" aria-controls="collapseTerms">
-					3. 야구의 용어
+			<h2 class="accordion-header" id="headingBasic">
+				<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBasic" aria-expanded="false" aria-controls="collapseBasic">
+					3-1. 야구의 용어 - 기초편🧢
 				</button>
 			</h2>
-			<div id="collapseTerms" class="accordion-collapse collapse" aria-labelledby="headingTerms" data-bs-parent="#guideAccordion">
+			<div id="collapseBasic" class="accordion-collapse collapse" aria-labelledby="headingBasic" data-bs-parent="#guideAccordion">
 				<div class="accordion-body">
-					<p>야구를 처음 접하는 분들을 위해 기본적인 용어들을 정리하였습니다. 각 용어의 의미를 이해하면 경기를 더욱 재미있게 관람할 수 있습니다.</p>
+					<p></p>
 					<ul>
-						<li><strong>스트라이크(Strike):</strong> 타자가 스윙을 했으나 공을 맞추지 못하거나, 스윙을 하지 않았지만 공이 스트라이크 존을 통과한 경우를 말합니다. 세 번의 스트라이크로 삼진 아웃이 됩니다.</li>
-						<li><strong>볼(Ball):</strong> 투수가 던진 공이 스트라이크 존을 벗어나고, 타자가 스윙하지 않은 경우를 말합니다. 네 번의 볼로 볼넷이 되어 타자는 1루로 진루합니다.</li>
-						<li><strong>파울(Foul):</strong> 타자가 친 공이 페어 지역을 벗어난 경우를 말합니다. 스트라이크 카운트가 2개 이하일 때는 스트라이크로 판정되며, 2스트라이크 이후에는 아웃이 되지 않습니다.</li>
-						<li><strong>안타(Hit):</strong> 타자가 친 공이 수비수에게 잡히지 않고 페어 지역에 떨어져 타자가 1루 이상으로 진루하는 것을 말합니다.</li>
-						<li><strong>홈런(Home Run):</strong> 타자가 친 공이 외야 펜스를 넘어가면서 타자와 베이스에 있던 주자들이 모두 홈으로 돌아와 득점하는 것을 말합니다.</li>
-						<li><strong>도루(Steal):</strong> 주자가 투수의 투구 동작 중에 다음 베이스로 진루를 시도하는 것을 말합니다. 성공하면 추가 진루가 인정됩니다.</li>
-						<li><strong>삼진(Strikeout):</strong> 타자가 세 번의 스트라이크를 받아 아웃되는 것을 말합니다.</li>
-						<li><strong>볼넷(Base on Balls):</strong> 투수가 네 번의 볼을 던져 타자가 1루로 진루하는 것을 말합니다.</li>
-						<li><strong>병살(Double Play):</strong> 수비팀이 한 번의 플레이로 두 명의 주자를 아웃시키는 것을 말합니다.</li>
-						<li><strong>실책(Error):</strong> 수비수가 평범한 수비를 실패하여 주자가 진루하거나 득점하는 경우를 말합니다.</li>
-						<li><strong>보크(Balk):</strong> 투수가 주자를 속이기 위한 불규칙한 동작을 하여 주자들이 한 베이스씩 진루하는 것을 말합니다.</li>
-						<li><strong>희생플라이(Sacrifice Fly):</strong> 타자가 플라이 볼을 쳐서 아웃되지만, 그 사이에 주자가 홈으로 들어와 득점하는 것을 말합니다.</li>
-						<li><strong>희생번트(Sacrifice Bunt):</strong> 타자가 번트를 시도하여 자신은 아웃되지만, 주자를 다음 베이스로 진루시키는 것을 말합니다.</li>
-						<li><strong>낫아웃(Dropped Third Strike):</strong> 삼진 상황에서 포수가 공을 놓쳐 타자가 1루로 진루할 수 있는 경우를 말합니다.</li>
-						<li><strong>고의사구(Intentional Walk):</strong> 투수가 강타자를 피하기 위해 고의로 볼넷을 주는 것을 말합니다.</li>
+						<li><strong>스트라이크(Strike):</strong> 스트라이크 존을 통과하거나 타자가 스윙했으나 공을 맞추지 못한 경우.</li>
+						<li><strong>볼(Ball):</strong> 스트라이크 존을 벗어난 공에 타자가 스윙하지 않은 경우.</li>
+						<li><strong>파울(Foul):</strong> 타자가 친 공이 페어 지역을 벗어난 경우.</li>
+						<li><strong>아웃(Out):</strong> 타자 또는 주자가 규칙에 의해 경기에서 제외되는 상황.</li>
+						<li><strong>세이프(Safe):</strong> 주자가 베이스에 도달하여 아웃되지 않은 경우.</li>
+						<li><strong>이닝(Inning):</strong> 양 팀이 한 번씩 공격과 수비를 마치는 경기의 단위. 보통 9이닝 진행.</li>
+						<li><strong>득점(Run):</strong> 주자가 홈 플레이트를 밟아 점수를 올리는 것.</li>
+						<li><strong>인플레이 / 아웃플레이:</strong> 공이 유효하게 경기장 내에서 진행되는 상태 / 타자나 주자가 아웃되는 상황.</li>
+						<li><strong>이닝(Inning):</strong> 각 팀이 한 번씩 공격과 수비를 수행하는 회차.</li>
+						<li><strong>타임(Time):</strong> 심판이 경기 진행을 일시적으로 중단시키는 선언.</li>
+						<li><strong>피클 플레이(Pickle Play):</strong> 주자가 두 베이스 사이에서 수비수에게 쫓기는 상황.</li>
+						<li><strong>인터페어런스(Interference):</strong> 수비수나 주자가 경기 진행을 방해하는 행위.</li>
+						<li><strong>인필드 플라이(Infield Fly):</strong> 1, 2루 또는 만루에서 내야에 뜬 공으로 자동 아웃 선언.</li>
+												
 					</ul>
-					<p>이 외에도 다양한 용어들이 있으며, 경기를 보면서 자연스럽게 익혀나가시면 더욱 재미있게 야구를 즐기실 수 있습니다. 더 많은 용어들은 </p>
 				</div>
 			</div>
 		</div>
+		
+		<!-- 3. 야구의 용어 - 타자편 -->
+		<div class="accordion-item">
+			<h2 class="accordion-header" id="headingHitter">
+				<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHitter" aria-expanded="false" aria-controls="collapseHitter">
+					3-2. 야구의 용어 - 타자편🏏
+				</button>
+			</h2>
+			<div id="collapseHitter" class="accordion-collapse collapse" aria-labelledby="headingHitter" data-bs-parent="#guideAccordion">
+				<div class="accordion-body">
+					<p>타자의 타격 관련 용어들을 정리하였습니다.</p>
+					<ul>
+						<li><strong>안타(Hit):</strong> 타자가 친 공이 페어 지역에 떨어져 수비에게 잡히지 않은 경우.</li>
+						<li><strong>홈런(Home Run):</strong> 공이 외야 담장을 넘어가 타자 및 주자들이 득점하는 경우.</li>
+						<li><strong>볼넷(Base on Balls):</strong> 투수가 네 번의 볼을 던져 타자가 1루로 진루하는 경우.</li>
+						<li><strong>삼진(Strikeout):</strong> 타자가 세 번의 스트라이크로 아웃되는 경우.</li>
+						<li><strong>희생번트(Sacrifice Bunt):</strong> 타자가 번트를 시도해 자신은 아웃되더라도 주자를 진루시키는 작전.</li>
+						<li><strong>희생플라이(Sacrifice Fly):</strong> 플라이 아웃 중 주자가 득점하는 경우.</li>
+						<li><strong>고의사구(Intentional Walk):</strong> 투수가 의도적으로 타자에게 볼넷을 주는 행위.</li>
+						<li><strong>2루타 / 3루타:</strong> 타자가 공을 쳐서 2루 / 3루까지 가는 것.</li>
+						<li><strong>타점(RBI):</strong> 타자가 타격으로 주자를 홈으로 불러들이는 것.</li>
+						<li><strong>득점(Run):</strong> 주자가 홈 플레이트를 밟아 점수를 올리는 것.</li>
+						<li><strong>타율(AVG):</strong> 안타 수를 타수로 나눈 값.</li>
+						<li><strong>장타율(SLG):</strong> 총 루타 수를 타수로 나눈 값.</li>
+						<li><strong>출루율(OBP):</strong> 출루 횟수를 타석 수 등으로 나눈 값.</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 3. 야구의 용어 - 투수편 -->
+		<div class="accordion-item">
+			<h2 class="accordion-header" id="headingPitcher">
+				<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePitcher" aria-expanded="false" aria-controls="collapsePitcher">
+					3-3. 야구의 용어 - 투수편🧤
+				</button>
+			</h2>
+			<div id="collapsePitcher" class="accordion-collapse collapse" aria-labelledby="headingPitcher" data-bs-parent="#guideAccordion">
+				<div class="accordion-body">
+					<p>투수의 투구 및 수비 관련 용어들을 정리하였습니다.</p>
+					<ul>
+						<li><strong>보크(Balk):</strong> 투수가 주자를 속이기 위한 불규칙한 동작을 한 경우, 주자는 한 베이스 진루.</li>
+						<li><strong>실책(Error):</strong> 수비수가 평범한 수비를 실패하여 주자가 진루하거나 득점하게 하는 경우.</li>
+						<li><strong>병살(Double Play):</strong> 수비팀이 한 번의 플레이로 두 명의 주자를 아웃시키는 경우.</li>
+						<li><strong>도루저지(Caught Stealing):</strong> 투수 또는 포수가 주자의 도루를 막아내는 플레이.</li>
+						<li><strong>사구(Hit by Pitch):</strong> 타자가 투수의 공에 맞아 1루로 진루하는 경우.</li>
+						<li><strong>완투(Complete Game):</strong> 한 명의 투수가 경기 전체를 던지는 경우.</li>
+						<li><strong>세이브(Save):</strong> 리드를 유지한 채 경기 종료 시까지 막아낸 투수에게 주어지는 기록.</li>
+						<li><strong>홀드(Hold):</strong> 팀의 리드를 유지하고 마운드를 내려가는 중간 계투의 성과를 기록하는 지표.</li>
+						<li><strong>스트라이크 존:</strong> 타자가 타격할 수 있는 공간.</li>
+						<li><strong>포심 패스트볼:</strong> 직선으로 빠르게 들어오는 기본적인 직구.</li>
+						<li><strong>슬라이더:</strong> 수평으로 휘어지는 변화구.</li>
+						<li><strong>커브볼:</strong> 위에서 아래로 크게 떨어지는 변화구.</li>
+						<li><strong>체인지업:</strong> 속도를 줄여 타이밍을 빼앗는 변화구.</li>
+						<li><strong>삼진(K):</strong> 타자가 스트라이크 3개로 아웃되는 것.</li>
+						<li><strong>볼넷(BB):</strong> 볼 4개로 타자가 1루에 진루하는 것.</li>
+						<li><strong>사구(HBP):</strong> 투구가 타자 몸에 맞아 1루로 나가는 것.</li>
+						<li><strong>빈볼(Beanball):</strong> 타자를 위협하거나 맞히려는 의도가 있는 투구.</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+		
+		<div class="accordion-item">
+			<h2 class="accordion-header" id="specialRull2">
+				<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#specialRull" aria-expanded="false" aria-controls="specialRull">
+					3-4. 야구의 용어 - 심화편⚾
+				</button>
+			</h2>
+			<div id="specialRull" class="accordion-collapse collapse" aria-labelledby="specialRull2" data-bs-parent="#guideAccordion">
+				<div class="accordion-body">
+					<p>야구 마니아가 아니라면 자주 햇갈리는 특수 규칙이나 새로 유행중인 용어들을 정리한 것입니다.</p>
+					<ul>
+						<li><strong>스트라이크 아웃 낫 아웃:</strong> 1루가 비어 있는 상황이나 2사 상황에 3번째 스트라이크를 포수가 정규포구 하지 못 할 때 타자가 1루로 진루를 시도 할 수 있는 권한이 생기는 상황.</li>
+						<li><strong>삼중살:</strong> 한 타자의 타석에서 3개의 아웃 카운트가 한 번에 잡히는 경우.</li>
+						<li><strong>누의 공과:</strong> 주자가 밟아야 할 베이스를 밟지 않고 지나치는 것</li>
+						<li><strong>슬러브:</strong> 슬라이더와 커브를 합친 구종으로서 커브보다는 빠르고 슬라이더보다는 휘는 정도가 크다. 그립은 슬라이더 그립이고 던지는 폼은 커브 폼으로 던진다. 현재 KBO에서 각광받는 구종이다.</li>
+						<li><strong>오타니 룰:</strong> 투수 겸 타자로 출전한 선수가 마운드에서 내려오더라도 지명타자로 계속 타석에 들어설 수 있도록 하는 규칙. 전무후무하게 투타를 겹업하는 LA에인절스의 선수 오타니 쇼헤이 때문에 생긴 규정.</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
 
 		<!-- 4. 세이버메트릭스란? -->
 		<div class="accordion-item">
 			<h2 class="accordion-header" id="headingSabermetrics">
 				<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSabermetrics" aria-expanded="false" aria-controls="collapseSabermetrics">
-					4. 세이버메트릭스란?
+					4. 세이버메트릭스란?🧮
 				</button>
 			</h2>
 			<div id="collapseSabermetrics" class="accordion-collapse collapse" aria-labelledby="headingSabermetrics" data-bs-parent="#guideAccordion">
@@ -204,10 +317,25 @@
 						Bill James는 세이버메트릭스를 '야구에 대한 객관적인 지식의 추구'로 정의하며, 
 						이를 통해 야구의 본질을 과학적으로 이해하고자 했습니다.
 					</p>
+					<h5 class="mt-4">4-2. 한국에서의 세이버메트릭스</h5>
 					<p>
-						
-						
-
+						<strong>KBO(한국프로야구)</strong>에서는 2000년대 중후반부터 세이버메트릭스가 본격적으로 도입되기 시작했습니다. 
+						미국 메이저리그에서 ‘머니볼(Moneyball)’로 대표되는 세이버메트릭스가 주목을 받으면서, 
+						국내 구단들도 기존의 전통적인 지표(타율, 방어율 등) 외에 새로운 통계 지표를 활용하려는 움직임을 보였습니다.
+					</p>
+					<p>
+						초기에는 일부 구단이 경쟁력 강화를 위해 자체적으로 데이터 분석팀을 구성하고, OPS(출루율+장타율), WHIP(이닝당 출루 허용) 등 비교적 간단한 지표부터 활용하기 시작했습니다. 
+						이후 2010년대에 들어서면서 KBO와 스탯티즈(Statiz) 등 외부 데이터 제공 업체 간의 협력이 강화되었고, 팬 여러분과 미디어에서도 WAR(대체 선수 대비 승리 기여도), 
+						wRC+(조정 득점 생산력) 등의 고급 지표에 점차 익숙해졌습니다.
+					</p>
+					<p>
+						2016년부터는 KBO의 공식 기록 시스템이 개선되면서 PTS(Player Tracking System)와 같은 고도화된 장비가 도입되었고, 
+						트래킹 데이터를 기반으로 한 정밀한 분석도 가능해졌습니다. 이에 따라 각 구단은 분석 전문 인력을 채용하고, 
+						프런트와 현장 간의 데이터 공유도 활발히 이루어지며 조직 차원의 활용이 확대되었습니다.
+					</p>
+					<p>
+						현재는 구단의 스카우팅, 전력 분석, 선수 육성 등 다양한 분야에서 세이버메트릭스가 실질적인 의사결정 도구로 활용되고 있으며, 
+						이는 한국 프로야구의 수준 향상과 전략 다양성 확대에 크게 기여하고 있습니다.
 					</p>
 					
 				</div>
