@@ -22,4 +22,9 @@ public class BoardVo {
 	private String updateAt;
 	private int deleteCheck;
 	private int hideCheck;
+	
+	private String dateDiff;
+	private String hourDiff;
 }
+
+

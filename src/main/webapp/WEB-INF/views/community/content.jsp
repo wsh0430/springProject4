@@ -343,8 +343,11 @@
     		margin-right: 5px;
     	}
     	
-    	#content{
+    	#cmty_content{
     		min-height: 250px;
+    	}
+    	#cmty_content img{
+    		max-width: 100%;
     	}
     	
     	.like button{
@@ -451,7 +454,7 @@
 				<!-- 신고 -->
 				<a href="#" data-bs-toggle="modal" data-bs-target="#myModal" class="btn btn-danger"><i class="fa-solid fa-triangle-exclamation"></i></a>	
 			</div>
-			<div id="content">
+			<div id="cmty_content">
 				${fn:replace(boardVo.content, newLine, "<br/>")}
 			</div>
 			<!-- right 공유/ -->

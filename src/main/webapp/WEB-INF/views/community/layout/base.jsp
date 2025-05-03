@@ -8,6 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Hitbox</title> 
+<jsp:include page="/WEB-INF/views/include/nav.jsp" />
 <style>
 	#community{
 		display: flex;
@@ -15,7 +16,7 @@
 	}
 
 	.content {
-		height: 700px;
+		min-height: 700px;
 		width: 1200px;
 		display: flex;
 	}
@@ -31,5 +32,6 @@
 			<tiles:insertAttribute name="ad_right" />
 		</div>
 	</div>
+<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 </body>
 </html>

@@ -46,7 +46,7 @@ public class HomeController {
 		
 		model.addAttribute("serverTime", formattedDate );
 		
-		return "home";
+		return "include/nav";
 	}
 	
 	// ckeditor에서의 그림파일 업로드시 수행처리되는 메소드

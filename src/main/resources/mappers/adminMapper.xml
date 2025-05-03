@@ -54,9 +54,39 @@
   	</select>
 	
 	<select id="getBoardVos" resultType="com.spring.springProject4.vo.BoardVo">
-		select * ,datediff(created_at, now()) as dateDiff,
-  	    timestampdiff(hour, created_at, now()) as hourDiff
-		from board b <if test="category != '전체' || search !='' || startDate != ''">where</if> <if test="category != '전체' || search !=''"><if test="category != '전체'"> category_name = #{category}<if test="search !=''"> and</if></if><if test='search !=""'>${search} like concat('%',#{searchString},'%')</if></if> <if test="startDate != ''"><if test="category != '전체' || search !=''">and</if> (created_at between #{startDate} and #{lastDate})</if> order by idx desc limit #{startIndexNo},#{pageSize};
+<!-- 		select * ,datediff(created_at, now()) as dateDiff, -->
+<!--   	    timestampdiff(hour, created_at, now()) as hourDiff -->
+<!-- 		from board b <if test="category != '전체' || search !='' || startDate != ''">where</if> <if test="category != '전체' || search !=''"><if test="category != '전체'"> category_name = #{category}<if test="search !=''"> and</if></if><if test='search !=""'>${search} like concat('%',#{searchString},'%')</if></if> <if test="startDate != ''"><if test="category != '전체' || search !=''">and</if> (created_at between #{startDate} and #{lastDate})</if> order by idx desc limit #{startIndexNo},#{pageSize}; -->
+
+			select *, 
+				datediff(created_at, now()) as dateDiff,
+				timestampdiff(hour, created_at, now()) as hourDiff
+				from board b
+				<where>
+				  <if test="category != '전체'">
+				    category_name = #{category}
+				  </if>
+				
+				  <if test="search != ''">
+				    <choose>
+				      <when test="search == 'title'">
+				        and title like concat('%', #{searchString}, '%')
+				      </when>
+				      <when test="search == 'content'">
+				        and content like concat('%', #{searchString}, '%')
+				      </when>
+				      <when test="search == 'writer'">
+				        and writer like concat('%', #{searchString}, '%')
+				      </when>
+				    </choose>
+				  </if>
+				
+				  <if test="startDate != ''">
+				    and created_at between #{startDate} and #{lastDate}
+				  </if>
+				</where>
+				order by idx desc
+				limit #{startIndexNo}, #{pageSize}
 	</select>
 	
 	<select id="getCommentVos" resultType="com.spring.springProject4.vo.BoardVo">

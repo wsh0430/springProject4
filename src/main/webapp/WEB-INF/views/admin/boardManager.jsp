@@ -93,30 +93,35 @@
 			});
 		}
 	    
-	    function deleteAllBoard() {
+	    function deleteCheckedAllBoard() {
 			if(!confirm("선택된 게시글을 정말 삭제하시겠습니까?"))
 				return false;
 			
-			$.ajax({
-				url: '${ctp}/admin/deleteBoard',  
-    	        type: 'post',
-    	        data: { idx: idx },
-    	        success:function(res){
-    	        	if(res == 1){
-    	        		alert("게시글("+title+")이 삭제되었습니다.");
-    	        		location.reload();
-    	        	}
-    	        	else{ alert("잠시 후 다시 시도해주세요."); }
-    	        },
-    	        error: function() {
-					alert("게시글 삭제 중 오류가 발생하였습니다.");
-				}
-			});
+
+	    	$('input[type="checkbox"]:checked').not('#select-all').each(function(){
+	    		let idx = $(this).attr('id');
+				$.ajax({
+					url: '${ctp}/admin/deleteBoard',  
+	    	        type: 'post',
+	    	        data: { idx: idx },
+	    	        success:function(res){
+	    	        	if(res == 1){
+	    	        		alert(""+idx+"번 게시글이 삭제되었습니다.");
+	    	        		location.reload();
+	    	        	}
+	    	        	else{ alert("잠시 후 다시 시도해주세요."); }
+	    	        },
+	    	        error: function() {
+						alert("게시글 삭제 중 오류가 발생하였습니다.");
+					}
+				});
+	    	});
 		}
 	    
 	    function updateToggleBoard(title, idx) {	    	
 	    	let div = $("#bi_toggle-button"+idx);
 	    	let stats = $("#bi_stats"+idx);
+	    	
 	    	
 	    	$.ajax({
 	    		url: '${ctp}/admin/updateToggleBoard',  
@@ -126,12 +131,20 @@
     	        	if(res == 1){
     	        		// 숨겨짐 처리 == 버튼은 보이기로 바뀜
     	        		div.html('<input type="button" id="bi_show-button'+idx+'" value="보이기" onclick="updateToggleBoard(\''+title+'\', '+idx+')">');	        		
-    	        		stats.text("숨겨짐 "+ stats.text());
+    	        		if(!stats.text().includes("숨겨짐"))
+    	        			stats.text("숨겨짐 "+ stats.text());
+    	        		else
+    	        			stats.text(stats.text());
     	        	}
     	        	else if(res == 0){
     	        		// 숨겨짐 처리 == 버튼은 숨겨짐으로 바뀜
     	        		div.html('<input type="button" id="bi_show-button'+idx+'" value="숨김" onclick="updateToggleBoard(\''+title+'\', '+idx+')">');	        		
-    	        		stats.text(stats.text().substring(4));
+    	        		if(stats.text().includes("숨겨짐")){
+    	        			if(stats.text().includes("신고됨"))
+    	        				stats.text("신고됨");
+    	        			else if(!stats.text().includes("신고됨"))
+    	        				stats.text("");
+    	        		}
     	        	}
     	        	else{ alert("잠시 후 다시 시도해주세요."); }
     	        },
@@ -160,13 +173,18 @@
 		    	        	if(part == 'hide'){
 		    	        		// 숨겨짐 처리 == 버튼은 보이기로 바뀜
 		    	        		div.html('<input type="button" id="bi_show-button'+idx+'" value="보이기" onclick="updateToggleBoard(\''+title+'\', '+idx+')">');	        		
-		    	        		if(stats.text().substring(0, 3) != '숨겨짐')
+		    	        		if(!stats.text().includes("숨겨짐"))
 		    	        			stats.text("숨겨짐 "+ stats.text());
 		    	        	}
 		    	        	else if(part == 'show'){
 		    	        		// 숨겨짐 처리 == 버튼은 숨겨짐으로 바뀜
 		    	        		div.html('<input type="button" id="bi_hide-button'+idx+'" value="숨김" onclick="updateToggleBoard(\''+title+'\', '+idx+')">');	        		
-		    	        		stats.text(stats.text().substring(4));
+		    	        		if(stats.text().includes("숨겨짐")){
+		    	        			if(stats.text().includes("신고됨"))
+		    	        				stats.text("신고됨");
+		    	        			else if(!stats.text().includes("신고됨"))
+		    	        				stats.text("");
+		    	        		}
 		    	        	}
 	    	        	}
 	    	        	else{ alert("잠시 후 다시 시도해주세요."); }

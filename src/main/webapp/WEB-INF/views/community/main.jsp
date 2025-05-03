@@ -26,23 +26,23 @@
     		margin-top: 10px;
     	}
     	
-    	.dropbtn {
+    	.cmty_dropdown {
 		  background-color: gray;
 		  color: white;
 		  padding: 6px 12px;
 		  font-size: 16px;
 		  border: none;
 		}
-		.dropbtn a{
+		.cmty_dropdown a{
 			text-decoration: none;
 		}
 		
-		.dropdown {
+		.cmty_dropdown {
 		  position: relative;
 		  display: inline-block;
 		}
 		
-		.dropdown-content {
+		.cmty_dropdown-content {
 		  display: none;
 		  position: absolute;
 		  background-color: #f1f1f1;
@@ -51,18 +51,18 @@
 		  z-index: 1;
 		}
 		
-		.dropdown-content a {
+		.cmty_dropdown-content a {
 		  color: black;
 		  padding: 12px 16px;
 		  text-decoration: none;
 		  display: block;
 		}
 		
-		.dropdown-content a:hover {background-color: #ddd;}
+		.cmty_dropdown-content a:hover {background-color: #ddd;}
 		
-		.dropdown:hover .dropdown-content {display: block;}
+		.cmty_dropdown:hover .cmty_dropdown-content {display: block;}
 		
-		.dropdown:hover .dropbtn {background-color: #3e8e41;}
+		.cmty_dropdown:hover .cmty_dropbtn {background-color: #3e8e41;}
     	
     	#board{
     		min-height: 20px;
@@ -76,8 +76,14 @@
     	}
     	
     	.board_list tr:nth-child(1){
-    		background-color: gray;
+    		background-color: #FF5E57;
     	}
+    	.board_list tr:first-child th:first-child {
+		  border-top-left-radius: 13px;
+		}		
+		.board_list tr:first-child th:last-child {
+		  border-top-right-radius: 13px;
+		}
     	
     	.board_list tr, .board_list td{
     		height: 40px;
@@ -111,14 +117,14 @@
     			<tr>
     				<c:forEach var="mcVos" items="${mainCtgyVos}" varStatus="st">
     					<td>
-    						<div class="dropdown">
+    						<div class="cmty_dropdown">
 	    						<c:if test="${empty subCtgy[st.index]}">
-	    							<span class="dropbtn"><a href="cmtyMain?category=${mcVos.name}">${mcVos.name}</a></span>
+	    							<span class="cmty_dropbtn"><a href="cmtyMain?category=${mcVos.name}">${mcVos.name}</a></span>
 	    						</c:if>
 	    						<c:if test="${!empty subCtgy[st.index]}">
-	    							<span class="dropbtn">${mcVos.name}  <i class="fa fa-caret-down"></i></span>     
+	    							<span class="cmty_dropbtn">${mcVos.name}  <i class="fa fa-caret-down"></i></span>     
 	    						</c:if>
-	    						<div class="dropdown-content">
+	    						<div class="cmty_dropdown-content">
 	    							<c:forEach var="scVos" items="${subCtgy[st.index]}">
 										<a href="cmtyMain?category=${scVos.name}">${scVos.name}</a>			
 			    					</c:forEach>

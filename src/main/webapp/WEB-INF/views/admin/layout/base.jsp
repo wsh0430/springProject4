@@ -8,6 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Hitbox  관리자메뉴</title> 
+<jsp:include page="/WEB-INF/views/include/nav.jsp" />
 <style>
 	#content{
 		display: flex;
@@ -28,4 +29,5 @@
 		</div>
 	</div>
 </body>
+<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 </html>

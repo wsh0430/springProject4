@@ -66,16 +66,11 @@ public class CommunityController {
 		// 핫게시판
 		List<BoardVo> hotBoardVos = communityService.getHotBoardList(category);
 		System.out.println(hotBoardVos);
+
 		
 		//광고
-		String adTitle = "모비노기";
-		
-		AdvertisementVo adVo = adService.getAdVo(adTitle);
 		List<AdvertisementVo> adVos = adService.getAdVos();
 		
-		
-		 
-		model.addAttribute("adVo", adVo);
 		model.addAttribute("adVos", adVos);
 		
 		model.addAttribute("category", category);
@@ -124,6 +119,10 @@ public class CommunityController {
 		
 		communityService.setUpdateBoardViewCnt(boardIdx);
 		
+		//광고
+		List<AdvertisementVo> adVos = adService.getAdVos();
+				
+		model.addAttribute("adVos", adVos);		
 		model.addAttribute("sMemberId", "user123"); //나중에 세션으로 넣는 id
 		model.addAttribute("sNickname", "프로니");	//나중에 세션으로 넣는 nickname
 		model.addAttribute("boardVo", boardVo);
@@ -231,7 +230,11 @@ public class CommunityController {
 			subCtgyVos = communityService.getSubCategoryList(mainCtgyVos.get(i).getName());	//서브 카테고리vos
 			subCtgyList.add(subCtgyVos);
 		}
-
+		
+		//광고
+		List<AdvertisementVo> adVos = adService.getAdVos();
+						
+		model.addAttribute("adVos", adVos);	
 		model.addAttribute("mainCtgyVos", mainCtgyVos);
 		
 		return "community/boardCreate";
@@ -278,8 +281,11 @@ public class CommunityController {
 			subCtgyVos = communityService.getSubCategoryList(mainCtgyVos.get(i).getName());	//서브 카테고리vos
 			subCtgyList.add(subCtgyVos);
 		}
-				
-				
+		
+		//광고
+		List<AdvertisementVo> adVos = adService.getAdVos();
+						
+		model.addAttribute("adVos", adVos);				
 		model.addAttribute("mainCtgyVos", mainCtgyVos);
 		model.addAttribute("subCtgyList", subCtgyList);
 		model.addAttribute("boardVo", boardVo);

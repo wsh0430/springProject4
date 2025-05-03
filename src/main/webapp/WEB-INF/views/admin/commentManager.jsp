@@ -34,71 +34,34 @@
           	toggleButton();
 	     });
 	    
-	    $(document).ready(function() {
-	    	 $('#sb_mc').change(function() {
-	    	    let selectedValue = $(this).val();
-
-	    	    // 선택된 값이 있을 때만 AJAX 요청
-	    	    if (selectedValue) {
-	    	      $.ajax({
-	    	        url: '${ctp}/admin/getSubCategory',  // 데이터를 받아올 URL
-	    	        type: 'get',
-	    	        data: { categoryName: selectedValue },
-	    	        dataType: 'json',
-	    	        success: function(res) {
-    	        		let string = "";
-    	        		
-    	        		if(selectedValue != '전체')
-    	        			$('#sb_sub-category').show();
-    	        		else
-    	        			$('#sb_sub-category').hide();
-    	        			
-    	        		res.forEach(function(item) {
-    	        			string += '<option value="'+item.name+'">'+item.name+'</option>';
-    	        		});
-
-    	        		
-    	        		$('#sb_sc').html(string);
-	    	        	
-	    	        },
-	    	        error: function(xhr, status, error) {
-	    	          $('#sb_sub-category').html('<p>오류가 발생했습니다.</p>');
-	    	        }
-	    	      });
-	    	    } else {
-	    	      $('#sb_sub-category').empty(); // 선택이 비워지면 div도 초기화
-	    	      $('#sb_sub-category').hide();
-	    	    }
-	    	  });
-	    	});
 	    
-	    function deleteBoard(title, idx) {
-			if(!confirm("게시글("+title+")을 정말 삭제하시겠습니까?"))
+	    function deleteComment(content, idx) {
+			if(!confirm("댓글("+content+")을 정말 삭제하시겠습니까?"))
 				return false;
 			
 			$.ajax({
-				url: '${ctp}/admin/deleteBoard',  
+				url: '${ctp}/admin/deleteComment',  
     	        type: 'post',
     	        data: { idx: idx },
     	        success:function(res){
     	        	if(res == 1){
-    	        		alert("게시글("+title+")이 삭제되었습니다.");
+    	        		alert("게시글("+content+")이 삭제되었습니다.");
     	        		location.reload();
     	        	}
     	        	else{ alert("잠시 후 다시 시도해주세요."); }
     	        },
     	        error: function() {
-					alert("게시글 삭제 중 오류가 발생하였습니다.");
+					alert("댓글 삭제 중 오류가 발생하였습니다.");
 				}
 			});
 		}
 	    
-	    function deleteAllBoard() {
-			if(!confirm("선택된 게시글을 정말 삭제하시겠습니까?"))
+	    function deleteAllComment() {
+			if(!confirm("선택된 댓글을 정말 삭제하시겠습니까?"))
 				return false;
 			
 			$.ajax({
-				url: '${ctp}/admin/deleteBoard',  
+				url: '${ctp}/admin/deleteComment',  
     	        type: 'post',
     	        data: { idx: idx },
     	        success:function(res){
@@ -118,6 +81,7 @@
 	    	let div = $("#bi_toggle-button"+idx);
 	    	let stats = $("#bi_stats"+idx);
 	    	
+	    	
 	    	$.ajax({
 	    		url: '${ctp}/admin/updateToggleBoard',  
     	        type: 'post',
@@ -126,12 +90,20 @@
     	        	if(res == 1){
     	        		// 숨겨짐 처리 == 버튼은 보이기로 바뀜
     	        		div.html('<input type="button" id="bi_show-button'+idx+'" value="보이기" onclick="updateToggleBoard(\''+title+'\', '+idx+')">');	        		
-    	        		stats.text("숨겨짐 "+ stats.text());
+    	        		if(!stats.text().includes("숨겨짐"))
+    	        			stats.text("숨겨짐 "+ stats.text());
+    	        		else
+    	        			stats.text(stats.text());
     	        	}
     	        	else if(res == 0){
     	        		// 숨겨짐 처리 == 버튼은 숨겨짐으로 바뀜
     	        		div.html('<input type="button" id="bi_show-button'+idx+'" value="숨김" onclick="updateToggleBoard(\''+title+'\', '+idx+')">');	        		
-    	        		stats.text(stats.text().substring(4));
+    	        		if(stats.text().includes("숨겨짐")){
+    	        			if(stats.text().includes("신고됨"))
+    	        				stats.text("신고됨");
+    	        			else if(!stats.text().includes("신고됨"))
+    	        				stats.text("");
+    	        		}
     	        	}
     	        	else{ alert("잠시 후 다시 시도해주세요."); }
     	        },
@@ -160,13 +132,18 @@
 		    	        	if(part == 'hide'){
 		    	        		// 숨겨짐 처리 == 버튼은 보이기로 바뀜
 		    	        		div.html('<input type="button" id="bi_show-button'+idx+'" value="보이기" onclick="updateToggleBoard(\''+title+'\', '+idx+')">');	        		
-		    	        		if(stats.text().substring(0, 3) != '숨겨짐')
+		    	        		if(!stats.text().includes("숨겨짐"))
 		    	        			stats.text("숨겨짐 "+ stats.text());
 		    	        	}
 		    	        	else if(part == 'show'){
 		    	        		// 숨겨짐 처리 == 버튼은 숨겨짐으로 바뀜
 		    	        		div.html('<input type="button" id="bi_hide-button'+idx+'" value="숨김" onclick="updateToggleBoard(\''+title+'\', '+idx+')">');	        		
-		    	        		stats.text(stats.text().substring(4));
+		    	        		if(stats.text().includes("숨겨짐")){
+		    	        			if(stats.text().includes("신고됨"))
+		    	        				stats.text("신고됨");
+		    	        			else if(!stats.text().includes("신고됨"))
+		    	        				stats.text("");
+		    	        		}
 		    	        	}
 	    	        	}
 	    	        	else{ alert("잠시 후 다시 시도해주세요."); }
@@ -216,9 +193,9 @@
     </style>
 </head>
 <body>
-	<div id="title"><h2>게시판 관리</h2></div>
+	<div id="title"><h2>댓글 관리</h2></div>
 	<div id="view-control">
-		<input type="button" value="전체목록" onclick="location.href='${ctp}/admin/boardManager'">
+		<input type="button" value="전체목록" onclick="location.href='${ctp}/admin/commentManager'">
 		<span>${curCategory}</span>
 	</div>
 	<div id="info-box">
@@ -234,24 +211,7 @@
 					  <label for="df_end-date">종료일:</label>
 					  <input type="date" id="df_end-date" name="df_end-date">
 				</div>
-				<div id="search-bar">
-					<div id="sb_category">
-						<!-- main카테고리 -->
-						<div id="sb_main-category">
-							<select name="mainCategory" id="sb_mc">
-								<c:forEach var="mcVo" items="${mainCtgyVos}">
-						  	  		<option value="${mcVo.name}">${mcVo.name}</option>
-						  		</c:forEach>
-						  	</select>
-					  	</div>
-					  	
-					  	<!-- sub카테고리  -->
-					  	<div id="sb_sub-category" style="display: none;">
-							<select name="subCategory" id="sb_sc">
-						  	</select>
-						</div>
-					</div>
-				
+				<div id="search-bar">				
 					<select name="search" id="search">
 				  	  <option value="board_id">게시글id</option>
 				  	  <option value="member_id">멤버id</option>
