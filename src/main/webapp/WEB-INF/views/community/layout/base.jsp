@@ -13,12 +13,15 @@
 	#community{
 		display: flex;
 		justify-content: center;
+		background-color: #f1f1f1;
+		padding-bottom: 80px; 
 	}
 
 	.content {
 		min-height: 700px;
 		width: 1200px;
 		display: flex;
+		justify-content: center;
 	}
 	
 	

@@ -7,6 +7,45 @@
     <meta charset="UTF-8">
     <title>HitBox</title>
     <script src="${ctp}/ckeditor/ckeditor.js"></script>
+       <script>
+	    $(document).ready(function() {
+	   	 $('#cn').change(function() {
+	   	    let selectedValue = $(this).val();
+	
+	   	    // 선택된 값이 있을 때만 AJAX 요청
+	   	    if (selectedValue) {
+	   	      $.ajax({
+	   	        url: '${ctp}/admin/getSubCategory',  // 데이터를 받아올 URL
+	   	        type: 'get',
+	   	        data: { categoryName: selectedValue },
+	   	        dataType: 'json',
+	   	        success: function(res) {
+		        		let string = "";
+		        		
+		        		if(selectedValue != '전체')
+		        			$('#sub-category').show();
+		        		else
+		        			$('#sub-category').hide();
+		        			
+		        		res.forEach(function(item) {
+		        			string += '<option value="'+item.name+'">'+item.name+'</option>';
+		        		});
+	
+		        		
+		        		$('#sc').html(string);
+	   	        	
+	   	        },
+	   	        error: function(xhr, status, error) {
+	   	          $('#sub-category').html('<p>오류가 발생했습니다.</p>');
+	   	        }
+	   	      });
+	   	    } else {
+	   	      $('#sub-category').empty(); // 선택이 비워지면 div도 초기화
+	   	      $('#sub-category').hide();
+	   	    }
+	   	  });
+	   	});
+    </script>
     <jsp:include page="/WEB-INF/views/include/bs5.jsp" />
        <style>
    		textarea {
@@ -20,10 +59,24 @@
     		margin-top: 30px;	
     	}	
     	
-    	.low-bar{
-    		margin-top: 10px;
+    	#category{
     		display: flex;
     		justify-content: space-between;
+    		margin-bottom: 10px;
+    	}
+    	#category .right input{
+    		width: 80px;
+    		background-color: white;
+    		border: 0.5px solid #FF5E57;
+    		border-radius: 10px;
+    		color: #FF5E57;
+    	}
+    	#title{
+    		padding: 5px 8px;
+    		height: 50px;
+    		line-height: 36px;
+    		white-space: nowrap;
+    		overflow-y: hidden;
     	}
     </style>
 </head>
@@ -31,16 +84,21 @@
     <div id="main">
     	<form name="myform" method="post">    	
 		<div id="category">
-				<select name="categoryName">
-					<option>${boardVo.categoryName}</option>
-					<c:forEach var="mCtgyVo" items="${mainCtgyVos}">
-						<c:if test="${boardVo.categoryName != mCtgyVo.name }"> <!-- 만약 카테고리가 하위카테고리면 이상해질 수 있음 -->
-							<option>${mCtgyVo.name}</option>
-						</c:if>
-					</c:forEach>
-				</select>
+				<div class="left">
+					<select name="categoryName" id="cn">
+						<option>${boardVo.categoryName}</option>
+						<c:forEach var="mCtgyVo" items="${mainCtgyVos}">
+							<c:if test="${boardVo.categoryName != mCtgyVo.name }"> <!-- 만약 카테고리가 하위카테고리면 이상해질 수 있음 -->
+								<option>${mCtgyVo.name}</option>
+							</c:if>
+						</c:forEach>
+					</select>
+				</div>
+				<div class="right">
+					<input type="submit" value="발행">		
+				</div>
 		</div>
-		<textarea name="title" id="title" placeholder="제목을 입력해주세요." required>${boardVo.title }</textarea>
+		<textarea name="title" id="title" placeholder="제목을 입력해주세요." maxlength="80" required>${boardVo.title }</textarea>
 		<div>
 			<textarea name="content" id="CKEDITOR" placeholder="내용을을 입력해주세요.">${boardVo.content }</textarea>
 			 <script>
@@ -52,12 +110,7 @@
 	            });
 	         </script>
 		</div>
-		<div class="low-bar">
-			<div class="left"></div>
-			<div class="right">
-				<input type="submit" value="발행">			
-			</div>
-		</div>
+
 	    <%--  <input type="hidden" name="mid" value="${sMid}"/> --%>
 	    <input type="hidden" name="idx" value="${boardVo.idx}"/>
 	    <input type="hidden" name="pag" value="${pag}"/>

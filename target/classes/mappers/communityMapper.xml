@@ -77,7 +77,7 @@
 	</insert>
 	
 	<insert id="setCreateBoard">
-		insert into board values(default, #{vo.memberId}, #{vo.memberNickname}, #{vo.categoryName}, #{vo.title}, #{vo.content}, default, default, default, default, default, default, default, default<!-- , default, default, default, default, default, default, default, default, default -->);
+		insert into board values(default, #{vo.memberId}, #{vo.memberNickname}, #{vo.categoryName}, #{vo.title}, #{vo.content}, default, default, default, default, default, default, default, default, default, default, default, default, default, default, default, default, default, default);
 	</insert>
 	
 	<insert id="setInputBoardReport">

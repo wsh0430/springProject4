@@ -11,6 +11,19 @@
     <script>
     	'use strict';
     	
+    	$(document).ready(function () {
+    	 	$('#copyLink').on('click', function (e) {
+    		     e.preventDefault();
+    		     const url = window.location.href;
+
+    		     navigator.clipboard.writeText(url).then(function () {
+    		        $('#copyMsg').fadeIn().delay(2000).fadeOut();
+    		     }).catch(function (err) {
+    		        alert('복사 실패: ' + err);
+    		     });
+    		});
+    	});
+    	
     	function boardDeleteCheck() {
 			if(confirm("정말 게시글을 삭제하시겠습니까?"))
 				location.href = "${ctp}/community/cmtyBoardDeleteCheck?boardIdx=${boardVo.idx}&category=${category}&pag=${pag}&pageSize=${pageSize}&search=${search}&searchString=${searchString}";
@@ -266,18 +279,17 @@
     
     	
     	$(document).on('keyup', '.text_box textarea', function () {
-	    	$('.text_box textarea').keyup(function(){
-	    		const content = $(this).val();
-	    		const $countSpan = $(this).siblings('.count').find('span');
+    	    const content = $(this).val();
+    	    const $countSpan = $(this).siblings('.input').find('.count span');
 
-	    		  $countSpan.text(content.length);
-	    		  
-	    		  if (content.length > 200){
-	    		    alert("최대 200자까지 입력 가능합니다.");
-	    		    $(this).val(content.substring(0, 200));
-	    		    $('.text_box .count span').html(200);
-	    		 }
-	    	});
+    	    $countSpan.text(content.length);
+
+    	    if (content.length > 200) {
+    	        alert("최대 200자까지 입력 가능합니다.");
+    	        const trimmed = content.substring(0, 200);
+    	        $(this).val(trimmed);
+    	        $countSpan.text(200);
+    	    }
     	});
     	
     	
@@ -322,115 +334,11 @@
         	});
         }
     </script>
-    <style>
-    	textarea {
-	        width: 100%;
-	        box-sizing: border-box;
-	        resize: none;
-     	 }
-    
-    	#main{
-    		min-width: 80%; 	
-    		margin-top: 30px;	
-    	}	
-    	
-    	#info{
-    		display: flex;
-    		justify-content: space-between;
-    	}
-    	
-    	.right span{
-    		margin-right: 5px;
-    	}
-    	
-    	#cmty_content{
-    		min-height: 250px;
-    	}
-    	#cmty_content img{
-    		max-width: 100%;
-    	}
-    	
-    	.like button{
-    		background-color: transparent;
-    		border: none;
-    	}
-
-    	.low-bar, .high-bar{
-    		display: flex;
-    		justify-content: space-between;
-    	}
-    	.low-bar span{
-    		text-align: center;
-    	}
-    	
-    	#comment{
-    	    border-top: 1px solid black;   
-    	    margin-top: 10px;
-    	}
-    	.cmt_item{
-    	    width: 100%;
-    		border-bottom: 1px solid black; 		
-    		padding: 10px 20px;
-    		min-height: 60px;
-    	}
-    	.cmt_info{
-    		margin-bottom: 12px;
-    	}
-    	.cmt_input{
-    		margin-top: 12px;
-    	}
-    	.cmt_content{
-    		margin-bottom: 12px;
-    	}
-    	.cmt_content textarea{
-    		border: 1px solid black;
-    		border-radius: 15px;
-    		width: 100%;
-    		height: 95px;
-    		padding: 5px 8px;    		
-    	}
-    	
-    	.reply{
-    	   	background-color: rgb(240, 240, 240);
-    	   	display: none;
-    	}
-    	.reply_item{
-    		margin: 0px 30px;
-    		padding: 17px 0px;
-    	}
-    	.reply_item:nth-child(n+2){
-    		border-top: 1px solid black; 		
-    	}
-    	.reply_info{
-    		margin-bottom: 8px;
-    	}
-    	.reply_content{
-    		/* margin-bottom: 8px; */
-    	}
-    	.reply_content textarea{
-    		border: 1px solid black;
-    		border-radius: 15px;
-    		width: 100%;
-    		height: 75px;
-    		padding: 5px 8px;    		
-    	}
-    	.reply_input{
-    		    padding: 20px 10px;
-    			border-top: 1px solid black;
-    			margin-top: 20px;
-    	}
-    	.reply_input .text_box{
-    		margin-top: 5px;
-    	}  	
-    	.text_box .input{
-    		display: flex;
-    		justify-content: space-between;
-    	}  	
-    </style>
+    <link rel="stylesheet" href="${ctp}/css/cmtyContent.css">
 </head>
 <body>
     <div id="main">
-    	<span id="category"></span>
+    	<span id="category">${boardVo.categoryName }</span>
 		<div id="board">
 			<h3>${boardVo.title }</h3>
 			<div id="info">
@@ -444,47 +352,51 @@
 					</span>
 				</div>
 				<div class="right">
-					<span>조회${boardVo.viewCount}</span>
-					<span>추천${boardVo.likeCount}</span>
-					<span>댓글${boardVo.commentCount}</span>
+					<span>조회 ${boardVo.viewCount}</span>
+					<span>추천 ${boardVo.likeCount}</span>
+					<span>댓글 ${boardVo.commentCount}</span>
 				</div>
 			</div>
 			<div id="social-actions">
-				<button id="sa_share-button"><i class="fa-solid fa-share-nodes"></i></button>	<!-- 공유 -->
+				<!-- 공유 -->
+				<a href="#" id="copyLink" title="링크 복사">
+  					<i class="fa-solid fa-lg fa-share-nodes"></i>
+				</a>
+				<div id="copyMsg">📋 링크가 복사되었습니다!</div>
 				<!-- 신고 -->
-				<a href="#" data-bs-toggle="modal" data-bs-target="#myModal" class="btn btn-danger"><i class="fa-solid fa-triangle-exclamation"></i></a>	
+				<a href="#" data-bs-toggle="modal" data-bs-target="#myModal"><i class="fa-solid fa-lg fa-triangle-exclamation"></i></a>	
 			</div>
 			<div id="cmty_content">
 				${fn:replace(boardVo.content, newLine, "<br/>")}
 			</div>
 			<!-- right 공유/ -->
 			<div class="low-bar">
-			<div class="left">
-				
-			<!-- 좋아요 -->
-			<div class="like">
-				<button onclick="likesCheck('board', this, ${boardVo.idx}, '', '', 0)">
-					<span class="board-like_icon">
-						<c:if test="${empty boardLikesVo}">
-							<i class="fa-regular fa-lg fa-heart"></i>
-						</c:if>
-						<c:if test="${!empty boardLikesVo }">
-							<i class="fa-solid fa-lg fa-heart" style="color: red;"></i>
-						</c:if>
-					</span>
-					<span class="board-like_count">${boardVo.likeCount}</span>
-				</button>
-			</div>
-			<!-- 좋아요 끝 -->
+				<div class="left">
 					
-			</div>
-			<div class="right">
-				<c:if test="${sMemberId == boardVo.memberId}">
-					<input type="button" value="목록" onclick="location.href='${ctp}/community/cmtyMain?category=${category}&pag=${pag}&pageSize=${pageSize}&search=${search}&searchString=${searchString}'">
-					<input type="button" value="수정" onclick="location.href='${ctp}/community/cmtyBoardUpdate?boardIdx=${boardVo.idx}&category=${category}&pag=${pag}&pageSize=${pageSize}&search=${search}&searchString=${searchString}'">
-					<input type="button" value="삭제" onclick="boardDeleteCheck()">
-				</c:if>
-			</div>
+					<!-- 좋아요 -->
+					<div class="like">
+						<button onclick="likesCheck('board', this, ${boardVo.idx}, '', '', 0)">
+							<span class="board-like_icon">
+								<c:if test="${empty boardLikesVo}">
+									<i class="fa-regular fa-lg fa-heart"></i>
+								</c:if>
+								<c:if test="${!empty boardLikesVo }">
+									<i class="fa-solid fa-lg fa-heart" style="color: red;"></i>
+								</c:if>
+							</span>
+							<span class="board-like_count">${boardVo.likeCount}</span>
+						</button>
+					</div>
+					<!-- 좋아요 끝 -->
+						
+				</div>
+				<div class="right">
+					<c:if test="${sMemberId == boardVo.memberId}">
+						<input type="button" value="목록" onclick="location.href='${ctp}/community/cmtyMain?category=${category}&pag=${pag}&pageSize=${pageSize}&search=${search}&searchString=${searchString}'">
+						<input type="button" value="수정" onclick="location.href='${ctp}/community/cmtyBoardUpdate?boardIdx=${boardVo.idx}&category=${category}&pag=${pag}&pageSize=${pageSize}&search=${search}&searchString=${searchString}'">
+						<input type="button" value="삭제" onclick="boardDeleteCheck()">
+					</c:if>
+				</div>
 			</div>
 			<div id="comment">
 				<div id="cmt_list">
@@ -602,9 +514,10 @@
 										</c:forEach>
 									</c:if>
 								<div class="reply_input">
+									<span class="cmt_info-icon"><i class="fa-solid fa-lg fa-circle-user"></i></span>
 									<span class="nickname">${sNickname}</span>
 									<div class="text_box">
-										<textarea name="reply_content${cmtSt.index}" id="reply_content${cmtSt.index}" placeholder="답글을 입력하세요." maxlength="150"></textarea>
+										<textarea name="reply_content${cmtSt.index}" id="reply_content${cmtSt.index}" placeholder="답글을 입력하세요." maxlength="200"></textarea>
 										<div class="input">
 											<div class="count"><span>0</span>/200</div>														
 											<input type="button" value="등록" onclick="replyInput(${cmtVo.idx},${cmtSt.index})">
@@ -616,6 +529,7 @@
 						<!-- 답글 끝 -->
 						</c:forEach>
 						<div class="cmt_input">
+							<span class="cmt_info-icon"><i class="fa-solid fa-lg fa-circle-user"></i></span>
 							<span class="nickname">${sNickname}</span>
 							<div class="text_box">
 								<textarea name="cmt_content" id="cmt_content" placeholder="답글을 입력하세요." maxlength="200"></textarea>
@@ -628,6 +542,7 @@
 					</div>
 				</div>
 			</div>
+					
 			
 					<!-- The Modal -->
 					<div class="modal fade" id="myModal">

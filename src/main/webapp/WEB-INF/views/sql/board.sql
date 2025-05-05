@@ -24,6 +24,7 @@ create table board(
 	item_text				text,
 	item_datetime1		datetime,
 	item_datetime2		datetime,
+	item_tinyint			tinyint,
 	
 	primary key (idx),
   	foreign key (member_id) references member(member_id),

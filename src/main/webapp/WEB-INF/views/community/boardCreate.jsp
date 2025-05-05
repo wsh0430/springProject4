@@ -61,9 +61,25 @@
     	
     	#category{
     		display: flex;
+    		justify-content: space-between;
+    		margin-bottom: 10px;
     	}
     	#sub-category{
     		margin-left: 10px;
+    	}
+    	#title{
+    		padding: 5px 8px;
+    		height: 50px;
+    		line-height: 36px;
+    		white-space: nowrap;
+    		overflow-y: hidden;
+    	}
+    	#category .right input{
+    		width: 80px;
+    		background-color: white;
+    		border: 0.5px solid #FF5E57;
+    		border-radius: 10px;
+    		color: #FF5E57;
     	}
     </style>
 </head>
@@ -71,24 +87,29 @@
     <div id="main">
     	<form name="myform" method="post">    		
 			<div id="category">
-				<!-- main카테고리 -->
-				<div id="main-category">
-					<select name="mainCategory" id="mc">
-						<c:forEach var="mcVo" items="${mainCtgyVos}">
-				  	  		<option value="${mcVo.name}">${mcVo.name}</option>
-				  		</c:forEach>
-				  	</select>
-			  	</div>
-			  	
-			  	<!-- sub카테고리  -->
-			  	<div id="sub-category" style="display: none;">
-					<select name="subCategory" id="sc">
-				  	</select>
+				<div class="left">
+					<!-- main카테고리 -->
+					<div id="main-category">
+						<select name="mainCategory" id="mc">
+							<c:forEach var="mcVo" items="${mainCtgyVos}">
+					  	  		<option value="${mcVo.name}">${mcVo.name}</option>
+					  		</c:forEach>
+					  	</select>
+				  	</div>
+				  	
+				  	<!-- sub카테고리  -->
+				  	<div id="sub-category" style="display: none;">
+						<select name="subCategory" id="sc">
+					  	</select>
+					</div>		
+				</div>
+				<div class="right">
+					<input type="submit" value="발행">
 				</div>
 			</div>
 			
-			<textarea name="title" id="title" placeholder="제목을 입력해주세요." required></textarea>
-			<div>
+			<textarea name="title" id="title" placeholder="제목을 입력해주세요." maxlength="80" required></textarea>
+			<div id="bc_content">
 				<textarea name="content" id="CKEDITOR" placeholder="내용을을 입력해주세요."></textarea>
 				 <script>
 		            CKEDITOR.replace("content",{
@@ -99,7 +120,6 @@
 		            });
 		         </script>
 			</div>
-			<input type="submit" value="발행">
     	</form>
 	</div>
 </body>

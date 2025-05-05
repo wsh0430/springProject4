@@ -19,6 +19,7 @@ import com.spring.springProject4.service.AdminService;
 import com.spring.springProject4.vo.BoardVo;
 import com.spring.springProject4.vo.CategoryVo;
 import com.spring.springProject4.vo.ChartVo;
+import com.spring.springProject4.vo.MemberVo;
 import com.spring.springProject4.vo.PageVo;
 import com.spring.springProject4.vo.StatDataVo;
 
@@ -79,7 +80,6 @@ public class AdminController {
 				} 
 				
 				// vos자료를 차트에 표시처리가 잘 되지 않을경우에는 각각의 자료를 다시 편집해서 차트로 보내줘야 한다.
-				String[] dates = new String[day];
 				Integer[] counts = new Integer[day];
 
 				for(int i=0; i<day; i++) {
@@ -116,13 +116,6 @@ public class AdminController {
 	public int getChartNumPost(Model model, int day) {
 		model.addAttribute("day", day);	
 		return 1;
-	}
-	
-	@RequestMapping(value="/memberManager", method=RequestMethod.GET)
-	public String memberManagerGet(Model model) {
-		
-		
-		return "admin/memberManager";
 	}
 
 	@RequestMapping(value="/boardManager", method=RequestMethod.GET)
@@ -171,26 +164,44 @@ public class AdminController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="/deleteBoard", method=RequestMethod.POST)
-	public int deleteBoardPost(int idx) {
-		return adminService.setDeleteBoard(idx);
+	@RequestMapping(value="/deleteMItem", method=RequestMethod.POST)
+	public int deleteMItemPost(int idx, String part) {
+		return adminService.setDeleteMItem(part, idx);
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="/updateToggleBoard", method=RequestMethod.POST)
-	public int updateToggleBoardPost(int idx, String part) {
-		if(part == null || part.equals("")) {
-			BoardVo vo = adminService.getBoardVo(idx);
-			
-			int res = adminService.setUpdateToggleCheckedBoard(idx, vo.getHideCheck());
-			if(res == 1) {
-				return adminService.getBoardVo(idx).getHideCheck();
-			}
-			else return -1;
-		} 
-		else{
-			return adminService.setUpdateToggleBoard(idx, part);
-		} 
+	@RequestMapping(value="/updateToggleMItem", method=RequestMethod.POST)
+	public int updateToggleMItemPost(int idx, String part, String toggle) {
+		if(part.equals("board")) {
+			if(toggle == null || toggle.equals("")) {
+				BoardVo vo = adminService.getBoardVo(idx);
+				
+				int res = adminService.setUpdateToggleCheckedBoard(idx, vo.getHideCheck());
+				if(res == 1) {
+					return adminService.getBoardVo(idx).getHideCheck();
+				}
+				else return -1;
+			} 
+			else{
+				return adminService.setUpdateToggleBoard(idx, toggle);
+			} 
+		}
+		else if(part.equals("comment")) {
+			if(toggle == null || toggle.equals("")) {
+				BoardVo vo = adminService.getBoardVo(idx);
+				
+				int res = adminService.setUpdateToggleCheckedBoard(idx, vo.getHideCheck());
+				if(res == 1) {
+					return adminService.getBoardVo(idx).getHideCheck();
+				}
+				else return -1;
+			} 
+			else{
+				return adminService.setUpdateToggleBoard(idx, part);
+			} 
+		}
+		
+		return 0;
 	}
 	
 	@RequestMapping(value="/commentManager", method=RequestMethod.GET)
@@ -203,27 +214,43 @@ public class AdminController {
 			@RequestParam(name="lastDate", defaultValue = "", required = false) String lastDate
 			) {
 		
-		// 카테고리
-			List<CategoryVo> mainCtgyVos = adminService.getMainCategoryVos();	// 메인 카테고리vos
-			List<CategoryVo> subCtgyVos = null; 
-			List<List<CategoryVo>> subCtgyList = new ArrayList<>();	//서브 카테고리
-			for(int i = 0; i < mainCtgyVos.size(); i++) {
-				subCtgyVos = adminService.getSubCategoryVos(mainCtgyVos.get(i).getName());	//서브 카테고리vos
-				subCtgyList.add(subCtgyVos);
-			}
-	
 		// 페이지
-		PageVo pageVo = pagination.getTotRecCnt("", pag,pageSize,"community",search,searchString, startDate, lastDate);	// (페이지번호,한 페이지분량,section,part,검색어)
+		PageVo pageVo = pagination.getTotRecCnt("", pag,pageSize,"adminCommentManager",search,searchString, startDate, lastDate);	// (페이지번호,한 페이지분량,section,part,검색어)
 		
 //		List<BoardVo> boardVos = adminService.getBoardVos(category, pageVo.getStartIndexNo(), pageVo.getPageSize(), search, searchString, startDate, lastDate);
 		List<BoardVo> commentVos = adminService.getCommentVos(pageVo.getStartIndexNo(), pageVo.getPageSize(), search, searchString, startDate, lastDate);
-		
 		
 		model.addAttribute("commentVos", commentVos);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("startDate", startDate);
 		model.addAttribute("lastDate", lastDate);
 		
-		return "admin/boardManager";
+		return "admin/commentManager";
+		
+	}
+
+	@RequestMapping(value="/memberManager", method=RequestMethod.GET)
+	public String memberManagerGet(Model model,
+			@RequestParam(name="pag", defaultValue = "1", required = false) int pag,
+			@RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize,
+			@RequestParam(name="search", defaultValue = "", required = false) String search,
+			@RequestParam(name="searchString", defaultValue = "", required = false) String searchString,
+			@RequestParam(name="startDate", defaultValue = "", required = false) String startDate,
+			@RequestParam(name="lastDate", defaultValue = "", required = false) String lastDate
+			) {
+
+		
+		// 페이지
+		PageVo pageVo = pagination.getTotRecCnt("", pag,pageSize,"adminMemberManager",search,searchString, startDate, lastDate);	// (페이지번호,한 페이지분량,section,part,검색어)
+		
+	//		List<BoardVo> boardVos = adminService.getBoardVos(category, pageVo.getStartIndexNo(), pageVo.getPageSize(), search, searchString, startDate, lastDate);
+		List<MemberVo> memberVos = adminService.getMemberVos(pageVo.getStartIndexNo(), pageVo.getPageSize(), search, searchString, startDate, lastDate);
+		
+		model.addAttribute("memberVos", memberVos);
+		model.addAttribute("pageVo", pageVo);
+		model.addAttribute("startDate", startDate);
+		model.addAttribute("lastDate", lastDate);
+		
+		return "admin/memberManager";
 	}
 }

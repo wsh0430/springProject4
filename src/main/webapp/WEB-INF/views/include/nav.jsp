@@ -48,7 +48,7 @@
 						<li><a href="#" onclick="showSidebar('team')">팀 기록실</a></li>
 					</ul>
 				</li>	
-				<li><a href="#">분석실</a></li>
+				<li><a href="${ctp}/admin/dashBoard">분석실</a></li>
 				<li><a href="#">선수</a></li>
 				<li><a href="#">구단</a></li>
 				<li><a href="${ctp}/community/cmtyMain">커뮤니티</a></li>

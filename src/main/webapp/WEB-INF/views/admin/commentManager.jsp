@@ -8,118 +8,116 @@
     <meta charset="UTF-8">
     <title>HitBox 게시글 관리</title>
     <jsp:include page="/WEB-INF/views/include/bs5.jsp" />
-    <script>
+        <script>
 	    $(function() {
 	    	function toggleButton() {
-	          const hasChecked = $('.bl_checkbox:checked').length > 0;
-	          $('#b_hide-all-button').toggle(hasChecked);
-	          $('#b_show-all-button').toggle(hasChecked);
-	          $('#b_delete-all-button').toggle(hasChecked);
+	          const hasChecked = $('.ml_checkbox:checked').length > 0;
+	          $('#m_hide-all-button').toggle(hasChecked);
+	          $('#m_show-all-button').toggle(hasChecked);
+	          $('#m_delete-all-button').toggle(hasChecked);
 	        }
-	    	$('.bl_checkbox').on('change', toggleButton);
-	    	
+	    	$('.ml_checkbox').on('change', toggleButton);
 	    	
 	        // 전체 선택 클릭 시, 개별 체크박스 전부 체크/해제
 	        $('#select-all').on('change', function() {
-	          $('.bl_checkbox').prop('checked', this.checked);
+	          $('.ml_checkbox').prop('checked', this.checked);
 	          toggleButton();
 	        });
 	
 	        // 개별 체크박스 변경 시 전체 선택 상태 동기화
-	        $('.bl_checkbox').on('change', function() {
-	          const allChecked = $('.bl_checkbox').length === $('.bl_checkbox:checked').length;
+	        $('.ml_checkbox').on('change', function() {
+	          const allChecked = $('.ml_checkbox').length === $('.ml_checkbox:checked').length;
 	          $('#select-all').prop('checked', allChecked);
 	        });	
 	        
           	toggleButton();
 	     });
 	    
-	    
-	    function deleteComment(content, idx) {
-			if(!confirm("댓글("+content+")을 정말 삭제하시겠습니까?"))
-				return false;
-			
-			$.ajax({
-				url: '${ctp}/admin/deleteComment',  
-    	        type: 'post',
-    	        data: { idx: idx },
-    	        success:function(res){
-    	        	if(res == 1){
-    	        		alert("게시글("+content+")이 삭제되었습니다.");
-    	        		location.reload();
-    	        	}
-    	        	else{ alert("잠시 후 다시 시도해주세요."); }
-    	        },
-    	        error: function() {
-					alert("댓글 삭제 중 오류가 발생하였습니다.");
-				}
-			});
-		}
-	    
-	    function deleteAllComment() {
-			if(!confirm("선택된 댓글을 정말 삭제하시겠습니까?"))
-				return false;
-			
-			$.ajax({
-				url: '${ctp}/admin/deleteComment',  
-    	        type: 'post',
-    	        data: { idx: idx },
-    	        success:function(res){
-    	        	if(res == 1){
-    	        		alert("게시글("+title+")이 삭제되었습니다.");
-    	        		location.reload();
-    	        	}
-    	        	else{ alert("잠시 후 다시 시도해주세요."); }
-    	        },
-    	        error: function() {
-					alert("게시글 삭제 중 오류가 발생하였습니다.");
-				}
-			});
-		}
-	    
-	    function updateToggleBoard(title, idx) {	    	
-	    	let div = $("#bi_toggle-button"+idx);
-	    	let stats = $("#bi_stats"+idx);
-	    	
-	    	
-	    	$.ajax({
-	    		url: '${ctp}/admin/updateToggleBoard',  
-    	        type: 'post',
-    	        data: { idx: idx },
-    	        success:function(res){
-    	        	if(res == 1){
-    	        		// 숨겨짐 처리 == 버튼은 보이기로 바뀜
-    	        		div.html('<input type="button" id="bi_show-button'+idx+'" value="보이기" onclick="updateToggleBoard(\''+title+'\', '+idx+')">');	        		
-    	        		if(!stats.text().includes("숨겨짐"))
-    	        			stats.text("숨겨짐 "+ stats.text());
+	    $(document).ready(function() {
+	    	 $('#sb_mc').change(function() {
+	    	    let selectedValue = $(this).val();
+
+	    	    // 선택된 값이 있을 때만 AJAX 요청
+	    	    if (selectedValue) {
+	    	      $.ajax({
+	    	        url: '${ctp}/admin/getSubCategory',  // 데이터를 받아올 URL
+	    	        type: 'get',
+	    	        data: { categoryName: selectedValue },
+	    	        dataType: 'json',
+	    	        success: function(res) {
+    	        		let string = "";
+    	        		
+    	        		if(selectedValue != '전체')
+    	        			$('#sb_sub-category').show();
     	        		else
-    	        			stats.text(stats.text());
-    	        	}
-    	        	else if(res == 0){
-    	        		// 숨겨짐 처리 == 버튼은 숨겨짐으로 바뀜
-    	        		div.html('<input type="button" id="bi_show-button'+idx+'" value="숨김" onclick="updateToggleBoard(\''+title+'\', '+idx+')">');	        		
-    	        		if(stats.text().includes("숨겨짐")){
-    	        			if(stats.text().includes("신고됨"))
-    	        				stats.text("신고됨");
-    	        			else if(!stats.text().includes("신고됨"))
-    	        				stats.text("");
-    	        		}
+    	        			$('#sb_sub-category').hide();
+    	        			
+    	        		res.forEach(function(item) {
+    	        			string += '<option value="'+item.name+'">'+item.name+'</option>';
+    	        		});
+
+    	        		
+    	        		$('#sb_sc').html(string);
+	    	        	
+	    	        },
+	    	        error: function(xhr, status, error) {
+	    	          $('#sb_sub-category').html('<p>오류가 발생했습니다.</p>');
+	    	        }
+	    	      });
+	    	    } else {
+	    	      $('#sb_sub-category').empty(); // 선택이 비워지면 div도 초기화
+	    	      $('#sb_sub-category').hide();
+	    	    }
+	    	  });
+	    	});
+	    
+	    function deleteMItem(part , title, idx) {
+	    	let target = '';
+	    	let url = 'deleteMItem';
+	    	
+	    	if(title > 25) title = title.substring(0,25);
+	    	
+	    	if(part == 'board') target = '게시글';
+	    	else if(part == 'comment') target = '댓글';
+	    	
+			if(!confirm(target+"("+title+")을 정말 삭제하시겠습니까?"))
+				return false;
+			
+			$.ajax({
+				url: '${ctp}/admin/'+url,  
+    	        type: 'post',
+    	        data: { 
+    	        	idx: idx,
+    	        	part: part
+    	        },
+    	        success:function(res){
+    	        	if(res == 1){
+    	        		alert(target+"("+title+")이 삭제되었습니다.");
+    	        		location.reload();
     	        	}
     	        	else{ alert("잠시 후 다시 시도해주세요."); }
     	        },
     	        error: function() {
-					alert("게시글 토글 중 오류가 발생하였습니다.");
+					alert(target+" 삭제 중 오류가 발생하였습니다.");
 				}
-	    	});
+			});
 		}
 	    
-	    function updateToggleAllBoard(part) {	    	
-	    	let div = $("#bi_toggle-button");
+	    function deleteCheckedAllMItem(part) {
+	    	let target = '';
+	    	let url = 'deleteMItem';
 	    	
+	    	if(part == 'board') target = '게시글';
+	    	else if(part == 'comment') target = '댓글';
+	    	
+			if(!confirm("선택된 "+target+"을 정말 삭제하시겠습니까?"))
+				return false;
+			
+
 	    	$('input[type="checkbox"]:checked').not('#select-all').each(function(){
 	    		let idx = $(this).attr('id');
-		    	$.ajax({
-		    		url: '${ctp}/admin/updateToggleBoard',  
+				$.ajax({
+					url: '${ctp}/admin/'+url,  
 	    	        type: 'post',
 	    	        data: { 
 	    	        	idx: idx,
@@ -127,89 +125,38 @@
 	    	        },
 	    	        success:function(res){
 	    	        	if(res == 1){
-	    	        		let stats = $("#bi_stats"+idx);
-	    	        		
-		    	        	if(part == 'hide'){
-		    	        		// 숨겨짐 처리 == 버튼은 보이기로 바뀜
-		    	        		div.html('<input type="button" id="bi_show-button'+idx+'" value="보이기" onclick="updateToggleBoard(\''+title+'\', '+idx+')">');	        		
-		    	        		if(!stats.text().includes("숨겨짐"))
-		    	        			stats.text("숨겨짐 "+ stats.text());
-		    	        	}
-		    	        	else if(part == 'show'){
-		    	        		// 숨겨짐 처리 == 버튼은 숨겨짐으로 바뀜
-		    	        		div.html('<input type="button" id="bi_hide-button'+idx+'" value="숨김" onclick="updateToggleBoard(\''+title+'\', '+idx+')">');	        		
-		    	        		if(stats.text().includes("숨겨짐")){
-		    	        			if(stats.text().includes("신고됨"))
-		    	        				stats.text("신고됨");
-		    	        			else if(!stats.text().includes("신고됨"))
-		    	        				stats.text("");
-		    	        		}
-		    	        	}
+	    	        		alert(idx+"번 "+target+"이 삭제되었습니다.");
+	    	        		location.reload();
 	    	        	}
 	    	        	else{ alert("잠시 후 다시 시도해주세요."); }
 	    	        },
 	    	        error: function() {
-						alert("게시글 토글 중 오류가 발생하였습니다.");
+						alert(target+ " 삭제 중 오류가 발생하였습니다.");
 					}
-		    	});
+				});
 	    	});
 		}
     </script>
-    <style>
-    	#view_type-bar{
-    		width: 100%;
-    		height: 60px;
-    	}
-    	#board-list{
-    		width: 100%;
-    		text-align: center;
-    	}
-    	#board-list tr:not(:first-of-type) td:nth-of-type(3) {
-    		text-align: left;	
-    		margin-left: 10px;
-    	}
-    	
-    	#board-bar{
-    		display: flex;
-    		justify-content: space-between;
-    	}
-    	#br_control-panel{
-    		margin-right: 10px;
-    	}
-    	#sb_category{
-    		display: flex;
-    	}
-    	#sb_main-category{
-    		margin-right: 10px;
-    	}
-    	.bi_btn{
-    		display: flex;
-    		justify-content: center;
-    	}
-    	.bi_btn div{
-    		margin-right: 10px;
-    	}
-    	
-    </style>
+    <link rel="stylesheet" href="${ctp}/css/manager.css">
 </head>
 <body>
 	<div id="title"><h2>댓글 관리</h2></div>
 	<div id="view-control">
 		<input type="button" value="전체목록" onclick="location.href='${ctp}/admin/commentManager'">
-		<span>${curCategory}</span>
+		<%-- <span>${curCategory}</span> --%>
 	</div>
 	<div id="info-box">
 	
 	</div>
-	<div id="comment-bar">
+	<div id="manager-bar">
 		<form name="searchForm" method="get">
 			<div id="search-box">
 				<div id="date-filter">
-					  <label for="df_start-date">시작일:</label>
-					  <input type="date" id="df_start-date" name="df_start-date">
+					  <label for="startDate">시작일:</label>
+					  <input type="date" id="df_start-date" name="startDate">
 					
-					  <label for="df_end-date">종료일:</label>
-					  <input type="date" id="df_end-date" name="df_end-date">
+					  <label for="lastDate">종료일:</label>
+					  <input type="date" id="df_end-date" name="lastDate">
 				</div>
 				<div id="search-bar">				
 					<select name="search" id="search">
@@ -225,56 +172,47 @@
 				</div>
 			</div>
 		</form>
-			<div id="br_control-panel">
-				<input type="button" id="b_hide-all-button" value="숨김" onclick="updateToggleAllBoard('hide')" style="display: none;">
-				<input type="button" id="b_show-all-button" value="보이기" onclick="updateToggleAllBoard('show')" style="display: none;">
-				<input type="button" id="b_delete-all-button" value="삭제" onclick="deleteCheckedAllBoard()" style="display: none;">
+			<div id="m_control-panel">
+				<input type="button" id="m_delete-all-button" value="삭제" onclick="deleteCheckedAllMItem('comment')" style="display: none;">
 			</div>
 	</div>
-	<div id="board-box">
-		<table id="board-list">
+	<div id="manager-box">
+		<table id="m-list">
 			<tr>
 			  <th style="width: 4%"><input type="checkbox" id="select-all"></th>
-			  <th style="width: 8%">게시글Id</th>
+			  <th style="width: 8%">게시글</th>
 			  <th style="width: 40%">제목</th>
 			  <th style="width: 8%">작성자</th>
 			  <th style="width: 10%">업로드</th>
-			  <th style="width: 6%">추천수</th>
+			  <th style="width: 6%">부모</th>
 			  <th style="width: 6%">추천수</th>
 			  <th style="width: 8%">상태</th>
 			  <th style="width: 10%">관리</th>
 			</tr>
 			<c:forEach var="cmtVo" items="${commentVos}">
-				<tr style="background-color: gray;">
-					<td><input type="checkbox" class="bl_checkbox" id="${cmtVo.idx}"></td>
-					<td>${cmtVo.boardId}</td>
+				<tr style="background-color: #e2e2e2;">
+					<td><input type="checkbox" class="ml_checkbox" id="${cmtVo.idx}"></td>
+					<td style="text">${cmtVo.parentId}</td>
     				<td>
-    					<a href="cmtyContent?boardIdx=${cmtVo.boardId}">
+    					<a href="${ctp}/community/cmtyContent?boardIdx=${cmtVo.boardId}">
     						${cmtVo.content}
     					</a>
     				</td>
-    				<td>${bVos.memberNickname}</td>
+    				<td>${cmtVo.memberNickname}</td>
     				<td style="font-size: 12px;">
-						<c:if test="${bVos.hourDiff <= 24}">
-        					${bVos.dateDiff == 0 ? fn:substring(bVos.createdAt,11,19) : fn:substring(bVos.createdAt,0,19)}
-       					</c:if>     					
-						<c:if test="${bVos.hourDiff > 24}">${fn:substring(bVos.createdAt,0,10)}</c:if>
+						<c:if test="${cmtVo.createdAt == cmtVo.updateAt}">${fn:substring(cmtVo.createdAt,0,19)}</c:if>						
+						<c:if test="${cmtVo.createdAt != cmtVo.updateAt}"> ${fn:substring(cmtVo.updateAt,0,16)}(수정됨)</c:if>
     				</td>
-    				<td>${bVos.viewCount}</td>
-    				<td>${bVos.likeCount}</td>
+					<td>${cmtVo.boardId}</td>
+    				<td>${cmtVo.likeCount}</td>
     				<td>
-    					<div id="bi_stats${bVos.idx}">
-	    					<c:if test="${bVos.hideCheck == 1}">숨겨짐</c:if>
-	    					<c:if test="${bVos.reportCount >= 30}">신고됨</c:if>
+    					<div id="mi_stats${cmtVo.idx}">
+	    					<c:if test="${cmtVo.reportCount >= 30}">신고됨</c:if>
     					</div>
     				</td>
     				<td>
-    					<div class="bi_btn">
-	    					<div id="bi_toggle-button${bVos.idx}">					
-		    					<c:if test="${bVos.hideCheck == 0}"><input type="button" id="bi_hide-button${bVos.idx}" value="숨김" onclick="updateToggleBoard('${bVos.title}', ${bVos.idx})"></c:if>
-		    					<c:if test="${bVos.hideCheck != 0}"><input type="button" id="bi_show-button${bVos.idx}" value="보이기" onclick="updateToggleBoard('${bVos.title}', ${bVos.idx})"></c:if>
-	    					</div>
-	    					<input type="button" id="bi_delete-button" value="삭제" onclick="deleteBoard('${bVos.title}', ${bVos.idx})">
+    					<div class="mi_btn">
+	    					<input type="button" id="mi_delete-button" value="삭제" onclick="deleteMItem('comment','${cmtVo.content}', ${cmtVo.idx})">
     					</div>
     										
     				</td>
@@ -284,14 +222,14 @@
 		<!-- 블록페이지 시작 -->
 		<div class="text-center block-page">
 		  <ul class="pagination justify-content-center">
-		    <c:if test="${pageVo.pag > 1}"><li class="page-item"><a class="page-link text-secondary" href="boardManager?category=${category}&pag=1&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}&startDate=${startDate}&lastDate=${lastDate}">첫페이지</a></li></c:if>
-		  	<c:if test="${pageVo.curBlock > 0}"><li class="page-item"><a class="page-link text-secondary" href="boardManager?category=${category}&pag=${(curBlock-1)*blockSize+1}&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}&startDate=${startDate}&lastDate=${lastDate}">이전블록</a></li></c:if>
+		    <c:if test="${pageVo.pag > 1}"><li class="page-item"><a class="page-link text-secondary" href="commentManager&pag=1&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}&startDate=${startDate}&lastDate=${lastDate}">첫페이지</a></li></c:if>
+		  	<c:if test="${pageVo.curBlock > 0}"><li class="page-item"><a class="page-link text-secondary" href="commentManager&pag=1&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}&startDate=${startDate}&lastDate=${lastDate}">이전블록</a></li></c:if>
 		  	<c:forEach var="i" begin="${(pageVo.curBlock*pageVo.blockSize)+1}" end="${(pageVo.curBlock*pageVo.blockSize)+pageVo.blockSize}" varStatus="st">
-			    <c:if test="${i <= pageVo.totPage && i == pageVo.pag}"><li class="page-item active"><a class="page-link bg-secondary border-secondary" href="boardManager?category=${category}&pag=${i}&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}&startDate=${startDate}&lastDate=${lastDate}">${i}</a></li></c:if>
-			    <c:if test="${i <= pageVo.totPage && i != pageVo.pag}"><li class="page-item"><a class="page-link text-secondary" href="boardManager?category=${category}&pag=${i}&pageSize=${pageVo.pageSize}&startDate=${startDate}&lastDate=${lastDate}">${i}</a></li></c:if>
+			    <c:if test="${i <= pageVo.totPage && i == pageVo.pag}"><li class="page-item active"><a class="page-link bg-secondary border-secondary" href="commentManager&pag=1&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}&startDate=${startDate}&lastDate=${lastDate}">${i}</a></li></c:if>
+			    <c:if test="${i <= pageVo.totPage && i != pageVo.pag}"><li class="page-item"><a class="page-link text-secondary" href="commentManager&pag=1&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}&startDate=${startDate}&lastDate=${lastDate}">${i}</a></li></c:if>
 		  	</c:forEach>
-		  	<c:if test="${pageVo.curBlock < pageVo.lastBlock}"><li class="page-item"><a class="page-link text-secondary" href="boardManager?category=${category}&pag=${(pageVo.curBlock+1)*pageVo.blockSize+1}&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}&startDate=${startDate}&lastDate=${lastDate}">다음블록</a></li></c:if>
-		  	<c:if test="${pageVo.pag < pageVo.totPage}"><li class="page-item"><a class="page-link text-secondary" href="boardManager?category=${category}&pag=${pageVo.totPage}&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}&startDate=${startDate}&lastDate=${lastDate}">마지막페이지</a></li></c:if>
+		  	<c:if test="${pageVo.curBlock < pageVo.lastBlock}"><li class="page-item"><a class="page-link text-secondary" href="commentManager&pag=1&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}&startDate=${startDate}&lastDate=${lastDate}">다음블록</a></li></c:if>
+		  	<c:if test="${pageVo.pag < pageVo.totPage}"><li class="page-item"><a class="page-link text-secondary" href="commentManager&pag=1&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}&startDate=${startDate}&lastDate=${lastDate}">마지막페이지</a></li></c:if>
 		  </ul>
 		</div>
 		<!-- 블록페이지 끝 -->

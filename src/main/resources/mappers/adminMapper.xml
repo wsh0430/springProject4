@@ -50,7 +50,7 @@
 	</select>
 	
 	<select id="getBoardTotRecCntSearch" resultType="int">
-    	select count(*) from board where ${search} like concat('%', #{searchString}, '%') <if test="startDate != ''">and (created_at between #{startDate} and #{lastDate})</if>;
+    	select count(*) from board where ${part} like concat('%', #{searchString}, '%') <if test="startDate != ''">and (created_at between #{startDate} and #{lastDate})</if>;
   	</select>
 	
 	<select id="getBoardVos" resultType="com.spring.springProject4.vo.BoardVo">
@@ -89,8 +89,12 @@
 				limit #{startIndexNo}, #{pageSize}
 	</select>
 	
-	<select id="getCommentVos" resultType="com.spring.springProject4.vo.BoardVo">
-		select * from comment c <if test="search !='' || startDate != ''">where</if> <if test='search !=""'>${search} like concat('%',#{searchString},'%')</if> <if test="startDate != ''"><if test="search !=''">and</if> (created_at between #{startDate} and #{lastDate})</if> order by idx desc limit #{startIndexNo},#{pageSize};
+	<select id="getCommentVos" resultType="com.spring.springProject4.vo.CommentVo">
+		select * from comment <if test="search !='' || startDate != ''">where</if> <if test='search !=""'>${search} like concat('%',#{searchString},'%')</if> <if test="startDate != ''"><if test="search !=''">and</if> (created_at between #{startDate} and #{lastDate})</if> order by idx desc limit #{startIndexNo},#{pageSize};
+	</select>
+	
+	<select id="getMemberVos" resultType="com.spring.springProject4.vo.MemberVo">
+		select * from member <if test="search !='' || startDate != ''">where</if> <if test='search !=""'>${search} like concat('%',#{searchString},'%')</if> <if test="startDate != ''"><if test="search !=''">and</if> (created_at between #{startDate} and #{lastDate})</if> order by idx desc limit #{startIndexNo},#{pageSize};
 	</select>
 	
 	<select id="getMainCategoryVos" resultType="com.spring.springProject4.vo.CategoryVo">
@@ -110,13 +114,20 @@
 	</select>
 	
 	<select id="getCommentTotRecCnt" resultType="int">
-		 select count(*) from board
+		 select count(*) from comment;
 	</select>
 
 	<select id="getCommentTotRecCntSearch" resultType="int">
-		select count(*) from comment where ${search} like concat('%', #{searchString}, '%') and delete_check = 0;
+		select count(*) from comment where ${part} like concat('%', #{searchString}, '%') <if test="startDate != ''">and (created_at between #{startDate} and #{lastDate})</if>;
 	</select>
 
+	<select id="getMemberTotRecCnt" resultType="int">
+		 select count(*) from member;
+	</select>
+
+	<select id="getMemberTotRecCntSearch" resultType="int">
+		select count(*) from member where ${part} like concat('%', #{searchString}, '%') <if test="startDate != ''">and (start_date between #{startDate} and #{lastDate})</if>;
+	</select>
 
 
 
@@ -134,8 +145,10 @@
 
 
 	
-	<delete id="setDeleteBoard">
-		delete from board where idx = #{idx};
+	<delete id="setDeleteMItem">
+		<if test="part == 'board'">delete from board where idx = #{idx};</if>
+		<if test="part == 'comment'">delete from comment where idx = #{idx};</if>
+		<if test="part == 'member'">delete from member where idx = #{idx};</if>
 	</delete>
 
 </mapper>

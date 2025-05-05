@@ -20,6 +20,7 @@ public class MemberVo {
     private String likeTeam;
     private String icon;
     private String content;
+    private String birthday;    
     private String memberInfo;
     private String deleteCheck;
     private int point;

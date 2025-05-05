@@ -10,12 +10,23 @@
 <title>Hitbox  관리자메뉴</title> 
 <jsp:include page="/WEB-INF/views/include/nav.jsp" />
 <style>
-	#content{
+	#admin{
+		display: flex;
+		background-color: #f1f1f1; 
+		align-items: stretch;
+	}
+	
+	#admin_menu{
+		border-right: 1px solid black;	
+			
+	}
+
+	#admin_content{
 		display: flex;
 		flex-direction: column;
-		margin-left: 400px;
-		padding: 20px;
-		height: 100vh;
+		margin: 0px 50px;
+		padding: 20px 20px 80px 20px;
+		width: 100%;
 	}
 	
 	
@@ -23,8 +34,10 @@
 </head>
 <body>
 	<div id="admin">
-		<tiles:insertAttribute name="menu" />
-		<div id="content">
+		<div id="admin_menu">
+			<tiles:insertAttribute name="menu" />
+		</div>
+		<div id="admin_content">
 			<tiles:insertAttribute name="body" />
 		</div>
 	</div>

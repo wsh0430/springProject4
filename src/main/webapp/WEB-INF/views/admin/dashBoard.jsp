@@ -69,62 +69,7 @@
 		    	    chart.draw(data, google.charts.Line.convertOptions(options));
 	     }
 	</script>
-	<style>
-		#range-daily{
-			width: 40%;
-			height: 200px;
-			border-radius: 7px;
-			padding: 10px;
-			
-		}
-		
-		#rd_title{
-			margin: 10px 0px 10px 8px;
-		}
-	
-		.range-item{
-			display: flex;
-			flex-direction: column;
-			width: 120px;
-			height: 100px;
-			border: 1px solid black;
-			border-radius: 7px;
-			text-align: center;
-			margin-left: 10px;
-		}
-		
-		.ri_content{
-			display: flex;
-			flex-direction: column;
-		}
-		.ri_c-rate{
-			height: 50px;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			font-size: 2em;
-		}
-
-		#visit-chart{
-			width: 800px;		
-			margin: 55px 0px 0px 20px;
-			
-		}
-		#vc_material{
-			width: 800px;
-			height: 500px;
-		}
-		#vc_high-bar{
-			width: 600px;
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			margin-bottom: 10px;
-		}
-		#vc_select{
-			padding-top: 25px;
-		}
-	</style>
+ 	<link rel="stylesheet" href="${ctp}/css/dashBoard.css">
 </head>
 <body>
 	<div id="range-daily">

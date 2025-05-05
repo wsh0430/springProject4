@@ -106,8 +106,8 @@
 	   	
 	   	.ad_side{
 	   		min-width: 150px;
-	   		height: 300px;
-	   		margin: 200px 0px 0px 15px;
+	   		height: 400px;
+	   		margin: 200px 15px 0px 15px;
 	   	}
 	   	.ad_content{
 	   		width: 100%;

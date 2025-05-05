@@ -31,6 +31,9 @@ public class Pagination {
 //			searchString = searchString.split("/")[1];
 //		}
 		
+		System.out.println("section + " + section);
+		System.out.println("part + " + part);
+		
 		
 //		게시판을 분류하는 부분
 		if(section.equals("community")) {
@@ -44,6 +47,10 @@ public class Pagination {
 		else if(section.equals("adminCommentManager")) {
 			if(part.equals("")) totRecCnt = adminDao.getCommentTotRecCnt();
 			else totRecCnt = adminDao.getCommentTotRecCntSearch(part, searchString, startDate, lastDate);
+		}
+		else if(section.equals("adminMemberManager")) {
+			if(part.equals("")) totRecCnt = adminDao.getMemberTotRecCnt();
+			else totRecCnt = adminDao.getMemberTotRecCntSearch(part, searchString, startDate, lastDate);
 		}
 //		else if(section.equals("pds")) {
 //			totRecCnt = pdsDao.getPdsTotRecCnt(part);

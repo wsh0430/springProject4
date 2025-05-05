@@ -83,7 +83,6 @@ public class CommunityController {
 		return "community/main";
 	}
 	
-	@SuppressWarnings("null")
 	@RequestMapping(value="/cmtyContent", method=RequestMethod.GET)
 	public String cmtyContentGet(Model model, 
 			@RequestParam(name="boardIdx", defaultValue = "", required = false) int boardIdx,

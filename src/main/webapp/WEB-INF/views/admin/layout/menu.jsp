@@ -8,14 +8,10 @@
     <title>HitBox 대시보드</title>
     <style>
     	#admin--menu_bar{
-			position: fixed;
-	     	left: 0;
 	     	width: 350px;
-	     	height: 100vh;
 	     	display: flex;
 	     	flex-direction: column;
 	     	padding: 10px 20px;
-	     	border-right: 1px solid black;
 		}
 		
 		#a-mb_title{

@@ -16,98 +16,7 @@
     		location.href = "cmtyMain?pageSize="+pageSize;
    		 }
   </script>
-    <style>
-    	#main{
-    		min-width: 80%; 		
-    	}	
-    	
-    	#category{
-    		margin-bottom: 10px;
-    		margin-top: 10px;
-    	}
-    	
-    	.cmty_dropdown {
-		  background-color: gray;
-		  color: white;
-		  padding: 6px 12px;
-		  font-size: 16px;
-		  border: none;
-		}
-		.cmty_dropdown a{
-			text-decoration: none;
-		}
-		
-		.cmty_dropdown {
-		  position: relative;
-		  display: inline-block;
-		}
-		
-		.cmty_dropdown-content {
-		  display: none;
-		  position: absolute;
-		  background-color: #f1f1f1;
-		  min-width: 160px;
-		  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-		  z-index: 1;
-		}
-		
-		.cmty_dropdown-content a {
-		  color: black;
-		  padding: 12px 16px;
-		  text-decoration: none;
-		  display: block;
-		}
-		
-		.cmty_dropdown-content a:hover {background-color: #ddd;}
-		
-		.cmty_dropdown:hover .cmty_dropdown-content {display: block;}
-		
-		.cmty_dropdown:hover .cmty_dropbtn {background-color: #3e8e41;}
-    	
-    	#board{
-    		min-height: 20px;
-    	}
-    	.board_list{
-    		margin-bottom: 20px;
-    		width: 100%;
-    	}
-    	.board_list tr{
-    		border-bottom: 1px solid black;
-    	}
-    	
-    	.board_list tr:nth-child(1){
-    		background-color: #FF5E57;
-    	}
-    	.board_list tr:first-child th:first-child {
-		  border-top-left-radius: 13px;
-		}		
-		.board_list tr:first-child th:last-child {
-		  border-top-right-radius: 13px;
-		}
-    	
-    	.board_list tr, .board_list td{
-    		height: 40px;
-    		text-align: center;
-    	}
-    	.board_list td:nth-child(2){
-    		text-align: left;
-    		padding-left: 8px;
-    	}
-    	.board_list td:nth-child(2) a{
-    		text-decoration: none;
-    	}
-    	.board_list td:nth-child(2) a:hover{
-    		color: red;
-    	}
-    	
-    	.block-page{
-    		margin-bottom: 10px;
-    	}
-    	
-    	#b_write-btn{
-    		text-align: right;
-    	}
-    </style>
+  <link rel="stylesheet" href="${ctp}/css/cmtyMain.css">
 </head>
 <body>
     <div id="main">	
@@ -138,7 +47,7 @@
     	<!-- 카테고리 끝 -->
     	
     	<div id="board">
-			<table class="table table-borderless m-0 p-0">
+			<table class="b_high-bar">
 				<tr>
 					<td><h3>${category}</h3></td>
 					<c:if test="${empty pageVo.searchStr}">
@@ -173,9 +82,20 @@
 		    			<tr style="background-color: lime;">
 		    				<td>${bVos.idx}</td>
 		    				<td>
-		    					<a href="cmtyContent?boardIdx=${bVos.idx}&category=${category}&pag=${pageVo.pag}&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}">
-		    						<font style="color: red; font-weight: bold; font-size: 12px">HOT</font> ${bVos.title}(${bVos.commentCount})
-		    					</a>
+		    					<c:choose>
+								  <c:when test="${fn:length(bVos.title) > 25}">
+								    <a href="cmtyContent?boardIdx=${bVos.idx}&category=${category}&pag=${pageVo.pag}&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}">
+								      <font style="color: red; font-weight: bold; font-size: 12px">HOT</font> 
+								      ${fn:substring(bVos.title, 0, 25)}...(${bVos.commentCount})
+								    </a>
+								  </c:when>
+								  <c:otherwise>
+								    <a href="cmtyContent?boardIdx=${bVos.idx}&category=${category}&pag=${pageVo.pag}&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}">
+								      <font style="color: red; font-weight: bold; font-size: 12px">HOT</font> 
+								      ${bVos.title}(${bVos.commentCount})
+								    </a>
+								  </c:otherwise>
+								</c:choose>
 		    				</td>
 		    				<td>${bVos.memberNickname}</td>
 		    				<td style="font-size: 12px;">
@@ -193,9 +113,20 @@
 		    			<tr>
 		    				<td>${bVos.idx}</td>
 		    				<td>
-		    					<a href="cmtyContent?boardIdx=${bVos.idx}&category=${category}&pag=${pageVo.pag}&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}">
-		    						<font style="color: blue; font-weight: bold; font-size: 12px">${bVos.categoryName}</font> ${bVos.title}(${bVos.commentCount})
-		    					</a>
+		    					<c:choose>
+								  <c:when test="${fn:length(bVos.title) > 25}">
+								    <a href="cmtyContent?boardIdx=${bVos.idx}&category=${category}&pag=${pageVo.pag}&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}">
+								      <font style="color: blue; font-weight: bold; font-size: 12px">${bVos.categoryName}</font>
+								      ${fn:substring(bVos.title, 0, 25)}...(${bVos.commentCount})
+								    </a>
+								  </c:when>
+								  <c:otherwise>
+								    <a href="cmtyContent?boardIdx=${bVos.idx}&category=${category}&pag=${pageVo.pag}&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}">
+								      <font style="color: blue; font-weight: bold; font-size: 12px">${bVos.categoryName}</font>
+								      ${bVos.title}(${bVos.commentCount})
+								    </a>
+								  </c:otherwise>
+								</c:choose>
 		    				</td>
 		    				<td>${bVos.memberNickname}</td>
 		    				<td style="font-size: 12px;">

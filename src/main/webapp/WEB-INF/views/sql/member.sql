@@ -44,13 +44,30 @@ ENGINE=InnoDB
 ;
 
 
-INSERT INTO `member` (
-	`member_id`, `password`, `nickname`, `name`, `tel`, `address`, `email`,
-	`icon`, `content`, `info`, `delete`, `point`, `level`,
-	`visit_count`, `board_count`, `comment_count`, `report_count`, `warning_count`,
-	`ip`, `start_date`, `last_date`
+INSERT INTO member (
+  member_id, password, nickname, name, gender, tel,
+  address, email, like_team, icon, content, birthday,
+  member_info, delete_check, point, level, visit_count,
+  board_count, comment_count, report_count, warning_count,
+  ip, start_date, last_date
 ) VALUES (
-	'user123', 'encryptedPwd123!', 'coolNick', '홍길동', '010-1234-5678', '서울특별시 강남구 테헤란로 123',
-	'user123@example.com', 'profile1.jpg', '안녕하세요, 야구를 좋아하는 유저입니다!',
-	'공개', 'NO', 150, 3, 12, 5, 8, 0, 0, '192.168.1.1', NOW(), NOW()
+  'user123',                                -- member_id
+  'encrypted_password',                     -- password (암호화된 문자열 필요)
+  '닉네임123',                               -- nickname
+  '홍길동',                                  -- name
+  'M',                                      -- gender
+  '010-1234-5678',                          -- tel
+  '서울특별시 어딘가',                        -- address
+  'user123@example.com',                    -- email
+  '선택안함',                                -- like_team
+  'noicon.jpg',                             -- icon
+  '안녕하세요. 소개입니다.',                   -- content
+  NOW(),                                    -- birthday
+  '공개',                                   -- member_info
+  'NO',                                     -- delete_check
+  1000,                                     -- point
+  1,                                        -- level
+  0, 0, 0, 0, 0,                             -- visit_count ~ warning_count
+  '127.0.0.1',                              -- ip
+  NOW(), NOW()                              -- start_date, last_date
 );
