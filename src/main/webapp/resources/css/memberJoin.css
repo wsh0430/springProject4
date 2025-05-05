@@ -4,6 +4,11 @@ body{
 		margin: 0;
 		padding: 0;
 }
+/* 확인해보니 크롬브라우저가 자동완성을 할때 파란색으로 input이 채워져서 그걸 없애기 위한 css  */
+input:-webkit-autofill {
+  box-shadow: 0 0 0px 1000px white inset !important;
+  -webkit-text-fill-color: #333 !important;
+}
 /* 컨테이너 스타일 */
     .container {
       max-width: 700px;
@@ -72,32 +77,84 @@ body{
 		}
 		
 		/* 전화번호 */
-		#tel2,#tel3{
-			width: 100px;
-      padding: 8px;
-      margin-top: 6px;
-      margin-left : 5px;
-      margin-right : 10px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 14px;
-      text-align: center;
+		#tel2, #tel3 {
+		  width: 100px;
+		  padding: 8px;
+		  margin-top: 6px;
+		  margin-left: 5px;
+		  margin-right: 10px;
+		  border: 1px solid #ccc;
+		  border-radius: 6px;
+		  font-size: 14px;
+		  text-align: center;
+		  transition: border-color 0.3s, box-shadow 0.3s;
 		}
-		#tel2:focus,#tel3:focus{
-		 	border-color: #E74C3C;
-		  box-shadow: 0 0 5px rgba(102, 175, 233, 0.4);
+		
+		#tel2:focus, #tel3:focus, .telSelect:focus {
+		  border-color: #E74C3C;
+		  box-shadow: 0 0 5px rgba(231, 76, 60, 0.4);
 		  outline: none;
 		}
-    .telSelect{
-   	 	width: 80px;
-      padding: 7px;
-      margin-top: 6px;
-      margin-right : 10px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 14px;
-    }
-    
+		
+		/* 전화번호 앞자리 선택 */
+		.telSelect {
+		  width: 80px;
+		  padding: 7px;
+		  margin-top: 6px;
+		  margin-right: 10px;
+		  border: 1px solid #ccc;
+		  border-radius: 6px;
+		  font-size: 14px;
+		  background-color: #fff;
+		  appearance: none;
+		}
+		
+		/* 인증번호 관련 버튼 공통 */
+		.VsendBtn, .verificationBtn {
+		  padding: 7px 12px;
+		  font-size: 14px;
+		  border: none;
+		  border-radius: 6px;
+		  background-color: #FF5E57;
+		  color: #F1F1F1;
+		  cursor: pointer;
+		  transition: background-color 0.3s;
+		  margin-left: 5px;
+		}
+		
+		.VsendBtn:hover, .verificationBtn:hover {
+		  background-color: #E74C3C;
+		}
+		
+		/* 인증번호 입력 영역 */
+		#verifySection {
+		  display: none;
+		  margin-top: 10px;
+		}
+		.verificationInput{
+			width: 200px;
+		  padding: 8px;
+		  margin-top: 6px;
+		  margin-left: 5px;
+		  margin-right: 10px;
+		  border: 1px solid #ccc;
+		  border-radius: 6px;
+		  font-size: 14px;
+		  text-align: center;
+		  transition: border-color 0.3s, box-shadow 0.3s;
+		}
+		.verificationInput:focus{
+			border-color: #E74C3C;
+		  box-shadow: 0 0 5px rgba(231, 76, 60, 0.4);
+		  outline: none;
+		}
+		
+		#verifyMessage {
+		  display: inline-block;
+		  margin-left: 10px;
+		  font-size: 13px;
+		}
+  
 		/* 이메일 */
 		#email1,#email2 {
 			width: 130px;
@@ -287,24 +344,21 @@ body{
 		}
 		
 		/* 회원 사진 */
-	  /* 파일 입력 스타일 */
-	  input[type="file"] {
-	    font-size: 14px;
-	    border: 1px solid #ddd;
-	    padding: 10px 10px;
-	    cursor: pointer;
-	    border-radius: 5px;
-	    transition: all 0.3s ease;
-	    margin-bottom: 15px; /* 파일 입력 부분과 미리보기 이미지 간격 */
-	  }
-	
-	  /* 파일 입력 hover 효과 */
-	  input[type="file"]:focus{
-	    border-color: #E74C3C;
-		  box-shadow: 0 0 5px rgba(102, 175, 233, 0.4);
-		  outline: none;
-	  }
-		
+    input[type="file"] {
+      font-size: 14px;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background-color: #fdfdfd;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    input[type="file"]:focus {
+      border-color: #E74C3C;
+      box-shadow: 0 0 5px rgba(102, 175, 233, 0.5);
+      outline: none;
+    }
     /* 회원가입 버튼 */
 		.join-form {
 		  text-align: center;

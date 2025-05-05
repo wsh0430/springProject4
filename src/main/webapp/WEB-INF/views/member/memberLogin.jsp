@@ -42,8 +42,7 @@
 				  <input type="submit" value="Login" class="loginBtn"/>
 				</div>	
 				<div class="loginLinks">
-				      <a href="${ctp}/member/memberFindId">아이디 찾기</a> |
-				      <a href="${ctp}/member/memberFindPwd">비밀번호 찾기</a> |
+				      <a href="${ctp}/member/memberFind">아이디/비밀번호 찾기</a> |
 				      <a href="${ctp}/member/memberJoin">회원가입</a>
 				</div>
 				

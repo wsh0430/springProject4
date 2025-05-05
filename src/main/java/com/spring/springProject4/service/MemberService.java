@@ -29,6 +29,8 @@ public interface MemberService {
 
 	MemberVo getMemberEmailCheck(String email);
 
+	MemberVo getMemberTelCheck(String tel);
+
 	
 
 

@@ -27,6 +27,8 @@ public interface MemberDao {
 
 	MemberVo getMemberEmailCheck(@Param("email") String email);
 
+	MemberVo getMemberTelCheck(@Param("tel") String tel);
+
 	
 
 

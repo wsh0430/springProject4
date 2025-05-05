@@ -4,6 +4,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.InvalidKeyException;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.Cookie;
@@ -16,6 +18,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.spring.springProject4.common.ARIAUtil;
 import com.spring.springProject4.service.LoginTokenService;
 import com.spring.springProject4.service.MemberService;
+import com.spring.springProject4.service.MessageService;
 import com.spring.springProject4.vo.MemberVo;
 
 @Controller
@@ -33,6 +37,9 @@ public class MemberController {
 	
 	@Autowired
 	MemberService memberService;
+	
+	@Autowired
+	MessageService messageService;
 	
 	@Autowired
 	LoginTokenService loginTokenService;
@@ -122,13 +129,76 @@ public class MemberController {
 	
 
 	
-	// 휴대폰 인증처리
 		
 	// 회원가입 화면 보기
 		@RequestMapping(value = "/memberJoin", method = RequestMethod.GET)
 		public String memberJoinGet() {
 			return "member/memberJoin";
 		}
+	// 휴대폰번호 중복검사
+	@RequestMapping(value = "/checkTelDuplicate", method = RequestMethod.POST)
+	@ResponseBody
+	public boolean checkTelDuplicate(@RequestBody Map<String, String> param) {
+	    String tel = param.get("tel");
+	    MemberVo vo = memberService.getMemberTelCheck(tel);
+	    return vo != null; // 이미 있으면 true
+	}
+	// 인증번호 전송 시
+		@RequestMapping(value = "/sendVerificationCode", method = RequestMethod.POST)
+		@ResponseBody
+		public Map<String, Object> send(@RequestBody Map<String, String> payload, HttpServletRequest request) {
+	    String tel = payload.get("tel");  // JSON에서 'tel' 값을 가져옵니다.
+
+	    // 전화번호 유효성 검사 (예: 정규식으로 검사)
+	    if (!tel.matches("\\d{3}-\\d{3,4}-\\d{4}")) { // 전화번호 형식 검사
+	        Map<String, Object> errorResult = new HashMap<>();
+	        errorResult.put("success", false);
+	        errorResult.put("message", "올바른 전화번호 형식이 아닙니다.");
+	        return errorResult;
+	    }
+
+	    // 랜덤 인증번호 생성
+	    int randomNumber = (int)(Math.random() * 899999) + 100000;
+	    request.getSession().setAttribute("authNumber", randomNumber);
+	    request.getSession().setMaxInactiveInterval(180);  // 3분간 유효
+
+	    // 메시지 발송 서비스 호출
+	    MessageService ms = new MessageService();
+	    boolean isSent = ms.sendMessage(tel, Integer.toString(randomNumber));  // 수정된 메서드 사용
+
+	    // 결과 반환
+	    Map<String, Object> result = new HashMap<>();
+	    result.put("success", isSent);
+
+	    if (!isSent) {
+	        result.put("message", "인증번호 발송 실패");
+	    }
+
+	    return result;
+	}
+		
+	// 인증번호 검증
+		@RequestMapping(value = "verifyCode", method = RequestMethod.POST)
+		@ResponseBody
+		public String verifyCode(@RequestBody Map<String, String> data, HttpSession session) {
+	    String inputCode = data.get("code");
+	    Object authObj = session.getAttribute("authNumber");
+
+	    if (authObj == null) {
+	        return "expired"; // 인증번호 만료
+	    }
+
+	    int authNumber = (int) authObj;
+
+	    if (inputCode != null && inputCode.equals(String.valueOf(authNumber))) {
+	        session.removeAttribute("authNumber");
+	        session.setAttribute("phoneVerified", true);
+	        return "success";
+	    } else {
+	        return "fail";
+	    }
+	}
+	
 	// 회원가입 처리하기(DB에 회원 저장)
 		@RequestMapping(value = "/memberJoin", method = RequestMethod.POST)
 		public String memberJoinPost(MemberVo vo, MultipartFile fName, HttpSession session, HttpServletRequest request) throws InvalidKeyException, UnsupportedEncodingException {
@@ -137,6 +207,12 @@ public class MemberController {
 			if(memberService.getMemberIdCheck(vo.getMemberId()) != null) {
 				return "redirect:/message/idCheckNo";
 			}
+			
+			// 휴대폰 인증 여부 확인
+	    Boolean phoneVerified = (Boolean) session.getAttribute("phoneVerified");
+	    if (phoneVerified == null || !phoneVerified) {
+	        return "redirect:/message/phoneNotVerified"; // 인증 안 된 상태
+	    }
 			
 			// 이메일 조합 및 중복 체크
 	    String email = request.getParameter("email1") + "@" + request.getParameter("email2");
@@ -162,13 +238,18 @@ public class MemberController {
 					// 클라이언트 IP가 없으면 기본값 설정 (예: "no_ip" 또는 "0.0.0.0")
 			    vo.setIp("0.0.0.0");
 				}
-			
+				System.out.println("email1: " + request.getParameter("email1"));
+				System.out.println("email2: " + request.getParameter("email2"));
+				System.out.println("Full email: " + email);
+				System.out.println("가입 이메일: " + email);
+				System.out.println("중복검사 결과: " + memberService.getMemberEmailCheck(vo.getEmail()));
 			// DB 저장 및 예외 처리
 		    try {
 		        int res = memberService.setMemberJoinOk(vo);
 		        if (res != 0) {
 		            // 회원가입 후 세션에 닉네임 저장
 		            session.setAttribute("sNickName", vo.getNickName());
+		            session.removeAttribute("phoneVerified"); // 회원가입 완료시 인증기록 제거
 		            return "redirect:/message/memberJoinOK";  // 회원가입 성공
 		        } else {
 		            return "redirect:/message/memberJoinNO";  // 회원가입 실패
@@ -366,18 +447,13 @@ public class MemberController {
     return "redirect:/message/memberNickChangeOk";
 	
 	}
-	//아이디 찾기 페이지
-	@RequestMapping(value = "/memberFindId", method = RequestMethod.GET)
+	//아이디/비밀번호 찾기 페이지
+	@RequestMapping(value = "/memberFind", method = RequestMethod.GET)
 	public String memberFindIdGet(HttpSession session) {
 	
-		return "member/memberFindId";  // 비밀번호 확인 JSP 페이지
+		return "member/memberFind";  // 
 	}
-	//비밀번호 찾기 페이지
-	@RequestMapping(value = "/memberFindPwd", method = RequestMethod.GET)
-	public String memberFindPwdGet(HttpSession session) {
-	
-		return "member/memberFindPwd";  // 비밀번호 확인 JSP 페이지
-	}
+
 }
 
 		

@@ -79,22 +79,28 @@
 				  </td>
 				</tr>				
 				<tr>
-					<th>휴대폰 번호</th>
-					 <td>
-	          <div>
-		          <select name="tel1" class="telSelect" required >
-		            <option value="010" selected>010</option>
-		            <option value="011">011</option>
-		            <option value="016">016</option>
-		            <option value="017">017</option>
-		            <option value="018">018</option>
-		            <option value="019">019</option>
-		            <option value="043">043</option>
-		          </select>-
-		          <input type="text" name="tel2" id="tel2" required />-
-		          <input type="text" name="tel3" id="tel3" required />
-	          </div>
-        	</td>
+				  <th>휴대폰 번호</th>
+				  <td>
+				    <div>
+				      <select name="tel1" class="telSelect" required>
+				        <option value="010" selected>010</option>
+				        <option value="011">011</option>
+				        <option value="016">016</option>
+				        <option value="017">017</option>
+				        <option value="018">018</option>
+				        <option value="019">019</option>
+				        <option value="043">043</option>
+				      </select> -
+				      <input type="text" name="tel2" id="tel2" required maxlength="4" /> -
+				      <input type="text" name="tel3" id="tel3" required maxlength="4" />
+				      <button type="button" onclick="sendVerificationCode()" class="VsendBtn" >인증번호 받기</button>
+				    </div>
+				    <div id="verifySection">
+				      <input type="text" id="verificationCode" placeholder="인증번호 입력" class="verificationInput"/>
+				      <button type="button" onclick="verifyCode()" class="verificationBtn">인증확인</button>
+				      <span id="verifyMessage" style="color: red;"></span>
+				    </div>
+				  </td>
 				</tr>
 				<tr>
 					<th>이메일</th>

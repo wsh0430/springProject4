@@ -27,7 +27,8 @@ CREATE TABLE `member` (
 	PRIMARY KEY (`idx`) USING BTREE,
 	UNIQUE INDEX `tel` (`tel`) USING BTREE,
 	UNIQUE INDEX `memberId` (`memberId`) USING BTREE,
-	UNIQUE INDEX `email` (`email`) USING BTREE
+	UNIQUE INDEX `email` (`email`) USING BTREE,
+	UNIQUE INDEX `nickName` (`nickName`) USING BTREE
 )
 COLLATE='utf8mb4_0900_ai_ci'
 ENGINE=InnoDB

@@ -94,7 +94,7 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/include/nav.jsp" />
-<div class="container" style="margin-top: 40px;">
+<div class="container">
 	<h2>기록실 메인화면</h2>
   <h2>SELENIUM 연습</h2>
   <hr class="border-secondary">
@@ -289,6 +289,6 @@
   </div>
   <hr class="border">
 </div>
-<p><br/></p>
+<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 </body>
 </html>

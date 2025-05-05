@@ -17,6 +17,10 @@
 		select * from member where email = #{email};
 	</select>
 	
+	<select id="getMemberTelCheck" resultType="com.spring.springProject4.vo.MemberVo">
+		select * from member where tel = #{tel};
+	</select>
+	
 
 	<insert id="setMemberJoinOk">
 	insert into member (

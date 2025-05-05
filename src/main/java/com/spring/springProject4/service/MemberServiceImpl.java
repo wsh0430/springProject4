@@ -93,6 +93,12 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.getMemberEmailCheck(email);
 	}
 
+	@Override
+	public MemberVo getMemberTelCheck(String tel) {
+
+		return memberDao.getMemberTelCheck(tel);
+	}
+
 	
 
 }
