@@ -98,7 +98,7 @@
 				    <div id="verifySection">
 				      <input type="text" id="verificationCode" placeholder="인증번호 입력" class="verificationInput"/>
 				      <button type="button" onclick="verifyCode()" class="verificationBtn">인증확인</button>
-				      <span id="verifyMessage" style="color: red;"></span>
+				      <span id="verifyMessage" ></span>
 				    </div>
 				  </td>
 				</tr>

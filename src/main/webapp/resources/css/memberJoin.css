@@ -44,7 +44,7 @@ input:-webkit-autofill {
     td {
       padding: 12px 10px;
     }
-		/* 아이디,비밀번호,닉네임 */
+		/* 아이디,비밀번호,비밀번호확인,닉네임,이름 */
 		#memberId,#password,#memberPwdCheck,#nickName,#name{
 			width: 250px;
       padding: 10px;
@@ -123,7 +123,9 @@ input:-webkit-autofill {
 		}
 		
 		.VsendBtn:hover, .verificationBtn:hover {
-		  background-color: #E74C3C;
+		  border-color: #E74C3C;
+		  box-shadow: 0 0 5px rgba(231, 76, 60, 0.4);
+		  outline: none;
 		}
 		
 		/* 인증번호 입력 영역 */
@@ -152,6 +154,7 @@ input:-webkit-autofill {
 		#verifyMessage {
 		  display: inline-block;
 		  margin-left: 10px;
+		  color: red;
 		  font-size: 13px;
 		}
   

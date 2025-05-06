@@ -1,138 +1,155 @@
-@charset "UTF-8";
-/* Body 스타일 */
 body {
-    background-color: #ffffff;
-    animation: fadeInBody 1s ease;
+  background-color: #ffffff;
+  margin: 0;
+  padding: 0;
 }
 
-@keyframes fadeInBody {
-    from { opacity: 0; }
-    to { opacity: 1; }
+input:-webkit-autofill {
+  box-shadow: 0 0 0px 1000px white inset !important;
+  -webkit-text-fill-color: #333 !important;
 }
 
-/* 컨테이너 스타일 */
+.height {
+  padding-top: 50px;
+  padding-bottom: 100px;
+  display: flex;
+}
+
 .container {
-    max-width: 600px;
-    margin: 120px auto;
-    padding: 30px 25px;
-    background-color: #ffffff;
-    border-radius: 16px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    animation: fadeInContainer 1.2s ease;
+  width: 650px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  border-radius: 15px;
+  animation: fadeIn 0.6s ease-in-out;
 }
 
-@keyframes fadeInContainer {
-    from { transform: translateY(20px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-}
-.height{
-		display: flex;
-		
-}
-/* 제목 */
 .idSearch-title, .pwdSearch-title {
-    text-align: center;
-    font-size: 28px;
-    color: #FF2400;
-    margin-bottom: 25px;
-    font-weight: bold;
+  text-align: center;
+  color: #FF2400;
+  margin-bottom: 25px;
 }
 
-/* 폼 스타일 */
-.idSearch-title-form, .pwdSearch-title-form {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0 10px;
+.idSearch-title-form, .pwdSearch-title-form{
+  width: 100%;
 }
 
-.idSearch-title-form th, .pwdSearch-title-form th{
-    padding-left: 30px;
-    text-align: left;
-    vertical-align: middle;
-    width: 120px;
-    font-size: 15px;
+.idSearch-name,.pwdSearch-name, th{
+  text-align: left;
+  padding: 10px;
+  color: #333;
+  font-weight: 500;
 }
 
-.idSearch-title-form td, .pwdSearch-title-form td {
-    padding: 10px;
-    text-align: left;
+td {
+  padding: 10px 0;
 }
 
-.inline-block {
-    padding-left: 20px;
-}
-
-/* 입력 필드 */
-.idSearch-nameInput,
-.pwdSearch-idInput,
-.phone-Input,
-.verification-Input {
-    width: 250px;
+.idSearch-nameInput, .pwdSearch-idInput{
+		width: 250px;
     padding: 10px;
     margin-top: 6px;
     border: 1px solid #ccc;
     border-radius: 6px;
     font-size: 14px;
-    transition: border-color 0.3s ease;
+}
+.idSearch-nameInput:focus, .pwdSearch-idInput:focus{
+		border-color: #E74C3C;
+	  box-shadow: 0 0 5px rgba(102, 175, 233, 0.4);
+	  outline: none;
+}
+.telSelect{
+		width: 80px;
+	  padding: 7px;
+	  margin-top: 6px;
+	  margin-right: 10px;
+	  border: 1px solid #ccc;
+	  border-radius: 6px;
+	  font-size: 14px;
+	  background-color: #fff;
+	  appearance: none;
+}
+#idTel2, #idTel3, #pwTel2, #pwTel3{
+		width: 100px;
+	  padding: 8px;
+	  margin-top: 6px;
+	  margin-left: 5px;
+	  margin-right: 10px;
+	  border: 1px solid #ccc;
+	  border-radius: 6px;
+	  font-size: 14px;
+	  text-align: center;
+	  transition: border-color 0.3s, box-shadow 0.3s;
+}
+#idTel2:focus, #idTel3:focus, #pwTel2:focus, #pwTel3:focus, .telSelect:focus{
+		border-color: #E74C3C;
+	  box-shadow: 0 0 5px rgba(231, 76, 60, 0.4);
+	  outline: none;
+}
+.VsendBtn, .verificationBtn {
+		padding: 7px 12px;
+	  font-size: 14px;
+	  border: none;
+	  border-radius: 6px;
+	  background-color: #FF5E57;
+	  color: #F1F1F1;
+	  cursor: pointer;
+	  transition: background-color 0.3s;
+	  margin-left: 5px;
+}
+.button-group{
+		display: flex;
+		justify-content: center;
+}
+.idSearchBtn, .pwdSearchBtn, .returnBtn{
+		width : 130px;
+		height : 40px;
+		padding: 7px 16px;
+	  font-size: 14px;
+	  border: none;
+	  border-radius: 6px;
+	  background-color: #FF5E57;
+	  color: #F1F1F1;
+	  cursor: pointer;
+	  transition: background-color 0.3s;
+	  margin-left: 5px;
+}
+.VsendBtn:hover, .verificationBtn:hover, .idSearchBtn:hover, .pwdSearchBtn:hover, .returnBtn:hover{
+		border-color: #E74C3C;
+	  box-shadow: 0 0 5px rgba(231, 76, 60, 0.4);
+	  outline: none;
 }
 
-.idSearch-nameInput:focus,
-.pwdSearch-idInput:focus,
-.phone-Input:focus,
-.verification-Input:focus {
-    border-color: #FF5E57;
-    outline: none;
+#idVerifySection, #pwVerifySection{
+		display: none;
+		margin-top: 10px;
 }
-/* 인증번호 입력 영역 */
-#verifySection {
-  display: none;
-  margin-top: 10px;
+.verificationInput{
+		width: 200px;
+	  padding: 8px;
+	  margin-top: 6px;
+	  margin-left: 5px;
+	  margin-right: 10px;
+	  border: 1px solid #ccc;
+	  border-radius: 6px;
+	  font-size: 14px;
+	  text-align: center;
+	  transition: border-color 0.3s, box-shadow 0.3s;
 }
-		
-/* 버튼들 */
-.VsendBtn,
-.verificationBtn {
-    padding: 10px 16px;
-    font-size: 14px;
-    border: none;
-    border-radius: 8px;
-    background-color: #FF5E57;
-    color: #F1F1F1;
-    transition: background-color 0.3s, transform 0.3s;
-    margin-right: 5px;
-    cursor: pointer;
+.verificationInput:focus{
+		border-color: #E74C3C;
+	  box-shadow: 0 0 5px rgba(231, 76, 60, 0.4);
+	  outline: none;
 }
-.idSearchBtn,
-.pwdSearchBtn,
-.returnBtn {
-		width: 45%;
-    padding: 10px;
-    font-size: 16px;
-    margin: 10px 2% 0;
-    border: none;
-    border-radius: 8px;
-    background-color: #FF5E57;
-    color: #F1F1F1;
-    transition: background-color 0.3s, transform 0.3s;
+#idVerifyMessage, #pwVerifyMessage{
+		color: red;
+		display: block; 
+    margin-top: 5px; 
+    margin-left: 5px; 
 }
-
-.idSearchBtn:hover,
-.pwdSearchBtn:hover,
-.returnBtn:hover,
-.VsendBtn:hover,
-.verificationBtn:hover {
-    background-color: #E74C3C;
-    transform: scale(1.05);
-}
-
-.returnBtn {
-    margin-left: 10px;
-}
-
-
-/* 비활성화된 버튼 */
-.disabled-btn {
-    background-color: #ccc !important;
-    color: #666 !important;
-    cursor: not-allowed !important;
+/* 애니메이션 */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }

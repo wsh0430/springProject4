@@ -355,9 +355,7 @@ function sendVerificationCode() {
         });
         return;
     }
-     // 인증번호 입력란을 보여주기
-    document.getElementById("verifySection").style.display = 'block';
-    
+		document.getElementById("verifySection").style.display = 'block'; //인증번호 입력란 보여주기
 // SMS 발송을 위한 AJAX 요청 (예시)
   // 1. 휴대폰 번호 중복 체크 먼저 수행
     $.ajax({
@@ -390,7 +388,6 @@ function sendVerificationCode() {
                             text: '휴대폰으로 인증번호가 발송되었습니다.',
                             confirmButtonText: '확인'
                         });
-                        document.getElementById("verifySection").style.display = 'block';
                     } else {
                         Swal.fire({
                             icon: 'error',

@@ -3,18 +3,25 @@ package com.spring.springProject4.controller;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.InvalidKeyException;
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +30,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.springProject4.common.ARIAUtil;
@@ -47,6 +56,8 @@ public class MemberController {
 	@Autowired
 	BCryptPasswordEncoder passwordEncoder;
 	
+	@Autowired
+	private JavaMailSender mailSender;
 	
 	
 	// 로그인 화면 보기
@@ -108,7 +119,13 @@ public class MemberController {
 					memberService.setMemberPoint(memberId, 100);
 					vo = memberService.getMemberById(memberId); // 최신 방문수/포인트 반영
 				}		
-			// URL 인코딩하여 리디렉션 처리  한글과 같은 유니코드 문자가 URL에 포함될 경우, 제대로 처리되지 않아서 발생할 수 있는 문제를 피하기 위해 URLEncoder.encode()를 사용
+			// **임시 비밀번호 확인 및 비밀번호 변경 강제**
+        if (vo.getPassword().equals(vo.getTempPassword())) {
+            session.setAttribute("forceChangePassword", true); // 임시 비밀번호로 로그인한 경우
+            return "redirect:/changePassword"; // 비밀번호 변경 페이지로 리다이렉트
+        }
+
+        // URL 인코딩하여 리디렉션 처리
         try {
             String encodedNickName = URLEncoder.encode(vo.getNickName(), "UTF-8");
             return "redirect:/message/memberLoginOk?memberId=" + memberId + "&nickName=" + encodedNickName;
@@ -116,15 +133,13 @@ public class MemberController {
             e.printStackTrace();
             return "redirect:/message/memberSystemError";  // 인코딩 실패 시 처리
         }
-    } 
-			if(vo == null || !passwordEncoder.matches(password, vo.getPassword())) {
-				return "redirect:/message/memberLoginNo"; // 잘못된 ID 또는 비밀번호
-    } 
-			else if(vo.getUserDelete().equals("YES")) {
+    } else if (vo == null || !passwordEncoder.matches(password, vo.getPassword())) {
+        return "redirect:/message/memberLoginNo"; // 잘못된 ID 또는 비밀번호
+    } else if (vo.getUserDelete().equals("YES")) {
         return "redirect:/message/memberDeleted"; // 탈퇴한 회원
     }
-			return "redirect:/message/memberLoginNo"; //모든 조건이 충족되지 않으면 기본적으로 "로그인 실패"
-	}
+    return "redirect:/message/memberLoginNo"; //모든 조건이 충족되지 않으면 기본적으로 "로그인 실패"
+}
 	// 소셜 로그인 처리
 	
 
@@ -146,32 +161,61 @@ public class MemberController {
 	// 인증번호 전송 시
 		@RequestMapping(value = "/sendVerificationCode", method = RequestMethod.POST)
 		@ResponseBody
-		public Map<String, Object> send(@RequestBody Map<String, String> payload, HttpServletRequest request) {
-	    String tel = payload.get("tel");  // JSON에서 'tel' 값을 가져옵니다.
+		public Map<String, Object> sendVerificationCode(@RequestBody Map<String, String> payload, HttpServletRequest request) {
+	    String type = payload.get("type");  // 'id' 또는 'pw' 값
+	    String idTel = payload.get("idTel");  // idTel 값
+	    String pwdTel = payload.get("pwdTel");  // pwdTel 값
 
-	    // 전화번호 유효성 검사 (예: 정규식으로 검사)
-	    if (!tel.matches("\\d{3}-\\d{3,4}-\\d{4}")) { // 전화번호 형식 검사
-	        Map<String, Object> errorResult = new HashMap<>();
-	        errorResult.put("success", false);
-	        errorResult.put("message", "올바른 전화번호 형식이 아닙니다.");
-	        return errorResult;
-	    }
-
-	    // 랜덤 인증번호 생성
-	    int randomNumber = (int)(Math.random() * 899999) + 100000;
-	    request.getSession().setAttribute("authNumber", randomNumber);
-	    request.getSession().setMaxInactiveInterval(180);  // 3분간 유효
-
-	    // 메시지 발송 서비스 호출
-	    MessageService ms = new MessageService();
-	    boolean isSent = ms.sendMessage(tel, Integer.toString(randomNumber));  // 수정된 메서드 사용
-
-	    // 결과 반환
 	    Map<String, Object> result = new HashMap<>();
-	    result.put("success", isSent);
 
-	    if (!isSent) {
-	        result.put("message", "인증번호 발송 실패");
+	    // type이 'id'인 경우 아이디 찾기
+	    if ("id".equals(type)) {
+	        // 아이디 찾기 전화번호 유효성 검사
+	        if (idTel != null && !idTel.matches("^(010|011|016|017|018|019|043)-\\d{3,4}-\\d{4}$")) {
+	            result.put("success", false);
+	            result.put("message", "아이디 찾기 전화번호 형식이 올바르지 않습니다.");
+	            return result;
+	        }
+
+	        // 랜덤 인증번호 생성
+	        int randomNumberForId = (int)(Math.random() * 899999) + 100000;  // 아이디 찾기 인증번호
+	        request.getSession().setAttribute("authNumberForId", randomNumberForId);  // idTel에 대한 인증번호
+	        request.getSession().setMaxInactiveInterval(180);  // 3분간 유효
+
+	        // 메시지 발송
+	        MessageService ms = new MessageService();
+	        boolean isIdTelSent = ms.sendMessage(idTel, Integer.toString(randomNumberForId));  // idTel로 인증번호 발송
+
+	        result.put("success", isIdTelSent);
+	        if (!isIdTelSent) {
+	            result.put("message", "아이디 찾기 인증번호 발송 실패");
+	        }
+
+	    } else if ("pw".equals(type)) {
+	        // 비밀번호 찾기 전화번호 유효성 검사
+	        if (pwdTel != null && !pwdTel.matches("^(010|011|016|017|018|019|043)-\\d{3,4}-\\d{4}$")) {
+	            result.put("success", false);
+	            result.put("message", "비밀번호 찾기 전화번호 형식이 올바르지 않습니다.");
+	            return result;
+	        }
+
+	        // 랜덤 인증번호 생성
+	        int randomNumberForPwd = (int)(Math.random() * 899999) + 100000;  // 비밀번호 찾기 인증번호
+	        request.getSession().setAttribute("authNumberForPwd", randomNumberForPwd);  // pwdTel에 대한 인증번호
+	        request.getSession().setMaxInactiveInterval(180);  // 3분간 유효
+
+	        // 메시지 발송
+	        MessageService ms = new MessageService();
+	        boolean isPwdTelSent = ms.sendMessage(pwdTel, Integer.toString(randomNumberForPwd));  // pwdTel로 인증번호 발송
+
+	        result.put("success", isPwdTelSent);
+	        if (!isPwdTelSent) {
+	            result.put("message", "비밀번호 찾기 인증번호 발송 실패");
+	           
+	        }
+	    } else {
+	        result.put("success", false);
+	        result.put("message", "잘못된 요청입니다.");
 	    }
 
 	    return result;
@@ -182,7 +226,15 @@ public class MemberController {
 		@ResponseBody
 		public String verifyCode(@RequestBody Map<String, String> data, HttpSession session) {
 	    String inputCode = data.get("code");
-	    Object authObj = session.getAttribute("authNumber");
+	    String type = data.get("type");  // 아이디 찾기("id") 또는 비밀번호 찾기("pw")
+
+	    Object authObj = null;
+
+	    if ("id".equals(type)) {
+	        authObj = session.getAttribute("authNumberForId");  // 아이디 찾기 인증번호
+	    } else if ("pw".equals(type)) {
+	        authObj = session.getAttribute("authNumberForPwd");  // 비밀번호 찾기 인증번호
+	    }
 
 	    if (authObj == null) {
 	        return "expired"; // 인증번호 만료
@@ -191,11 +243,12 @@ public class MemberController {
 	    int authNumber = (int) authObj;
 
 	    if (inputCode != null && inputCode.equals(String.valueOf(authNumber))) {
-	        session.removeAttribute("authNumber");
+	        // 인증번호가 맞으면 세션에서 인증번호를 제거하고, 인증 성공 상태를 설정
+	        session.removeAttribute(type.equals("id") ? "authNumberForId" : "authNumberForPwd");
 	        session.setAttribute("phoneVerified", true);
 	        return "success";
 	    } else {
-	        return "fail";
+	        return "fail";  // 인증번호가 일치하지 않음
 	    }
 	}
 	
@@ -454,6 +507,80 @@ public class MemberController {
 		return "member/memberFind";  // 
 	}
 
+	//아이디 찾기
+	@RequestMapping(value = "/idSearch", method = RequestMethod.POST)
+	@ResponseBody
+	public String idSearch(@RequestParam("name") String name, @RequestParam("tel") String tel) {
+	   MemberVo vo = memberService.getMemberIdByNameAndTel(name, tel);
+	   System.out.println("Received name: " + name);
+	   System.out.println("Received tel: " + tel);
+	   return (vo != null) ? vo.getMemberId() : "";
+	}
+	//비밀번호 찾기
+	@RequestMapping(value = "/pwdSearch", method = RequestMethod.POST)
+	@ResponseBody
+	public String pwdSearch(@RequestParam("memberId") String memberId, @RequestParam("tel") String tel) throws MessagingException {
+	   MemberVo vo = memberService.getMemberByIdAndTel(memberId, tel);
+	   if (vo != null) {
+	       // 임시 비밀번호 생성
+	       String tempPwd = UUID.randomUUID().toString().substring(0, 10);
+	       String encodedPwd = passwordEncoder.encode(tempPwd);
+	
+	       // 비밀번호 업데이트
+	        memberService.updateMemberPassword(memberId, encodedPwd);
+	        
+	        // 이메일 전송
+	        mailSend(vo.getEmail(), "HITBox 임시 비밀번호 안내", "HITBox 비밀번호 찾기", tempPwd);
+	        System.out.println("vo.getEmail() = " + vo.getEmail());
+	        return "ok";
+	    } else {
+	        return "fail";
+	    }
+	}
+
+
+	// 메일 전송하기 (임시 비밀번호 보이기)
+	public void mailSend(String toMail, String title, String mailFlag, String tempPwd) throws MessagingException {
+	    HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+	    
+	    String content = "";
+	    
+	    MimeMessage message = mailSender.createMimeMessage();
+	    MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+	    
+	    // 이메일 제목/수신자 설정
+	    messageHelper.setTo(toMail);
+	    messageHelper.setSubject(title);
+	    messageHelper.setText(content);
+
+	    
+	    // 이메일 본문 구성
+	    content = "<div style='font-family: Arial, sans-serif;'>";
+	    content += "<h3>" + mailFlag + "</h3>";
+	    
+	    if (tempPwd != null && !tempPwd.isEmpty()) {
+	        content += "<p>임시 비밀번호: <strong style='color:#FF5E57; font-size: 18px;'>" + tempPwd + "</strong></p>";
+	        content += "<p>로그인 후 반드시 비밀번호를 변경해주세요.</p>";
+	    }
+
+	    content += "<br><hr>";
+	    content += "<p><img src=\"cid:HITBox.png\" width='550px'></p>";
+	    content += "<p>방문하기 : <a href='http://localhost:8080/springProject4'>HITBox</a></p>";
+	    content += "<hr></div>";
+
+	    // 본문에 기재된 그림파일의 경로
+			//FileSystemResource file = new FileSystemResource("D:\\springProject\\springframework\\works\\JspringProject\\src\\main\\webapp\\resources\\images\\main.jpg");
+			FileSystemResource file = new FileSystemResource(request.getSession().getServletContext().getRealPath("/resources/images/HITBox.png"));
+			messageHelper.addInline("HITBox.png", file);
+			
+	    messageHelper.setText(content, true);
+	    
+	    System.out.println(file.exists());  // true가 나와야 함
+	    System.out.println("이미지 경로: " + file.getPath());
+
+	    // 메일 전송
+	    mailSender.send(message);
+	}
 }
 
 		

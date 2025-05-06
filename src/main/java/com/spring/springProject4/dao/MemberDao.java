@@ -29,6 +29,12 @@ public interface MemberDao {
 
 	MemberVo getMemberTelCheck(@Param("tel") String tel);
 
+	MemberVo getMemberIdByNameAndTel(@Param("name") String name, @Param("tel") String tel);
+
+	MemberVo getMemberByIdAndTel(@Param("memberId")String memberId, @Param("tel") String tel);
+
+	void updateMemberPassword(@Param("memberId") String memberId, @Param("encodedPwd") String encodedPwd);
+
 	
 
 

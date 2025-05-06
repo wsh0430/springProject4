@@ -31,6 +31,12 @@ public interface MemberService {
 
 	MemberVo getMemberTelCheck(String tel);
 
+	MemberVo getMemberIdByNameAndTel(String name, String tel);
+
+	MemberVo getMemberByIdAndTel(String memberId, String tel);
+
+	void updateMemberPassword(String memberId, String encodedPwd);
+
 	
 
 

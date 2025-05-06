@@ -70,6 +70,7 @@
 								<th>전화번호</th>
 								 <td>
 				          <div>
+				           전화번호 ${vo.tel}
 					          <c:set var="tel" value="${fn:split(vo.tel, '-')}"/>
 						          <select name="tel1" class="telSelect" required >
 	                     	<option value="010" ${tel[0]=='010' ? 'selected' : ''}>010</option>

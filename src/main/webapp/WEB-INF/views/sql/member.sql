@@ -50,4 +50,4 @@ insert into member (
     '안녕하세요 관리자입니다. 잘부탁드려요 무슨일 있으시면 바로 문의 주세요!', default, default, default, 10000, 0, default, default, default, 
     default, default, default, default, default
 );
-update member set  level = '0' where memberId = 'admin';
+update member set  tel = '043-225-2111' where memberId = 'admin';

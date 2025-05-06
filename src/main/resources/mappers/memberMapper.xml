@@ -21,6 +21,15 @@
 		select * from member where tel = #{tel};
 	</select>
 	
+	<select id="getMemberIdByNameAndTel" resultType="com.spring.springProject4.vo.MemberVo">
+	  select * from member where name = #{name} and tel = #{tel}
+	</select>
+	
+	<select id="getMemberByIdAndTel" resultType="com.spring.springProject4.vo.MemberVo">
+	  select * from member where memberId = #{memberId} and tel = #{tel}
+	</select>
+	
+	
 
 	<insert id="setMemberJoinOk">
 	insert into member (
@@ -52,6 +61,10 @@
 	
 	<update id="setMemberPwdChange">
 		update member set  password = #{pwd} where memberId = #{memberId};
+	</update>
+	
+	<update id="updateMemberPassword">
+	  update member set password = #{encodedPwd} where memberId = #{memberId}
 	</update>
 	
 	<delete id="deleteMemberById">
