@@ -6,6 +6,11 @@ body {
     animation: fadeInBody 1s ease;
 }
 
+input:-webkit-autofill {
+  box-shadow: 0 0 0px 1000px white inset !important;
+  -webkit-text-fill-color: #333 !important;
+}
+
 @keyframes fadeInBody {
     from { opacity: 0; }
     to { opacity: 1; }

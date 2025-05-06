@@ -8,6 +8,7 @@
 	<title>비밀번호 변경</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 	<link rel="stylesheet" type="text/css" href="${ctp}/css/memberPassChange.css">
+	<link rel="icon" type="image/x-icon" href="${ctp}/images/HITBox.ico">
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script>
 	  const ctp = "${ctp}"; // JSTL 값 JS 변수로 저장 외부에서 js를 불러오는데 ajax에서 ${ctp}를 인식하지못해서!

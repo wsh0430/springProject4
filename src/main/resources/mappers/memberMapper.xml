@@ -2,30 +2,35 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.springProject4.dao.MemberDao">
 	<select id="getMemberIdCheck" resultType="com.spring.springProject4.vo.MemberVo">
+	select 
+		idx, member_Id as memberId, password, nickName, name, gender, tel, address, email, like_Team as likeTeam, icon,
+		content, birthday, member_Info as memberInfo, delete_Check as deleteCheck, point, level,
+		visit_count as visitCount, board_count as boardCount, comment_count as commentCount, report_count as reportCount,
+		warning_count as warningCount, ip, start_date as startDate, last_date as lastDate
+	from member where member_Id = #{memberId}
+</select>
+	
+	<select id="getMemberById" resultMap="memberResultMap">
 		select * from member where member_Id = #{memberId};
 	</select>
 	
-	<select id="getMemberById" resultType="com.spring.springProject4.vo.MemberVo">
-		select * from member where member_Id = #{memberId};
-	</select>
-	
-	<select id="getMemberNickCheck" resultType="com.spring.springProject4.vo.MemberVo">
+	<select id="getMemberNickCheck" resultMap="memberResultMap">
 		select * from member where nickName = #{nickName};
 	</select>
 	
-	<select id="getMemberEmailCheck" resultType="com.spring.springProject4.vo.MemberVo">
+	<select id="getMemberEmailCheck" resultMap="memberResultMap">
 		select * from member where email = #{email};
 	</select>
 	
-	<select id="getMemberTelCheck" resultType="com.spring.springProject4.vo.MemberVo">
+	<select id="getMemberTelCheck" resultMap="memberResultMap">
 		select * from member where tel = #{tel};
 	</select>
 	
-	<select id="getMemberIdByNameAndTel" resultType="com.spring.springProject4.vo.MemberVo">
+	<select id="getMemberIdByNameAndTel" resultMap="memberResultMap">
 	  select * from member where name = #{name} and tel = #{tel}
 	</select>
 	
-	<select id="getMemberByIdAndTel" resultType="com.spring.springProject4.vo.MemberVo">
+	<select id="getMemberByIdAndTel" resultMap="memberResultMap">
 	  select * from member where member_Id = #{memberId} and tel = #{tel}
 	</select>
 	
@@ -33,12 +38,12 @@
 
 	<insert id="setMemberJoinOk">
 	insert into member (
-		member_Id, password, nickName, name, gender, tel, address, email, likeTeam, icon, content, birthday, member_info, delete_check, 
+		member_Id, password, nickName, name, gender, tel, address, email, like_Team, icon, content, birthday, member_info, delete_check, 
 		point, level, visit_count, board_count, comment_count, report_count, warning_count, ip, start_date, last_date
 	)
 	values (
 		#{vo.memberId}, #{vo.password}, #{vo.nickName}, #{vo.name}, #{vo.gender}, #{vo.tel}, #{vo.address}, #{vo.email}, #{vo.likeTeam}, #{vo.icon}, #{vo.content},
-		#{vo.birthday}, #{vo.userInfo}, default, default, default, default, default, default, default, default, #{vo.ip}, default, default
+		#{vo.birthday}, #{vo.memberInfo}, default, default, default, default, default, default, default, default, #{vo.ip}, default, default
 	);
 	</insert>
 
@@ -46,11 +51,15 @@
 	
 	
 	<update id="setMemberVisitCount">
-		update member set visit_count=0 where member_Id = #{memberId};
+		update member set visit_count = visit_count + 1 where member_Id = #{memberId}
 	</update>
 	
 	<update id="setMemberPoint">
-		update member set point = point + #{point} where memberId = #{memberId};
+		update member set point = point + #{point} where member_Id = #{memberId}
+	</update>
+	
+	<update id="updateLastDate">
+  	update member set last_date = NOW() where member_id = #{memberId}
 	</update>
 	
 	<update id="setMemberUpdateOk">
@@ -70,4 +79,33 @@
 	<delete id="deleteMemberById">
 		delete from member where member_Id = #{memberId}
 	</delete>
+	
+	
+	<resultMap id="memberResultMap" type="com.spring.springProject4.vo.MemberVo">
+  <id property="idx" column="idx" />
+  <result property="memberId" column="member_id" />
+  <result property="password" column="password" />
+  <result property="nickName" column="nick_name" />
+  <result property="name" column="name" />
+  <result property="gender" column="gender" />
+  <result property="tel" column="tel" />
+  <result property="address" column="address" />
+  <result property="email" column="email" />
+  <result property="likeTeam" column="like_team" />
+  <result property="icon" column="icon" />
+  <result property="content" column="content" />
+  <result property="birthday" column="birthday" />
+  <result property="memberInfo" column="member_info" />
+  <result property="deleteCheck" column="delete_check" />
+  <result property="point" column="point" />
+  <result property="level" column="level" />
+  <result property="visitCount" column="visit_count" />
+  <result property="boardCount" column="board_count" />
+  <result property="commentCount" column="comment_count" />
+  <result property="reportCount" column="report_count" />
+  <result property="warningCount" column="warning_count" />
+  <result property="ip" column="ip" />
+  <result property="startDate" column="start_date" />
+  <result property="lastDate" column="last_date" />
+</resultMap>
 </mapper>

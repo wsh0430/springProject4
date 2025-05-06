@@ -50,4 +50,8 @@ insert into member (
     '안녕하세요 관리자입니다. 잘부탁드려요 무슨일 있으시면 바로 문의 주세요!', default, default, default, 10000, 0, default, default, default, 
     default, default, default, default, default
 );
-update member set  tel = '043-225-2111' where memberId = 'admin';
+update member set  tel = '043-225-2111' where member_Id = 'admin';
+update member set  level = '0' where member_Id = 'admin';
+update member set  like_team = '한화' where member_Id = 'wjddn7757';
+update member set  member_info = '공개' where member_Id = 'wjddn7757';
+SELECT * FROM member WHERE name = '홍정우' AND tel = '010-5527-1398';

@@ -37,6 +37,10 @@ public interface MemberService {
 
 	void updateMemberPassword(String memberId, String encodedPwd);
 
+	void updateMemberFirstLogin(MemberVo vo);
+
+	void updateLastDate(String memberId);
+
 	
 
 

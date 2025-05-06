@@ -8,7 +8,7 @@
 	<title>아이디/비밀번호 찾기</title>
 	<link rel="stylesheet" type="text/css" href="${ctp}/css/memberFind.css">
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-	
+	<link rel="icon" type="image/x-icon" href="${ctp}/images/HITBox.ico">
 	<script>
 	  const ctp = "${ctp}"; // JSTL 값을 JS에서 사용
 	</script>

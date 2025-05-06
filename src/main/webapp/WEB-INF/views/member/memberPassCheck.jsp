@@ -7,6 +7,7 @@
 	<meta charset="UTF-8">
 	<title>비밀번호 확인하기</title>
 	<link rel="stylesheet" type="text/css" href="${ctp}/css/memberPassCheck.css">
+	<link rel="icon" type="image/x-icon" href="${ctp}/images/HITBox.ico">
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/include/nav.jsp" />

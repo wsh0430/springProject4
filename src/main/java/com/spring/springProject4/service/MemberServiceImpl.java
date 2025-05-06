@@ -117,6 +117,18 @@ public class MemberServiceImpl implements MemberService {
 		
 	}
 
+	@Override
+	public void updateMemberFirstLogin(MemberVo vo) {
+		memberDao.updateMemberFirstLogin(vo);
+		
+	}
+
+	@Override
+	public void updateLastDate(String memberId) {
+		memberDao.updateLastDate(memberId);
+		
+	}
+
 	
 
 }

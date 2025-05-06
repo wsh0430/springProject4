@@ -1,0 +1,27 @@
+/* clubs 스타일링 */
+.clubs {
+    display: flex; /* Flexbox를 사용하여 정렬 */
+    flex-wrap: wrap; /* 공간이 부족하면 자동으로 줄바꿈 */
+    justify-content: space-between; /* 아이템 간 간격을 고르게 */
+    gap: 20px; /* 각 아이템 간의 간격 */
+    margin: 20px 0; /* 상하 여백 */
+}
+
+.clubs a {
+    display: block; /* 링크를 블록 요소로 만들어 이미지 크기 조정 가능 */
+    width: 100px; /* 이미지 크기 일정하게 맞추기 */
+    height: 100px; /* 이미지 크기 일정하게 맞추기 */
+    overflow: hidden; /* 이미지가 요소를 벗어나지 않도록 */
+}
+
+.clubs img {
+    width: 100%; /* 가로 폭을 100%로 맞추어 이미지를 부모 요소에 맞게 조정 */
+    height: 100%; /* 세로 폭도 부모 요소에 맞게 조정 */
+    object-fit: contain; /* 이미지를 비율에 맞게 잘라서 표시 */
+    border-radius: 8px; /* 이미지 모서리를 둥글게 */
+    transition: transform 0.3s ease; /* hover 시 애니메이션 효과 */
+}
+
+.clubs img:hover {
+    transform: scale(1.05); /* hover 시 이미지를 살짝 확대 */
+}

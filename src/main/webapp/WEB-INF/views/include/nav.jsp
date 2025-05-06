@@ -39,7 +39,7 @@
 		
 		<!-- navbar 2번 목록들 -->
 		<div class="navbar2">
-			<div class="mainTitle"><a href="http://localhost:8080/springProject4"><img alt="MainLogo" src="${ctp}/images/HITBox.png">HITBox</a></div>
+			<div class="mainTitle"><a href="http://localhost:9090/springProject4"><img alt="MainLogo" src="${ctp}/images/HITBox.png">HITBox</a></div>
 			<ul class="nav-items">
 				<li class="nav-li"><a href="${ctp}/record/recordMain">기록실</a>
 				 	<!-- 하위메뉴 -->
@@ -58,7 +58,7 @@
 						<li><a href="${ctp}/record/recordMain?team=player">팀 평균기록(투수)</a></li>
 					</ul>
 				</li>
-				<li><a href="#">선수</a></li>
+				<li><a href="#">가이드라인</a></li>
 				<li><a href="#">구단</a></li>
 				<li><a href="#">커뮤니티</a></li>
 				<li><a href="#">뉴스/하이라이트</a></li>

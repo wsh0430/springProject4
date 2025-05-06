@@ -3,12 +3,12 @@
 <mapper namespace="com.spring.springProject4.dao.LoginTokenDao">
 	  
 	  <select id="getMemberByLoginToken" resultType="com.spring.springProject4.vo.LoginTokenVo">
-			select * from member where loginToken = #{loginToken} and token_expiry > NOW(); <!-- (> now())가 중요! 로그인토큰이 아직 유효한지  -->
+			select * from login_tokens where login_token = #{loginToken} and expiry > NOW(); <!-- (> now())가 중요! 로그인토큰이 아직 유효한지  -->
 		</select>
 	  
 	  
 		<insert id="saveLoginToken">
-      insert into login_tokens (memberId, loginToken, expiry) 
+      insert into login_tokens (member_Id, login_token, expiry) 
       values (#{memberId}, #{loginToken}, #{expiry});
 	  </insert>
 	  
@@ -16,8 +16,8 @@
 	    delete from login_tokens where expiry &lt; #{now}
 		</delete>
 	 
-	 <delete id="deleteLoginToken" parameterType="String">
+	 <delete id="deleteLoginToken">
         delete from login_tokens
-        where memberId = #{memberId}
+        where member_Id = #{memberId}
     </delete>
 </mapper>

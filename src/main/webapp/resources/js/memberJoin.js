@@ -1,15 +1,34 @@
  'use strict';
- //이메일 select로 값을 고르면 2번째 input에 자동으로 들어가게하는 스크립트
- 	function setEmailDomain(value) {
+// 이메일 select로 값을 고르면 2번째 input에 자동으로 들어가게 하는 스크립트
+function setEmailDomain(value) {
     const domainInput = document.getElementById('email2');
     if (value === 'self') {
-      domainInput.value = '';
-      domainInput.readOnly = false;
+        domainInput.value = '';
+        domainInput.readOnly = false;
     } else {
-      domainInput.value = value;
-      domainInput.readOnly = true;
+        domainInput.value = value;
+        domainInput.readOnly = true;
     }
-  }
+    
+    // 이메일 검증 함수 호출
+    validateEmail();
+}
+
+// 이메일 검사 함수
+function validateEmail() {
+    const email1 = document.getElementById("email1").value.trim();
+    const domainInput = document.getElementById("email2").value.trim();
+
+    // 이메일 입력값이 없으면 경고 메시지 표시
+    if (email1 === "" || domainInput === "") {
+        document.getElementById("emailMessage").textContent = "이메일을 입력해주세요.";
+        document.getElementById("emailMessage").style.display = "block";
+    } else {
+        document.getElementById("emailMessage").textContent = "";
+        document.getElementById("emailMessage").style.display = "none";
+    }
+}
+
  //회원가입에 필요한 정보 체크 스크립트
 	let idCheckSw = 0;
 	let nickCheckSw = 0;
@@ -355,7 +374,7 @@ function sendVerificationCode() {
         });
         return;
     }
-		document.getElementById("verifySection").style.display = 'block'; //인증번호 입력란 보여주기
+		
 // SMS 발송을 위한 AJAX 요청 (예시)
   // 1. 휴대폰 번호 중복 체크 먼저 수행
     $.ajax({
@@ -379,7 +398,10 @@ function sendVerificationCode() {
                 url: ctp + "/member/sendVerificationCode",
                 type: 'POST',
                 contentType: 'application/json',
-                data: JSON.stringify({ tel: tel }),
+                data: JSON.stringify({
+						        type: 'signup', // 또는 'id', 'pw'
+						        tel: tel
+						    }),
                 success: function (data) {
                     if (data.success) {
                         Swal.fire({
@@ -388,6 +410,7 @@ function sendVerificationCode() {
                             text: '휴대폰으로 인증번호가 발송되었습니다.',
                             confirmButtonText: '확인'
                         });
+                        document.getElementById("verifySection").style.display = 'block'; //인증번호 입력란 보여주기
                     } else {
                         Swal.fire({
                             icon: 'error',
@@ -395,6 +418,10 @@ function sendVerificationCode() {
                             text: '다시 시도해주세요.',
                             confirmButtonText: '확인'
                         });
+                        console.log("보내는 데이터:", {
+												  type: 'signup',
+												  tel: tel
+												});
                     }
                 },
                 error: function () {
@@ -420,7 +447,7 @@ function sendVerificationCode() {
 }
 
 // 인증번호 확인 함수
-function verifyCode() {
+function verifyCode(type) {
     let verificationCodeElement = document.getElementById('verificationCode');
     
 
@@ -440,9 +467,10 @@ function verifyCode() {
     $.ajax({
         url: ctp + "/member/verifyCode",
         type: 'POST',
-        data: JSON.stringify({ code: verificationCode }),
+        data: JSON.stringify({ code: verificationCode, type: type}),
         contentType: 'application/json',
         success: function (data) {
+				console.log(data); // 서버의 응답 내용 출력
             if (data === 'success') {
                 isPhoneVerified = true; // 인증 완료 처리
                 Swal.fire({
@@ -451,6 +479,7 @@ function verifyCode() {
                     text: '휴대폰 인증이 완료되었습니다.',
                     confirmButtonText: '확인'
                 });
+                document.getElementById('verificationBtn').disabled = true;
             } else if (data === 'expired') {
                 Swal.fire({
                     icon: 'error',

@@ -35,5 +35,6 @@ public class MemberVo {
 	private String lastDate;
 	
 	private String authNumber;
+	private String firstLogin;
 	
 }

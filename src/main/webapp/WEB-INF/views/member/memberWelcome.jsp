@@ -7,6 +7,7 @@
 	<meta charset="UTF-8">
 	<title>Welcome</title>
 	<link rel="stylesheet" type="text/css" href="${ctp}/css/memberWelcome.css">
+	<link rel="icon" type="image/x-icon" href="${ctp}/images/HITBox.ico">
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/include/nav.jsp" />

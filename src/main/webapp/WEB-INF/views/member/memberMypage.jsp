@@ -9,6 +9,9 @@
     <title>마이페이지</title>
     <!-- CSS 파일 경로 확인 -->
     <link rel="stylesheet" type="text/css" href="${ctp}/css/memberMypage.css">
+    <link rel="icon" type="image/x-icon" href="${ctp}/images/HITBox.ico">
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  	<script src="${ctp}/js/woo.js"></script>
     <script>
 	  	const ctp = "${ctp}"; // JSTL 값 JS 변수로 저장 외부에서 js를 불러오는데 ajax에서 ${ctp}를 인식하지못해서!
 		</script>
@@ -21,8 +24,9 @@
                 <img src="${ctp}/member/${vo.icon}" >
             </div>
             <div class="profile-info">
-                <h2 class="nickname">${sNickName}</h2>
+                <h2 class="nickname">${vo.nickName}</h2>
                 <p class="level">회원레벨: <span>${strLevel}</span></p>
+                <p class="point">내 포인트: <span>${vo.point}</span></p>
             </div>          
        </div>
        
@@ -33,8 +37,8 @@
 					    <tr>
 				        <th>좋아하는 팀</th>
 				        <td>
-				          <select name="likeTeam" class="teamSelect" required>
-									  <option value="" <c:if test="${vo.likeTeam == null || vo.likeTeam == ''}">selected</c:if>>선택안함</option>
+				          <select name="likeTeam" class="teamSelect">
+									  <option value="" <c:if test="${vo.likeTeam == null || vo.likeTeam == ''}"></c:if>>선택안함</option>
 									  <option value="LG" <c:if test="${vo.likeTeam == 'LG'}">selected</c:if>>LG</option>
 									  <option value="SSG" <c:if test="${vo.likeTeam == 'SSG'}">selected</c:if>>SSG</option>
 									  <option value="KT" <c:if test="${vo.likeTeam == 'KT'}">selected</c:if>>KT</option>
@@ -70,7 +74,6 @@
 								<th>전화번호</th>
 								 <td>
 				          <div>
-				           전화번호 ${vo.tel}
 					          <c:set var="tel" value="${fn:split(vo.tel, '-')}"/>
 						          <select name="tel1" class="telSelect" required >
 	                     	<option value="010" ${tel[0]=='010' ? 'selected' : ''}>010</option>
@@ -96,11 +99,11 @@
 											<select name="emailDomain" class="emailSelect" onchange="setEmailDomain(this.value)">
 					            <option value="self"  ${empty email[1] ? 'selected' : ''}>직접입력</option>
 					            <option value="naver.com" ${email[1] == 'naver.com'   ? 'selected' : ''}>naver.com</option>
-					            <option value="gamil.com" ${email[1] == 'gmail.com'   ? 'selected' : ''}>gmail.com</option>
+					            <option value="gmail.com" ${email[1] == 'gmail.com'   ? 'selected' : ''}>gmail.com</option>
 					            <option value="yahoo.com" ${email[1] == 'yahoo.com'   ? 'selected' : ''}>yahoo.com</option>
 					            <option value="nate.com" ${email[1] == 'nate.com'   ? 'selected' : ''}>nate.com</option>
-					            <option value="daum.com" ${email[1] == 'daum.net'   ? 'selected' : ''}>daum.net</option>
-					            <option value="hanmail.com" ${email[1] == 'hanmail.net'   ? 'selected' : ''}>hanmail.net</option>
+					            <option value="daum.net" ${email[1] == 'daum.net'   ? 'selected' : ''}>daum.net</option>
+					            <option value="hanmail.net" ${email[1] == 'hanmail.net'   ? 'selected' : ''}>hanmail.net</option>
 					          </select>
 										</div>
 								</td>
@@ -109,10 +112,10 @@
 				        <th>정보공개</th>
 				        <td>
 				        	<div class="userInfo-group">
-					        	<input type="radio" name="userInfo" id="userInfo1" value="공개"  ${vo.userInfo=='공개'   ? 'checked' : ''} />
-					        	<label for="userInfo1">공개</label>
-					        	<input type="radio" name="userInfo" id="userInfo2" value="비공개" ${vo.userInfo=='비공개' ? 'checked' : ''} />
-					        	<label for="userInfo2">비공개</label>
+					        	<input type="radio" name="memberInfo" id="memberInfo1" value="공개"  ${vo.memberInfo=='공개'   ? 'checked' : ''} />
+					        	<label for="memberInfo1">공개</label>
+					        	<input type="radio" name="memberInfo" id="memberInfo2" value="비공개" ${vo.memberInfo=='비공개' ? 'checked' : ''} />
+					        	<label for="memberInfo2">비공개</label>
 				        	</div>
 				        </td>
 				      </tr>
@@ -142,7 +145,6 @@
 						      <tr>
 						        <th>생일</th>
 							      	<td>
-							      	저장되어있는 생일 : ${vo.birthday}
 							      		<input type="date" name="birthday" value="${fn:substring(vo.birthday, 0, 10)}"  class="birthday-input"/>
 							      	</td>
 						      </tr>
@@ -174,6 +176,7 @@
 
         <div class="activity-section">
             <h3>최근 활동</h3>
+            <p>방문수 : ${vo.visitCount}</p>
             <div class="activity-board">
                 <h4>최근 게시글</h4>
                 <div>게시글 내용...</div>

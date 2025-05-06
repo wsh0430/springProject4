@@ -8,6 +8,7 @@
 	<title>memberLogin</title>
 	<link rel="stylesheet" type="text/css" href="${ctp}/css/memberLogin.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+	<link rel="icon" type="image/x-icon" href="${ctp}/images/HITBox.ico">
 </head>
 <body>
 <!-- Navbar -->

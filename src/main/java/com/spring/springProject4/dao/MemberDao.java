@@ -35,6 +35,10 @@ public interface MemberDao {
 
 	void updateMemberPassword(@Param("memberId") String memberId, @Param("encodedPwd") String encodedPwd);
 
+	void updateMemberFirstLogin(@Param("vo") MemberVo vo);
+
+	void updateLastDate(@Param("memberId") String memberId);
+
 	
 
 

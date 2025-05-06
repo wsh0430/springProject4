@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.InvalidKeyException;
 import java.security.SecureRandom;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -73,8 +74,23 @@ public class MemberController {
 			// 로그인 인증처리 (스프링 시쿠리트의 BCrytPasswordEncoder객체를 이용한 암호화 되어 있는 비밀번호 비교하기)
 			MemberVo vo = memberService.getMemberIdCheck(memberId);
 			
-			if(vo != null && vo.getUserDelete().equals("NO") && passwordEncoder.matches(password,vo.getPassword())) {
-				// 로그인 완료시 처리할 로직(1.세션 2.쿠키 3.기타 설정값 (방문포인트등..)
+				System.out.println("▶ [디버깅] memberId: " + memberId);
+				System.out.println("▶ [디버깅] vo.getPassword(): " + vo.getPassword());
+				
+				// 1. 먼저 vo null 체크
+				if (vo == null) {
+					return "redirect:/message/memberLoginNo"; // 아이디 없음
+				}
+	
+				// 2. 탈퇴 회원 체크
+				if ("YES".equals(vo.getDeleteCheck())) {
+					return "redirect:/message/memberDeleted"; // 탈퇴한 회원
+				}
+				// 3. 비밀번호 일치 확인
+				if (!passwordEncoder.matches(password, vo.getPassword())) {
+					return "redirect:/message/memberLoginNo"; // 비밀번호 불일치
+				}
+
 				
 				//1. 세션
 				String strLevel = "";
@@ -109,37 +125,41 @@ public class MemberController {
 			    response.addCookie(tokenCookie);
 				}
 				
+				LocalDate today    = LocalDate.now();
+				LocalDate joinDay  = LocalDate.parse(vo.getStartDate().substring(0,10));
+				LocalDate lastLoginDay= LocalDate.parse(vo.getLastDate().substring(0,10));
+				
 				//3-1. 기타처리 : 최초가입시 1000포인트 지급
-				if (vo.getStartDate() != null && vo.getStartDate().substring(0, 10).equals(LocalDateTime.now().toString().substring(0, 10))) {
-			    memberService.setMemberPoint(memberId, 1000);  // 최초 가입 시 1000포인트 지급
+				if (joinDay.equals(today) && vo.getPoint() == 0) {
+	        memberService.setMemberPoint(memberId, 1000);
 				}
-				//3-2. 기타처리 : 오늘 첫 방문이면 방문 포인트로 100포인트 증정(단, 1일 한번 100포인트 지급)
-				else if(vo.getLastDate() != null && !LocalDateTime.now().toString().substring(0, 10).equals(vo.getLastDate().substring(0, 10))) {
+				// 3-2. 오늘 첫 방문이면 방문 포인트로 100포인트 증정(단, 1일 1회 지급)
+				else if (lastLoginDay.isBefore(today)) {
 					memberService.setMemberVisitCount(memberId);
-					memberService.setMemberPoint(memberId, 100);
-					vo = memberService.getMemberById(memberId); // 최신 방문수/포인트 반영
-				}		
-			// **임시 비밀번호 확인 및 비밀번호 변경 강제**
-        if (vo.getPassword().equals(vo.getTempPassword())) {
-            session.setAttribute("forceChangePassword", true); // 임시 비밀번호로 로그인한 경우
-            return "redirect:/changePassword"; // 비밀번호 변경 페이지로 리다이렉트
-        }
+	        memberService.setMemberPoint(memberId, 100);
+		    }
+	
+		    // 3) 항상 마지막 로그인 시각 갱신
+		    memberService.updateLastDate(memberId);
 
-        // URL 인코딩하여 리디렉션 처리
-        try {
-            String encodedNickName = URLEncoder.encode(vo.getNickName(), "UTF-8");
-            return "redirect:/message/memberLoginOk?memberId=" + memberId + "&nickName=" + encodedNickName;
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            return "redirect:/message/memberSystemError";  // 인코딩 실패 시 처리
-        }
-    } else if (vo == null || !passwordEncoder.matches(password, vo.getPassword())) {
-        return "redirect:/message/memberLoginNo"; // 잘못된 ID 또는 비밀번호
-    } else if (vo.getUserDelete().equals("YES")) {
-        return "redirect:/message/memberDeleted"; // 탈퇴한 회원
-    }
-    return "redirect:/message/memberLoginNo"; //모든 조건이 충족되지 않으면 기본적으로 "로그인 실패"
-}
+				// **임시 비밀번호 확인 및 비밀번호 변경 강제**
+				String tempPwd = (String) session.getAttribute("tempPassword");
+
+				if (tempPwd != null && passwordEncoder.matches(tempPwd, vo.getPassword())) {
+				    session.setAttribute("forceChangePassword", true);
+				    session.removeAttribute("tempPassword");
+				    return "redirect:/message/memberTempLogin";
+				}
+
+			// URL 인코딩하여 리디렉션 처리
+		    try {
+		        String encodedNickName = URLEncoder.encode(vo.getNickName(), "UTF-8");
+		        return "redirect:/message/memberLoginOk?memberId=" + memberId + "&nickName=" + encodedNickName;
+		    } catch (UnsupportedEncodingException e) {
+		        e.printStackTrace();
+		        return "redirect:/message/memberSystemError";  // 인코딩 실패 시 처리
+		    }
+		}
 	// 소셜 로그인 처리
 	
 
@@ -162,16 +182,37 @@ public class MemberController {
 		@RequestMapping(value = "/sendVerificationCode", method = RequestMethod.POST)
 		@ResponseBody
 		public Map<String, Object> sendVerificationCode(@RequestBody Map<String, String> payload, HttpServletRequest request) {
-	    String type = payload.get("type");  // 'id' 또는 'pw' 값
-	    String idTel = payload.get("idTel");  // idTel 값
-	    String pwdTel = payload.get("pwdTel");  // pwdTel 값
+			 String type = payload.get("type"); // 'id', 'pw', 'signup' 등
+			 String tel = payload.get("tel");
 
 	    Map<String, Object> result = new HashMap<>();
 
-	    // type이 'id'인 경우 아이디 찾기
-	    if ("id".equals(type)) {
+	    if ("signup".equals(type)) {
+        // 전화번호 유효성 검사
+        if (tel != null && !tel.matches("^(010|011|016|017|018|019|043)-\\d{3,4}-\\d{4}$")) {
+            result.put("success", false);
+            result.put("message", "회원가입 전화번호 형식이 올바르지 않습니다.");
+            return result;
+        }
+
+        // 랜덤 인증번호 생성
+        int randomNumberForSignup = (int)(Math.random() * 899999) + 100000;  // 회원가입 인증번호
+        request.getSession().setAttribute("authNumberForSignup", randomNumberForSignup);  // signupTel에 대한 인증번호
+        request.getSession().setMaxInactiveInterval(180);  // 3분간 유효
+
+        // 메시지 발송
+        MessageService ms = new MessageService();
+        boolean isSignupTelSent = ms.sendMessage(tel, Integer.toString(randomNumberForSignup));  // signupTel로 인증번호 발송
+
+        result.put("success", isSignupTelSent);
+        if (!isSignupTelSent) {
+            result.put("message", "회원가입 인증번호 발송 실패");
+        }
+        
+        // type이 'id'인 경우 아이디 찾기
+	    } else if ("id".equals(type)) {
 	        // 아이디 찾기 전화번호 유효성 검사
-	        if (idTel != null && !idTel.matches("^(010|011|016|017|018|019|043)-\\d{3,4}-\\d{4}$")) {
+	        if (tel != null && !tel.matches("^(010|011|016|017|018|019|043)-\\d{3,4}-\\d{4}$")) {
 	            result.put("success", false);
 	            result.put("message", "아이디 찾기 전화번호 형식이 올바르지 않습니다.");
 	            return result;
@@ -184,7 +225,7 @@ public class MemberController {
 
 	        // 메시지 발송
 	        MessageService ms = new MessageService();
-	        boolean isIdTelSent = ms.sendMessage(idTel, Integer.toString(randomNumberForId));  // idTel로 인증번호 발송
+	        boolean isIdTelSent = ms.sendMessage(tel, Integer.toString(randomNumberForId));  // idTel로 인증번호 발송
 
 	        result.put("success", isIdTelSent);
 	        if (!isIdTelSent) {
@@ -193,7 +234,7 @@ public class MemberController {
 
 	    } else if ("pw".equals(type)) {
 	        // 비밀번호 찾기 전화번호 유효성 검사
-	        if (pwdTel != null && !pwdTel.matches("^(010|011|016|017|018|019|043)-\\d{3,4}-\\d{4}$")) {
+	        if (tel != null && !tel.matches("^(010|011|016|017|018|019|043)-\\d{3,4}-\\d{4}$")) {
 	            result.put("success", false);
 	            result.put("message", "비밀번호 찾기 전화번호 형식이 올바르지 않습니다.");
 	            return result;
@@ -206,7 +247,7 @@ public class MemberController {
 
 	        // 메시지 발송
 	        MessageService ms = new MessageService();
-	        boolean isPwdTelSent = ms.sendMessage(pwdTel, Integer.toString(randomNumberForPwd));  // pwdTel로 인증번호 발송
+	        boolean isPwdTelSent = ms.sendMessage(tel, Integer.toString(randomNumberForPwd));  // pwdTel로 인증번호 발송
 
 	        result.put("success", isPwdTelSent);
 	        if (!isPwdTelSent) {
@@ -224,13 +265,16 @@ public class MemberController {
 	// 인증번호 검증
 		@RequestMapping(value = "verifyCode", method = RequestMethod.POST)
 		@ResponseBody
-		public String verifyCode(@RequestBody Map<String, String> data, HttpSession session) {
+		public String verifyCode(@RequestBody Map<String, String> data, HttpSession session, HttpServletRequest request) {
 	    String inputCode = data.get("code");
 	    String type = data.get("type");  // 아이디 찾기("id") 또는 비밀번호 찾기("pw")
 
 	    Object authObj = null;
-
-	    if ("id".equals(type)) {
+	    if("signup".equals(type)){
+	    		authObj = session.getAttribute("authNumberForSignup");  //
+	    		System.out.println("세션에 저장된 인증번호: " + request.getSession().getAttribute("authNumberForSignup"));
+	    		System.out.println("세션 생성 시간: " + request.getSession().getCreationTime());
+			}else if ("id".equals(type)) {
 	        authObj = session.getAttribute("authNumberForId");  // 아이디 찾기 인증번호
 	    } else if ("pw".equals(type)) {
 	        authObj = session.getAttribute("authNumberForPwd");  // 비밀번호 찾기 인증번호
@@ -242,10 +286,17 @@ public class MemberController {
 
 	    int authNumber = (int) authObj;
 
-	    if (inputCode != null && inputCode.equals(String.valueOf(authNumber))) {
-	        // 인증번호가 맞으면 세션에서 인증번호를 제거하고, 인증 성공 상태를 설정
-	        session.removeAttribute(type.equals("id") ? "authNumberForId" : "authNumberForPwd");
-	        session.setAttribute("phoneVerified", true);
+	    if(inputCode != null && inputCode.equals(String.valueOf(authNumber))) {
+        // 인증번호가 맞으면 세션에서 인증번호를 제거하고, 인증 성공 상태를 설정
+        if ("signup".equals(type)) {
+            session.removeAttribute("authNumberForSignup"); // 회원가입 인증번호 제거
+        } else if ("id".equals(type)) {
+            session.removeAttribute("authNumberForId"); // 아이디 찾기 인증번호 제거
+        } else if ("pw".equals(type)) {
+            session.removeAttribute("authNumberForPwd"); // 비밀번호 찾기 인증번호 제거
+        }
+
+        	session.setAttribute("phoneVerified", true); // 인증 성공 상태 설정
 	        return "success";
 	    } else {
 	        return "fail";  // 인증번호가 일치하지 않음
@@ -377,10 +428,13 @@ public class MemberController {
 	//마이페이지 화면 보기
 		@RequestMapping(value = "/memberMypage", method = RequestMethod.GET)
 			public String memberMypageGet(HttpSession session, Model model) {
-					String mid = (String) session.getAttribute("sMemberId");
+					String memberId = (String) session.getAttribute("sMemberId");
 					
-					MemberVo vo = memberService.getMemberIdCheck(mid);
-			    
+					MemberVo vo = memberService.getMemberIdCheck(memberId);
+					// 디버깅 로그 추가
+			    System.out.println("좋아하는 팀: " + vo.getLikeTeam());
+			    System.out.println("닉네임: " + vo.getNickName());
+			    System.out.println("자기소개: " + vo.getContent());
 			    // memberVO 자체도 넘겨주기
 			    model.addAttribute("vo", vo);
 
@@ -403,6 +457,7 @@ public class MemberController {
 			System.out.println("수정 대상 memberId: " + vo.getMemberId());
 			
 			if(res != 0) {
+				System.out.println("vo 정보: " + vo);  // vo 객체 상태 확인
 				session.setAttribute("sNickName", vo.getNickName());
 				return "redirect:/message/memberUpdateOk";
 			}
@@ -519,7 +574,7 @@ public class MemberController {
 	//비밀번호 찾기
 	@RequestMapping(value = "/pwdSearch", method = RequestMethod.POST)
 	@ResponseBody
-	public String pwdSearch(@RequestParam("memberId") String memberId, @RequestParam("tel") String tel) throws MessagingException {
+	public String pwdSearch(@RequestParam("memberId") String memberId, @RequestParam("tel") String tel, HttpSession session) throws MessagingException {
 	   MemberVo vo = memberService.getMemberByIdAndTel(memberId, tel);
 	   if (vo != null) {
 	       // 임시 비밀번호 생성
@@ -528,6 +583,8 @@ public class MemberController {
 	
 	       // 비밀번호 업데이트
 	        memberService.updateMemberPassword(memberId, encodedPwd);
+	        
+	        session.setAttribute("tempPassword", tempPwd);
 	        
 	        // 이메일 전송
 	        mailSend(vo.getEmail(), "HITBox 임시 비밀번호 안내", "HITBox 비밀번호 찾기", tempPwd);
@@ -565,7 +622,7 @@ public class MemberController {
 
 	    content += "<br><hr>";
 	    content += "<p><img src=\"cid:HITBox.png\" width='550px'></p>";
-	    content += "<p>방문하기 : <a href='http://localhost:8080/springProject4'>HITBox</a></p>";
+	    content += "<p>방문하기 : <a href='http://localhost:9090/springProject4'>HITBox</a></p>";
 	    content += "<hr></div>";
 
 	    // 본문에 기재된 그림파일의 경로

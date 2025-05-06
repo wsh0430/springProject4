@@ -95,6 +95,10 @@ public class MessageController {
 			model.addAttribute("message", "현재 닉네임을 그대로 사용합니다.");
 			model.addAttribute("url","member/memberMypage");
 		}
+		else if(msgFlag.equals("memberTempLogin")) {
+			model.addAttribute("message", "임시 비밀번호로 로그인 되었습니다 비밀번호를 변경해주세요.");
+			model.addAttribute("url","member/memberMypage");
+		}
 		
 		
 		return "include/message";

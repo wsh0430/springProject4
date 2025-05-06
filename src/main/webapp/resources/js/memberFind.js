@@ -68,17 +68,16 @@ function sendVerificationCode(type) {
       return;
     }
   }
-
+	let tel = (type === "id") ? idTel : pwdTel;
   // AJAX 요청
   $.ajax({
     type: "POST",
     url: ctp + "/member/sendVerificationCode",
     contentType: "application/json",  // JSON으로 보낸다고 명시
     data: JSON.stringify({
-      type: type,          // 'id' 또는 'pw' 값
-      idTel: idTel || "",  // idTel이 비어있으면 빈 문자열로 보내기
-      pwdTel: pwdTel || "" // pwdTel도 비어있으면 빈 문자열로 보내기
-    }),  // JSON 문자열로 변환해서 보냄
+      type: type,
+      tel: tel
+    }), 
     success: function (res) {
       if (res.success) {
         Swal.fire({
@@ -179,7 +178,7 @@ function idSearch() {
   const verifyMsg = document.getElementById("idVerifyMessage").innerText;
 
 
-  if (!name || (idTel.length == 10 || idTel.length == 11 || verifyMsg !== "인증 완료")) {
+  if (!name || verifyMsg !== "인증 완료") {
     Swal.fire({
         icon: 'warning',
         title: '입력 확인',
@@ -235,7 +234,7 @@ function pwdSearch() {
   const pwdTel = document.getElementById("pwTel1").value.trim() + "-" + document.getElementById("pwTel2").value.trim() + "-" + document.getElementById("pwTel3").value.trim();
   const verifyMsg = document.getElementById("pwVerifyMessage").innerText;
 
-  if (!memberId || (pwdTel.length == 10 || pwdTel.length == 11) || verifyMsg !== "인증 완료") {
+  if (!memberId  || verifyMsg !== "인증 완료") {
     Swal.fire({
         icon: 'warning',
         title: '입력 확인',

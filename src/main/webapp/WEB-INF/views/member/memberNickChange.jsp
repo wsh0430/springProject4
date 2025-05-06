@@ -7,6 +7,7 @@
 	<meta charset="UTF-8">
 	<title>닉네임 변경하기</title>
 	<link rel="stylesheet" type="text/css" href="${ctp}/css/memberNickChange.css">
+	<link rel="icon" type="image/x-icon" href="${ctp}/images/HITBox.ico">
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script>
     const sNickName = '${sNickName}';  // JSP에서 서버 변수를 JavaScript 변수로 전달

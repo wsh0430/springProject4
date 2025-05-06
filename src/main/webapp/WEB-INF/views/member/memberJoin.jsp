@@ -7,6 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Main</title>
 	<link rel="stylesheet" type="text/css" href="${ctp}/css/memberJoin.css">
+	<link rel="icon" type="image/x-icon" href="${ctp}/images/HITBox.ico">
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
   <script src="${ctp}/js/woo.js"></script>
@@ -97,7 +98,7 @@
 				    </div>
 				    <div id="verifySection">
 				      <input type="text" id="verificationCode" placeholder="인증번호 입력" class="verificationInput"/>
-				      <button type="button" onclick="verifyCode()" class="verificationBtn">인증확인</button>
+				      <button type="button" onclick="verifyCode('signup')" id="verificationBtn" class="verificationBtn">인증확인</button>
 				      <span id="verifyMessage" ></span>
 				    </div>
 				  </td>
@@ -143,10 +144,10 @@
 	        <th>정보공개</th>
 	        <td>
 	        	<div class="userInfo-group">
-		        	<input type="radio" name="userInfo" id="userInfo1" value="공개"   />
-		        	<label for="userInfo1">공개</label>
-		        	<input type="radio" name="userInfo" id="userInfo2" value="비공개"  />
-		        	<label for="userInfo2">비공개</label>
+		        	<input type="radio" name="memberInfo" id="memberInfo1" value="공개"   />
+		        	<label for="memberInfo1">공개</label>
+		        	<input type="radio" name="memberInfo" id="memberInfo2" value="비공개"  />
+		        	<label for="memberInfo2">비공개</label>
 	        	</div>
 	        </td>
 	      </tr>
