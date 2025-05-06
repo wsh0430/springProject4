@@ -65,7 +65,7 @@
 	  <div class="menu-section">
 	    <h3>시즌기록</h3>
 	    <ul>
-	      <li>타자</li>
+	      <li><a href="${ctp}/record/recordHitterView">타자</a></li>
 	      <li>투수</li>
 	    </ul>
 	  </div>

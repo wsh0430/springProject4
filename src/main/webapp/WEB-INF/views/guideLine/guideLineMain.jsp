@@ -6,13 +6,15 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>guideLineMain.jsp</title>
+	<title>가이드라인</title>
 	<jsp:include page="/WEB-INF/views/include/bs5.jsp" />
 </head>
 <body>
+<link rel="icon" type="image/x-icon" href="${ctp}/images/HITBox.ico">
 <p><br/></p>
+
 <div class="container">
-	<h2 class="mb-4 text-start">🥎 가이드라인 🥎</h2>
+	<h2 class="mb-4 text-start">📜 가이드라인 📜</h2>
 
 	<div class="accordion" id="guideAccordion">
 		
@@ -281,7 +283,7 @@
 		<div class="accordion-item">
 			<h2 class="accordion-header" id="specialRull2">
 				<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#specialRull" aria-expanded="false" aria-controls="specialRull">
-					3-4. 야구의 용어 - 심화편⚾
+					3-4. 야구의 용어 - 심화편🥎
 				</button>
 			</h2>
 			<div id="specialRull" class="accordion-collapse collapse" aria-labelledby="specialRull2" data-bs-parent="#guideAccordion">
@@ -352,11 +354,26 @@
 			<div id="collapseSabermetricTerms" class="accordion-collapse collapse" aria-labelledby="headingSabermetricTerms" data-bs-parent="#guideAccordion">
 				<div class="accordion-body">
 					<ul>
-						<li><strong>WAR</strong>: 대체 선수 대비 승리 기여도</li>
-						<li><strong>OBP</strong>: 출루율</li>
-						<li><strong>SLG</strong>: 장타율</li>
-						<li><strong>OPS</strong>: 출루율 + 장타율</li>
-						<li><strong>FIP</strong>: 수비 무관 평균자책점</li>
+					  <li><strong>WAR</strong>: 대체 선수 대비 승리 기여도</li>
+					  <li><strong>OBP</strong>: 출루율 (볼넷, 몸에 맞는 공 포함)</li>
+					  <li><strong>SLG</strong>: 장타율 (타수 대비 총루타 수)</li>
+					  <li><strong>OPS</strong>: 출루율 + 장타율</li>
+					  <li><strong>FIP</strong>: 수비 무관 평균자책점 (삼진, 볼넷, 홈런 기반)</li>
+					  <li><strong>wOBA</strong>: 가중 출루율 (출루 유형별 가중치 부여)</li>
+					  <li><strong>BABIP</strong>: 인플레이 타구 타율</li>
+					  <li><strong>ERA+</strong>: 조정 평균자책점 (리그 평균 대비 성능)</li>
+					  <li><strong>WHIP</strong>: 이닝당 출루 허용률</li>
+					  <li><strong>K/BB</strong>: 삼진 대비 볼넷 비율</li>
+					  <li><strong>ISO</strong>: 순수 장타력 (SLG - AVG)</li>
+					  <li><strong>UZR</strong>: 수비 범위 및 기여도 측정 지표</li>
+					  <li><strong>DRS</strong>: 수비로 막은 실점 수치</li>
+					  <li><strong>xFIP</strong>: 예상 수비 무관 평균자책점</li>
+					  <li><strong>SIERA</strong>: 투수의 진짜 실력을 반영한 ERA</li>
+					  <li><strong>RC</strong>: 타자가 만들어낸 득점</li>
+					  <li><strong>RC+</strong>: 조정된 득점 생성력 (리그, 구장 보정 포함)</li>
+					  <li><strong>OPS+</strong>: 조정 OPS (리그 및 구장 반영)</li>
+					  <li><strong>LOB%</strong>: 투수의 잔루율 (주자 관리 능력)</li>
+					  <li><strong>BsR</strong>: 주루로 벌어들인 득점 가치</li>
 					</ul>
 				</div>
 			</div>

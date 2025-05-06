@@ -475,6 +475,7 @@
 </script>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/include/nav.jsp" />
 <p><br/></p>
 <div class="container">
 	<h2>기록실 메인화면</h2>

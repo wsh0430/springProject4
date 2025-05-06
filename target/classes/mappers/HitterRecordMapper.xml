@@ -38,6 +38,7 @@
 		    </if>
 		    ORDER BY 
 		        ${sortColumn} ${orderDirection}
+		        limit 30
 		</select>
 
 

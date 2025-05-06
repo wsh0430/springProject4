@@ -5,7 +5,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>투수 기록 비교</title>
+  <title>선수 기록비교(투수)</title>
 	<jsp:include page="/WEB-INF/views/include/bs5.jsp" />
 
   <!-- Google Charts 로드 -->

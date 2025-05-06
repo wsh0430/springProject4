@@ -35,11 +35,14 @@
 <body>
 
 <jsp:include page="/WEB-INF/views/include/nav.jsp" />
-<div class="container">
+<div style="padding-left: 300px; padding-right: 100px;">
+<h1>시즌기록-타자</h1>
+
 <!-- 정렬 필터 폼-->
-<form action="${ctp}/record/recordHitterView" method="get">
-	<label for="sortOptions">정렬 기준 선택:</label><br>
-	<select id="sortOptions" name="sortOptions">
+<form action="${ctp}/record/recordHitterView" method="get" class="row g-2 align-items-end mb-4">
+  <div class="col-auto">
+    <label for="sortOptions" class="form-label">정렬 기준</label>
+    <select id="sortOptions" name="sortOptions" class="form-select">
 	  <option value="WAR" selected>WAR</option>
 	  <option value="R">득점 (R)</option>
 	  <option value="H">안타 (H)</option>
@@ -63,102 +66,116 @@
 	  <option value="AB">타수</option>
 	  <option value="year">연도</option>
 	</select>
+	</div>
 	
-	<label for="orderBy">정렬 방향:</label><br>
-	<select id="orderBy" name="orderBy">
-	  <option value="DESC" selected>내림차순 (높은 순)</option>
-	  <option value="ASC">오름차순 (낮은 순)</option>
-	</select><br><br>
+  <div class="col-auto">
+    <label for="orderBy" class="form-label">정렬 방향</label>
+    <select id="orderBy" name="orderBy" class="form-select">
+      <option value="DESC" selected>내림차순</option>
+      <option value="ASC">오름차순</option>
+    </select>
+  </div>
 
-	<label for="team">팀</label><br>
-	<select id="team" name="team" class="form-select">
-	  <option value="">전체</option>
-	  <option value="9002">SSG</option>
-	  <option value="5002">LG</option>
-	  <option value="12001">KT</option>
-	  <option value="11001">NC</option>
-	  <option value="2002">KIA</option>
-	  <option value="1001">삼성</option>
-	  <option value="6002">두산</option>
-	  <option value="3001">롯데</option>
-	  <option value="7002">한화</option>
-	  <option value="10001">키움</option>
-	  <option value="9001">SK</option>
-	  <option value="10003">넥센</option>
-	  <option value="10002">히어로즈</option>
-	  <option value="6001">OB</option>
-	  <option value="2001">해태</option>
-	  <option value="5001">MBC</option>
-	  <option value="4004">현대</option>
-	  <option value="8001">쌍방울</option>
-	  <option value="4001">삼미</option>
-	  <option value="7001">빙그레</option>
-	</select>
+  <div class="col-auto">
+    <label for="team" class="form-label">팀</label>
+    <select id="team" name="team" class="form-select">
+      <option value="">전체</option>
+      <option value="9002">SSG</option>
+      <option value="5002">LG</option>
+      <option value="12001">KT</option>
+      <option value="11001">NC</option>
+      <option value="2002">KIA</option>
+      <option value="1001">삼성</option>
+      <option value="6002">두산</option>
+      <option value="3001">롯데</option>
+      <option value="7002">한화</option>
+      <option value="10001">키움</option>
+      <option value="9001">SK</option>
+      <option value="10003">넥센</option>
+      <option value="10002">히어로즈</option>
+      <option value="6001">OB</option>
+      <option value="2001">해태</option>
+      <option value="5001">MBC</option>
+      <option value="4004">현대</option>
+      <option value="8001">쌍방울</option>
+      <option value="4001">삼미</option>
+      <option value="7001">빙그레</option>
+    </select>
+  </div>
 	
-	<label for="positionOrder">포지션</label><br>
-	<select id="positionOrder" name="position" class="form-select">
-	  <option value="">전체</option>
-	  <option value="P">투수</option>
-	  <option value="C">포수</option>
-	  <option value="1B">1루수</option>
-	  <option value="2B">2루수</option>
-	  <option value="3B">3루수</option>
-	  <option value="SS">유격수</option>
-	  <option value="LF">좌익수</option>
-	  <option value="CF">중견수</option>
-	  <option value="RF">우익수</option>
-	  <option value="DH">지명타자</option>
-	  <option value="IF">내야수</option>
-	  <option value="OF">외야수</option>
-	</select>
+  <div class="col-auto">
+    <label for="positionOrder" class="form-label">포지션</label>
+    <select id="positionOrder" name="position" class="form-select">
+      <option value="">전체</option>
+      <option value="P">투수</option>
+      <option value="C">포수</option>
+      <option value="1B">1루수</option>
+      <option value="2B">2루수</option>
+      <option value="3B">3루수</option>
+      <option value="SS">유격수</option>
+      <option value="LF">좌익수</option>
+      <option value="CF">중견수</option>
+      <option value="RF">우익수</option>
+      <option value="DH">지명타자</option>
+      <option value="IF">내야수</option>
+      <option value="OF">외야수</option>
+    </select>
+  </div>
 
 	
-  <label for="startYear" class="input-group-text">시작 년도</label>
-  <select id="startYear" name="startYear" class="form-select">
-    <c:forEach var="i" begin="1982" end="2025">
-      <option value="${i}">${i}</option>
-    </c:forEach>
-  </select>
+  <div class="col-auto">
+    <label for="startYear" class="form-label">시작년도</label>
+    <select id="startYear" name="startYear" class="form-select">
+      <c:forEach var="i" begin="1982" end="2025">
+        <option value="${i}">${i}</option>
+      </c:forEach>
+    </select>
+  </div>
 
-  <label for="endYear" class="input-group-text">끝 년도</label>
-  <select id="endYear" name="endYear" class="form-select">
-    <c:forEach var="i" begin="1982" end="2025">
-      <option value="${i}" <c:if test="${i == 2025}">selected</c:if>>${i}</option>
-    </c:forEach>
-  </select>
-<button type="submit">조회</button>
+  <div class="col-auto">
+    <label for="endYear" class="form-label">끝년도</label>
+    <select id="endYear" name="endYear" class="form-select">
+      <c:forEach var="i" begin="1982" end="2025">
+        <option value="${i}" <c:if test="${i == 2025}">selected</c:if>>${i}</option>
+      </c:forEach>
+    </select>
+  </div>
+
+  <div class="col-auto">
+    <button type="submit" class="btn btn-danger">조회</button>
+  </div>
 </form>
 
 <!-- 조회 결과 테이블 -->
 <table class="table">
     <thead>
         <tr>
-            <th>선수</th>
-            <th>팀</th>
-            <th>포지션</th>
-            <th>연도</th>
-			      <th data-bs-toggle="tooltip" title="출전한 경기의 총 수">게임 수</th>
-			      <th data-bs-toggle="tooltip" title="타석에 들어선 횟수">타석</th>
-			      <th data-bs-toggle="tooltip" title="실제 스윙하여 결과가 난 타격 수">타수</th>
-			      <th data-bs-toggle="tooltip" title="득점한 횟수">득점</th>
-			      <th data-bs-toggle="tooltip" title="모든 안타 수의 합">안타</th>
-			      <th data-bs-toggle="tooltip" title="2루타 수">2루타</th>
-			      <th data-bs-toggle="tooltip" title="3루타 수">3루타</th>
-			      <th data-bs-toggle="tooltip" title="모든 안타로 얻은 루타 수의 합">누타수</th>
-			      <th data-bs-toggle="tooltip" title="타자가 만들어낸 타점">타점</th>
-			      <th data-bs-toggle="tooltip" title="홈런 수">홈런</th>
-			      <th data-bs-toggle="tooltip" title="도루 성공 수">도루</th>
-			      <th data-bs-toggle="tooltip" title="도루 실패 수">도루실패</th>
-			      <th data-bs-toggle="tooltip" title="볼넷 수(사사구+사구+고의사구)">볼넷</th>
-			      <th data-bs-toggle="tooltip" title="삼진 수">삼진</th>
-			      <th data-bs-toggle="tooltip" title="병살타 수">병살</th>
-			      <th data-bs-toggle="tooltip" title="희생번트 수">희생번트</th>
-			      <th data-bs-toggle="tooltip" title="희생플라이 수">희생플라이</th>
-			      <th data-bs-toggle="tooltip" title="안타 ÷ 타수">타율</th>
-			      <th data-bs-toggle="tooltip" title="(안타+볼넷+사구) ÷ 타석">출루율</th>
-			      <th data-bs-toggle="tooltip" title="총 루타 ÷ 타수">장타율</th>
-			      <th data-bs-toggle="tooltip" title="출루율 + 장타율">OPS</th>
-			      <th data-bs-toggle="tooltip" title="대체 선수 대비 기여도 (Wins Above Replacement)">WAR</th>
+            <th class="text-center">선수</th>
+            <th class="text-center">팀</th>
+            <th class="text-center">포지션</th>
+            <th class="text-center">연도</th>
+			      <th class="text-center" data-bs-toggle="tooltip" title="출전한 경기의 총 수">게임 수</th>
+			      <th class="text-center" data-bs-toggle="tooltip" title="타석에 들어선 횟수">타석</th>
+			      <th class="text-center" data-bs-toggle="tooltip" title="실제 스윙하여 결과가 난 타격 수">타수</th>
+			      <th class="text-center" data-bs-toggle="tooltip" title="득점한 횟수">득점</th>
+			      <th class="text-center" data-bs-toggle="tooltip" title="모든 안타 수의 합">안타</th>
+			      <th class="text-center" data-bs-toggle="tooltip" title="2루타 수">2루타</th>
+			      <th class="text-center" data-bs-toggle="tooltip" title="3루타 수">3루타</th>
+			      <th class="text-center" data-bs-toggle="tooltip" title="모든 안타로 얻은 루타 수의 합">누타수</th>
+			      <th class="text-center" data-bs-toggle="tooltip" title="타자가 만들어낸 타점">타점</th>
+			      <th class="text-center" data-bs-toggle="tooltip" title="홈런 수">홈런</th>
+			      <th class="text-center" data-bs-toggle="tooltip" title="도루 성공 수">도루</th>
+			      <th class="text-center" data-bs-toggle="tooltip" title="도루 실패 수">도루실패</th>
+			      <th class="text-center" data-bs-toggle="tooltip" title="볼넷 수(사사구+사구+고의사구)">볼넷</th>
+			      <th class="text-center" data-bs-toggle="tooltip" title="삼진 수">삼진</th>
+			      <th class="text-center" data-bs-toggle="tooltip" title="병살타 수">병살</th>
+			      <th class="text-center" data-bs-toggle="tooltip" title="희생번트 수">희생번트</th>
+			      <th class="text-center" data-bs-toggle="tooltip" title="희생플라이 수">희생플라이</th>
+			      <th class="text-center" data-bs-toggle="tooltip" title="안타 ÷ 타수">타율</th>
+			      <th class="text-center" data-bs-toggle="tooltip" title="(안타+볼넷+사구) ÷ 타석">출루율</th>
+			      <th class="text-center" data-bs-toggle="tooltip" title="총 루타 ÷ 타수">장타율</th>
+			      <th class="text-center" data-bs-toggle="tooltip" title="출루율 + 장타율">OPS</th>
+			      <th class="text-center" data-bs-toggle="tooltip" title="대체 선수 대비 기여도 (Wins Above Replacement)">WAR</th>
         </tr>
     </thead>
     <tbody>
