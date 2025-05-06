@@ -70,6 +70,7 @@
 								<th>전화번호</th>
 								 <td>
 				          <div>
+				           전화번호 ${vo.tel}
 					          <c:set var="tel" value="${fn:split(vo.tel, '-')}"/>
 						          <select name="tel1" class="telSelect" required >
 	                     	<option value="010" ${tel[0]=='010' ? 'selected' : ''}>010</option>
@@ -78,6 +79,7 @@
 				                <option value="017" ${tel[0]=='017' ? 'selected' : ''}>017</option>
 				                <option value="018" ${tel[0]=='018' ? 'selected' : ''}>018</option>
 				                <option value="019" ${tel[0]=='019' ? 'selected' : ''}>019</option>
+				                <option value="043" ${tel[0]=='043' ? 'selected' : ''}>043</option>
 						          </select>-
 						          <input type="text" name="tel2" id="tel2" value="${fn:trim(tel[1])}" required />-
 						          <input type="text" name="tel3" id="tel3" value="${fn:trim(tel[2])}" required />
@@ -174,7 +176,7 @@
             <h3>최근 활동</h3>
             <div class="activity-board">
                 <h4>최근 게시글</h4>
-                <p>게시글 내용...</p>
+                <div>게시글 내용...</div>
             </div>
             <div class="activity-comment">
                 <h4>최근 댓글</h4>

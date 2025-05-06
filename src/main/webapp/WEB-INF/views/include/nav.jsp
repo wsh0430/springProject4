@@ -8,10 +8,11 @@
   <title>nav</title>
   <link rel="stylesheet" href="${ctp}/css/nav.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="${ctp}/images/HITBox.ico">
 </head>
 	<header>
 		<!-- navbar 1번(로그인/회원가입/검색창) -->
-		<div class="navbar1" >
+		<div class="navbar1">
 		  <!-- 검색창 -->
 		  <div class="search-container">
 		    <input type="text" class="search-input" placeholder="검색어를 입력하세요...">
@@ -38,22 +39,30 @@
 		
 		<!-- navbar 2번 목록들 -->
 		<div class="navbar2">
-			<div class="mainTitle"><a href="http://localhost:9090/springProject4">HITBox</a></div>
+			<div class="mainTitle"><a href="http://localhost:9090/springProject4"><img alt="MainLogo" src="${ctp}/images/HITBoxSmall.png">HITBox</a></div>
 			<ul class="nav-items">
-				<li class="nav-record"><a href="#">기록실</a>
+				<li class="nav-li"><a href="${ctp}/record/recordHitterView">기록실</a>
 				 	<!-- 하위메뉴 -->
 					<ul class="dropdown">
-						<li><a href="#" onclick="showSidebar('player')">시즌 기록실</a></li>
-						<li><a href="#" onclick="showSidebar('career')">통산 기록실</a></li>
-						<li><a href="#" onclick="showSidebar('team')">팀 기록실</a></li>
+						<li><a href="${ctp}/record/recordHitterView" >시즌 기록실</a></li>
+						<li><a href="${ctp}/record/recordMain?sidebar=career">통산 기록실</a></li>
+						<li><a href="${ctp}/record/recordMain?sidebar=team">팀 기록실</a></li>
 					</ul>
 				</li>	
-				<li><a href="#">분석실</a></li>
-				<li><a href="#">선수</a></li>
+				<li class="nav-li"><a href="${ctp}/dataChart/playerInfo">분석실</a>
+					<!-- 하위메뉴 -->
+					<ul class="dropdown">
+						<li><a href="${ctp}/dataChart/playerInfo" >개인기록변화</a></li>
+						<li><a href="${ctp}/dataChart/comparePitcher">선수기록비교</a></li>
+						<li><a href="${ctp}/dataChart/teamPlayerAverage">팀 평균기록(타자)</a></li>
+						<li><a href="${ctp}/dataChart/teamPitcherAverage">팀 평균기록(투수)</a></li>
+					</ul>
+				</li>
+				<li><a href="${ctp}/guideLine/guideLineMain">가이드라인</a></li>
 				<li><a href="#">구단</a></li>
 				<li><a href="#">커뮤니티</a></li>
 				<li><a href="#">뉴스/하이라이트</a></li>
-				<li><a href="#">후원사이트</a></li>
+				<li><a href="${ctp}/sponsor/sponsors">후원사이트</a></li>
 			</ul>
 		</div>
 	</header>
@@ -65,7 +74,7 @@
 	  <div class="menu-section">
 	    <h3>시즌기록</h3>
 	    <ul>
-	      <li><a href="${ctp}/record/recordHitterView">타자</a></li>
+	      <li>타자</li>
 	      <li>투수</li>
 	    </ul>
 	  </div>

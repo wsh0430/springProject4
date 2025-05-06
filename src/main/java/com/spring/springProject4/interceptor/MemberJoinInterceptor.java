@@ -9,12 +9,9 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.spring.springProject4.common.ARIAUtil;
 import com.spring.springProject4.service.LoginTokenService;
-import com.spring.springProject4.service.MemberService;
 import com.spring.springProject4.vo.MemberVo;
 
 public class MemberJoinInterceptor extends HandlerInterceptorAdapter {
-	@Autowired
-	private MemberService memberService;
 	
 	@Autowired
 	private LoginTokenService loginTokenService;

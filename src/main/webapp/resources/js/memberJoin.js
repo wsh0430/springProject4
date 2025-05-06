@@ -13,14 +13,15 @@
  //회원가입에 필요한 정보 체크 스크립트
 	let idCheckSw = 0;
 	let nickCheckSw = 0;
+	let isPhoneVerified = false; // 휴대폰 인증 상태 변수
 	
 	//정규식 정의
 	let regMid = /^[a-zA-Z0-9_]{4,20}$/; 				//영문 대소문자 + 숫자 + 밑줄(_) 허용, 길이:4~20자
 	let regNickName = /^[가-힣a-zA-Z0-9]{1,20}$/;	//한글 + 영대소문자 + 숫자, 길이:1~20자
 	let regName = /^[가-힣a-zA-Z]{1,10}$/; 				//한글 + 영문만 허용, 길이:1~10자
-	let regTel = /\d{3}-\d{4}-\d{4}$/;					//000-0000-0000 + 하이픈 구조
+	let regTel = /^(010|011|016|017|018|019|043)-\d{3,4}-\d{4}$/;					//000-000or0000-0000 + 하이픈 구조
 	let regEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-	let regPwd = /^[A-Za-z\d!@#$%]{8,20}$/; // 영문, 숫자, 특수문자(!@#$%)만 가능한 8~20자
+	let regPwd = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%])[A-Za-z\d!@#$%]{8,20}$/; //영문자, 숫자, 특수문자 각 하나 이상 포함 필수입니다. 이며 8~20자 사이!
 
 	
 	//회원가입에 필요한 정보 체크
@@ -46,9 +47,32 @@
 	let detailAddress = myform.detailAddress.value + "	";
 	let extraAddress = myform.extraAddress.value + "	";
 	let address = postcode + "/" + roadAddress + "/" + detailAddress + "/" + extraAddress;
-	
+
 	let submitFlag = 0;
 	
+		// 성별 검사
+		const genderMale = document.getElementById("gender1").checked;
+		const genderFemale = document.getElementById("gender2").checked;
+		
+		if (!genderMale && !genderFemale) {
+		  document.getElementById("genderMessage").textContent = "성별을 선택해주세요.";
+		  document.getElementById("genderMessage").style.display = "block";
+		  return false;
+		} else {
+		  document.getElementById("genderMessage").textContent = "";
+		  document.getElementById("genderMessage").style.display = "none";
+		}
+		
+		// 이메일 검사
+		if (email1 === "" || email2 === "") {
+		  document.getElementById("emailMessage").textContent = "이메일을 입력해주세요.";
+		  document.getElementById("emailMessage").style.display = "block";
+		  myform.email1.focus();
+		  return false;
+		} else {
+		  document.getElementById("emailMessage").textContent = "";
+		  document.getElementById("emailMessage").style.display = "none";
+		}
 		if (!regMid.test(mid)) {
 			document.getElementById('idMessage').textContent = "아이디는 4~20자리의 영문 대/소문자와 숫자, 언더바(_)만 가능합니다.";
 			document.getElementById('idMessage').style.display= 'block';
@@ -56,10 +80,16 @@
 			return false; //유효성 검사 실패 시 폼 제출을 막기 위해 false 리턴
 		}
 		if(pwd.length < 8 || pwd.length > 20) {
-			document.getElementById('pwdMessage').textContent = "비밀번호는 영문, 숫자, 특수문자(!@#$%)만 가능한 8~20자여야 합니다.";
+			document.getElementById('pwdMessage').textContent = "비밀번호는  영문자, 숫자, 특수문자 각 하나 이상 포함 필수 8~20자여야 합니다.";
 			document.getElementById('pwdMessage').style.display= 'block';
 			myform.password.focus();
 			return false; 
+		}
+		else if (pwdCheck === "") {
+		  document.getElementById('pwdCheckMessage').textContent = "비밀번호 확인란을 입력해주세요.";
+		  document.getElementById('pwdCheckMessage').style.display = 'block';
+		  myform.memberPwdCheck.focus();
+		  return false;
 		}
 		else if(!(pwd == pwdCheck)) {
 			document.getElementById('pwdCheckMessage').textContent = "비밀번호가 일치하지 않습니다.";
@@ -85,7 +115,7 @@
 		
 		if(tel2 != "" && tel3 != "") {
 			if(!regTel.test(tel)) {
-				document.getElementById('telMessage').textContent = "전화번호 형식을 확인해주세요.(000-0000-0000)";
+				document.getElementById('telMessage').textContent = "전화번호 형식을 확인해주세요.(000-000또는0000-0000)";
 				document.getElementById('telMessage').style.display= 'block';
 				myform.tel2.focus();
 				return false; 
@@ -146,6 +176,14 @@
 			    });
 				document.getElementById("nickNameBtn").focus();
 			}
+			else if (!isPhoneVerified) { // 휴대폰 인증 체크
+	       Swal.fire({
+	          icon: 'warning',
+	          title: '휴대폰 인증 필요!',
+	          text: '휴대폰 번호 인증을 완료해주세요.',
+	          confirmButtonText: '확인'
+	       });
+			}
 			else{ //모든 체크가 완료되었을때 email/tel을 채워준후 서버로 전송처리한다.
 				myform.email.value = email;
 				myform.tel.value = tel;
@@ -167,6 +205,7 @@
 	//아이디 중복검사
 	function idCheck() {
 		let mid = myform.memberId.value;
+		
 	  if (!regMid.test(mid)) {
       Swal.fire({
           icon: 'error',
@@ -177,6 +216,16 @@
       myform.memberId.focus();
       return;  // 유효하지 않으면 중복 체크를 하지 않음
     }
+      if(mid.trim() == ""){
+			Swal.fire({
+          icon: 'error',
+          title: '공백',
+          text: '아이디를 입력해주세요.',
+          confirmButtonText: '확인'
+      });
+      myform.memberId.focus();
+      return;  // 유효하지 않으면 중복 체크를 하지 않음
+		}
 		if(mid.trim() != ""){
 			$.ajax({
 				url 	: ctp + "/member/memberIdCheck",
@@ -189,7 +238,7 @@
 		          title: '아이디 중복!',
 		          text: '이미 사용 중인 아이디입니다. 다시 입력하세요.',
 		          confirmButtonText: '확인'
-	        	});
+	        	});        	
 						myform.memberId.focus();
 					}
 					else{
@@ -229,6 +278,14 @@
           text: '닉네임은 한글 + 영대소문자 + 숫자, 20자 이내여야 합니다.',
           confirmButtonText: '확인'
       });
+      if(nickName.trim() == ""){
+							Swal.fire({
+				          icon: 'error',
+				          title: '공백',
+				          text: '닉네임을 입력해주세요.',
+				          confirmButtonText: '확인'
+				      });
+						}
       myform.nickName.focus();
       return;  // 유효하지 않으면 중복 체크를 하지 않음
     }
@@ -274,6 +331,153 @@
 		}
 	}
 	
+// 휴대폰 인증번호 발송 함수
+function sendVerificationCode() {
+    let tel = myform.tel1.value.trim() + "-" + myform.tel2.value.trim() + "-" + myform.tel3.value.trim();
+    
+    // 요소가 null인 경우 예외 처리
+    if (!myform.tel1.value.trim() || !myform.tel2.value.trim() || !myform.tel3.value.trim()) {
+        Swal.fire({
+            icon: 'error',
+            title: '입력 오류',
+            text: '전화번호 입력 필드를 확인해주세요.',
+            confirmButtonText: '확인'
+        });
+        return;
+    }
+
+    if (!regTel.test(tel)) {
+        Swal.fire({
+            icon: 'error',
+            title: '전화번호 오류!',
+            text: '올바른 전화번호 형식이 아닙니다.',
+            confirmButtonText: '확인'
+        });
+        return;
+    }
+		document.getElementById("verifySection").style.display = 'block'; //인증번호 입력란 보여주기
+// SMS 발송을 위한 AJAX 요청 (예시)
+  // 1. 휴대폰 번호 중복 체크 먼저 수행
+    $.ajax({
+        url: ctp + "/member/checkTelDuplicate",
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ tel: tel }),
+        success: function (isDuplicate) {
+            if (isDuplicate) {
+                Swal.fire({
+                    icon: 'error',
+                    title: '중복된 전화번호!',
+                    text: '이미 가입된 전화번호입니다.',
+                    confirmButtonText: '확인'
+                });
+                return;
+            }
+
+            // 2. 중복이 아니면 인증번호 발송 요청
+            $.ajax({
+                url: ctp + "/member/sendVerificationCode",
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ tel: tel }),
+                success: function (data) {
+                    if (data.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: '인증번호 발송 완료!',
+                            text: '휴대폰으로 인증번호가 발송되었습니다.',
+                            confirmButtonText: '확인'
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: '인증번호 발송 실패!',
+                            text: '다시 시도해주세요.',
+                            confirmButtonText: '확인'
+                        });
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: '전송 오류',
+                        text: '서버와의 통신 중 문제가 발생했습니다.',
+                        confirmButtonText: '확인'
+                    });
+                }
+            });
+
+        },
+        error: function () {
+            Swal.fire({
+                icon: 'error',
+                title: '중복 확인 실패',
+                text: '서버와의 통신 오류입니다.',
+                confirmButtonText: '확인'
+            });
+        }
+    });
+}
+
+// 인증번호 확인 함수
+function verifyCode() {
+    let verificationCodeElement = document.getElementById('verificationCode');
+    
+
+
+    let verificationCode = verificationCodeElement.value.trim();
+    
+    if (verificationCode === '') {
+        Swal.fire({
+            icon: 'warning',
+            title: '입력 오류',
+            text: '인증번호를 입력해주세요.',
+            confirmButtonText: '확인'
+        });
+        return;
+    }
+
+    $.ajax({
+        url: ctp + "/member/verifyCode",
+        type: 'POST',
+        data: JSON.stringify({ code: verificationCode }),
+        contentType: 'application/json',
+        success: function (data) {
+            if (data === 'success') {
+                isPhoneVerified = true; // 인증 완료 처리
+                Swal.fire({
+                    icon: 'success',
+                    title: '휴대폰 인증 완료!',
+                    text: '휴대폰 인증이 완료되었습니다.',
+                    confirmButtonText: '확인'
+                });
+            } else if (data === 'expired') {
+                Swal.fire({
+                    icon: 'error',
+                    title: '인증번호 만료',
+                    text: '인증번호가 만료되었습니다. 다시 시도해주세요.',
+                    confirmButtonText: '확인'
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: '인증번호 불일치!',
+                    text: '입력하신 인증번호가 일치하지 않습니다.',
+                    confirmButtonText: '확인'
+                });
+            }
+        },
+        error: function () {
+            Swal.fire({
+                icon: 'warning',
+                title: '전송 오류',
+                text: '서버와의 통신 중 문제가 발생했습니다.',
+                confirmButtonText: '확인'
+            });
+        }
+    });
+}
+	
 	const midInput = document.getElementById("memberId");
 	const idMessage = document.getElementById("idMessage");
 	const pwdInput = document.getElementById("password");
@@ -283,6 +487,11 @@
 	const nickNameMessage = document.getElementById("nickNameMessage");
 	const nameInput = document.getElementById("name");
 	const nameMessage = document.getElementById("nameMessage");
+	const genderRadios = document.querySelectorAll("input[name='gender']");
+	const genderMessage = document.getElementById("genderMessage");
+	const email1Input = document.getElementById("email1");
+	const email2Input = document.getElementById("email2");
+	const emailMessage = document.getElementById("emailMessage");
 	
 	// 아이디 실시간 입력 시 조건이 맞으면 메시지 숨김
 	midInput.addEventListener("input", function () {
@@ -322,7 +531,7 @@
 	    pwdMessage.style.display = "block";
 	  }
 	  else if (value.length < 8 || value.length > 20) {
-	    pwdMessage.textContent = "비밀번호는 8~20 자리로 작성해주세요.";
+	    pwdMessage.textContent = "비밀번호는 영문자, 숫자, 특수문자 각 하나 이상 포함 필수 8~20 자리로 작성해주세요.";
 	    pwdMessage.style.display = "block";
 	  } else {
 	    pwdMessage.style.display = "none";
@@ -337,7 +546,12 @@
 	});
 	// 비밀번호 확인 blur 시 검사
 	pwdCheckInput.addEventListener("blur", function () {
-	  if (pwdCheckInput.value.trim() !== pwdInput.value.trim()) {
+		const value = pwdCheckInput.value.trim();
+		if (value === "") {
+	    pwdCheckMessage.textContent = "비밀번호 확인은 필수 입력입니다.";
+	    pwdCheckMessage.style.display = "block";
+	  }
+	  else if (pwdCheckInput.value.trim() !== pwdInput.value.trim()) {
 	    pwdCheckMessage.textContent = "비밀번호가 일치하지 않습니다.";
 	    pwdCheckMessage.style.display = "block";
 	  } else {
@@ -371,6 +585,37 @@
 	    nameMessage.style.display = "none";
 	  }
 	});
+	
+	// 성별 change 이벤트로 변경
+	genderRadios.forEach(radio => {
+	  radio.addEventListener("change", function () {
+	    if (document.querySelector("input[name='gender']:checked")) {
+	      genderMessage.style.display = "none";
+	    } else {
+	      genderMessage.textContent = "성별을 선택해주세요.";
+	      genderMessage.style.display = "block";
+	    }
+	  });
+	});
+	
+	// 이메일 입력 유효성 검사 함수
+	function validateEmailInputs() {
+	  const email1Val = email1.value.trim();
+	  const email2Val = email2.value.trim();
+		
+	  if (email1Val === "" || email2Val === "") {
+	    emailMessage.textContent = "이메일을 입력해주세요.";
+	    emailMessage.style.display = "block";
+	  } else {
+	    emailMessage.textContent = "";
+	    emailMessage.style.display = "none";
+	  }
+	}
+	
+	// blur 이벤트 등록 (입력란에서 포커스 벗어날 때 실행)
+	email1.addEventListener("blur", validateEmailInputs);
+	email2.addEventListener("blur", validateEmailInputs);
+	//email1이나 email2 어느 칸에서 포커스를 벗어나도 같은 검사 로직을 실행합니다.
 	
 	//선택항목버튼을 통해 보이고 숨기는
 	 function optionCheck() {

@@ -8,6 +8,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>recordHitterView.jsp</title>
+	<link rel="icon" type="image/x-icon" href="${ctp}/images/HITBox.ico">
 	<jsp:include page="/WEB-INF/views/include/bs5.jsp" />
 	<script>
 		function applyFilters() {

@@ -6,7 +6,8 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>recordCrawl.jsp</title>
+	<title>데이터 크롤링</title>
+	<link rel="icon" type="image/x-icon" href="${ctp}/images/HITBox.ico">
 	<jsp:include page="/WEB-INF/views/include/bs5.jsp" />
 	<script>
 		'use strict';
@@ -476,6 +477,7 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/include/nav.jsp" />
+
 <p><br/></p>
 <div class="container">
 	<h2>기록실 메인화면</h2>
@@ -988,6 +990,6 @@
 </div>
   
 </div>
-<p><br/></p>
+<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 </body>
 </html>

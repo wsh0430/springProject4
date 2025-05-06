@@ -9,6 +9,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>연간 팀 평균수치 조회(타자)</title>
+	<link rel="icon" type="image/x-icon" href="${ctp}/images/HITBox.ico">
 	<jsp:include page="/WEB-INF/views/include/bs5.jsp" />
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -94,47 +95,50 @@
 	</script>
 </head>
 <body>
-
-<h2>팀 타자 기록 평균 변화량</h2>
-
-<!-- 차트를 먼저 보여준다 -->
-<div id="chart_div" style="width: 100%; height: 100%; margin-bottom: 50px;"></div>
-
-<!-- 설명 표시 영역 -->
-<div id="fieldDescription" style="margin-bottom: 10px; text-align: center; font-size: 1.1em; color: #555;"></div>
-
-<!-- 차트 아래에 검색 폼 -->
-<form id="searchForm" style="text-align: center;">
-    속성 선택: 
-    <select id="field" name="field" onchange="updateFieldDescription()">
-        <option value="games">게임 수</option>
-        <option value="tasuk">타석</option>
-        <option value="at_bats">타수</option>
-        <option value="runs">득점</option>
-        <option value="hits">안타</option>
-        <option value="doubles">2루타</option>
-        <option value="triples">3루타</option>
-        <option value="total_bases">총루타</option>
-        <option value="rbi">타점</option>
-        <option value="home_runs" selected>홈런</option>
-        <option value="stolen_bases">도루</option>
-        <option value="stolen_bases_fail">도루 실패</option>
-        <option value="bb">볼넷</option>
-        <option value="strikeouts">삼진</option>
-        <option value="double_plays">병살타</option>
-        <option value="sac_hits">희생번트</option>
-        <option value="sac_flies">희생플라이</option>
-        <option value="avg">타율</option>
-        <option value="obp">출루율</option>
-        <option value="slg">장타율</option>
-        <option value="ops">OPS</option>
-        <option value="war">WAR</option>
-    </select>
-    시작 연도: <input type="number" id="startYear" name="startYear" value="1982" style="width: 100px;">
-    종료 연도: <input type="number" id="endYear" name="endYear" value="2025" style="width: 100px;">
+	<jsp:include page="/WEB-INF/views/include/nav.jsp" />
+	<div style="padding-left: 200px; padding-right: 200px;"></div>
+	<h2 class="text-center mt-4 mb-4">📈연간 팀 평균수치 조회(타자)📈</h2>
+	<h5 class="text-center mt-4 mb-4">리그의 평균적인 수치를 보여줍니다. 해당 년도에 리그가 타고투저인지 투고타저인지 판별하기 쉽습니다.</h5>
 	
-    <button type="button" onclick="drawChart()" class="btn btn-primary">조회</button>
-</form>
-
+	<!-- 차트를 먼저 보여준다 -->
+	<div id="chart_div" style="width: 1200px; height: 600px; margin: 0 auto 50px auto;"></div>
+	
+	<!-- 설명 표시 영역 -->
+	<div id="fieldDescription" style="margin-bottom: 10px; text-align: center; font-size: 1.1em; color: #555;"></div>
+	
+	<!-- 차트 아래에 검색 폼 -->
+	<form id="searchForm" style="text-align: center;">
+	    속성 선택: 
+	    <select id="field" name="field" onchange="updateFieldDescription()">
+	        <option value="games">게임 수</option>
+	        <option value="tasuk">타석</option>
+	        <option value="at_bats">타수</option>
+	        <option value="runs">득점</option>
+	        <option value="hits">안타</option>
+	        <option value="doubles">2루타</option>
+	        <option value="triples">3루타</option>
+	        <option value="total_bases">총루타</option>
+	        <option value="rbi">타점</option>
+	        <option value="home_runs" selected>홈런</option>
+	        <option value="stolen_bases">도루</option>
+	        <option value="stolen_bases_fail">도루 실패</option>
+	        <option value="bb">볼넷</option>
+	        <option value="strikeouts">삼진</option>
+	        <option value="double_plays">병살타</option>
+	        <option value="sac_hits">희생번트</option>
+	        <option value="sac_flies">희생플라이</option>
+	        <option value="avg">타율</option>
+	        <option value="obp">출루율</option>
+	        <option value="slg">장타율</option>
+	        <option value="ops">OPS</option>
+	        <option value="war">WAR</option>
+	    </select>
+	    시작 연도: <input type="number" id="startYear" name="startYear" value="1982" style="width: 100px;">
+	    종료 연도: <input type="number" id="endYear" name="endYear" value="2025" style="width: 100px;">
+		
+	    <button type="button" onclick="drawChart()" class="btn btn-danger">조회</button>
+	</form>
+	<br><br>
+	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 </body>
 </html>

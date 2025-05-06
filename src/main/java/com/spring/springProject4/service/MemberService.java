@@ -27,6 +27,16 @@ public interface MemberService {
 
 	void deleteMemberById(String memberId);
 
+	MemberVo getMemberEmailCheck(String email);
+
+	MemberVo getMemberTelCheck(String tel);
+
+	MemberVo getMemberIdByNameAndTel(String name, String tel);
+
+	MemberVo getMemberByIdAndTel(String memberId, String tel);
+
+	void updateMemberPassword(String memberId, String encodedPwd);
+
 	
 
 

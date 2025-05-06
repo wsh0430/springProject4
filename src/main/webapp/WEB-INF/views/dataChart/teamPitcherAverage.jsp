@@ -9,6 +9,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>연간 팀 평균수치 조회(투수)</title>
+	<link rel="icon" type="image/x-icon" href="${ctp}/images/HITBox.ico">
 	<jsp:include page="/WEB-INF/views/include/bs5.jsp" />
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -90,41 +91,45 @@
 	</script>
 </head>
 <body>
-
-<h2>팀 투수 기록 평균 변화량</h2>
-
-<div id="chart_div" style="width: 100%; height: 100%; margin-bottom: 50px;"></div>
-
-<div id="fieldDescription" style="margin-bottom: 10px; text-align: center; font-size: 1.1em; color: #555;"></div>
-
-<form id="searchForm" style="text-align: center;">
-    속성 선택: 
-<select id="field" name="field" onchange="updateFieldDescription()">
-    <option value="gamesP">경기수</option>
-    <option value="gamesStart">선발</option>
-    <option value="completegames">완투</option>
-    <option value="shutouts">완봉</option>
-    <option value="wins">승</option>
-    <option value="losses">패</option>
-    <option value="saves">세이브</option>
-    <option value="holds">홀드</option>
-    <option value="innings">이닝</option>
-    <option value="earnedRuns">자책점</option>
-    <option value="runsAllowed">실점</option>
-    <option value="hitsAllowed">피안타</option>
-    <option value="homeRunsAllowed">피홈런</option>
-    <option value="bbAllowed">사사구</option>
-    <option value="strikeouts">탈삼진</option>
-    <option value="balks">보크</option>
-    <option value="wildPitches">폭투</option>
-    <option value="era">평균자책점</option>
-    <option value="fip">FIP</option>
-    <option value="whip">WHIP</option>
-    <option value="war">WAR</option>
-</select>
-    시작 연도: <input type="number" id="startYear" name="startYear" value="1982" style="width: 100px;">
-    종료 연도: <input type="number" id="endYear" name="endYear" value="2025" style="width: 100px;">
-    <button type="button" onclick="drawChart()" class="btn btn-primary">조회</button>
-</form>
+	<jsp:include page="/WEB-INF/views/include/nav.jsp" />
+	<div style="padding-left: 200px; padding-right: 200px;"></div>
+	<h2 class="text-center mt-4 mb-4">📈연간 팀 평균수치 조회(투수)📈</h2>
+	<h5 class="text-center mt-4 mb-4">리그의 평균적인 수치를 보여줍니다. 해당 년도에 리그가 타고투저인지 투고타저인지 판별하기 쉽습니다.</h5>
+	
+	<div id="chart_div" style="width: 1200px; height: 600px; margin: 0 auto 50px auto;"></div>
+	
+	<div id="fieldDescription" style="margin-bottom: 10px; text-align: center; font-size: 1.1em; color: #555;"></div>
+	
+	<form id="searchForm" style="text-align: center;">
+	    속성 선택: 
+	<select id="field" name="field" onchange="updateFieldDescription()">
+	    <option value="gamesP">경기수</option>
+	    <option value="gamesStart">선발</option>
+	    <option value="completegames">완투</option>
+	    <option value="shutouts">완봉</option>
+	    <option value="wins">승</option>
+	    <option value="losses">패</option>
+	    <option value="saves">세이브</option>
+	    <option value="holds">홀드</option>
+	    <option value="innings">이닝</option>
+	    <option value="earnedRuns">자책점</option>
+	    <option value="runsAllowed">실점</option>
+	    <option value="hitsAllowed">피안타</option>
+	    <option value="homeRunsAllowed">피홈런</option>
+	    <option value="bbAllowed">사사구</option>
+	    <option value="strikeouts">탈삼진</option>
+	    <option value="balks">보크</option>
+	    <option value="wildPitches">폭투</option>
+	    <option value="era">평균자책점</option>
+	    <option value="fip">FIP</option>
+	    <option value="whip">WHIP</option>
+	    <option value="war">WAR</option>
+	</select>
+	    시작 연도: <input type="number" id="startYear" name="startYear" value="1982" style="width: 100px;">
+	    종료 연도: <input type="number" id="endYear" name="endYear" value="2025" style="width: 100px;">
+	    <button type="button" onclick="drawChart()" class="btn btn-danger">조회</button>
+	</form>
+	<br><br>
+	<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 </body>
 </html>

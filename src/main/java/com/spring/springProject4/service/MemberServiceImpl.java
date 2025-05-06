@@ -87,6 +87,36 @@ public class MemberServiceImpl implements MemberService {
 		
 	}
 
+	@Override
+	public MemberVo getMemberEmailCheck(String email) {
+		
+		return memberDao.getMemberEmailCheck(email);
+	}
+
+	@Override
+	public MemberVo getMemberTelCheck(String tel) {
+
+		return memberDao.getMemberTelCheck(tel);
+	}
+
+	@Override
+	public MemberVo getMemberIdByNameAndTel(String name, String tel) {
+		
+		return memberDao.getMemberIdByNameAndTel(name, tel);
+	}
+
+	@Override
+	public MemberVo getMemberByIdAndTel(String memberId, String tel) {
+	
+		return memberDao.getMemberByIdAndTel(memberId, tel);
+	}
+
+	@Override
+	public void updateMemberPassword(String memberId, String encodedPwd) {
+		memberDao.updateMemberPassword(memberId, encodedPwd);
+		
+	}
+
 	
 
 }

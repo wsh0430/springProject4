@@ -7,12 +7,11 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>가이드라인</title>
+	<link rel="icon" type="image/x-icon" href="${ctp}/images/HITBox.ico">
 	<jsp:include page="/WEB-INF/views/include/bs5.jsp" />
 </head>
 <body>
-<link rel="icon" type="image/x-icon" href="${ctp}/images/HITBox.ico">
-<p><br/></p>
-
+<jsp:include page="/WEB-INF/views/include/nav.jsp" />
 <div class="container">
 	<h2 class="mb-4 text-start">📜 가이드라인 📜</h2>
 
@@ -348,32 +347,72 @@
 		<div class="accordion-item">
 			<h2 class="accordion-header" id="headingSabermetricTerms">
 				<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSabermetricTerms" aria-expanded="false" aria-controls="collapseSabermetricTerms">
-					5. 세이버메트릭스의 용어
+					5. 세이버메트릭스의 용어📗
 				</button>
 			</h2>
 			<div id="collapseSabermetricTerms" class="accordion-collapse collapse" aria-labelledby="headingSabermetricTerms" data-bs-parent="#guideAccordion">
 				<div class="accordion-body">
 					<ul>
-					  <li><strong>WAR</strong>: 대체 선수 대비 승리 기여도</li>
-					  <li><strong>OBP</strong>: 출루율 (볼넷, 몸에 맞는 공 포함)</li>
-					  <li><strong>SLG</strong>: 장타율 (타수 대비 총루타 수)</li>
-					  <li><strong>OPS</strong>: 출루율 + 장타율</li>
-					  <li><strong>FIP</strong>: 수비 무관 평균자책점 (삼진, 볼넷, 홈런 기반)</li>
-					  <li><strong>wOBA</strong>: 가중 출루율 (출루 유형별 가중치 부여)</li>
-					  <li><strong>BABIP</strong>: 인플레이 타구 타율</li>
-					  <li><strong>ERA+</strong>: 조정 평균자책점 (리그 평균 대비 성능)</li>
-					  <li><strong>WHIP</strong>: 이닝당 출루 허용률</li>
-					  <li><strong>K/BB</strong>: 삼진 대비 볼넷 비율</li>
-					  <li><strong>ISO</strong>: 순수 장타력 (SLG - AVG)</li>
-					  <li><strong>UZR</strong>: 수비 범위 및 기여도 측정 지표</li>
-					  <li><strong>DRS</strong>: 수비로 막은 실점 수치</li>
-					  <li><strong>xFIP</strong>: 예상 수비 무관 평균자책점</li>
-					  <li><strong>SIERA</strong>: 투수의 진짜 실력을 반영한 ERA</li>
-					  <li><strong>RC</strong>: 타자가 만들어낸 득점</li>
-					  <li><strong>RC+</strong>: 조정된 득점 생성력 (리그, 구장 보정 포함)</li>
-					  <li><strong>OPS+</strong>: 조정 OPS (리그 및 구장 반영)</li>
-					  <li><strong>LOB%</strong>: 투수의 잔루율 (주자 관리 능력)</li>
-					  <li><strong>BsR</strong>: 주루로 벌어들인 득점 가치</li>
+					  <li><strong>WAR</strong>
+					  	: 이 선수가 평범한 대체 선수(트리플A 수준 선수) 대신 출전했을 때 팀이 얼마나 더 많은 승리를 거둘 수 있었는지를 보여주는 지표입니다. WAR 수치가 높을수록 팀에 더 큰 기여를 했다는 뜻입니다. 통계자료를 만드는 주체에 따라 다른 값이 나올 수 있습니다. MLB를 예로 들면 팬그래프닷컴에서 측정한 war은 fwar 베이스볼 레퍼런스에서 측정한 war은 bwar로 각 통계주체의 앞글자를 따서 구분합니다.
+				  	</li>
+					  <li><strong>OBP (On-Base Percentage)</strong>: 
+					    타자가 얼마나 자주 출루했는지를 나타내는 비율입니다. 안타, 볼넷, 몸에 맞는 공 등을 포함하며, 단순한 타율보다 더 정확한 타자의 출루 능력 지표입니다.
+					  </li>
+					  <li><strong>SLG (Slugging Percentage)</strong>: 
+					    타수가 아닌 총루타 수를 기반으로 한 장타 능력 지표입니다. 2루타, 3루타, 홈런 등 장타의 가치를 반영하여 타자의 파워를 평가할 수 있습니다.
+					  </li>
+					  <li><strong>OPS (On-base Plus Slugging)</strong>: 
+					    출루율(OBP)과 장타율(SLG)을 합한 수치로, 타자의 전반적인 공격력을 간단히 파악할 수 있는 지표입니다.
+					  </li>
+					  <li><strong>FIP (Fielding Independent Pitching)</strong>: 
+					    투수가 수비와 무관하게 어떤 능력을 보였는지를 평가합니다. 삼진, 볼넷, 피홈런만을 기준으로 계산되며, 투수 고유의 실력을 반영하려는 지표입니다.
+					  </li>
+					  <li><strong>wOBA (Weighted On-Base Average)</strong>: 
+					    모든 출루 방식(안타, 볼넷, 홈런 등)에 가중치를 부여해 타자의 공격 기여도를 정밀하게 측정하는 지표입니다. OPS보다 더 정확한 타자 평가 도구로 여겨집니다.
+					  </li>
+					  <li><strong>BABIP (Batting Average on Balls In Play)</strong>: 
+					    홈런과 삼진을 제외한, 인플레이된 타구에 대한 타율입니다. 운이나 수비력의 영향을 측정할 수 있으며, 너무 높거나 낮을 경우 운이 좋거나 나빴다는 해석이 가능합니다.
+					  </li>
+					  <li><strong>ERA+ (Adjusted ERA)</strong>: 
+					    평균자책점을 리그 평균과 구장 환경까지 고려하여 보정한 수치입니다. 100이 평균이며, 150이라면 평균보다 50% 더 잘 던졌다는 의미입니다.
+					  </li>
+					  <li><strong>WHIP (Walks + Hits per Inning Pitched)</strong>: 
+					    투수가 한 이닝에 얼마나 많은 주자를 출루시켰는지를 보여줍니다. 낮을수록 좋은 지표이며, 제구력과 피안타 억제력이 좋다는 것을 의미합니다.
+					  </li>
+					  <li><strong>K/BB (Strikeout-to-Walk Ratio)</strong>: 
+					    삼진과 볼넷의 비율로, 투수의 제구 능력과 공격적인 투구를 동시에 평가할 수 있는 지표입니다.
+					  </li>
+					  <li><strong>ISO (Isolated Power)</strong>: 
+					    타자의 순수 장타력을 나타냅니다. SLG에서 타율(AVG)을 뺀 값으로, 단순한 안타가 아닌 장타만을 강조합니다.
+					  </li>
+					  <li><strong>UZR (Ultimate Zone Rating)</strong>: 
+					    수비수가 특정 구역에서 얼마나 많은 수비 기여를 했는지를 수치화한 지표입니다. 범위, 실책, 송구 능력 등이 반영됩니다.
+					  </li>
+					  <li><strong>DRS (Defensive Runs Saved)</strong>: 
+					    수비로 인해 몇 점을 막았는지를 보여주는 지표입니다. 0이 평균이고, 양수일수록 뛰어난 수비수로 평가됩니다.
+					  </li>
+					  <li><strong>xFIP (Expected FIP)</strong>: 
+					    FIP의 개선형으로, 피홈런 수치를 평균적인 플라이볼 비율로 보정하여 보다 안정적인 투수 평가를 제공합니다.
+					  </li>
+					  <li><strong>SIERA (Skill-Interactive ERA)</strong>: 
+					    삼진, 볼넷, 땅볼 비율 등을 종합적으로 고려해 투수의 '진짜 실력'을 평가하는 정교한 평균자책점 지표입니다.
+					  </li>
+					  <li><strong>RC (Runs Created)</strong>: 
+					    타자가 공격에서 직접적으로 얼마나 많은 득점을 만들어냈는지를 추정하는 지표입니다. 출루와 장타 모두가 영향을 미칩니다.
+					  </li>
+					  <li><strong>RC+ (Runs Created Plus)</strong>: 
+					    RC에 리그 평균과 구장 효과를 반영한 보정 지표로, OPS+처럼 100이 평균입니다. 리그와 환경에 상관없이 비교 가능합니다.
+					  </li>
+					  <li><strong>OPS+</strong>: 
+					    OPS를 리그 평균과 구장 특성을 고려해 조정한 지표입니다. 100이 평균이며, 이보다 높으면 평균 이상의 공격력을 뜻합니다.
+					  </li>
+					  <li><strong>LOB% (Left On Base Percentage)</strong>: 
+					    투수가 출루한 주자를 루상에 남긴 비율입니다. 높은 수치는 위기 상황에서 주자를 잘 막았다는 의미입니다.
+					  </li>
+					  <li><strong>BsR (Base Running Runs)</strong>: 
+					    도루, 주루 판단, 진루 등 주루 상황에서 얼마나 많은 점수 기여를 했는지를 수치화한 지표입니다.
+					  </li>
 					</ul>
 				</div>
 			</div>
@@ -383,16 +422,18 @@
 		<div class="accordion-item">
 			<h2 class="accordion-header" id="headingLinks">
 				<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLinks" aria-expanded="false" aria-controls="collapseLinks">
-					6. 참고자료
+					6. 참고자료🔎
 				</button>
 			</h2>
 			<div id="collapseLinks" class="accordion-collapse collapse" aria-labelledby="headingLinks" data-bs-parent="#guideAccordion">
 				<div class="accordion-body">
 					<ul>
-						<li><a href="https://www.statiz.co.kr" target="_blank">Statiz</a></li>
+						<li><a href="https://statiz.sporki.com/?team=NC&year=2023" target="_blank">Statiz</a></li>
 						<li><a href="http://www.kbreport.com" target="_blank">KBReport</a></li>
 						<li><a href="https://www.fangraphs.com" target="_blank">FanGraphs</a></li>
 						<li><a href="https://www.baseball-reference.com" target="_blank">Baseball Reference</a></li>
+						<li><a href="https://www.koreabaseball.com" target="_blank">KBO</a></li>
+						<li><a href="https://ko.wikipedia.org" target="_blank">위키백과</a></li>
 					</ul>
 				</div>
 			</div>
@@ -400,6 +441,7 @@
 
 	</div>
 </div>
-<p><br/></p>
+<br><br>
+<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 </body>
 </html>

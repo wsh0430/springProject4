@@ -103,17 +103,27 @@
 		  background-color: white;
 		  margin-bottom: 40px;
 		}
-		.mainTitle{
-			margin-left : 25px;
+		.mainTitle {
+			display: flex;
+			align-items: center;
+			gap: 15px; /* 글씨와 이미지 사이 여백 */
+			margin-left: 25px;
 			margin-bottom: 10px;
 		}
-		.mainTitle a{
-			text-decoration: none; /* 기본 밑줄 제거 */
-			color : #FF2400;
-			font-size: 60px;
+		
+		.mainTitle a {
+			text-decoration: none; /* 밑줄 제거 */
+			color: #FF2400;
+			font-size: 48px; 
 			font-weight: bold;
 			font-family: 'Impact', sans-serif;
-			
+			display: flex;
+			align-items: center;
+		}
+		
+		.mainTitle img {
+			width: 80px; /* 텍스트에 어울리는 크기로 조정 */
+			height: auto;
 		}
 		.nav-items{
 			display: flex;
@@ -134,33 +144,48 @@
 		  color: #E74C3C; /* 호버 시 색상 변경 */
 		}
 
-		/* 드롭다운 메뉴 */
-		.dropdown {
-			display: none; /* 기본적으로 드롭다운 메뉴는 숨김 */
-			position: absolute;
-			top: 25px; /* 부모 요소 아래에 위치 */
-			left: -30px;
-			background-color: transparent;
-			min-width: 160px;
-			padding: 10px 0;
-			border-radius: 5px;
-			white-space: nowrap; /* 텍스트가 줄 바꿈 없이 가로로 나열되도록 */
-			z-index: 2;
+		/* 드롭다운 나타나는 애니메이션 */
+		@keyframes fadeIn {
+		  from { opacity: 0; transform: translateY(5px); }
+		  to { opacity: 1; transform: translateY(0); }
 		}
-
+		
+		/* 드롭다운 메뉴 숨김 기본 상태 */
+		.dropdown {
+		  display: none;
+		  position: absolute;
+		  top: 25px;
+		  left: -30px;
+		  background-color: transparent;
+		  min-width: 160px;
+		  padding: 10px 0;
+		  border-radius: 5px;
+		  white-space: nowrap;
+		  z-index: 2;
+		  opacity: 0;
+		  transition: opacity 0.3s ease, transform 0.3s ease;
+		}
+		
+		/* 드롭다운 메뉴 항목 */
 		.dropdown li {
-			display: inline-block; /* 가로로 정렬 */
-			padding: 8px 16px;
-
+		  display: inline-block;
+		  padding: 8px 16px;
 		}
 		
 		.dropdown li a {
-			font-size : 15px; 
-			color: black;
+		  font-size: 15px;
+		  color: black;
 		}
 		
 		.dropdown li a:hover {
-			color : #E74C3C;
+		  color: #E74C3C;
+		}
+		
+		/* 마우스를 올리면 드롭다운 표시 + 애니메이션 */
+		.nav-li:hover .dropdown {
+		  display: block;
+		  opacity: 1;
+		  animation: fadeIn 0.3s ease;
 		}
 
 		/* 사이드바 */

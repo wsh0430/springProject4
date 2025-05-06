@@ -25,6 +25,16 @@ public interface MemberDao {
 
 	void deleteMemberById(@Param("memberId") String memberId);
 
+	MemberVo getMemberEmailCheck(@Param("email") String email);
+
+	MemberVo getMemberTelCheck(@Param("tel") String tel);
+
+	MemberVo getMemberIdByNameAndTel(@Param("name") String name, @Param("tel") String tel);
+
+	MemberVo getMemberByIdAndTel(@Param("memberId")String memberId, @Param("tel") String tel);
+
+	void updateMemberPassword(@Param("memberId") String memberId, @Param("encodedPwd") String encodedPwd);
+
 	
 
 

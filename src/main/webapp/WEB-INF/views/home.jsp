@@ -15,5 +15,6 @@
 <a href="${ctp}/dataChart/playerInfo" class="w3-bar-item w3-button">분석실(개인-타자)</a>
 <a href="${ctp}/dataChart/comparePitcher" class="w3-bar-item w3-button">분석실(개인-투수)</a>
 <a href="${ctp}/guideLine/guideLineMain" class="w3-bar-item w3-button">가이드라인</a>
+<a href="${ctp}/sponsor/sponsors" class="w3-bar-item w3-button">스폰서</a>
 </body>
 </html>

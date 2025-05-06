@@ -5,7 +5,8 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>선수 기록비교(투수)</title>
+  <title>선수 기록 비교</title>
+  <link rel="icon" type="image/x-icon" href="${ctp}/images/HITBox.ico">
 	<jsp:include page="/WEB-INF/views/include/bs5.jsp" />
 
   <!-- Google Charts 로드 -->
@@ -141,57 +142,64 @@
 
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/include/nav.jsp" />
+<div style="padding-left: 200px; padding-right: 200px;"></div>
+<h2 class="text-center mt-4 mb-4">📈선수 기록 비교 (투수)📈</h2>
+<h5 class="text-center mt-4 mb-4">두 선수간의 차이를 비교합니다.</h5>
 
-<h2>투수 기록 비교</h2>
+<!-- 차트 영역 -->
+<div id="chart_div" style="width: 1200px; height: 600px; margin: 0 auto 50px auto;"></div>
 
-<div id="chart_div" style="width: 1000px; height: 600px;"></div>
+<!-- 비교 폼 -->
+<form id="compareForm" class="text-center mb-5">
 
-<div>
-		<label>선수1 이름: </label>
-		<input type="text" id="player1" class="form-control d-inline-block w-auto">
-		<label>선수2 이름: </label>
-		<input type="text" id="player2" class="form-control d-inline-block w-auto">
-    <br><br>
-		<label>시작 연도: </label>
-		<input type="number" id="startYear" class="form-control d-inline-block w-auto">
-		<label>끝 연도: </label>
-		<input type="number" id="endYear" class="form-control d-inline-block w-auto">
-    <br><br>
-    <label>비교할 속성: </label>
-    <select id="field">
-        <option value="war">WAR</option>
-        <option value="gamesP">경기수(등판)</option>
-        <option value="gamesStart">경기수(선발)</option>
-        <option value="completegames">완투</option>
-        <option value="shutouts">완봉</option>
-        <option value="wins">승</option>
-        <option value="losses">패</option>
-        <option value="saves">세이브</option>
-        <option value="holds">홀드</option>
-        <option value="innings">이닝</option>
-        <option value="earnedRuns">자책점</option>
-        <option value="runsAllowed">실점</option>
-        <option value="hitsAllowed">피안타</option>
-        <option value="homeRunsAllowed">피홈런</option>
-        <option value="bbAllowed">볼넷허용</option>
-        <option value="strikeouts">삼진</option>
-        <option value="balks">보크</option>
-        <option value="wildPitches">폭투</option>
-        <option value="era">ERA</option>
-        <option value="fip">FIP</option>
-        <option value="whip">WHIP</option>
+    <label for="player1" class="me-2">선수1 이름:</label>
+    <input type="text" id="player1" class="form-control d-inline-block w-auto me-4">
+    
+    <label for="player2" class="me-2">선수2 이름:</label>
+    <input type="text" id="player2" class="form-control d-inline-block w-auto">
+
+
+
+    <label for="startYear" class="me-2">시작 연도:</label>
+    <input type="number" id="startYear" class="form-control d-inline-block w-auto me-4">
+
+    <label for="endYear" class="me-2">끝 연도:</label>
+    <input type="number" id="endYear" class="form-control d-inline-block w-auto">
+ 
+    <label for="field" class="me-2">비교할 속성:</label>
+    <select id="field" class="form-select d-inline-block w-auto">
+      <option value="war">WAR</option>
+      <option value="gamesP">경기수(등판)</option>
+      <option value="gamesStart">경기수(선발)</option>
+      <option value="completegames">완투</option>
+      <option value="shutouts">완봉</option>
+      <option value="wins">승</option>
+      <option value="losses">패</option>
+      <option value="saves">세이브</option>
+      <option value="holds">홀드</option>
+      <option value="innings">이닝</option>
+      <option value="earnedRuns">자책점</option>
+      <option value="runsAllowed">실점</option>
+      <option value="hitsAllowed">피안타</option>
+      <option value="homeRunsAllowed">피홈런</option>
+      <option value="bbAllowed">볼넷허용</option>
+      <option value="strikeouts">삼진</option>
+      <option value="balks">보크</option>
+      <option value="wildPitches">폭투</option>
+      <option value="era">ERA</option>
+      <option value="fip">FIP</option>
+      <option value="whip">WHIP</option>
     </select>
-    <br><br>
 
-    <button onclick="fetchDataAndDrawChart()">비교하기</button>
-    <div id="alertMessage" class="alert alert-danger d-none" role="alert">
+  <button type="button" onclick="fetchDataAndDrawChart()" class="btn btn-danger">비교하기</button>
+  
+  <div id="alertMessage" class="alert alert-danger d-none mt-3" role="alert">
     유효한 값을 입력해주세요.
-		</div>
-</div>
+  </div>
+</form>
+<br><br>
 
-<br>
-
-
-
+<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 </body>
 </html>
