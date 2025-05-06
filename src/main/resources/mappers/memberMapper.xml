@@ -2,11 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.springProject4.dao.MemberDao">
 	<select id="getMemberIdCheck" resultType="com.spring.springProject4.vo.MemberVo">
-		select * from member where memberId = #{memberId};
+		select * from member where member_Id = #{memberId};
 	</select>
 	
 	<select id="getMemberById" resultType="com.spring.springProject4.vo.MemberVo">
-		select * from member where memberId = #{memberId};
+		select * from member where member_Id = #{memberId};
 	</select>
 	
 	<select id="getMemberNickCheck" resultType="com.spring.springProject4.vo.MemberVo">
@@ -26,14 +26,14 @@
 	</select>
 	
 	<select id="getMemberByIdAndTel" resultType="com.spring.springProject4.vo.MemberVo">
-	  select * from member where memberId = #{memberId} and tel = #{tel}
+	  select * from member where member_Id = #{memberId} and tel = #{tel}
 	</select>
 	
 	
 
 	<insert id="setMemberJoinOk">
 	insert into member (
-		memberId, password, nickName, name, gender, tel, address, email, likeTeam, icon, content, birthday, userInfo, userDelete, 
+		member_Id, password, nickName, name, gender, tel, address, email, likeTeam, icon, content, birthday, member_info, delete_check, 
 		point, level, visit_count, board_count, comment_count, report_count, warning_count, ip, start_date, last_date
 	)
 	values (
@@ -46,7 +46,7 @@
 	
 	
 	<update id="setMemberVisitCount">
-		update member set visitCount=0 where memberId = #{memberId};
+		update member set visit_count=0 where member_Id = #{memberId};
 	</update>
 	
 	<update id="setMemberPoint">
@@ -54,20 +54,20 @@
 	</update>
 	
 	<update id="setMemberUpdateOk">
-		update member set name=#{vo.name}, gender=#{vo.gender}, tel=#{vo.tel}, address=#{vo.address}, email=#{vo.email}, likeTeam=#{vo.likeTeam}, 
-											icon=#{vo.icon}, content=#{vo.content}, birthday=#{vo.birthday}, userInfo=#{vo.userInfo}
-											where memberId=#{vo.memberId};
+		update member set name=#{vo.name}, gender=#{vo.gender}, tel=#{vo.tel}, address=#{vo.address}, email=#{vo.email}, like_Team=#{vo.likeTeam}, 
+											icon=#{vo.icon}, content=#{vo.content}, birthday=#{vo.birthday}, member_Info=#{vo.memberInfo}
+											where member_Id=#{vo.memberId};
 	</update>
 	
 	<update id="setMemberPwdChange">
-		update member set  password = #{pwd} where memberId = #{memberId};
+		update member set  password = #{pwd} where member_Id = #{memberId};
 	</update>
 	
 	<update id="updateMemberPassword">
-	  update member set password = #{encodedPwd} where memberId = #{memberId}
+	  update member set password = #{encodedPwd} where member_Id = #{memberId}
 	</update>
 	
 	<delete id="deleteMemberById">
-		delete from member where memberId = #{memberId}
+		delete from member where member_Id = #{memberId}
 	</delete>
 </mapper>

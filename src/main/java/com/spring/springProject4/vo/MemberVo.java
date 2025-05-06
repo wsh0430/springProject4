@@ -21,8 +21,8 @@ public class MemberVo {
 	private String icon;
 	private String content;
 	private String birthday;
-	private String userInfo;
-	private String userDelete;
+	private String memberInfo;
+	private String deleteCheck;
 	private int point;
 	private int level;
 	private int visitCount;

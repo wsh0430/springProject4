@@ -8,7 +8,7 @@
   <title>nav</title>
   <link rel="stylesheet" href="${ctp}/css/nav.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-  
+  <link rel="icon" type="image/x-icon" href="${ctp}/images/HITBox.ico">
 </head>
 	<header>
 		<!-- navbar 1번(로그인/회원가입/검색창) -->
