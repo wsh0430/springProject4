@@ -16,6 +16,7 @@
     		location.href = "cmtyMain?pageSize="+pageSize;
    		 }
   </script>
+  <link rel="icon" type="image/x-icon" href="${ctp}/images/HITBox.ico">
   <link rel="stylesheet" href="${ctp}/css/cmtyMain.css">
 </head>
 <body>
@@ -79,7 +80,7 @@
 	    		</tr>
 	    		<!-- Hot 게시판 -->
 	    		<c:forEach var="bVos" items="${hotBoardVos}">
-		    			<tr style="background-color: lime;">
+		    			<tr style="background-color: #ffd3d1;">
 		    				<td>${bVos.idx}</td>
 		    				<td>
 		    					<c:choose>
@@ -141,9 +142,11 @@
     			</c:forEach>
     		</table>
     	</div>
-    	<div id="b_write-btn">
-    		<span><a href="${ctp}/community/cmtyBoardCreate" class="btn btn-success btn-sm">글쓰기</a></span> 
-    	</div>
+    	<c:if test="${sLevel < 3 }">    	
+	    	<div id="b_write-btn">
+	    		<span><a href="${ctp}/community/cmtyBoardCreate" class="btn btn-success btn-sm">글쓰기</a></span> 
+	    	</div>
+    	</c:if>
     	<!-- 블록페이지 시작 -->
 		<div class="text-center block-page">
 		  <ul class="pagination justify-content-center">

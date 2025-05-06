@@ -97,6 +97,10 @@
 		select * from member <if test="search !='' || startDate != ''">where</if> <if test='search !=""'>${search} like concat('%',#{searchString},'%')</if> <if test="startDate != ''"><if test="search !=''">and</if> (created_at between #{startDate} and #{lastDate})</if> order by idx desc limit #{startIndexNo},#{pageSize};
 	</select>
 	
+	<select id="getAdVos" resultType="com.spring.springProject4.vo.AdvertisementVo">
+		select * from advertisement <if test="search !='' || startDate != ''">where</if> <if test='search !=""'>${search} like concat('%',#{searchString},'%')</if> <if test="startDate != ''"><if test="search !=''">and</if> (start_at between #{startDate} and #{lastDate})</if> order by idx desc limit #{startIndexNo},#{pageSize};
+	</select>
+	
 	<select id="getMainCategoryVos" resultType="com.spring.springProject4.vo.CategoryVo">
 			select * from category where parent_name is null;
 	</select>
@@ -128,6 +132,23 @@
 	<select id="getMemberTotRecCntSearch" resultType="int">
 		select count(*) from member where ${part} like concat('%', #{searchString}, '%') <if test="startDate != ''">and (start_date between #{startDate} and #{lastDate})</if>;
 	</select>
+	
+	<select id="getAdTotRecCnt" resultType="int">
+		select count(*) from advertisement;
+	</select>
+
+	<select id="getAdTotRecCntSearch" resultType="int">
+		select count(*) from advertisement where ${part} like concat('%', #{searchString}, '%') <if test="startDate != ''">and (start_at between #{startDate} and #{lastDate})</if>;
+	</select>
+
+	<select id="getTotalTeam" resultType="String">
+		select name from category where parent_name = '구단';
+	</select>
+	
+	<select id="getFandomCnt" resultType="int">
+		select count(*) from member where like_team = #{team};
+	</select>
+
 
 
 
@@ -141,6 +162,13 @@
 	</update>
 
 
+	
+	
+	
+	<insert id="setCreateMItem">
+		insert into advertisement values(default, #{vo.title},#{vo.imageUrl} , #{vo.linkUrl}, #{vo.position}, #{vo.startAt}, #{vo.endAt}, default, default, default, default, default, default, default, default, default, default, default, default, default);
+	</insert>
+
 
 
 
@@ -149,6 +177,7 @@
 		<if test="part == 'board'">delete from board where idx = #{idx};</if>
 		<if test="part == 'comment'">delete from comment where idx = #{idx};</if>
 		<if test="part == 'member'">delete from member where idx = #{idx};</if>
+		<if test="part == 'ad'">delete from advertisement where idx = #{idx};</if>
 	</delete>
 
 </mapper>

@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import com.spring.springProject4.vo.AdvertisementVo;
 import com.spring.springProject4.vo.BoardVo;
 import com.spring.springProject4.vo.CategoryVo;
 import com.spring.springProject4.vo.ChartVo;
@@ -65,6 +66,19 @@ public interface AdminDao {
 	int getMemberTotRecCnt();
 
 	int getMemberTotRecCntSearch(@Param("part")  String part, @Param("searchString") String searchString, @Param("startDate")  String startDate, @Param("lastDate")  String lastDate);
+
+	String[] getTotalTeam();
+
+	int getFandomCnt(@Param("team") String team);
+
+	int getAdTotRecCnt();
+
+	int getAdTotRecCntSearch(@Param("part")  String part, @Param("searchString") String searchString, @Param("startDate")  String startDate, @Param("lastDate")  String lastDate);
+
+	List<AdvertisementVo> getAdVos(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize, @Param("search") String search, @Param("searchString") String searchString,
+			@Param("startDate") String startDate, @Param("lastDate") String lastDate);
+
+	int setCreateMItem(@Param("vo") AdvertisementVo vo);
 
 
 

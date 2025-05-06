@@ -10,13 +10,14 @@ import com.spring.springProject4.vo.BoardVo;
 import com.spring.springProject4.vo.CategoryVo;
 import com.spring.springProject4.vo.CommentVo;
 import com.spring.springProject4.vo.LikesVo;
+import com.spring.springProject4.vo.MemberVo;
 import com.spring.springProject4.vo.ReportVo;
 
 @Mapper
 @Repository
 public interface CommunityDao {
 
-	List<CategoryVo> getMainCategoryList();
+	List<CategoryVo> getMainCategoryList(@Param("admin") String admin);
 
 	List<CategoryVo> getSubCategoryList(@Param("pName") String pName);
 	
@@ -67,6 +68,8 @@ public interface CommunityDao {
 	int setUpdateBoardReportCount(@Param("part") String part, @Param("idx") int idx);
 
 	int getFindReportVo(@Param("vo") ReportVo vo);
+
+	MemberVo getMemberVo(@Param("id") String id);
 
 	
 

@@ -9,6 +9,9 @@ textarea {
     	#main{
     		min-width: 80%; 	
     		margin-top: 30px;	
+    		padding: 25px 25px 50px 25px; 
+    		border-radius: 8px;
+    		background-color: white;
     	}
     	
     	#category{
@@ -38,7 +41,7 @@ textarea {
     	
     	#cmty_content{
     		position: relative;
-    		min-height: 250px;
+    		min-height: 450px;
     		padding: 10px 0px;
     	}
     	#cmty_content img{

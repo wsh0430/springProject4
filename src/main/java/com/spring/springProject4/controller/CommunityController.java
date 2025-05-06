@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.spring.springProject4.common.Pagination;
 import com.spring.springProject4.common.SetCommunityVar;
 import com.spring.springProject4.service.AdService;
-import com.spring.springProject4.service.AdminService;
 import com.spring.springProject4.service.CommunityService;
 import com.spring.springProject4.vo.AdvertisementVo;
 import com.spring.springProject4.vo.BoardVo;
 import com.spring.springProject4.vo.CategoryVo;
 import com.spring.springProject4.vo.CommentVo;
 import com.spring.springProject4.vo.LikesVo;
+import com.spring.springProject4.vo.MemberVo;
 import com.spring.springProject4.vo.PageVo;
 import com.spring.springProject4.vo.ReportVo;
 
@@ -48,7 +48,7 @@ public class CommunityController {
 			) {
 		
 		// 카테고리
-		List<CategoryVo> mainCtgyVos = communityService.getMainCategoryList();	// 메인 카테고리vos
+		List<CategoryVo> mainCtgyVos = communityService.getMainCategoryList("");	// 메인 카테고리vos
 		List<CategoryVo> subCtgyVos = null; 
 		List<List<CategoryVo>> subCtgyList = new ArrayList<>();	//서브 카테고리
 		for(int i = 0; i < mainCtgyVos.size(); i++) {
@@ -65,7 +65,6 @@ public class CommunityController {
 
 		// 핫게시판
 		List<BoardVo> hotBoardVos = communityService.getHotBoardList(category);
-		System.out.println(hotBoardVos);
 
 		
 		//광고
@@ -73,6 +72,7 @@ public class CommunityController {
 		
 		model.addAttribute("adVos", adVos);
 		
+		model.addAttribute("sLevel", 1);	//나중에 세션으로 넣는 nickname
 		model.addAttribute("category", category);
 		model.addAttribute("mainCtgyVos", mainCtgyVos);
 		model.addAttribute("subCtgy", subCtgyList);
@@ -124,6 +124,7 @@ public class CommunityController {
 		model.addAttribute("adVos", adVos);		
 		model.addAttribute("sMemberId", "user123"); //나중에 세션으로 넣는 id
 		model.addAttribute("sNickname", "프로니");	//나중에 세션으로 넣는 nickname
+		model.addAttribute("sLevel", 1);	//나중에 세션으로 넣는 nickname
 		model.addAttribute("boardVo", boardVo);
 		model.addAttribute("commentVos", commentVos);
 		model.addAttribute("replyList", replyList);
@@ -207,10 +208,8 @@ public class CommunityController {
 	@RequestMapping(value="/cmtDeleteCheck", method=RequestMethod.POST)
 	public int cmtDeleteCheckPost(int idx) {
 		
-		if(communityService.setUpdateDeleteCheck("reply", idx) != 0)
-			return communityService.setUpdateDeleteCheck("comment", idx);
-		
-		return 0;
+		communityService.setUpdateDeleteCheck("reply", idx);
+		return communityService.setUpdateDeleteCheck("comment", idx);
 	}
 	
 	@ResponseBody
@@ -221,14 +220,16 @@ public class CommunityController {
 	
 	@RequestMapping(value = "/cmtyBoardCreate", method = RequestMethod.GET)
 	public String cmtyBoardCreateGet(Model model) {
-		// 카테고리
-		List<CategoryVo> mainCtgyVos = communityService.getMainCategoryList();	// 메인 카테고리vos
-		List<CategoryVo> subCtgyVos = null; 
-		List<List<CategoryVo>> subCtgyList = new ArrayList<>();	//서브 카테고리
-		for(int i = 0; i < mainCtgyVos.size(); i++) {
-			subCtgyVos = communityService.getSubCategoryList(mainCtgyVos.get(i).getName());	//서브 카테고리vos
-			subCtgyList.add(subCtgyVos);
+		String memberId = "user123";
+		String admin = "";
+		
+		MemberVo memberVo = communityService.getMemberVo(memberId);
+		if(memberVo.getLevel() != 0) {
+			admin = "no";
 		}
+		
+		// 카테고리
+		List<CategoryVo> mainCtgyVos = communityService.getMainCategoryList(admin);	// 메인 카테고리vos
 		
 		//광고
 		List<AdvertisementVo> adVos = adService.getAdVos();
@@ -268,17 +269,29 @@ public class CommunityController {
 			@RequestParam(name="search", defaultValue = "", required = false) String search,
 			@RequestParam(name="searchString", defaultValue = "", required = false) String searchString
 			) {
+		String memberId = "user123";
 		
 		BoardVo boardVo = communityService.getBoardVo(boardIdx);
 		if(boardVo.getContent().indexOf("src=\"/") != -1) communityService.imgBackup(boardVo.getContent());
 		
+		String admin = "";
+		
+		MemberVo memberVo = communityService.getMemberVo(memberId);
+		if(memberVo.getLevel() != 0) {
+			admin = "no";
+		}
+		
 		// 카테고리
-		List<CategoryVo> mainCtgyVos = communityService.getMainCategoryList();	// 메인 카테고리vos
-		List<CategoryVo> subCtgyVos = null; 
-		List<List<CategoryVo>> subCtgyList = new ArrayList<>();	//서브 카테고리
-		for(int i = 0; i < mainCtgyVos.size(); i++) {
-			subCtgyVos = communityService.getSubCategoryList(mainCtgyVos.get(i).getName());	//서브 카테고리vos
-			subCtgyList.add(subCtgyVos);
+		List<CategoryVo> mainCtgyVos = communityService.getMainCategoryList(admin);	// 메인 카테고리vos
+		for(int i = 1; i < mainCtgyVos.size(); i++) {
+			if(mainCtgyVos.get(i).getName().equals(boardVo.getCategoryName())) {
+				CategoryVo temp = mainCtgyVos.get(0);
+				
+				mainCtgyVos.set(0, mainCtgyVos.get(i));
+				mainCtgyVos.set(i, temp);
+				
+				break;
+			}
 		}
 		
 		//광고
@@ -286,7 +299,6 @@ public class CommunityController {
 						
 		model.addAttribute("adVos", adVos);				
 		model.addAttribute("mainCtgyVos", mainCtgyVos);
-		model.addAttribute("subCtgyList", subCtgyList);
 		model.addAttribute("boardVo", boardVo);
 		model.addAttribute("idx", boardIdx);
 		model.addAttribute("category", category);
@@ -300,16 +312,17 @@ public class CommunityController {
 	
 	@RequestMapping(value = "/cmtyBoardUpdate", method = RequestMethod.POST)
 	public String cmtyBoardUpdatePost(Model model, BoardVo vo,
-			@RequestParam(name="category", defaultValue = "전체", required = false) String category,
+			@RequestParam(name="mainCategory", defaultValue = "전체", required = false) String category,
+			@RequestParam(name="subCategory", defaultValue = "", required = false) String subCategory,
 			@RequestParam(name="pag", defaultValue = "1", required = false) int pag,
 			@RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize,
 			@RequestParam(name="search", defaultValue = "", required = false) String search,
 			@RequestParam(name="searchString", defaultValue = "", required = false) String searchString
 			) {
-		if(vo.getCategoryName() == null || vo.getCategoryName() == "")
-			vo.setCategoryName("전체");
+		if(!subCategory.equals("")) category = subCategory;
+		vo.setCategoryName(category);
 		vo.setMemberId("user123"); //나중에 session꺼 넣기
-		vo.setMemberNickname("프로니");
+		vo.setMemberNickname("프로니"); //나중에 session꺼 넣기
 		
 		// 수정된 자료가 원본자료와 완전히 동일하다면 수정할 필요가 없다.
 		BoardVo dbVo = communityService.getBoardVo(vo.getIdx());

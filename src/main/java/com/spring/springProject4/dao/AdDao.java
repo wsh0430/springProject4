@@ -20,4 +20,9 @@ public interface AdDao {
 
 	List<AdvertisementVo> getAdVos();
 
+	int setAdClick(@Param("idx") int idx);
+
+	String getAdUrl(@Param("idx") int idx);
+
+
 }

@@ -33,4 +33,14 @@ public class AdServiceImpl implements AdService {
 		return adDao.getAdVos();
 	}
 
+	@Override
+	public int setAdClick(int idx) {
+		return adDao.setAdClick(idx);
+	}
+
+	@Override
+	public String getAdUrl(int idx) {
+		return adDao.getAdUrl(idx);
+	}
+
 }

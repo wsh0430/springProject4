@@ -25,13 +25,17 @@
 
 		#a-mb_btn td{
 			width: 310px;
-			height: 35px;
+			height: 45px;
 		}
 		#a-mb_btn td {
 		    border-top: 1px solid black;
+		    padding-left: 5px;
 		}
 		#a-mb_btn .first-td{
 		    border: none;
+		}
+		#a-mb_btn td:hover{
+			background-color: #fbd8d6;
 		}
 		
 		
@@ -56,7 +60,7 @@
 				<tr><td><input type="button" value="멤버관리" onclick="location.href='${ctp}/admin/memberManager'"></td></tr>
 				<tr><td><input type="button" value="게시글관리" onclick="location.href='${ctp}/admin/boardManager'"></td></tr>
 				<tr><td><input type="button" value="댓글관리" onclick="location.href='${ctp}/admin/commentManager'"></td></tr>
-				<tr><td><input type="button" value="광고관리" onclick="location.href='${ctp}/admin/dashBoard'"></td></tr>
+				<tr><td><input type="button" value="광고관리" onclick="location.href='${ctp}/admin/adManager'"></td></tr>
 			</table> 
 		</div>
 	</div>

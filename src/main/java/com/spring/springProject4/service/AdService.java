@@ -14,5 +14,9 @@ public interface AdService {
 
 	List<AdvertisementVo> getAdVos();
 
+	int setAdClick(int idx);
+
+	String getAdUrl(int idx);
+
 	
 }

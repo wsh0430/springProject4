@@ -147,9 +147,9 @@
 		<input type="button" value="전체목록" onclick="location.href='${ctp}/admin/memberManager'">
 		<%-- <span>${curCategory}</span> --%>
 	</div>
-	<div id="info-box">
-		 
-	</div>
+	<!-- <div id="info-box">
+		 <span>- </span>
+	</div> -->
 	<div id="manager-bar">
 		<form name="searchForm" method="get">
 			<div id="search-box">
@@ -189,7 +189,7 @@
 				<tr style="background-color: #e2e2e2;">
 					<td><input type="checkbox" class="ml_checkbox" id="${memberVo.idx}"></td>
 					<td style="text">${memberVo.memberId}</td>
-					<td style="text; text-align: center; padding: 0px;">${memberVo.nickName}</td>
+					<td style="text; text-align: center; padding: 0px;">${memberVo.nickname}</td>
 					<td style="text">${memberVo.name}</td>
 					<td style="text">${memberVo.gender}</td>
 					<td style="text">${memberVo.tel}</td>
@@ -215,14 +215,14 @@
 		<!-- 블록페이지 시작 -->
 		<div class="text-center block-page">
 		  <ul class="pagination justify-content-center">
-		    <c:if test="${pageVo.pag > 1}"><li class="page-item"><a class="page-link text-secondary" href="memberManager&pag=1&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}&startDate=${startDate}&lastDate=${lastDate}">첫페이지</a></li></c:if>
-		  	<c:if test="${pageVo.curBlock > 0}"><li class="page-item"><a class="page-link text-secondary" href="memberManage&pag=1&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}&startDate=${startDate}&lastDate=${lastDate}">이전블록</a></li></c:if>
+		    <c:if test="${pageVo.pag > 1}"><li class="page-item"><a class="page-link text-secondary" href="memberManager?pag=1&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}&startDate=${startDate}&lastDate=${lastDate}">첫페이지</a></li></c:if>
+		  	<c:if test="${pageVo.curBlock > 0}"><li class="page-item"><a class="page-link text-secondary" href="memberManager?pag=${(curBlock-1)*blockSize+1}&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}&startDate=${startDate}&lastDate=${lastDate}">이전블록</a></li></c:if>
 		  	<c:forEach var="i" begin="${(pageVo.curBlock*pageVo.blockSize)+1}" end="${(pageVo.curBlock*pageVo.blockSize)+pageVo.blockSize}" varStatus="st">
-			    <c:if test="${i <= pageVo.totPage && i == pageVo.pag}"><li class="page-item active"><a class="page-link bg-secondary border-secondary" href="memberManage&pag=1&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}&startDate=${startDate}&lastDate=${lastDate}">${i}</a></li></c:if>
-			    <c:if test="${i <= pageVo.totPage && i != pageVo.pag}"><li class="page-item"><a class="page-link text-secondary" href="memberManage&pag=1&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}&startDate=${startDate}&lastDate=${lastDate}">${i}</a></li></c:if>
+			    <c:if test="${i <= pageVo.totPage && i == pageVo.pag}"><li class="page-item active"><a class="page-link bg-secondary border-secondary" href="memberManager?pag=${i}&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}&startDate=${startDate}&lastDate=${lastDate}">${i}</a></li></c:if>
+			    <c:if test="${i <= pageVo.totPage && i != pageVo.pag}"><li class="page-item"><a class="page-link text-secondary" href="memberManager?pag=${i}&pageSize=${pageVo.pageSize}&startDate=${startDate}&lastDate=${lastDate}">${i}</a></li></c:if>
 		  	</c:forEach>
-		  	<c:if test="${pageVo.curBlock < pageVo.lastBlock}"><li class="page-item"><a class="page-link text-secondary" href="memberManage&pag=1&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}&startDate=${startDate}&lastDate=${lastDate}">다음블록</a></li></c:if>
-		  	<c:if test="${pageVo.pag < pageVo.totPage}"><li class="page-item"><a class="page-link text-secondary" href="memberManage&pag=1&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}&startDate=${startDate}&lastDate=${lastDate}">마지막페이지</a></li></c:if>
+		  	<c:if test="${pageVo.curBlock < pageVo.lastBlock}"><li class="page-item"><a class="page-link text-secondary" href="memberManager?pag=${(pageVo.curBlock+1)*pageVo.blockSize+1}&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}&startDate=${startDate}&lastDate=${lastDate}">다음블록</a></li></c:if>
+		  	<c:if test="${pageVo.pag < pageVo.totPage}"><li class="page-item"><a class="page-link text-secondary" href="memberManager?pag=${pageVo.totPage}&pageSize=${pageVo.pageSize}&search=${pageVo.search}&searchString=${pageVo.searchString}&startDate=${startDate}&lastDate=${lastDate}">마지막페이지</a></li></c:if>
 		  </ul>
 		</div>
 		<!-- 블록페이지 끝 -->

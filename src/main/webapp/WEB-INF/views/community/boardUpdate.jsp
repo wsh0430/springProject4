@@ -7,44 +7,45 @@
     <meta charset="UTF-8">
     <title>HitBox</title>
     <script src="${ctp}/ckeditor/ckeditor.js"></script>
+    <jsp:include page="/WEB-INF/views/include/bs5.jsp" />
        <script>
 	    $(document).ready(function() {
-	   	 $('#cn').change(function() {
-	   	    let selectedValue = $(this).val();
-	
-	   	    // 선택된 값이 있을 때만 AJAX 요청
-	   	    if (selectedValue) {
-	   	      $.ajax({
-	   	        url: '${ctp}/admin/getSubCategory',  // 데이터를 받아올 URL
-	   	        type: 'get',
-	   	        data: { categoryName: selectedValue },
-	   	        dataType: 'json',
-	   	        success: function(res) {
-		        		let string = "";
-		        		
-		        		if(selectedValue != '전체')
-		        			$('#sub-category').show();
-		        		else
-		        			$('#sub-category').hide();
-		        			
-		        		res.forEach(function(item) {
-		        			string += '<option value="'+item.name+'">'+item.name+'</option>';
-		        		});
-	
-		        		
-		        		$('#sc').html(string);
-	   	        	
-	   	        },
-	   	        error: function(xhr, status, error) {
-	   	          $('#sub-category').html('<p>오류가 발생했습니다.</p>');
-	   	        }
-	   	      });
-	   	    } else {
-	   	      $('#sub-category').empty(); // 선택이 비워지면 div도 초기화
-	   	      $('#sub-category').hide();
-	   	    }
-	   	  });
-	   	});
+		   	 $('#mc').change(function() {
+		   	    let selectedValue = $(this).val();
+		
+		   	    // 선택된 값이 있을 때만 AJAX 요청
+		   	    if (selectedValue) {
+		   	      $.ajax({
+		   	        url: '${ctp}/admin/getSubCategory',  // 데이터를 받아올 URL
+		   	        type: 'get',
+		   	        data: { categoryName: selectedValue },
+		   	        dataType: 'json',
+		   	        success: function(res) {
+			        		let string = "";
+			        		
+			        		if(selectedValue != '전체')
+			        			$('#sub-category').show();
+			        		else
+			        			$('#sub-category').hide();
+			        			
+			        		res.forEach(function(item) {
+			        			string += '<option value="'+item.name+'">'+item.name+'</option>';
+			        		});
+		
+			        		
+			        		$('#sc').html(string);
+		   	        	
+		   	        },
+		   	        error: function(xhr, status, error) {
+		   	          $('#sub-category').html('<p>오류가 발생했습니다.</p>');
+		   	        }
+		   	      });
+		   	    } else {
+		   	      $('#sub-category').empty(); // 선택이 비워지면 div도 초기화
+		   	      $('#sub-category').hide();
+		   	    }
+		   	  });
+		   	});
     </script>
     <jsp:include page="/WEB-INF/views/include/bs5.jsp" />
        <style>
@@ -63,6 +64,12 @@
     		display: flex;
     		justify-content: space-between;
     		margin-bottom: 10px;
+    	}
+    	#category .left{
+    		display: flex;
+    	}
+    	#sub-category{
+    		margin-left: 10px;
     	}
     	#category .right input{
     		width: 80px;
@@ -84,15 +91,21 @@
     <div id="main">
     	<form name="myform" method="post">    	
 		<div id="category">
-				<div class="left">
-					<select name="categoryName" id="cn">
-						<option>${boardVo.categoryName}</option>
-						<c:forEach var="mCtgyVo" items="${mainCtgyVos}">
-							<c:if test="${boardVo.categoryName != mCtgyVo.name }"> <!-- 만약 카테고리가 하위카테고리면 이상해질 수 있음 -->
-								<option>${mCtgyVo.name}</option>
-							</c:if>
-						</c:forEach>
-					</select>
+				<div class="left">				
+					<!-- main카테고리 -->
+					<div id="main-category">
+						<select name="mainCategory" id="mc">
+							<c:forEach var="mcVo" items="${mainCtgyVos}">
+					  	  		<option value="${mcVo.name}">${mcVo.name}</option>
+					  		</c:forEach>
+					  	</select>
+				  	</div>
+				  	
+				  	<!-- sub카테고리  -->
+				  	<div id="sub-category" style="display: none;">
+						<select name="subCategory" id="sc">
+					  	</select>
+					</div>		
 				</div>
 				<div class="right">
 					<input type="submit" value="발행">		

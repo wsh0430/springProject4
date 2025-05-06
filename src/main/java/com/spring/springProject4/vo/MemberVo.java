@@ -11,7 +11,7 @@ public class MemberVo {
     private int idx;
     private String memberId;
     private String password;
-    private String nickName;
+    private String nickname;
     private String name;
     private String gender;
     private String tel;
@@ -25,7 +25,7 @@ public class MemberVo {
     private String deleteCheck;
     private int point;
     private int level;
-    private int visit_count;
+    private int visitCount;
     private int boardCount;
     private int commentCount;
     private int reportCount;

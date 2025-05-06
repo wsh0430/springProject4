@@ -6,11 +6,12 @@ import com.spring.springProject4.vo.BoardVo;
 import com.spring.springProject4.vo.CategoryVo;
 import com.spring.springProject4.vo.CommentVo;
 import com.spring.springProject4.vo.LikesVo;
+import com.spring.springProject4.vo.MemberVo;
 import com.spring.springProject4.vo.ReportVo;
 
 public interface CommunityService {
 
-	List<CategoryVo> getMainCategoryList();
+	List<CategoryVo> getMainCategoryList(String admin);
 	
 	List<CategoryVo> getSubCategoryList(String pName);
 	
@@ -63,4 +64,6 @@ public interface CommunityService {
 	int setUpdateBoardReportCount(String part, int idx);
 
 	int getFindReportVo(ReportVo vo);
+
+	MemberVo getMemberVo(String id);
 }

@@ -92,4 +92,30 @@
     		border-radius: 10px;
     		color: #FF5E57;
     	}
+    	#m-cb_low-bar{
+    		display: flex;
+    	}
+    	#m_create-box{
+    		display: flex;
+    		flex-direction: column;
+    	}
+    	#m-cb_high-bar{
+    		display: flex;
+    		flex-direction: column;
+    	}
+    	#m-cb_high-bar div{
+    		margin-bottom: 5px;
+    	}
+    	#m-cb_title span:first-of-type{
+    		margin-right: 30px;
+    	}
+    	#m-cb_link-url span:last-of-type{
+    		margin-right: 14px;
+    	}
+    	#m-cb_low-bar div{
+    		margin-right: 10px;
+    	}
+    	#manager-bar{
+    		margin-top: 30px;
+    	}
     	

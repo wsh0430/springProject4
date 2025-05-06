@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.spring.springProject4.common.Pagination;
 import com.spring.springProject4.common.StatData;
 import com.spring.springProject4.service.AdminService;
+import com.spring.springProject4.vo.AdvertisementVo;
 import com.spring.springProject4.vo.BoardVo;
 import com.spring.springProject4.vo.CategoryVo;
 import com.spring.springProject4.vo.ChartVo;
@@ -59,7 +60,6 @@ public class AdminController {
 			for(int l = 0; l < legend.length; l++) {
 				//List<ChartVo> chartVos = ChartData.getChartVos(legend[l], day);
 				List<ChartVo> chartVos = adminService.getRecentlyChartCount(legend[l], day);
-				System.out.println("chartVos: " + chartVos);
 				if(chartVos.size() < day) {
 					int size = day - chartVos.size();
 					String dateString = chartVos.get(chartVos.size()-1).getChartDate();
@@ -91,12 +91,19 @@ public class AdminController {
 			}
 			
 			
-			System.out.println(chartCounts);
+			String[] totalTeam = adminService.getTotalTeam();
+			int[] fandom = new int[totalTeam.length];
+			for(int i = 0; i < totalTeam.length; i++) {
+				fandom[i] = adminService.getFandomCnt(totalTeam[i]);
+			}
 			
 			
 			model.addAttribute("part", part);
 			model.addAttribute("xTitle", "방문날짜");
 			model.addAttribute("legend", legend);
+			
+			model.addAttribute("totalTeam", totalTeam);
+			model.addAttribute("fandom", fandom);
 			
 			model.addAttribute("chartDates", chartDates);
 			model.addAttribute("chartCounts", chartCounts);
@@ -167,6 +174,13 @@ public class AdminController {
 	@RequestMapping(value="/deleteMItem", method=RequestMethod.POST)
 	public int deleteMItemPost(int idx, String part) {
 		return adminService.setDeleteMItem(part, idx);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/createMItem", method=RequestMethod.POST)
+	public int createMItemPost(AdvertisementVo vo) {
+		System.out.println(vo);
+		return adminService.setCreateMItem(vo);
 	}
 	
 	@ResponseBody
@@ -252,5 +266,30 @@ public class AdminController {
 		model.addAttribute("lastDate", lastDate);
 		
 		return "admin/memberManager";
+	}
+	
+	@RequestMapping(value="/adManager", method=RequestMethod.GET)
+	public String adManagerGet(Model model,
+			@RequestParam(name="pag", defaultValue = "1", required = false) int pag,
+			@RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize,
+			@RequestParam(name="search", defaultValue = "", required = false) String search,
+			@RequestParam(name="searchString", defaultValue = "", required = false) String searchString,
+			@RequestParam(name="startDate", defaultValue = "", required = false) String startDate,
+			@RequestParam(name="lastDate", defaultValue = "", required = false) String lastDate
+			) {
+		
+		
+		// 페이지
+		PageVo pageVo = pagination.getTotRecCnt("", pag,pageSize,"adminAdManager",search,searchString, startDate, lastDate);	// (페이지번호,한 페이지분량,section,part,검색어)
+		
+		//		List<BoardVo> boardVos = adminService.getBoardVos(category, pageVo.getStartIndexNo(), pageVo.getPageSize(), search, searchString, startDate, lastDate);
+		List<AdvertisementVo> adVos = adminService.getAdVos(pageVo.getStartIndexNo(), pageVo.getPageSize(), search, searchString, startDate, lastDate);
+		
+		model.addAttribute("adVos", adVos);
+		model.addAttribute("pageVo", pageVo);
+		model.addAttribute("startDate", startDate);
+		model.addAttribute("lastDate", lastDate);
+		
+		return "admin/adManager";
 	}
 }

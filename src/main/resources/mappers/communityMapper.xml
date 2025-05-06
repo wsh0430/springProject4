@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.springProject4.dao.CommunityDao">
 	<select id="getMainCategoryList" resultType="com.spring.springProject4.vo.CategoryVo">
-		select * from category where parent_name is null;
+		select * from category where parent_name is null <if test="admin == 'no'">and is_admin = 0</if>;
 	</select>
 	<select id="getSubCategoryList" resultType="com.spring.springProject4.vo.CategoryVo">
 		select * from category where parent_name = #{pName};
@@ -44,7 +44,8 @@
 	</select>
 	
 	<select id="getHotBoardList" resultType="com.spring.springProject4.vo.BoardVo">
-		select * from board 
+		select *,datediff(created_at, now()) as dateDiff,
+  	    timestampdiff(hour, created_at, now()) as hourDiff from board
 			WHERE delete_check = 0
 <!--   				AND created_at >= DATE_SUB(NOW(), INTERVAL 3 DAY) -->
   				AND (
@@ -58,6 +59,11 @@
 	<select id="getFindReportVo" resultType="int">
 		select count(*) from report where member_id = #{vo.memberId} and part = #{vo.part} and part_idx = #{vo.partIdx};
 	</select>
+	
+	<select id="getMemberVo" resultType="com.spring.springProject4.vo.MemberVo">
+		select * from member where member_id = #{id};
+	</select>
+	
 	
 	
 	

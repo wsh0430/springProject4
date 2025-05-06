@@ -9,6 +9,10 @@
 		select * from advertisement;
 	</select>
 	
+	<select id="getAdUrl" resultType="String">
+		select link_url from advertisement where idx = #{idx};
+	</select>
+	
 	
 	
 	
@@ -25,5 +29,8 @@
 		update advertisement set report_count = report_count + 1 where idx = #{idx};
 	</update>
 	
+	<update id="setAdClick">
+		update advertisement set click_count = click_count + 1 where idx = #{idx};
+	</update>
 	
 </mapper>

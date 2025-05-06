@@ -74,6 +74,9 @@
     		white-space: nowrap;
     		overflow-y: hidden;
     	}
+    	#category .left{
+    		display: flex;
+    	}
     	#category .right input{
     		width: 80px;
     		background-color: white;

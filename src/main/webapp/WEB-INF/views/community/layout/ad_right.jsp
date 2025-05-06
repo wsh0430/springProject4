@@ -64,25 +64,24 @@
    		  const $curDiv = $('.hide-bar');
 
    		    $curDiv.each(function () {
-   	   		  	let index = 1;
+   	   		  	let index = 0;
    		    	
 	   	   		const updateAd = () => {
 		   	   	    const imageValue = $(this).find('.ad_image').eq(index).val();
 		   	   	    const linkValue = $(this).find('.ad_link').eq(index).val();
 		   	   	    const titleValue = $(this).find('.ad_title').eq(index).val();
 		   	   	    const idxValue = $(this).find('.ad_idx').eq(index).val();
-		   	   	    console.log($(this));
-		   	   	    console.log('titleValue : ' + titleValue);
 		
-		   	   	    let string = '<a href="' + imageValue + '"><img alt="' + titleValue + '" src="' + imageValue + '"></a>';
+		   	   	    let string = '<a href="/springProject4/ad/adClick?&idx='+idxValue+'"><img alt="' + titleValue + '" src="' + imageValue + '"></a>';
 		   	   	    string += '<input type="hidden" name="ad_idx" value="' + idxValue + '">';
 		
 		   	   	    $(this).closest('.ad').find('.ad_content span').html(string);
 		   	   	    $(this).closest('.ad').find('.close-btn').show();
 		
 		   	   	    // 광고 갯수 기준 순환: 첫 div 기준
-		   	   	    const totalAds = $curDiv.find('.ad_image').length - 1;
-		   	   	    index = (index + 1) % totalAds;
+		   	   		const totalAds = $curDiv.find('.ad_image').length / 2;
+		   	   	    console.log("totalAds : "+totalAds );
+		   		 	index = (index + 1) % totalAds;
    	   			};
 
 	   	   	// 맨 처음에도 실행
@@ -94,54 +93,7 @@
 
    		}
     </script>
-    <style>
-    	textarea{
-    		resize: none;
-    	}
-    
-	   	.ad img{
-	   		width: 100%;
-	   		height: 100%;
-	   	}
-	   	
-	   	.ad_side{
-	   		min-width: 150px;
-	   		height: 400px;
-	   		margin: 200px 15px 0px 15px;
-	   	}
-	   	.ad_content{
-	   		width: 100%;
-	   		height: 100%;
-	   	}
-	   	.ad .ad_content{
-	   		position: relative;
-	   	}
-	   	
-	   	.close-btn {
-		    font-size: 10px;
-		    cursor: pointer;
-		    position: absolute;
-  			right: 0px;
-	  	}
-	
-		.ad_survey_modal {
-		  	display: none;
-		  	z-index: 9999;
-		}
-		
-		.ad_close-window{
-			display: none;
-			height: 100%;
-			background-color: lightgray;
-			align-items: center;   
-  			justify-content: center; 
-  			padding: 5px;
-		}	
-		
-		.submitSurvey-box{
-			text-align: right;
-		}	
-    </style>
+    <link rel="stylesheet" href="${ctp}/css/ad_lr.css">
 </head>
 <body>
 	<div id="ad_sr" class="ad_side ad">
@@ -156,12 +108,12 @@
 			</c:forEach>
 		</div>
 	
-	
+		
 		<div class="ad_content">
 			<span>
 			</span>			
 			<button class="close-btn" style="display: none;"><i class="fa-solid fa-sm fa-xmark"></i></button>
-		</div>	
+		</div>			
 		
 		
 		<div class="ad_survey_modal">

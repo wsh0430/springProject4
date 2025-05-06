@@ -241,9 +241,9 @@
 		<input type="button" value="전체목록" onclick="location.href='${ctp}/admin/boardManager'">
 		<span>${curCategory}</span>
 	</div>
-	<div id="info-box">
+	<!-- <div id="info-box">
 		<span>주의</span>
-	</div>
+	</div> -->
 	
 	<div id="manager-bar">
 		<form name="searchForm" method="get">

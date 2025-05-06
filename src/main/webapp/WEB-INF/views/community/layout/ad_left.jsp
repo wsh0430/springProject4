@@ -54,6 +54,7 @@
 			text-align: right;
 		}	
     </style>
+     <link rel="stylesheet" href="${ctp}/css/ad_lr.css">
 </head>
 <body>
 	<div id="ad_sl" class="ad_side ad">

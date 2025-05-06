@@ -52,6 +52,10 @@ public class Pagination {
 			if(part.equals("")) totRecCnt = adminDao.getMemberTotRecCnt();
 			else totRecCnt = adminDao.getMemberTotRecCntSearch(part, searchString, startDate, lastDate);
 		}
+		else if(section.equals("adminAdManager")) {
+			if(part.equals("")) totRecCnt = adminDao.getAdTotRecCnt();
+			else totRecCnt = adminDao.getAdTotRecCntSearch(part, searchString, startDate, lastDate);
+		}
 //		else if(section.equals("pds")) {
 //			totRecCnt = pdsDao.getPdsTotRecCnt(part);
 //		}

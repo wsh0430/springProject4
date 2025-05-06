@@ -27,4 +27,11 @@ public class AdController {
 		return adService.setCreateAdReport(sMemberId, idx,  reason);
 	}
 	
+	@RequestMapping(value="/adClick", method=RequestMethod.GET)
+	public String adClickPost(int idx) {
+		adService.setAdClick(idx);
+		
+		return "redirect:"+adService.getAdUrl(idx);
+	}
+	
 }

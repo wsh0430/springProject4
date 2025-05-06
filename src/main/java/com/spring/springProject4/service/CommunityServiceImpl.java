@@ -19,6 +19,7 @@ import com.spring.springProject4.vo.BoardVo;
 import com.spring.springProject4.vo.CategoryVo;
 import com.spring.springProject4.vo.CommentVo;
 import com.spring.springProject4.vo.LikesVo;
+import com.spring.springProject4.vo.MemberVo;
 import com.spring.springProject4.vo.ReportVo;
 
 @Service
@@ -28,8 +29,8 @@ public class CommunityServiceImpl implements CommunityService {
 	CommunityDao communityDao;
 	
 	@Override
-	public List<CategoryVo> getMainCategoryList() {
-		return communityDao.getMainCategoryList();
+	public List<CategoryVo> getMainCategoryList(String admin) {
+		return communityDao.getMainCategoryList(admin);
 	}
 	
 	@Override
@@ -255,5 +256,10 @@ public class CommunityServiceImpl implements CommunityService {
 		@Override
 		public int getFindReportVo(ReportVo vo) {
 			return communityDao.getFindReportVo(vo);
+		}
+
+		@Override
+		public MemberVo getMemberVo(String id) {
+			return communityDao.getMemberVo(id);
 		}
 }

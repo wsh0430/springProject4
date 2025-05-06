@@ -35,8 +35,8 @@
 		 	
 		 	//방문자수 차트
 		 	 google.charts.load('current', {'packages':['line']});
-		     google.charts.setOnLoadCallback(drawChart);
-		     function drawChart() {
+		     google.charts.setOnLoadCallback(drawLineChart);
+		     function drawLineChart() {
 		    	    var data = google.visualization.arrayToDataTable([
 		    	        ['${xTitle}', 
 		    	         <c:forEach var="lg" begin="0" end="${fn:length(legend) - 1}" varStatus="st">
@@ -66,56 +66,78 @@
 		    	    };
 
 		    	    var chart = new google.charts.Line(document.getElementById('vc_material'));
-		    	    chart.draw(data, google.charts.Line.convertOptions(options));
+		    	    chart.draw(data, google.charts.Line.convertOptions(options));		    	 
 	     }
+		     
+		     google.charts.load("current", {packages: ["corechart"]});
+		     google.charts.setOnLoadCallback(drawDonutChart);
+		     function drawDonutChart() {
+		         var data = google.visualization.arrayToDataTable([
+		             ['Team', 'Fandom'],
+		             <c:forEach var="t" items="${totalTeam}" varStatus="st">
+		                 ['${t}', ${fandom[st.index]}]<c:if test="${!st.last}">,</c:if>
+		             </c:forEach>
+		         ]);
+
+		         var options = {
+		             title: 'Fandom',
+		             pieHole: 0.4,
+		         };
+
+		         var chart = new google.visualization.PieChart(document.getElementById('df_material'));
+		         chart.draw(data, options);
+		     }
 	</script>
  	<link rel="stylesheet" href="${ctp}/css/dashBoard.css">
 </head>
 <body>
-	<div id="range-daily">
-		<div id="rd_title">
-			<h2>Today Stats</h2>
-		</div>
-		<table>
-			<tr>
-				<td>	<!-- foreach로 해도 될지도 ? -->
-					<div class="range-item">
-						<span class="ri_title">방문수</span>
-						<div class="ri_content">
-							<span class="ri_c-rate">${statDataVo.dailyVisitCnt}</span>
-							<span class="ri_c-delta">${statDataVo.dailyVisitDelta}</span>
+	<div id="db_high-bar">
+		<div id="range-daily">
+			<div id="rd_title">
+				<h2>Today Stats</h2>
+			</div>
+			<table>
+				<tr>
+					<td>	<!-- foreach로 해도 될지도 ? -->
+						<div class="range-item">
+							<span class="ri_title">방문수</span>
+							<div class="ri_content">
+								<span class="ri_c-rate">${statDataVo.dailyVisitCnt}</span>
+								<span class="ri_c-delta">${statDataVo.dailyVisitDelta}</span>
+							</div>
 						</div>
-					</div>
-				</td>
-				<td>
-					<div class="range-item">
-						<span class="ri_title">게시글수</span>
-						<div class="ri_content">
-							<span class="ri_c-rate">${statDataVo.dailyWriteBoardCnt}</span>
-							<span class="ri_c-delta">${statDataVo.dailyWriteBoardDelta}</span>
+					</td>
+					<td>
+						<div class="range-item">
+							<span class="ri_title">게시글수</span>
+							<div class="ri_content">
+								<span class="ri_c-rate">${statDataVo.dailyWriteBoardCnt}</span>
+								<span class="ri_c-delta">${statDataVo.dailyWriteBoardDelta}</span>
+							</div>
 						</div>
-					</div>
-				</td>
-				<td>
-					<div class="range-item">
-						<span class="ri_title">회원가입수</span>
-						<div class="ri_content">
-							<span class="ri_c-rate">${statDataVo.dailyJoinCnt}</span>
-							<span class="ri_c-delta">${statDataVo.dailyJoinDelta}</span>
+					</td>
+					<td>
+						<div class="range-item">
+							<span class="ri_title">회원가입수</span>
+							<div class="ri_content">
+								<span class="ri_c-rate">${statDataVo.dailyJoinCnt}</span>
+								<span class="ri_c-delta">${statDataVo.dailyJoinDelta}</span>
+							</div>
 						</div>
-					</div>
-				</td>
-				<td>
-					<div class="range-item">
-						<span class="ri_title">광고클릭수</span>
-						<div class="ri_content">
-							<span class="ri_c-rate">${statDataVo.dailyAdClickCnt}</span>
-							<span class="ri_c-delta">${statDataVo.dailyAdClickDelta}</span>
+					</td>
+					<td>
+						<div class="range-item">
+							<span class="ri_title">광고클릭수</span>
+							<div class="ri_content">
+								<span class="ri_c-rate">${statDataVo.dailyAdClickCnt}</span>
+								<span class="ri_c-delta">${statDataVo.dailyAdClickDelta}</span>
+							</div>
 						</div>
-					</div>
-				</td>
-			</tr>		
-		</table>
+					</td>
+				</tr>		
+			</table>
+		</div>	
+		<div id="df_material"></div>
 	</div>
 	<div id="visit-chart">
 		<div id="vc_high-bar">

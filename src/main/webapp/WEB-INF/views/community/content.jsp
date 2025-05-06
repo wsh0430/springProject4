@@ -182,7 +182,7 @@
 	    		return false;
 	    	}
     		
-    		let content = $("#reply_item"+parentId);
+    		let content = $("#reply_item"+idx);
     		
     		$.ajax({
 				url: "${ctp}/community/replyDeleteCheck",
@@ -343,7 +343,7 @@
 			<h3>${boardVo.title }</h3>
 			<div id="info">
 				<div class="left">
-					<span>Icon</span>
+					<span><i class="fa-solid fa-lg fa-circle-user"></i></span>
 					|
 					<span>${boardVo.memberNickname}</span>
 					<span>
@@ -391,8 +391,8 @@
 						
 				</div>
 				<div class="right">
-					<c:if test="${sMemberId == boardVo.memberId}">
 						<input type="button" value="목록" onclick="location.href='${ctp}/community/cmtyMain?category=${category}&pag=${pag}&pageSize=${pageSize}&search=${search}&searchString=${searchString}'">
+					<c:if test="${sMemberId == boardVo.memberId}">
 						<input type="button" value="수정" onclick="location.href='${ctp}/community/cmtyBoardUpdate?boardIdx=${boardVo.idx}&category=${category}&pag=${pag}&pageSize=${pageSize}&search=${search}&searchString=${searchString}'">
 						<input type="button" value="삭제" onclick="boardDeleteCheck()">
 					</c:if>
@@ -463,7 +463,8 @@
 								<div class="reply" id="reply${cmtVo.idx}">
 									<c:if test="${!empty replyList[cmtSt.index]}">
 										<c:forEach var="replyVo" items="${replyList[cmtSt.index]}" varStatus="replySt">
-											<div class="reply_item" id="reply_item${cmtVo.idx}">
+											<div class="reply_item" id="reply_item${replyVo.idx}">
+												<c:if test="${replyVo.deleteCheck != 1}">
 												<div class="cmt_info">
 													<div class="high-bar">
 														<div class="left">
@@ -510,38 +511,52 @@
 														<!-- 좋아요 끝 -->
 													</div>
 												</div>
+												</c:if>
+												<c:if test="${replyVo.deleteCheck == 1}">
+													<span style="line-height: 60px;">작성자에 의해 삭제된 댓글입니다.</span>
+												</c:if>
 											</div>
 										</c:forEach>
 									</c:if>
-								<div class="reply_input">
+									<div class="reply_input">
+										<c:if test="${sLevel < 3}">
+												<span class="cmt_info-icon"><i class="fa-solid fa-lg fa-circle-user"></i></span>
+												<span class="nickname">${sNickname}</span>
+											<div class="text_box">
+												<textarea name="reply_content${cmtSt.index}" id="reply_content${cmtSt.index}" placeholder="답글을 입력하세요." maxlength="200"></textarea>
+												<div class="input">
+													<div class="count"><span>0</span>/200</div>														
+													<input type="button" value="등록" onclick="replyInput(${cmtVo.idx},${cmtSt.index})">
+												</div>
+											</div>
+										</c:if>
+										<c:if test="${sLevel >= 3}">
+											<span>로그인 후 이용해주세요</span>
+										</c:if>
+									</div>
+								</div>
+							</c:if>
+							<!-- 답글 끝 -->
+							</c:forEach>
+							<div class="cmt_input">
+								<c:if test="${sLevel < 3}">
 									<span class="cmt_info-icon"><i class="fa-solid fa-lg fa-circle-user"></i></span>
 									<span class="nickname">${sNickname}</span>
 									<div class="text_box">
-										<textarea name="reply_content${cmtSt.index}" id="reply_content${cmtSt.index}" placeholder="답글을 입력하세요." maxlength="200"></textarea>
+										<textarea name="cmt_content" id="cmt_content" placeholder="답글을 입력하세요." maxlength="200"></textarea>
 										<div class="input">
-											<div class="count"><span>0</span>/200</div>														
-											<input type="button" value="등록" onclick="replyInput(${cmtVo.idx},${cmtSt.index})">
+										  	<div class="count"><span>0</span>/200</div>
+											<input type="button" value="등록" onclick="cmtInput()" oninput="autoRisize(this)">
 										</div>
 									</div>
-								</div>
-							</div>
-						</c:if>
-						<!-- 답글 끝 -->
-						</c:forEach>
-						<div class="cmt_input">
-							<span class="cmt_info-icon"><i class="fa-solid fa-lg fa-circle-user"></i></span>
-							<span class="nickname">${sNickname}</span>
-							<div class="text_box">
-								<textarea name="cmt_content" id="cmt_content" placeholder="답글을 입력하세요." maxlength="200"></textarea>
-								<div class="input">
-								  	<div class="count"><span>0</span>/200</div>
-									<input type="button" value="등록" onclick="cmtInput()" oninput="autoRisize(this)">
-								</div>
+								</c:if>
+								<c:if test="${sLevel >= 3}">
+									<span>로그인 후 이용해주세요</span>
+								</c:if>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 					
 			
 					<!-- The Modal -->
