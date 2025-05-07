@@ -225,16 +225,6 @@ function validateEmail() {
 	function idCheck() {
 		let mid = myform.memberId.value;
 		
-	  if (!regMid.test(mid)) {
-      Swal.fire({
-          icon: 'error',
-          title: '아이디 조건 불일치!',
-          text: '아이디는 4~20자리의 영문 대/소문자와 숫자, 언더바(_)만 가능합니다.',
-          confirmButtonText: '확인'
-      });
-      myform.memberId.focus();
-      return;  // 유효하지 않으면 중복 체크를 하지 않음
-    }
       if(mid.trim() == ""){
 			Swal.fire({
           icon: 'error',
@@ -245,6 +235,16 @@ function validateEmail() {
       myform.memberId.focus();
       return;  // 유효하지 않으면 중복 체크를 하지 않음
 		}
+	  if (!regMid.test(mid)) {
+      Swal.fire({
+          icon: 'error',
+          title: '아이디 조건 불일치!',
+          text: '아이디는 4~20자리의 영문 대/소문자와 숫자, 언더바(_)만 가능합니다.',
+          confirmButtonText: '확인'
+      });
+      myform.memberId.focus();
+      return;  // 유효하지 않으면 중복 체크를 하지 않음
+    }
 		if(mid.trim() != ""){
 			$.ajax({
 				url 	: ctp + "/member/memberIdCheck",

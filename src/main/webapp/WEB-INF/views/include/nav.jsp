@@ -19,7 +19,7 @@
 		    <button class="search-button">검색</button>
 		  </div>
 		
-		  <!-- 유저 메뉴 (드롭다운) -->
+		  <!-- 메뉴 (드롭다운) -->
 		  <div class="user-menu">
 		    <button class="user-icon" onclick="toggleUserDropdown()">
 		    	<i class="fas fa-user"></i>
@@ -106,5 +106,8 @@
 	    </ul>
 	  </div>
 	</div>
+	
+	<!-- 위로가기 버튼 -->
+	<button id="scrollTopBtn" title="맨 위로">&#8679;</button>
 <script type="text/javascript" src="${ctp}/js/nav.js"></script>
 </html>

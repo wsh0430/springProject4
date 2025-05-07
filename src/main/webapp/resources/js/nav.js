@@ -77,3 +77,17 @@
 		    showSidebar(sidebarType); // 이때는 DOM이 100% 다 로드된 후
 		  }
 		});
+		
+		const scrollTopBtn = document.getElementById("scrollTopBtn");
+
+	  window.addEventListener('scroll', function() {
+	    if (window.scrollY > 150) {
+	      scrollTopBtn.style.display = "block";
+	    } else {
+	      scrollTopBtn.style.display = "none";
+	    }
+	  });
+	
+	  scrollTopBtn.addEventListener('click', function() {
+	    window.scrollTo({ top: 0, behavior: 'smooth' });
+	  });

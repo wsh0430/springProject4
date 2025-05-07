@@ -11,6 +11,7 @@
 	<link rel="stylesheet" href="${ctp}/css/footer.css">
 </head>
 <body>
+
 	  <!-- Footer -->
     <footer>
         <!-- 소셜 미디어 아이콘 -->
