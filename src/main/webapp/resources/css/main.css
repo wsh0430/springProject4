@@ -2,6 +2,89 @@
 	min-height: 90vh;
   padding: 20px;
 }
+/* 전체 랭킹 박스 스타일 */
+.ranking {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* 제목 스타일 */
+.ranking h2 {
+    text-align: center;
+    color: #FF2400;
+    font-size: 28px;
+    margin-bottom: 25px;
+    font-weight: bold;
+}
+
+/* 테이블 스타일 */
+.ranking table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* 테이블 헤더 */
+.ranking thead th {
+    background-color: #FF5E57;
+    color: #F1F1F1;
+    padding: 12px;
+    font-size: 16px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+/* 테이블 행 */
+.ranking tbody tr {
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+/* 테이블 셀 */
+.ranking td, .ranking th {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* 마우스 오버 시 행 강조 */
+.ranking tbody tr:hover {
+    background-color: #fff0f0;
+}
+
+/* 승/패 연속 결과에 색 강조 */
+.ranking td:last-child {
+    font-weight: bold;
+}
+
+.ranking td:last-child:contains('승') {
+    color: #2ecc71;
+}
+
+.ranking td:last-child:contains('패') {
+    color: #e74c3c;
+}
+
+/* 동률 순위에 굵은 테두리로 구분 */
+.ranking tbody tr td:first-child {
+    font-weight: bold;
+}
+
+/* 애니메이션 */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 /* clubs 스타일링 */
 .clubs {
     display: flex; /* Flexbox를 사용하여 정렬 */
