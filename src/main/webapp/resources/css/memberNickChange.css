@@ -8,6 +8,9 @@ body {
     from { opacity: 0; }
     to { opacity: 1; }
 }
+.height{
+		min-height: 900px;
+}
 
 /* 컨테이너 스타일 */
 .container {

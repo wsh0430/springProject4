@@ -211,6 +211,73 @@
   animation: fadeOut 0.3s ease-in-out;
 }
 
+.member-info-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.table-header {
+  background-color: #f8f8f8;
+  font-weight: bold;
+  text-align: left;
+  padding: 10px;
+  width: 20%;
+  color: #333;
+}
+
+.table-data {
+  padding: 10px;
+}
+
+.input-field {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.address-group .input-field {
+  margin-top: 5px;
+}
+
+.btn.address-btn {
+  margin-left: 5px;
+  padding: 7px 12px;
+  background-color: #FF5E57;
+  color: #F1F1F1;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn.address-btn:hover {
+  background-color: #E74C3C;
+}
+
+.profile-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.profile-image {
+  border-radius: 10px;
+}
+
+.input-file {
+  margin-top: 10px;
+}
+
+.intro-textarea {
+  height: 100px;
+  resize: vertical;
+}
+
 /* 버튼 영역 */
 .form-btns {
     text-align: center;

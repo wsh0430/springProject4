@@ -125,44 +125,45 @@
 					     	<input type="button" onclick="optionCheck()" id="addContentCheck" name="addContentCheck" value="선택항목 ▼"/>
 					    </div>
 					    <div  id="choiceSection" style="display: none;">
-				      	<table>
-						     <tr>
-					      	<th>주소</th>
-						      	<td>
-						      		<div class="address-group">
-						      			<div class="find-address">
-						      			 	<c:set var="address" value="${fn:split(vo.address, '/')}"/>
-						      				<input type="text" name="postcode" id="sample6_postcode" value="${fn:trim(address[0])}"  >
-						      				<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" >
-						      			</div>
-						      			<input type="text" name="roadAddress" id="sample6_address" value="${fn:trim(address[1])}"  class="main-address">
-						      			<div class="extra-address">
-						      				<input type="text" name="detailAddress" id="sample6_detailAddress" value="${fn:trim(address[2])}" >
-						      				<input type="text" name="extraAddress" id="sample6_extraAddress" value="${fn:trim(address[3])}" >
-						      			</div>
-						      		</div>
-						      	</td>
-						      </tr>
-						      <tr>
-						        <th>생일</th>
-							      	<td>
-							      		<input type="date" name="birthday" value="${fn:substring(vo.birthday, 0, 10)}"  class="birthday-input"/>
-							      	</td>
-						      </tr>
-						      <tr>
-						        <th>회원 프로필 사진</th>
-										  <td>
-										  	회원사진 : <img src="${ctp}/member/${vo.icon}" width="100px"/>
-										    <input type="file" name="fName" id="file" /> 
-										  </td>
-						      </tr>
-						      <tr>
-						      	<th>회원 소개</th>
-						      		<td>
-						      			<textarea class="intro-textarea" name="content" placeholder="자기소개를 입력해주세요."> ${vo.content} </textarea>
-						      		</td>
-						      </tr>
-						    </table>
+				      	<table class="member-info-table">
+								  <tr>
+								    <th class="table-header">주소</th>
+								    <td class="table-data">
+								      <div class="address-group">
+								        <div class="find-address">
+								          <c:set var="address" value="${fn:split(vo.address, '/')}"/>
+								          <input type="text" name="postcode" id="sample6_postcode" value="${fn:trim(address[0])}" class="input-field postcode-input">
+								          <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" class="btn address-btn">
+								        </div>
+								        <input type="text" name="roadAddress" id="sample6_address" value="${fn:trim(address[1])}" class="input-field main-address">
+								        <div class="extra-address">
+								          <input type="text" name="detailAddress" id="sample6_detailAddress" value="${fn:trim(address[2])}" class="input-field detail-address">
+								          <input type="text" name="extraAddress" id="sample6_extraAddress" value="${fn:trim(address[3])}" class="input-field extra-address">
+								        </div>
+								      </div>
+								    </td>
+								  </tr>
+								  <tr>
+								    <th class="table-header">생일</th>
+								    <td class="table-data">
+								      <input type="date" name="birthday" value="${fn:substring(vo.birthday, 0, 10)}" class="input-field birthday-input">
+								    </td>
+								  </tr>
+								  <tr>
+								    <th class="table-header">회원 프로필 사진</th>
+								    <td class="table-data profile-section">
+								      <span class="profile-label">회원사진:</span>
+								      <img src="${ctp}/member/${vo.icon}" width="100px" class="profile-image"/>
+								      <input type="file" name="fName" id="file" class="input-file">
+								    </td>
+								  </tr>
+								  <tr>
+								    <th class="table-header">회원 소개</th>
+								    <td class="table-data">
+								      <textarea class="input-field intro-textarea" name="content" placeholder="자기소개를 입력해주세요.">${vo.content}</textarea>
+								    </td>
+								  </tr>
+								</table>
 						   </div>
 						   <div class="form-btns">
 						      <input type="submit" onclick="fCheck()" value="정보 수정 완료" />

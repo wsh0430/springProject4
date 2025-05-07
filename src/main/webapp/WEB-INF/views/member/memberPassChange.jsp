@@ -16,6 +16,7 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/include/nav.jsp" />
+<div class="height">
 <div class="container">
   <h2 class="pwdChange-title">비밀번호 변경</h2>
   <form name="myform" method="post">
@@ -58,6 +59,7 @@
       </tr>
     </table>
   </form>
+</div>
 </div>
 <jsp:include page="/WEB-INF/views/include/footer.jsp" />
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

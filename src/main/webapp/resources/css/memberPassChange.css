@@ -24,6 +24,9 @@ body {
     from { transform: translateY(20px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
 }
+.height{
+		min-height: 900px;
+}
 
 /* 제목 */
 .pwdChange-title {
