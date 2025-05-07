@@ -51,6 +51,7 @@ public class MessageController {
 			model.addAttribute("url","member/memberLogin");
 		}
 		else if(msgFlag.equals("memberLogoutOk")) {
+			session.invalidate(); // 세션 무효화 (로그아웃 처리)
 			model.addAttribute("message", "로그아웃 되었습니다");
 			model.addAttribute("url","member/memberLogin");
 		}
@@ -97,7 +98,7 @@ public class MessageController {
 		}
 		else if(msgFlag.equals("memberTempLogin")) {
 			model.addAttribute("message", "임시 비밀번호로 로그인 되었습니다 비밀번호를 변경해주세요.");
-			model.addAttribute("url","member/memberMypage");
+			model.addAttribute("url","member/memberPassChage");
 		}
 		
 		

@@ -129,6 +129,12 @@ public class MemberServiceImpl implements MemberService {
 		
 	}
 
+	@Override
+	public void setMemberNickChange(String memberId, String newNickName) {
+		memberDao.setMemberNickChange(memberId, newNickName);
+		
+	}
+
 	
 
 }

@@ -41,6 +41,8 @@ public interface MemberService {
 
 	void updateLastDate(String memberId);
 
+	void setMemberNickChange(String memberId, String newNickName);
+
 	
 
 

@@ -76,6 +76,10 @@
 	  update member set password = #{encodedPwd} where member_Id = #{memberId}
 	</update>
 	
+	<update id="setMemberNickChange">
+	  update member set nickName = #{newNickName} where member_Id = #{memberId}
+	</update>
+	
 	<delete id="deleteMemberById">
 		delete from member where member_Id = #{memberId}
 	</delete>

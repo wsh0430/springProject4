@@ -452,6 +452,12 @@ public class MemberController {
 				vo.setIcon(memberService.fileUpload(fName, vo.getMemberId(), vo.getIcon()));
 			}
 			
+			// 닉네임이 넘어오지 않은 경우 세션에서 유지
+	    if (vo.getNickName() == null || vo.getNickName().trim().isEmpty()) {
+	        String sessionNickName = (String) session.getAttribute("sNickName");
+	        vo.setNickName(sessionNickName);
+	    }
+			
 			int res = memberService.setMemberUpdateOk(vo);
 			System.out.println("회원 정보 업데이트 결과: " + res);
 			System.out.println("수정 대상 memberId: " + vo.getMemberId());
@@ -548,9 +554,14 @@ public class MemberController {
     if (nickName.equals(vo.getNickName())) {
         return "redirect:/message/memberNickChangeSame";
     }
+    // DB에 닉네임 변경 반영
+    String memberId = (String) session.getAttribute("sMemberId");
+    String newNickName = vo.getNickName(); // vo에서 새로운 닉네임 가져오기
 
-    // 3. 닉네임이 변경되었고 중복되지 않으면 세션에 새 닉네임 저장 후 /message/memberNickChangeOk로 리디렉션
-    session.setAttribute("sNickName", vo.getNickName());
+    // 서비스 호출 시 memberId와 newNickName만 넘김
+    memberService.setMemberNickChange(memberId, newNickName);
+    // 세션에 새 닉네임 저장
+    session.setAttribute("sNickName", newNickName);
 
     return "redirect:/message/memberNickChangeOk";
 	

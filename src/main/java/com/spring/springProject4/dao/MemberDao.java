@@ -39,6 +39,8 @@ public interface MemberDao {
 
 	void updateLastDate(@Param("memberId") String memberId);
 
+	void setMemberNickChange(@Param("memberId") String memberId, @Param("newNickName") String newNickName);
+
 	
 
 

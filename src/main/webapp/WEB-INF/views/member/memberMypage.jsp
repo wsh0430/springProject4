@@ -19,12 +19,13 @@
 <body>
 <jsp:include page="/WEB-INF/views/include/nav.jsp" />
     <div class="mypage-container">
+     <form name="myform" method="post" enctype="multipart/form-data">
         <div class="profile-header">
             <div class="profile-picture">
                 <img src="${ctp}/member/${vo.icon}" >
             </div>
             <div class="profile-info">
-                <h2 class="nickname">${vo.nickName}</h2>
+                <h2 class="nickname">${sNickName}</h2>
                 <p class="level">회원레벨: <span>${strLevel}</span></p>
                 <p class="point">내 포인트: <span>${vo.point}</span></p>
             </div>          
@@ -32,7 +33,6 @@
        
        	<div class="member-update-section">
 	 			  <h3>내 정보 수정</h3>
-				  <form name="myform" method="post" enctype="multipart/form-data">
 				    <table>
 					    <tr>
 				        <th>좋아하는 팀</th>
@@ -120,6 +120,7 @@
 				        </td>
 				      </tr>
 				      </table>
+				     </div>
 				      <div id="addContentCheckDiv">
 					     	<input type="button" onclick="optionCheck()" id="addContentCheck" name="addContentCheck" value="선택항목 ▼"/>
 					    </div>
@@ -172,8 +173,7 @@
 					     <input type="hidden" name="address" />
 					     <input type="hidden" name="icon" id="icon" value="${vo.icon}" />
 		  		</form>
-				</div>
-
+				
         <div class="activity-section">
             <h3>최근 활동</h3>
             <p>방문수 : ${vo.visitCount}</p>
